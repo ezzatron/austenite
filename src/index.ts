@@ -5,7 +5,7 @@ interface Variable {
 export function string(_name: string, _description: string): Variable {
   return {
     value() {
-      return "<value>";
+      return process.env[_name] ?? "";
     },
   };
 }

@@ -11,12 +11,19 @@ describe("String variables", () => {
     process.env = env;
   });
 
-  it("should support string variables", () => {
-    const variable = string("AUSTENITE_STRING", "example string variable");
+  it.each`
+    name                    | value
+    ${"AUSTENITE_STRING_A"} | ${"value-a"}
+    ${"AUSTENITE_STRING_B"} | ${"value-b"}
+  `(
+    "should support string variables ($name)",
+    ({ name, value }: { name: string; value: string }) => {
+      const variable = string(name, "description-a");
 
-    process.env.AUSTENITE_STRING = "<value>";
-    initialize();
+      process.env[name] = value;
+      initialize();
 
-    expect(variable.value()).toBe("<value>");
-  });
+      expect(variable.value()).toBe(value);
+    }
+  );
 });
