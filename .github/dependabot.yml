@@ -1,0 +1,16 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    registries: "*"
+    schedule:
+      interval: weekly
+    reviewers:
+      - eloquent/dependabot-reviewers
+  - package-ecosystem: github-actions
+    directory: /
+    registries: "*"
+    schedule:
+      interval: weekly
+    reviewers:
+      - eloquent/dependabot-reviewers
