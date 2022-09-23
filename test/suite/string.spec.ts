@@ -14,6 +14,17 @@ describe("String variables", () => {
   });
 
   describe("when the variable is required", () => {
+    it("returns a string value", () => {
+      const variable = string("AUSTENITE_STRING_A", "description-a", {
+        required: true,
+      });
+
+      process.env.AUSTENITE_STRING_A = "value-a";
+      initialize();
+
+      expect(hasType<string>(variable.value())).toBeNull();
+    });
+
     describe("when the value is not empty", () => {
       describe(".value()", () => {
         it.each`
@@ -31,21 +42,10 @@ describe("String variables", () => {
             expect(variable.value()).toBe(value);
           }
         );
-
-        it("returns a string value", () => {
-          const variable = string("AUSTENITE_STRING_A", "description-a", {
-            required: true,
-          });
-
-          process.env.AUSTENITE_STRING_A = "value-a";
-          initialize();
-
-          expect(hasType<string>(variable.value())).toBeNull();
-        });
       });
     });
 
-    describe("when the value not empty", () => {
+    describe("when the value is empty", () => {
       describe("when there is a default value", () => {
         describe(".value()", () => {
           it.each`
@@ -65,15 +65,6 @@ describe("String variables", () => {
               expect(variable.value()).toBe(d);
             }
           );
-
-          it("returns a string value", () => {
-            const variable = string("AUSTENITE_STRING_A", "description-a", {
-              required: true,
-              default: "value-a",
-            });
-
-            expect(hasType<string>(variable.value())).toBeNull();
-          });
         });
       });
 
