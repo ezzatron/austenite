@@ -13,33 +13,31 @@ describe("Boolean variables", () => {
     process.env = env;
   });
 
-  describe("options", () => {
-    describe("when no options are supplied", () => {
-      it("defaults to a required variable", () => {
-        const variable = boolean("AUSTENITE_BOOLEAN_A", "description-a");
+  describe("when no options are supplied", () => {
+    it("defaults to a required variable", () => {
+      const variable = boolean("AUSTENITE_BOOLEAN_A", "description-a");
 
-        initialize();
+      initialize();
 
-        expect(() => {
-          variable.value();
-        }).toThrow(
-          "AUSTENITE_BOOLEAN_A is undefined and does not have a default value."
-        );
-      });
+      expect(() => {
+        variable.value();
+      }).toThrow(
+        "AUSTENITE_BOOLEAN_A is undefined and does not have a default value."
+      );
     });
+  });
 
-    describe("when empty options are supplied", () => {
-      it("defaults to a required variable", () => {
-        const variable = boolean("AUSTENITE_BOOLEAN_A", "description-a", {});
+  describe("when empty options are supplied", () => {
+    it("defaults to a required variable", () => {
+      const variable = boolean("AUSTENITE_BOOLEAN_A", "description-a", {});
 
-        initialize();
+      initialize();
 
-        expect(() => {
-          variable.value();
-        }).toThrow(
-          "AUSTENITE_BOOLEAN_A is undefined and does not have a default value."
-        );
-      });
+      expect(() => {
+        variable.value();
+      }).toThrow(
+        "AUSTENITE_BOOLEAN_A is undefined and does not have a default value."
+      );
     });
   });
 
