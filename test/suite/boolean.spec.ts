@@ -120,8 +120,8 @@ describe("Boolean variables", () => {
           describe(".value()", () => {
             it.each`
               name                     | message
-              ${"AUSTENITE_BOOLEAN_A"} | ${"AUSTENITE_BOOLEAN_A is undefined and does not have a default value"}
-              ${"AUSTENITE_BOOLEAN_B"} | ${"AUSTENITE_BOOLEAN_B is undefined and does not have a default value"}
+              ${"AUSTENITE_BOOLEAN_A"} | ${"AUSTENITE_BOOLEAN_A is undefined and does not have a default value."}
+              ${"AUSTENITE_BOOLEAN_B"} | ${"AUSTENITE_BOOLEAN_B is undefined and does not have a default value."}
             `(
               "throws ($name)",
               ({ name, message }: { name: string; message: string }) => {

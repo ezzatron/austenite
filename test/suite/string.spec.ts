@@ -80,8 +80,8 @@ describe("String variables", () => {
           describe(".value()", () => {
             it.each`
               name                    | message
-              ${"AUSTENITE_STRING_A"} | ${"AUSTENITE_STRING_A is undefined and does not have a default value"}
-              ${"AUSTENITE_STRING_B"} | ${"AUSTENITE_STRING_B is undefined and does not have a default value"}
+              ${"AUSTENITE_STRING_A"} | ${"AUSTENITE_STRING_A is undefined and does not have a default value."}
+              ${"AUSTENITE_STRING_B"} | ${"AUSTENITE_STRING_B is undefined and does not have a default value."}
             `(
               "throws ($name)",
               ({ name, message }: { name: string; message: string }) => {
