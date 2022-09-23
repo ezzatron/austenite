@@ -10,25 +10,26 @@ interface Variable<O extends Options> {
 export function string<O extends Options>(
   name: string,
   _description: string,
-  options: O
+  { default: d, required }: O
 ): Variable<O> {
   return {
     value() {
-      const envValue = process.env[name];
+      const v = process.env[name];
 
-      if (typeof envValue === "string" && envValue != "") return envValue;
+      if (typeof v === "string" && v != "") return v;
+      if (required && d == null) throw new UndefinedError(name);
 
-      if (options.required && options.default == null) {
-        throw new Error(
-          `${name} is undefined and does not have a default value`
-        );
-      }
-
-      return options.default;
+      return d;
     },
   } as Variable<O>;
 }
 
 export function initialize(): void {
   return;
+}
+
+class UndefinedError extends Error {
+  constructor(name: string) {
+    super(`${name} is undefined and does not have a default value`);
+  }
 }
