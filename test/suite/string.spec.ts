@@ -11,19 +11,25 @@ describe("String variables", () => {
     process.env = env;
   });
 
-  it.each`
-    name                    | value
-    ${"AUSTENITE_STRING_A"} | ${"value-a"}
-    ${"AUSTENITE_STRING_B"} | ${"value-b"}
-  `(
-    "should support string variables ($name)",
-    ({ name, value }: { name: string; value: string }) => {
-      const variable = string(name, "description-a");
+  describe("when the variable is required", () => {
+    describe("when the value is not empty", () => {
+      describe(".value()", () => {
+        it.each`
+          name                    | value
+          ${"AUSTENITE_STRING_A"} | ${"value-a"}
+          ${"AUSTENITE_STRING_B"} | ${"value-b"}
+        `(
+          "returns the value ($name)",
+          ({ name, value }: { name: string; value: string }) => {
+            const variable = string(name, "description-a", { required: true });
 
-      process.env[name] = value;
-      initialize();
+            process.env[name] = value;
+            initialize();
 
-      expect(variable.value()).toBe(value);
-    }
-  );
+            expect(variable.value()).toBe(value);
+          }
+        );
+      });
+    });
+  });
 });

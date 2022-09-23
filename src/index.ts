@@ -2,10 +2,18 @@ interface Variable {
   value: () => string;
 }
 
-export function string(_name: string, _description: string): Variable {
+interface Options {
+  required: boolean;
+}
+
+export function string(
+  name: string,
+  _description: string,
+  _options: Options
+): Variable {
   return {
     value() {
-      return process.env[_name] ?? "";
+      return process.env[name] ?? "";
     },
   };
 }
