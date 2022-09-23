@@ -16,7 +16,7 @@ export function string<O extends Options>(
     value() {
       const envValue = process.env[name];
 
-      if (typeof envValue === "string") return envValue;
+      if (typeof envValue === "string" && envValue != "") return envValue;
 
       if (options.required && options.default == null) {
         throw new Error(
