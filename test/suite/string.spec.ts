@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
-/* eslint-disable jest/no-conditional-expect */
 import { initialize, string } from "../../src";
 import { hasType } from "../helpers";
 
