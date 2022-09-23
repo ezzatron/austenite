@@ -1,4 +1,5 @@
 import { initialize, string } from "../../src";
+import { hasType } from "../helpers";
 
 describe("String variables", () => {
   let env: typeof process.env;
@@ -30,6 +31,14 @@ describe("String variables", () => {
             expect(variable.value()).toBe(value);
           }
         );
+
+        it("returns a string value", () => {
+          const variable = string("AUSTENITE_STRING_A", "description-a", {
+            required: true,
+          });
+
+          expect(hasType<string>(variable.value())).toBeNull();
+        });
       });
     });
 
@@ -53,6 +62,15 @@ describe("String variables", () => {
               expect(variable.value()).toBe(d);
             }
           );
+
+          it("returns a string value", () => {
+            const variable = string("AUSTENITE_STRING_A", "description-a", {
+              required: true,
+              default: "value-a",
+            });
+
+            expect(hasType<string>(variable.value())).toBeNull();
+          });
         });
       });
     });
