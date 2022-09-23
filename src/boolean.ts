@@ -39,9 +39,10 @@ export function boolean<O extends BooleanOptions>(
         throw new InvalidBooleanError(name, literals, v);
       }
 
-      if (required && d == null) throw new UndefinedError(name);
+      if (d != null) return d;
+      if (required) throw new UndefinedError(name);
 
-      return d;
+      return undefined;
     },
   } as Variable<boolean, O>;
 }

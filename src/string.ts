@@ -14,9 +14,10 @@ export function string<O extends Options<string>>(
       const v = process.env[name];
 
       if (typeof v === "string" && v != "") return v;
-      if (required && d == null) throw new UndefinedError(name);
+      if (d != null) return d;
+      if (required) throw new UndefinedError(name);
 
-      return d;
+      return undefined;
     },
   } as Variable<string, O>;
 }
