@@ -15,39 +15,39 @@ describe("Boolean variables", () => {
 
   describe("when no options are supplied", () => {
     it("defaults to a required variable", () => {
-      const variable = boolean("AUSTENITE_BOOLEAN_A", "description-a");
+      const variable = boolean("AUSTENITE_BOOLEAN", "<description>");
 
       initialize();
 
       expect(() => {
         variable.value();
       }).toThrow(
-        "AUSTENITE_BOOLEAN_A is undefined and does not have a default value."
+        "AUSTENITE_BOOLEAN is undefined and does not have a default value."
       );
     });
   });
 
   describe("when empty options are supplied", () => {
     it("defaults to a required variable", () => {
-      const variable = boolean("AUSTENITE_BOOLEAN_A", "description-a", {});
+      const variable = boolean("AUSTENITE_BOOLEAN", "<description>", {});
 
       initialize();
 
       expect(() => {
         variable.value();
       }).toThrow(
-        "AUSTENITE_BOOLEAN_A is undefined and does not have a default value."
+        "AUSTENITE_BOOLEAN is undefined and does not have a default value."
       );
     });
   });
 
   describe("when the variable is required", () => {
     it("returns a boolean value", () => {
-      const variable = boolean("AUSTENITE_BOOLEAN_A", "description-a", {
+      const variable = boolean("AUSTENITE_BOOLEAN", "<description>", {
         required: true,
       });
 
-      process.env.AUSTENITE_BOOLEAN_A = "false";
+      process.env.AUSTENITE_BOOLEAN = "false";
       initialize();
       const actual = variable.value();
 
@@ -57,23 +57,17 @@ describe("Boolean variables", () => {
     describe("when the value is one of the accepted literals", () => {
       describe(".value()", () => {
         it.each`
-          name                     | value      | expected
-          ${"AUSTENITE_BOOLEAN_A"} | ${"true"}  | ${true}
-          ${"AUSTENITE_BOOLEAN_B"} | ${"false"} | ${false}
+          value      | expected
+          ${"true"}  | ${true}
+          ${"false"} | ${false}
         `(
           "returns the value associated with the literal ($value)",
-          ({
-            name,
-            value,
-            expected,
-          }: {
-            name: string;
-            value: string;
-            expected: boolean;
-          }) => {
-            const variable = boolean(name, "description-a", { required: true });
+          ({ value, expected }: { value: string; expected: boolean }) => {
+            const variable = boolean("AUSTENITE_BOOLEAN", "<description>", {
+              required: true,
+            });
 
-            process.env[name] = value;
+            process.env.AUSTENITE_BOOLEAN = value;
             initialize();
 
             expect(variable.value()).toBe(expected);
@@ -85,25 +79,17 @@ describe("Boolean variables", () => {
     describe("when the value is invalid", () => {
       describe(".value()", () => {
         it.each`
-          name                     | value      | message
-          ${"AUSTENITE_BOOLEAN_A"} | ${"ture"}  | ${'The value of AUSTENITE_BOOLEAN_A ("ture") is invalid: expected "true" or "false".'}
-          ${"AUSTENITE_BOOLEAN_B"} | ${"flase"} | ${'The value of AUSTENITE_BOOLEAN_B ("flase") is invalid: expected "true" or "false".'}
+          value      | message
+          ${"ture"}  | ${'The value of AUSTENITE_BOOLEAN ("ture") is invalid: expected "true" or "false".'}
+          ${"flase"} | ${'The value of AUSTENITE_BOOLEAN ("flase") is invalid: expected "true" or "false".'}
         `(
-          "throws ($name)",
-          ({
-            name,
-            value,
-            message,
-          }: {
-            name: string;
-            value: string;
-            message: string;
-          }) => {
-            const variable = boolean(name, "description-a", {
+          "throws ($value)",
+          ({ value, message }: { value: string; message: string }) => {
+            const variable = boolean("AUSTENITE_BOOLEAN", "<description>", {
               required: true,
             });
 
-            process.env[name] = value;
+            process.env.AUSTENITE_BOOLEAN = value;
             initialize();
 
             expect(() => {
@@ -123,19 +109,18 @@ describe("Boolean variables", () => {
       ({ emptyValue }: { emptyValue: string | undefined }) => {
         describe("when there is a default value", () => {
           describe(".value()", () => {
-            it.each`
-              name                     | default
-              ${"AUSTENITE_BOOLEAN_A"} | ${true}
-              ${"AUSTENITE_BOOLEAN_B"} | ${false}
-            `(
-              "returns the default ($default)",
-              ({ name, default: d }: { name: string; default: boolean }) => {
-                const variable = boolean(name, "description-a", {
+            it.each([[true], [false]])(
+              "returns the default (%s)",
+              (d: boolean) => {
+                const variable = boolean("AUSTENITE_BOOLEAN", "<description>", {
                   required: true,
                   default: d,
                 });
 
-                if (emptyValue != null) process.env[name] = emptyValue;
+                if (emptyValue != null) {
+                  process.env.AUSTENITE_BOOLEAN = emptyValue;
+                }
+
                 initialize();
 
                 expect(variable.value()).toBe(d);
@@ -146,24 +131,19 @@ describe("Boolean variables", () => {
 
         describe("when there is no default value", () => {
           describe(".value()", () => {
-            it.each`
-              name                     | message
-              ${"AUSTENITE_BOOLEAN_A"} | ${"AUSTENITE_BOOLEAN_A is undefined and does not have a default value."}
-              ${"AUSTENITE_BOOLEAN_B"} | ${"AUSTENITE_BOOLEAN_B is undefined and does not have a default value."}
-            `(
-              "throws ($name)",
-              ({ name, message }: { name: string; message: string }) => {
-                const variable = boolean(name, "description-a", {
-                  required: true,
-                });
+            it("throws", () => {
+              const variable = boolean("AUSTENITE_BOOLEAN", "<description>", {
+                required: true,
+              });
 
-                initialize();
+              initialize();
 
-                expect(() => {
-                  variable.value();
-                }).toThrow(message);
-              }
-            );
+              expect(() => {
+                variable.value();
+              }).toThrow(
+                "AUSTENITE_BOOLEAN is undefined and does not have a default value."
+              );
+            });
           });
         });
       }
@@ -172,7 +152,7 @@ describe("Boolean variables", () => {
 
   describe("when the variable is optional", () => {
     it("returns an optional boolean value", () => {
-      const variable = boolean("AUSTENITE_BOOLEAN_A", "description-a", {
+      const variable = boolean("AUSTENITE_BOOLEAN", "<description>", {
         required: false,
       });
 
@@ -185,25 +165,17 @@ describe("Boolean variables", () => {
     describe("when the value is one of the accepted literals", () => {
       describe(".value()", () => {
         it.each`
-          name                     | value      | expected
-          ${"AUSTENITE_BOOLEAN_A"} | ${"true"}  | ${true}
-          ${"AUSTENITE_BOOLEAN_B"} | ${"false"} | ${false}
+          value      | expected
+          ${"true"}  | ${true}
+          ${"false"} | ${false}
         `(
           "returns the value ($value)",
-          ({
-            name,
-            value,
-            expected,
-          }: {
-            name: string;
-            value: string;
-            expected: boolean;
-          }) => {
-            const variable = boolean(name, "description-a", {
+          ({ value, expected }: { value: string; expected: boolean }) => {
+            const variable = boolean("AUSTENITE_BOOLEAN", "<description>", {
               required: false,
             });
 
-            process.env[name] = value;
+            process.env.AUSTENITE_BOOLEAN = value;
             initialize();
 
             expect(variable.value()).toBe(expected);
@@ -215,25 +187,17 @@ describe("Boolean variables", () => {
     describe("when the value is invalid", () => {
       describe(".value()", () => {
         it.each`
-          name                     | value      | message
-          ${"AUSTENITE_BOOLEAN_A"} | ${"ture"}  | ${'The value of AUSTENITE_BOOLEAN_A ("ture") is invalid: expected "true" or "false".'}
-          ${"AUSTENITE_BOOLEAN_B"} | ${"flase"} | ${'The value of AUSTENITE_BOOLEAN_B ("flase") is invalid: expected "true" or "false".'}
+          value      | message
+          ${"ture"}  | ${'The value of AUSTENITE_BOOLEAN ("ture") is invalid: expected "true" or "false".'}
+          ${"flase"} | ${'The value of AUSTENITE_BOOLEAN ("flase") is invalid: expected "true" or "false".'}
         `(
           "throws ($value)",
-          ({
-            name,
-            value,
-            message,
-          }: {
-            name: string;
-            value: string;
-            message: string;
-          }) => {
-            const variable = boolean(name, "description-a", {
+          ({ value, message }: { value: string; message: string }) => {
+            const variable = boolean("AUSTENITE_BOOLEAN", "<description>", {
               required: false,
             });
 
-            process.env[name] = value;
+            process.env.AUSTENITE_BOOLEAN = value;
             initialize();
 
             expect(() => {
@@ -253,19 +217,18 @@ describe("Boolean variables", () => {
       ({ emptyValue }: { emptyValue: string | undefined }) => {
         describe("when there is a default value", () => {
           describe(".value()", () => {
-            it.each`
-              name                     | default
-              ${"AUSTENITE_BOOLEAN_A"} | ${true}
-              ${"AUSTENITE_BOOLEAN_B"} | ${false}
-            `(
-              "returns the default ($default)",
-              ({ name, default: d }: { name: string; default: boolean }) => {
-                const variable = boolean(name, "description-a", {
+            it.each([[true], [false]])(
+              "returns the default (%s)",
+              (d: boolean) => {
+                const variable = boolean("AUSTENITE_BOOLEAN", "<description>", {
                   required: false,
                   default: d,
                 });
 
-                if (emptyValue != null) process.env[name] = emptyValue;
+                if (emptyValue != null) {
+                  process.env.AUSTENITE_BOOLEAN = emptyValue;
+                }
+
                 initialize();
 
                 expect(variable.value()).toBe(d);
@@ -276,12 +239,8 @@ describe("Boolean variables", () => {
 
         describe("when there is no default value", () => {
           describe(".value()", () => {
-            it.each`
-              name
-              ${"AUSTENITE_BOOLEAN_A"}
-              ${"AUSTENITE_BOOLEAN_B"}
-            `("returns undefined ($name)", ({ name }: { name: string }) => {
-              const variable = boolean(name, "description-a", {
+            it("returns undefined", () => {
+              const variable = boolean("AUSTENITE_BOOLEAN", "<description>", {
                 required: false,
               });
 
@@ -306,14 +265,14 @@ describe("Boolean variables", () => {
       `(
         "returns the value ($value)",
         ({ value, expected }: { value: string; expected: boolean }) => {
-          const variable = boolean("AUSTENITE_BOOLEAN_A", "description-a", {
+          const variable = boolean("AUSTENITE_BOOLEAN", "<description>", {
             literals: {
               true: ["y", "yes"],
               false: ["n", "no"],
             },
           });
 
-          process.env.AUSTENITE_BOOLEAN_A = value;
+          process.env.AUSTENITE_BOOLEAN = value;
           initialize();
 
           expect(variable.value()).toBe(expected);
@@ -324,21 +283,19 @@ describe("Boolean variables", () => {
     describe("when the value does not match a custom literal", () => {
       it.each`
         value      | message
-        ${"true"}  | ${'The value of AUSTENITE_BOOLEAN_A ("true") is invalid: expected "y", "yes", "n", or "no".'}
-        ${"ture"}  | ${'The value of AUSTENITE_BOOLEAN_A ("ture") is invalid: expected "y", "yes", "n", or "no".'}
-        ${"false"} | ${'The value of AUSTENITE_BOOLEAN_A ("false") is invalid: expected "y", "yes", "n", or "no".'}
-        ${"flase"} | ${'The value of AUSTENITE_BOOLEAN_A ("flase") is invalid: expected "y", "yes", "n", or "no".'}
+        ${"true"}  | ${'The value of AUSTENITE_BOOLEAN ("true") is invalid: expected "y", "yes", "n", or "no".'}
+        ${"false"} | ${'The value of AUSTENITE_BOOLEAN ("false") is invalid: expected "y", "yes", "n", or "no".'}
       `(
         "throws ($value)",
         ({ value, message }: { value: string; message: string }) => {
-          const variable = boolean("AUSTENITE_BOOLEAN_A", "description-a", {
+          const variable = boolean("AUSTENITE_BOOLEAN", "<description>", {
             literals: {
               true: ["y", "yes"],
               false: ["n", "no"],
             },
           });
 
-          process.env.AUSTENITE_BOOLEAN_A = value;
+          process.env.AUSTENITE_BOOLEAN = value;
           initialize();
 
           expect(() => {
@@ -351,7 +308,7 @@ describe("Boolean variables", () => {
     describe("when a true literal is empty", () => {
       it("throws", () => {
         expect(() => {
-          boolean("AUSTENITE_BOOLEAN", "description-a", {
+          boolean("AUSTENITE_BOOLEAN", "<description>", {
             literals: {
               true: ["y", ""],
               false: ["n", "no"],
@@ -366,7 +323,7 @@ describe("Boolean variables", () => {
     describe("when a false literal is empty", () => {
       it("throws", () => {
         expect(() => {
-          boolean("AUSTENITE_BOOLEAN", "description-a", {
+          boolean("AUSTENITE_BOOLEAN", "<description>", {
             literals: {
               true: ["y", "yes"],
               false: ["n", ""],
@@ -381,7 +338,7 @@ describe("Boolean variables", () => {
     describe("when the same literal is specified for both true and false", () => {
       it("throws", () => {
         expect(() => {
-          boolean("AUSTENITE_BOOLEAN", "description-a", {
+          boolean("AUSTENITE_BOOLEAN", "<description>", {
             literals: {
               true: ["a", "b"],
               false: ["b", "d"],
