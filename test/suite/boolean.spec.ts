@@ -13,6 +13,20 @@ describe("Boolean variables", () => {
     process.env = env;
   });
 
+  describe("options", () => {
+    it("defaults to a required variable", () => {
+      const variable = boolean("AUSTENITE_BOOLEAN_A", "description-a");
+
+      initialize();
+
+      expect(() => {
+        variable.value();
+      }).toThrow(
+        "AUSTENITE_BOOLEAN_A is undefined and does not have a default value."
+      );
+    });
+  });
+
   describe("when the variable is required", () => {
     it("returns a boolean value", () => {
       const variable = boolean("AUSTENITE_BOOLEAN_A", "description-a", {

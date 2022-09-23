@@ -13,6 +13,20 @@ describe("String variables", () => {
     process.env = env;
   });
 
+  describe("options", () => {
+    it("defaults to a required variable", () => {
+      const variable = string("AUSTENITE_STRING_A", "description-a");
+
+      initialize();
+
+      expect(() => {
+        variable.value();
+      }).toThrow(
+        "AUSTENITE_STRING_A is undefined and does not have a default value."
+      );
+    });
+  });
+
   describe("when the variable is required", () => {
     it("returns a string value", () => {
       const variable = string("AUSTENITE_STRING_A", "description-a", {

@@ -5,8 +5,10 @@ import { Variable } from "./variable";
 export function boolean<O extends Options<boolean>>(
   name: string,
   _description: string,
-  { default: d, required }: O
+  options: O | undefined = undefined
 ): Variable<boolean, O> {
+  const { default: d, required = true } = options ?? {};
+
   return {
     value() {
       const v = process.env[name];

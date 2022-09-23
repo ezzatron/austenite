@@ -1,4 +1,4 @@
 export interface Options<T> {
-  required: boolean;
+  required?: boolean;
   default?: T;
 }
