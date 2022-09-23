@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable jest/no-conditional-expect */
 import { initialize, string } from "../../src";
 import { hasType } from "../helpers";
 
@@ -21,8 +23,9 @@ describe("String variables", () => {
 
       process.env.AUSTENITE_STRING_A = "value-a";
       initialize();
+      const actual = variable.value();
 
-      expect(hasType<string>(variable.value())).toBeNull();
+      expect(hasType<string, typeof actual>(actual)).toBeNull();
     });
 
     describe("when the value is not empty", () => {
@@ -89,6 +92,39 @@ describe("String variables", () => {
             }
           );
         });
+      });
+    });
+  });
+
+  describe("when the variable is optional", () => {
+    it("returns an optional string value", () => {
+      const variable = string("AUSTENITE_STRING_A", "description-a", {
+        required: false,
+      });
+
+      initialize();
+      const actual = variable.value();
+
+      expect(hasType<string | undefined, typeof actual>(actual)).toBeNull();
+    });
+
+    describe("when the value is not empty", () => {
+      describe(".value()", () => {
+        it.each`
+          name                    | value
+          ${"AUSTENITE_STRING_A"} | ${"value-a"}
+          ${"AUSTENITE_STRING_B"} | ${"value-b"}
+        `(
+          "returns the value ($name)",
+          ({ name, value }: { name: string; value: string }) => {
+            const variable = string(name, "description-a", { required: false });
+
+            process.env[name] = value;
+            initialize();
+
+            expect(variable.value()).toBe(value);
+          }
+        );
       });
     });
   });

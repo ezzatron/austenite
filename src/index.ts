@@ -1,24 +1,24 @@
-interface Variable {
-  value: () => string;
-}
-
 interface Options {
   required: boolean;
   default?: string;
 }
 
-export function string(
+interface Variable<O extends Options> {
+  value: () => O["required"] extends false ? string | undefined : string;
+}
+
+export function string<O extends Options>(
   name: string,
   _description: string,
-  options: Options
-): Variable {
+  options: O
+): Variable<O> {
   return {
     value() {
       const envValue = process.env[name];
 
       if (typeof envValue === "string") return envValue;
 
-      if (options.default == null) {
+      if (options.required && options.default == null) {
         throw new Error(
           `${name} is undefined and does not have a default value`
         );
@@ -26,7 +26,7 @@ export function string(
 
       return options.default;
     },
-  };
+  } as Variable<O>;
 }
 
 export function initialize(): void {
