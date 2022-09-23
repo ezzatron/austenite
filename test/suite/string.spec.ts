@@ -127,5 +127,47 @@ describe("String variables", () => {
         );
       });
     });
+
+    describe("when the value is empty", () => {
+      describe("when there is a default value", () => {
+        describe(".value()", () => {
+          it.each`
+            name                    | default
+            ${"AUSTENITE_STRING_A"} | ${"value-a"}
+            ${"AUSTENITE_STRING_B"} | ${"value-b"}
+          `(
+            "returns the default ($name)",
+            ({ name, default: d }: { name: string; default: string }) => {
+              const variable = string(name, "description-a", {
+                required: false,
+                default: d,
+              });
+
+              initialize();
+
+              expect(variable.value()).toBe(d);
+            }
+          );
+        });
+      });
+
+      describe("when there is no default value", () => {
+        describe(".value()", () => {
+          it.each`
+            name
+            ${"AUSTENITE_STRING_A"}
+            ${"AUSTENITE_STRING_B"}
+          `("returns undefined ($name)", ({ name }: { name: string }) => {
+            const variable = string(name, "description-a", {
+              required: false,
+            });
+
+            initialize();
+
+            expect(variable.value()).toBeUndefined();
+          });
+        });
+      });
+    });
   });
 });
