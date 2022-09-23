@@ -5,6 +5,7 @@ describe("String variables", () => {
 
   beforeEach(() => {
     env = process.env;
+    process.env = { ...env };
   });
 
   afterEach(() => {
@@ -29,6 +30,30 @@ describe("String variables", () => {
             expect(variable.value()).toBe(value);
           }
         );
+      });
+    });
+
+    describe("when the value not empty", () => {
+      describe("when there is a default value", () => {
+        describe(".value()", () => {
+          it.each`
+            name                    | default
+            ${"AUSTENITE_STRING_A"} | ${"value-a"}
+            ${"AUSTENITE_STRING_B"} | ${"value-b"}
+          `(
+            "returns the default ($name)",
+            ({ name, default: d }: { name: string; default: string }) => {
+              const variable = string(name, "description-a", {
+                required: true,
+                default: d,
+              });
+
+              initialize();
+
+              expect(variable.value()).toBe(d);
+            }
+          );
+        });
       });
     });
   });

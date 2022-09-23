@@ -4,16 +4,17 @@ interface Variable {
 
 interface Options {
   required: boolean;
+  default?: string;
 }
 
 export function string(
   name: string,
   _description: string,
-  _options: Options
+  options: Options
 ): Variable {
   return {
     value() {
-      return process.env[name] ?? "";
+      return process.env[name] ?? options.default ?? "";
     },
   };
 }
