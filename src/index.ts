@@ -1,17 +1,17 @@
-interface Options {
+interface Options<T> {
   required: boolean;
-  default?: string;
+  default?: T;
 }
 
-interface Variable<O extends Options> {
-  value: () => O["required"] extends false ? string | undefined : string;
+interface Variable<T, O extends Options<T>> {
+  value: () => O["required"] extends false ? T | undefined : T;
 }
 
-export function string<O extends Options>(
+export function string<O extends Options<string>>(
   name: string,
   _description: string,
   { default: d, required }: O
-): Variable<O> {
+): Variable<string, O> {
   return {
     value() {
       const v = process.env[name];
@@ -21,7 +21,7 @@ export function string<O extends Options>(
 
       return d;
     },
-  } as Variable<O>;
+  } as Variable<string, O>;
 }
 
 export function initialize(): void {
