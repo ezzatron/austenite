@@ -2,21 +2,41 @@ import { UndefinedError } from "./errors";
 import { Options } from "./options";
 import { Variable } from "./variable";
 
-export function boolean<O extends Options<boolean>>(
+interface BooleanOptions extends Options<boolean> {
+  literals?: BooleanLiterals;
+}
+
+interface BooleanLiterals {
+  true: string[];
+  false: string[];
+}
+
+const defaultLiterals: BooleanLiterals = {
+  true: ["true"],
+  false: ["false"],
+};
+
+export function boolean<O extends BooleanOptions>(
   name: string,
   _description: string,
   options: O | undefined = undefined
 ): Variable<boolean, O> {
-  const { default: d, required = true } = options ?? {};
+  const {
+    default: d,
+    required = true,
+    literals = defaultLiterals,
+  } = options ?? {};
+
+  assertLiterals(name, literals);
 
   return {
     value() {
       const v = process.env[name];
 
       if (typeof v === "string" && v != "") {
-        if (v === "true") return true;
-        if (v === "false") return false;
-        throw new InvalidBooleanError(name, v);
+        if (literals.true.includes(v)) return true;
+        if (literals.false.includes(v)) return false;
+        throw new InvalidBooleanError(name, literals, v);
       }
 
       if (required && d == null) throw new UndefinedError(name);
@@ -26,12 +46,51 @@ export function boolean<O extends Options<boolean>>(
   } as Variable<boolean, O>;
 }
 
-class InvalidBooleanError extends Error {
-  constructor(name: string, value: string) {
-    const quotedValue = JSON.stringify(value);
+function assertLiterals(name: string, literals: BooleanLiterals) {
+  for (const literal of [...literals.true, ...literals.false]) {
+    if (literal.length < 1) throw new EmptyLiteralError(name);
+  }
+
+  for (const literal of literals.true) {
+    if (literals.false.includes(literal)) {
+      throw new AmbiguousLiteralError(name, literal);
+    }
+  }
+}
+
+class EmptyLiteralError extends Error {
+  constructor(name: string) {
+    super(
+      `The specification for ${name} is invalid: literals can not be an empty string.`
+    );
+  }
+}
+
+class AmbiguousLiteralError extends Error {
+  constructor(name: string, literal: string) {
+    const quotedLiteral = JSON.stringify(literal);
 
     super(
-      `The value of ${name} (${quotedValue}) is invalid: expected either "true" or "false".`
+      `The specification for ${name} is invalid: literal ${quotedLiteral} can not be both true and false.`
+    );
+  }
+}
+
+class InvalidBooleanError extends Error {
+  constructor(name: string, literals: BooleanLiterals, value: string) {
+    const listFormatter = new Intl.ListFormat("en", {
+      style: "short",
+      type: "disjunction",
+    });
+
+    const quotedValue = JSON.stringify(value);
+    const allLiterals = [...literals.true, ...literals.false];
+    const expectedList = listFormatter.format(
+      allLiterals.map((literal) => JSON.stringify(literal))
+    );
+
+    super(
+      `The value of ${name} (${quotedValue}) is invalid: expected ${expectedList}.`
     );
   }
 }
