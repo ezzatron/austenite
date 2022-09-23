@@ -14,7 +14,17 @@ export function string(
 ): Variable {
   return {
     value() {
-      return process.env[name] ?? options.default ?? "";
+      const envValue = process.env[name];
+
+      if (typeof envValue === "string") return envValue;
+
+      if (options.default == null) {
+        throw new Error(
+          `${name} is undefined and does not have a default value`
+        );
+      }
+
+      return options.default;
     },
   };
 }

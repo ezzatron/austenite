@@ -37,6 +37,9 @@ describe("String variables", () => {
             required: true,
           });
 
+          process.env.AUSTENITE_STRING_A = "value-a";
+          initialize();
+
           expect(hasType<string>(variable.value())).toBeNull();
         });
       });
@@ -71,6 +74,29 @@ describe("String variables", () => {
 
             expect(hasType<string>(variable.value())).toBeNull();
           });
+        });
+      });
+
+      describe("when there is no default value", () => {
+        describe(".value()", () => {
+          it.each`
+            name                    | message
+            ${"AUSTENITE_STRING_A"} | ${"AUSTENITE_STRING_A is undefined and does not have a default value"}
+            ${"AUSTENITE_STRING_B"} | ${"AUSTENITE_STRING_B is undefined and does not have a default value"}
+          `(
+            "throws ($name)",
+            ({ name, message }: { name: string; message: string }) => {
+              const variable = string(name, "description-a", {
+                required: true,
+              });
+
+              initialize();
+
+              expect(() => {
+                variable.value();
+              }).toThrow(message);
+            }
+          );
         });
       });
     });
