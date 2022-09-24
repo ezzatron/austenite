@@ -27,7 +27,7 @@ export function initialize(): void {
       indicator = "";
     } catch (e) {
       isValid = false;
-      const error = e instanceof Error ? e : new Error(String(e));
+      const error = e as Error;
       state.results[name] = { error };
       result = `✗ ${describeError(error)}`;
       indicator = "❯";
