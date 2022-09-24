@@ -1,6 +1,6 @@
 import { boolean, initialize } from "../../src";
 import { reset } from "../../src/environment";
-import { hasType } from "../helpers";
+import { hasType, noop } from "../helpers";
 
 describe("Boolean variables", () => {
   let env: typeof process.env;
@@ -8,12 +8,9 @@ describe("Boolean variables", () => {
   beforeEach(() => {
     env = process.env;
     process.env = { ...env };
-
-    jest.spyOn(console, "log").mockImplementation();
   });
 
   afterEach(() => {
-    jest.resetAllMocks();
     process.env = env;
     reset();
   });
@@ -22,7 +19,7 @@ describe("Boolean variables", () => {
     it("defaults to a required variable", () => {
       const variable = boolean("AUSTENITE_BOOLEAN", "<description>");
 
-      initialize();
+      initialize({ onInvalid: noop });
 
       expect(() => {
         variable.value();
@@ -34,7 +31,7 @@ describe("Boolean variables", () => {
     it("defaults to a required variable", () => {
       const variable = boolean("AUSTENITE_BOOLEAN", "<description>", {});
 
-      initialize();
+      initialize({ onInvalid: noop });
 
       expect(() => {
         variable.value();
@@ -49,7 +46,7 @@ describe("Boolean variables", () => {
       });
 
       process.env.AUSTENITE_BOOLEAN = "false";
-      initialize();
+      initialize({ onInvalid: noop });
       const actual = variable.value();
 
       expect(hasType<boolean, typeof actual>(actual)).toBeNull();
@@ -69,7 +66,7 @@ describe("Boolean variables", () => {
             });
 
             process.env.AUSTENITE_BOOLEAN = value;
-            initialize();
+            initialize({ onInvalid: noop });
 
             expect(variable.value()).toBe(expected);
           }
@@ -91,7 +88,7 @@ describe("Boolean variables", () => {
             });
 
             process.env.AUSTENITE_BOOLEAN = value;
-            initialize();
+            initialize({ onInvalid: noop });
 
             expect(() => {
               variable.value();
@@ -122,7 +119,7 @@ describe("Boolean variables", () => {
                   process.env.AUSTENITE_BOOLEAN = emptyValue;
                 }
 
-                initialize();
+                initialize({ onInvalid: noop });
 
                 expect(variable.value()).toBe(d);
               }
@@ -137,7 +134,7 @@ describe("Boolean variables", () => {
                 required: true,
               });
 
-              initialize();
+              initialize({ onInvalid: noop });
 
               expect(() => {
                 variable.value();
@@ -155,7 +152,7 @@ describe("Boolean variables", () => {
         required: false,
       });
 
-      initialize();
+      initialize({ onInvalid: noop });
       const actual = variable.value();
 
       expect(hasType<boolean | undefined, typeof actual>(actual)).toBeNull();
@@ -175,7 +172,7 @@ describe("Boolean variables", () => {
             });
 
             process.env.AUSTENITE_BOOLEAN = value;
-            initialize();
+            initialize({ onInvalid: noop });
 
             expect(variable.value()).toBe(expected);
           }
@@ -197,7 +194,7 @@ describe("Boolean variables", () => {
             });
 
             process.env.AUSTENITE_BOOLEAN = value;
-            initialize();
+            initialize({ onInvalid: noop });
 
             expect(() => {
               variable.value();
@@ -228,7 +225,7 @@ describe("Boolean variables", () => {
                   process.env.AUSTENITE_BOOLEAN = emptyValue;
                 }
 
-                initialize();
+                initialize({ onInvalid: noop });
 
                 expect(variable.value()).toBe(d);
               }
@@ -243,7 +240,7 @@ describe("Boolean variables", () => {
                 required: false,
               });
 
-              initialize();
+              initialize({ onInvalid: noop });
 
               expect(variable.value()).toBeUndefined();
             });
@@ -272,7 +269,7 @@ describe("Boolean variables", () => {
           });
 
           process.env.AUSTENITE_BOOLEAN = value;
-          initialize();
+          initialize({ onInvalid: noop });
 
           expect(variable.value()).toBe(expected);
         }
@@ -295,7 +292,7 @@ describe("Boolean variables", () => {
           });
 
           process.env.AUSTENITE_BOOLEAN = value;
-          initialize();
+          initialize({ onInvalid: noop });
 
           expect(() => {
             variable.value();

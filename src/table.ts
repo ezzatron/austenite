@@ -2,6 +2,8 @@ import { EOL } from "os";
 
 const segmenter = new Intl.Segmenter("en");
 
+export type ReadOnlyTable = Pick<ReturnType<typeof createTable>, "render">;
+
 export function createTable() {
   const rows: string[][] = [];
   const widths: number[] = [];

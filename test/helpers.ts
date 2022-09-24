@@ -7,3 +7,7 @@ export type HasType<Expected, Actual> = [Expected] extends [Actual]
 export function hasType<Expected, Actual>(_: HasType<Expected, Actual>): null {
   return null;
 }
+
+export function noop() {
+  return;
+}

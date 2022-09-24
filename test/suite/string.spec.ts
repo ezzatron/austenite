@@ -1,6 +1,6 @@
 import { initialize, string } from "../../src";
 import { reset } from "../../src/environment";
-import { hasType } from "../helpers";
+import { hasType, noop } from "../helpers";
 
 describe("String variables", () => {
   let env: typeof process.env;
@@ -8,12 +8,9 @@ describe("String variables", () => {
   beforeEach(() => {
     env = process.env;
     process.env = { ...env };
-
-    jest.spyOn(console, "log").mockImplementation();
   });
 
   afterEach(() => {
-    jest.resetAllMocks();
     process.env = env;
     reset();
   });
@@ -22,7 +19,7 @@ describe("String variables", () => {
     it("defaults to a required variable", () => {
       const variable = string("AUSTENITE_STRING", "<description>");
 
-      initialize();
+      initialize({ onInvalid: noop });
 
       expect(() => {
         variable.value();
@@ -34,7 +31,7 @@ describe("String variables", () => {
     it("defaults to a required variable", () => {
       const variable = string("AUSTENITE_STRING", "<description>", {});
 
-      initialize();
+      initialize({ onInvalid: noop });
 
       expect(() => {
         variable.value();
@@ -49,7 +46,7 @@ describe("String variables", () => {
       });
 
       process.env.AUSTENITE_STRING = "<value>";
-      initialize();
+      initialize({ onInvalid: noop });
       const actual = variable.value();
 
       expect(hasType<string, typeof actual>(actual)).toBeNull();
@@ -63,7 +60,7 @@ describe("String variables", () => {
           });
 
           process.env.AUSTENITE_STRING = "<value>";
-          initialize();
+          initialize({ onInvalid: noop });
 
           expect(variable.value()).toBe("<value>");
         });
@@ -86,7 +83,7 @@ describe("String variables", () => {
               });
 
               if (emptyValue != null) process.env.AUSTENITE_STRING = emptyValue;
-              initialize();
+              initialize({ onInvalid: noop });
 
               expect(variable.value()).toBe("<default>");
             });
@@ -100,7 +97,7 @@ describe("String variables", () => {
                 required: true,
               });
 
-              initialize();
+              initialize({ onInvalid: noop });
 
               expect(() => {
                 variable.value();
@@ -118,7 +115,7 @@ describe("String variables", () => {
         required: false,
       });
 
-      initialize();
+      initialize({ onInvalid: noop });
       const actual = variable.value();
 
       expect(hasType<string | undefined, typeof actual>(actual)).toBeNull();
@@ -132,7 +129,7 @@ describe("String variables", () => {
           });
 
           process.env.AUSTENITE_STRING = "<value>";
-          initialize();
+          initialize({ onInvalid: noop });
 
           expect(variable.value()).toBe("<value>");
         });
@@ -158,7 +155,7 @@ describe("String variables", () => {
                 process.env.AUSTENITE_STRING = emptyValue;
               }
 
-              initialize();
+              initialize({ onInvalid: noop });
 
               expect(variable.value()).toBe("<default>");
             });
@@ -172,7 +169,7 @@ describe("String variables", () => {
                 required: false,
               });
 
-              initialize();
+              initialize({ onInvalid: noop });
 
               expect(variable.value()).toBeUndefined();
             });

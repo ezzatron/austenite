@@ -1,5 +1,5 @@
 import { EOL } from "os";
-import { createTable } from "./table";
+import { createTable, ReadOnlyTable } from "./table";
 import { AnyVariable, READ, VariableValue } from "./variable";
 
 interface State {
@@ -10,7 +10,18 @@ interface State {
 
 let state: State = createInitialState();
 
-export function initialize(): void {
+type OnInvalid = (
+  table: ReadOnlyTable,
+  defaultHandler: typeof defaultOnInvalid
+) => void;
+
+interface Options {
+  onInvalid?: OnInvalid;
+}
+
+export function initialize({
+  onInvalid = defaultOnInvalid,
+}: Options = {}): void {
   const names = Object.keys(state.variables).sort();
   const table = createTable();
   let isValid = true;
@@ -38,9 +49,7 @@ export function initialize(): void {
     }
   }
 
-  if (!isValid) {
-    console.log(`Environment Variables:${EOL}${EOL}${table.render()}`);
-  }
+  if (!isValid) onInvalid(table, defaultOnInvalid);
 
   state.isInitialized = true;
 }
@@ -55,6 +64,10 @@ export function register<V extends AnyVariable>(variable: V): V {
   state.variables[variable.name] = variable;
 
   return variable;
+}
+
+function defaultOnInvalid(table: ReadOnlyTable) {
+  console.log(`Environment Variables:${EOL}${EOL}${table.render()}`);
 }
 
 function readEnv(name: string): string {
