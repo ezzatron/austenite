@@ -1,18 +1,13 @@
 import { EOL } from "os";
 
-interface Table {
-  addRow: (row: string[]) => void;
-  render: () => string;
-}
-
 const segmenter = new Intl.Segmenter("en");
 
-export function createTable(): Table {
+export function createTable() {
   const rows: string[][] = [];
   const widths: number[] = [];
 
   return {
-    addRow(row) {
+    addRow(row: string[]) {
       rows.push(row);
 
       for (let i = 0; i < row.length; ++i) {
