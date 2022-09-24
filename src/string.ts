@@ -1,7 +1,6 @@
 import { register, result } from "./environment";
 import { UndefinedError } from "./errors";
-import { Options } from "./options";
-import { READ, Variable } from "./variable";
+import { Options, READ, Variable } from "./variable";
 
 export function string<O extends Options<string>>(
   name: string,

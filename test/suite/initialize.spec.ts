@@ -3,8 +3,7 @@ import { Transform } from "node:stream";
 import { EOL } from "os";
 import { boolean, string } from "../../src";
 import { initialize, reset } from "../../src/environment";
-import { Options } from "../../src/options";
-import { Variable } from "../../src/variable";
+import { Options, Variable } from "../../src/variable";
 
 type VariableFactory = (
   name: string,
