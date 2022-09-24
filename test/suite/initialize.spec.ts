@@ -15,11 +15,11 @@ describe("initialize()", () => {
   beforeEach(() => {
     env = process.env;
     process.env = { ...env };
-    reset();
   });
 
   afterEach(() => {
     process.env = env;
+    reset();
   });
 
   describe("when the environment is valid", () => {
@@ -57,6 +57,14 @@ describe("initialize()", () => {
         expect(() => {
           variable.value();
         }).not.toThrow();
+      });
+
+      describe("when called again", () => {
+        it("throws", () => {
+          expect(() => {
+            initialize();
+          }).toThrow("The environment is already initialized.");
+        });
       });
     });
   });

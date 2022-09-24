@@ -1,4 +1,5 @@
 import { initialize, string } from "../../src";
+import { reset } from "../../src/environment";
 import { hasType } from "../helpers";
 
 describe("String variables", () => {
@@ -11,6 +12,7 @@ describe("String variables", () => {
 
   afterEach(() => {
     process.env = env;
+    reset();
   });
 
   describe("when no options are supplied", () => {

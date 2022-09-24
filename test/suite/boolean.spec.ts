@@ -1,4 +1,5 @@
 import { boolean, initialize } from "../../src";
+import { reset } from "../../src/environment";
 import { hasType } from "../helpers";
 
 describe("Boolean variables", () => {
@@ -11,6 +12,7 @@ describe("Boolean variables", () => {
 
   afterEach(() => {
     process.env = env;
+    reset();
   });
 
   describe("when no options are supplied", () => {
