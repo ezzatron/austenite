@@ -9,13 +9,13 @@ export function string<O extends Options<string>>(
 ): Variable<string, O> {
   const { default: d, required = true } = options ?? {};
 
-  return register({
+  const variable: Variable<string, O> = {
     name,
     description,
     schema: "<string>",
 
     value() {
-      return result(name);
+      return result(variable);
     },
 
     [READ](readEnv) {
@@ -27,5 +27,7 @@ export function string<O extends Options<string>>(
 
       return undefined;
     },
-  } as Variable<string, O>);
+  };
+
+  return register(variable);
 }

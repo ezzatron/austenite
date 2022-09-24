@@ -32,13 +32,13 @@ export function boolean<O extends BooleanOptions>(
   const schema = allLiterals.join(" | ");
   const mapping = buildMapping(literals);
 
-  return register({
+  const variable: Variable<boolean, O> = {
     name,
     description,
     schema,
 
     value() {
-      return result(name);
+      return result(variable);
     },
 
     [READ](readEnv) {
@@ -57,7 +57,9 @@ export function boolean<O extends BooleanOptions>(
 
       return undefined;
     },
-  } as Variable<boolean, O>);
+  };
+
+  return register(variable);
 }
 
 function assertLiterals(name: string, literals: string[]) {

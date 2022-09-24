@@ -1,6 +1,6 @@
 import { describeError } from "./errors";
 import { createTable } from "./table";
-import { AnyVariable, READ } from "./variable";
+import { AnyVariable, READ, VariableValue } from "./variable";
 
 interface State {
   isInitialized: boolean;
@@ -73,14 +73,14 @@ interface ValueResult {
 
 type Result = ErrorResult | ValueResult;
 
-export function result(name: string): unknown {
+export function result<V extends AnyVariable>({ name }: V): VariableValue<V> {
   if (!state.isInitialized) throw new UninitializedError(name);
 
   const result = state.results[name];
 
   if (result.error != null) throw result.error;
 
-  return result.value;
+  return result.value as VariableValue<V>;
 }
 
 function createInitialState(): State {
