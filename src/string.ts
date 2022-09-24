@@ -1,3 +1,4 @@
+import { read } from "./environment";
 import { UndefinedError } from "./errors";
 import { Options } from "./options";
 import { Variable } from "./variable";
@@ -11,9 +12,9 @@ export function string<O extends Options<string>>(
 
   return {
     value() {
-      const v = process.env[name];
+      const v = read(name);
 
-      if (typeof v === "string" && v != "") return v;
+      if (v != "") return v;
       if (d != null) return d;
       if (required) throw new UndefinedError(name);
 

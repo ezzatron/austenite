@@ -1,3 +1,4 @@
+import { read } from "./environment";
 import { UndefinedError } from "./errors";
 import { Options } from "./options";
 import { Variable } from "./variable";
@@ -31,9 +32,9 @@ export function boolean<O extends BooleanOptions>(
 
   return {
     value() {
-      const v = process.env[name];
+      const v = read(name);
 
-      if (typeof v === "string" && v != "") {
+      if (v != "") {
         if (literals.true.includes(v)) return true;
         if (literals.false.includes(v)) return false;
         throw new InvalidBooleanError(name, literals, v);
