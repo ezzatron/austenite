@@ -63,13 +63,10 @@ export function boolean<O extends BooleanOptions>(
 }
 
 function assertLiterals(name: string, literals: string[]) {
-  for (const literal of literals) {
-    if (literal.length < 1) throw new EmptyLiteralError(name);
-  }
-
   const seen = new Set();
 
   for (const literal of literals) {
+    if (literal.length < 1) throw new EmptyLiteralError(name);
     if (seen.has(literal)) throw new ReusedLiteralError(name, literal);
 
     seen.add(literal);
