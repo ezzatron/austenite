@@ -346,11 +346,26 @@ describe("Boolean variables", () => {
           boolean("AUSTENITE_BOOLEAN", "<description>", {
             literals: {
               true: ["a", "b"],
-              false: ["b", "d"],
+              false: ["c", "a"],
             },
           });
         }).toThrow(
-          'The specification for AUSTENITE_BOOLEAN is invalid: literal "b" can not be both true and false.'
+          'The specification for AUSTENITE_BOOLEAN is invalid: literal "a" can not be used multiple times.'
+        );
+      });
+    });
+
+    describe("when the same literal is used for true multiple times", () => {
+      it("throws", () => {
+        expect(() => {
+          boolean("AUSTENITE_BOOLEAN", "<description>", {
+            literals: {
+              true: ["a", "a"],
+              false: ["b", "c"],
+            },
+          });
+        }).toThrow(
+          'The specification for AUSTENITE_BOOLEAN is invalid: literal "a" can not be used multiple times.'
         );
       });
     });

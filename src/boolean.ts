@@ -28,8 +28,9 @@ export function boolean<O extends BooleanOptions>(
     literals = defaultLiterals,
   } = options ?? {};
 
-  assertLiterals(name, literals);
-  const schema = [...literals.true, ...literals.false].join(" | ");
+  const allLiterals = [...literals.true, ...literals.false];
+  assertLiterals(name, allLiterals);
+  const schema = allLiterals.join(" | ");
 
   return register({
     name,
@@ -46,7 +47,7 @@ export function boolean<O extends BooleanOptions>(
       if (v != "") {
         if (literals.true.includes(v)) return true;
         if (literals.false.includes(v)) return false;
-        throw new InvalidBooleanError(name, literals, v);
+        throw new InvalidBooleanError(name, allLiterals, v);
       }
 
       if (d != null) return d;
@@ -57,15 +58,17 @@ export function boolean<O extends BooleanOptions>(
   } as Variable<boolean, O>);
 }
 
-function assertLiterals(name: string, literals: BooleanLiterals) {
-  for (const literal of [...literals.true, ...literals.false]) {
+function assertLiterals(name: string, literals: string[]) {
+  for (const literal of literals) {
     if (literal.length < 1) throw new EmptyLiteralError(name);
   }
 
-  for (const literal of literals.true) {
-    if (literals.false.includes(literal)) {
-      throw new AmbiguousLiteralError(name, literal);
-    }
+  const seen = new Set();
+
+  for (const literal of literals) {
+    if (seen.has(literal)) throw new ReusedLiteralError(name, literal);
+
+    seen.add(literal);
   }
 }
 
@@ -77,27 +80,26 @@ class EmptyLiteralError extends Error {
   }
 }
 
-class AmbiguousLiteralError extends Error {
+class ReusedLiteralError extends Error {
   constructor(name: string, literal: string) {
     const quotedLiteral = JSON.stringify(literal);
 
     super(
-      `The specification for ${name} is invalid: literal ${quotedLiteral} can not be both true and false.`
+      `The specification for ${name} is invalid: literal ${quotedLiteral} can not be used multiple times.`
     );
   }
 }
 
 class InvalidBooleanError extends Error {
-  constructor(name: string, literals: BooleanLiterals, value: string) {
+  constructor(name: string, literals: string[], value: string) {
     const listFormatter = new Intl.ListFormat("en", {
       style: "short",
       type: "disjunction",
     });
 
     const quotedValue = JSON.stringify(value);
-    const allLiterals = [...literals.true, ...literals.false];
     const expectedList = listFormatter.format(
-      allLiterals.map((literal) => JSON.stringify(literal))
+      literals.map((literal) => JSON.stringify(literal))
     );
 
     super(
