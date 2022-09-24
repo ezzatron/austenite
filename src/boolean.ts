@@ -106,11 +106,6 @@ class InvalidBooleanError extends ValidationError {
       type: "disjunction",
     });
 
-    const quotedValue = JSON.stringify(value);
-    const expectedList = listFormatter.format(
-      literals.map((literal) => JSON.stringify(literal))
-    );
-
-    super(name, `set to ${quotedValue}, expected ${expectedList}`);
+    super(name, `set to ${value}, expected ${listFormatter.format(literals)}`);
   }
 }

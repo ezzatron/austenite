@@ -78,8 +78,8 @@ describe("Boolean variables", () => {
       describe(".value()", () => {
         it.each`
           value      | message
-          ${"ture"}  | ${'set to "ture", expected "true" or "false"'}
-          ${"flase"} | ${'set to "flase", expected "true" or "false"'}
+          ${"ture"}  | ${"set to ture, expected true or false"}
+          ${"flase"} | ${"set to flase, expected true or false"}
         `(
           "throws ($value)",
           ({ value, message }: { value: string; message: string }) => {
@@ -184,8 +184,8 @@ describe("Boolean variables", () => {
       describe(".value()", () => {
         it.each`
           value      | message
-          ${"ture"}  | ${'set to "ture", expected "true" or "false"'}
-          ${"flase"} | ${'set to "flase", expected "true" or "false"'}
+          ${"ture"}  | ${"set to ture, expected true or false"}
+          ${"flase"} | ${"set to flase, expected true or false"}
         `(
           "throws ($value)",
           ({ value, message }: { value: string; message: string }) => {
@@ -279,8 +279,8 @@ describe("Boolean variables", () => {
     describe("when the value does not match a custom literal", () => {
       it.each`
         value      | message
-        ${"true"}  | ${'set to "true", expected "y", "yes", "n", or "no"'}
-        ${"false"} | ${'set to "false", expected "y", "yes", "n", or "no"'}
+        ${"true"}  | ${"set to true, expected y, yes, n, or no"}
+        ${"false"} | ${"set to false, expected y, yes, n, or no"}
       `(
         "throws ($value)",
         ({ value, message }: { value: string; message: string }) => {
