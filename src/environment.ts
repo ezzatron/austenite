@@ -5,7 +5,7 @@ import { AnyVariable, READ, VariableValue } from "./variable";
 interface State {
   isInitialized: boolean;
   variables: Record<string, AnyVariable>;
-  results: Record<string, Result>;
+  results: Map<AnyVariable, Result>;
 }
 
 let state: State = createInitialState();
@@ -21,14 +21,14 @@ export function initialize(): void {
 
     try {
       const value = variable[READ](readEnv);
-      state.results[name] = { value };
+      state.results.set(variable, { value });
       const quotedValue = JSON.stringify(value);
 
       table.addRow(["", name, description, schema, `✓ set to ${quotedValue}`]);
     } catch (e) {
       isValid = false;
       const error = e as Error;
-      state.results[name] = { error };
+      state.results.set(variable, { error });
 
       table.addRow(["❯", name, description, schema, `✗ ${error.message}`]);
     }
@@ -69,21 +69,21 @@ interface ValueResult {
 
 type Result = ErrorResult | ValueResult;
 
-export function result<V extends AnyVariable>({ name }: V): VariableValue<V> {
-  if (!state.isInitialized) throw new UninitializedError(name);
+export function result<V extends AnyVariable>(variable: V): VariableValue<V> {
+  if (!state.isInitialized) throw new UninitializedError(variable.name);
 
-  const result = state.results[name];
+  const { error, value } = state.results.get(variable) ?? {};
 
-  if (result.error != null) throw result.error;
+  if (error != null) throw error;
 
-  return result.value as VariableValue<V>;
+  return value as VariableValue<V>;
 }
 
 function createInitialState(): State {
   return {
     isInitialized: false,
     variables: {},
-    results: {},
+    results: new Map(),
   };
 }
 
