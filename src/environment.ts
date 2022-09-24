@@ -21,7 +21,7 @@ export function initialize(): void {
     let result: string, indicator: string;
 
     try {
-      const value = variable[READ]();
+      const value = variable[READ](readEnv);
       state.results[name] = { value };
       result = `✓ set to ${JSON.stringify(value)}`;
       indicator = "";
@@ -57,7 +57,7 @@ export function register<V extends AnyVariable>(v: V): V {
   return v;
 }
 
-export function read(name: string): string {
+function readEnv(name: string): string {
   return process.env[name] ?? "";
 }
 

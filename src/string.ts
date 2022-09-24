@@ -1,4 +1,4 @@
-import { read, register, result } from "./environment";
+import { register, result } from "./environment";
 import { UndefinedError } from "./errors";
 import { Options } from "./options";
 import { READ, Variable } from "./variable";
@@ -19,8 +19,8 @@ export function string<O extends Options<string>>(
       return result(name);
     },
 
-    [READ]() {
-      const v = read(name);
+    [READ](readEnv) {
+      const v = readEnv(name);
 
       if (v != "") return v;
       if (d != null) return d;

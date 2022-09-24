@@ -1,4 +1,4 @@
-import { read, register, result } from "./environment";
+import { register, result } from "./environment";
 import { UndefinedError } from "./errors";
 import { Options } from "./options";
 import { READ, Variable } from "./variable";
@@ -42,8 +42,8 @@ export function boolean<O extends BooleanOptions>(
       return result(name);
     },
 
-    [READ]() {
-      const v = read(name);
+    [READ](readEnv) {
+      const v = readEnv(name);
 
       if (v != "") {
         const mapped = mapping[v];
