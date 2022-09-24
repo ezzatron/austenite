@@ -29,10 +29,7 @@ export function boolean<O extends BooleanOptions>(
   } = options ?? {};
 
   assertLiterals(name, literals);
-  const allLiterals = [...literals.true, ...literals.false];
-  const schema = allLiterals
-    .map((literal) => JSON.stringify(literal))
-    .join(" | ");
+  const schema = [...literals.true, ...literals.false].join(" | ");
 
   return register({
     name,

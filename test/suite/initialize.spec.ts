@@ -128,12 +128,14 @@ describe("initialize()", () => {
 
     describe("when called", () => {
       beforeEach(() => {
-        process.env.AUSTENITE_BOOLEAN = "true";
+        process.env.AUSTENITE_BOOLEAN = "y";
         process.env.AUSTENITE_STRING = "hello, world!";
 
         string("AUSTENITE_XTRIGGER", "trigger failure");
         string("AUSTENITE_STRING", "example string");
-        boolean("AUSTENITE_BOOLEAN", "example boolean");
+        boolean("AUSTENITE_BOOLEAN", "example boolean", {
+          literals: { true: ["y", "yes"], false: ["n", "no"] },
+        });
 
         initialize();
       });
@@ -143,7 +145,7 @@ describe("initialize()", () => {
           [
             `Environment Variables:`,
             ``,
-            `   AUSTENITE_BOOLEAN   example boolean  "true" | "false"  ✓ set to true`,
+            `   AUSTENITE_BOOLEAN   example boolean  y | yes | n | no  ✓ set to true`,
             `   AUSTENITE_STRING    example string   <string>          ✓ set to "hello, world!"`,
             `❯  AUSTENITE_XTRIGGER  trigger failure  <string>          ✗ undefined`,
             ``,
