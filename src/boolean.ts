@@ -31,6 +31,7 @@ export function boolean<O extends BooleanOptions>(
   const allLiterals = [...literals.true, ...literals.false];
   assertLiterals(name, allLiterals);
   const schema = allLiterals.join(" | ");
+  const mapping = buildMapping(literals);
 
   return register({
     name,
@@ -45,8 +46,10 @@ export function boolean<O extends BooleanOptions>(
       const v = read(name);
 
       if (v != "") {
-        if (literals.true.includes(v)) return true;
-        if (literals.false.includes(v)) return false;
+        const mapped = mapping[v];
+
+        if (mapped != null) return mapped;
+
         throw new InvalidBooleanError(name, allLiterals, v);
       }
 
@@ -70,6 +73,16 @@ function assertLiterals(name: string, literals: string[]) {
 
     seen.add(literal);
   }
+}
+
+function buildMapping(
+  literals: BooleanLiterals
+): Record<string, boolean | undefined> {
+  const mapping: Record<string, boolean | undefined> = {};
+  for (const literal of literals.true) mapping[literal] = true;
+  for (const literal of literals.false) mapping[literal] = false;
+
+  return mapping;
 }
 
 class EmptyLiteralError extends Error {
