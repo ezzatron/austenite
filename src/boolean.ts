@@ -1,4 +1,4 @@
-import { read } from "./environment";
+import { read, register } from "./environment";
 import { UndefinedError } from "./errors";
 import { Options } from "./options";
 import { Variable } from "./variable";
@@ -22,6 +22,8 @@ export function boolean<O extends BooleanOptions>(
   _description: string,
   options: O | undefined = undefined
 ): Variable<boolean, O> {
+  register(name);
+
   const {
     default: d,
     required = true,

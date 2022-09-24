@@ -1,4 +1,4 @@
-import { read } from "./environment";
+import { read, register } from "./environment";
 import { UndefinedError } from "./errors";
 import { Options } from "./options";
 import { Variable } from "./variable";
@@ -8,6 +8,7 @@ export function string<O extends Options<string>>(
   _description: string,
   options: O | undefined = undefined
 ): Variable<string, O> {
+  register(name);
   const { default: d, required = true } = options ?? {};
 
   return {
