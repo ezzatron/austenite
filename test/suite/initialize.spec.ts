@@ -144,9 +144,9 @@ describe("initialize()", () => {
           [
             `Environment Variables:`,
             ``,
-            `   AUSTENITE_BOOLEAN   example boolean  y | yes | n | no  ✓ set to true`,
-            `   AUSTENITE_STRING    example string   <string>          ✓ set to "hello, world!"`,
-            `❯  AUSTENITE_XTRIGGER  trigger failure  <string>          ✗ undefined`,
+            `  AUSTENITE_BOOLEAN   example boolean  y | yes | n | no  ✓ set to true`,
+            `  AUSTENITE_STRING    example string   <string>          ✓ set to "hello, world!"`,
+            `❯ AUSTENITE_XTRIGGER  trigger failure  <string>          ✗ undefined`,
             ``,
           ].join(EOL)
         );

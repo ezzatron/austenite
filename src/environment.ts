@@ -22,15 +22,19 @@ export function initialize(): void {
     try {
       const value = variable[READ](readEnv);
       state.results.set(variable, { value });
-      const quotedValue = JSON.stringify(value);
 
-      table.addRow(["", name, description, schema, `✓ set to ${quotedValue}`]);
+      table.addRow([
+        `  ${name}`,
+        description,
+        schema,
+        `✓ set to ${JSON.stringify(value)}`,
+      ]);
     } catch (e) {
       isValid = false;
       const error = e as Error;
       state.results.set(variable, { error });
 
-      table.addRow(["❯", name, description, schema, `✗ ${error.message}`]);
+      table.addRow([`❯ ${name}`, description, schema, `✗ ${error.message}`]);
     }
   }
 
