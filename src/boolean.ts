@@ -1,22 +1,22 @@
 import { register, result } from "./environment";
 import { UndefinedError, ValidationError } from "./validation";
-import { Options, READ, Variable } from "./variable";
+import { Options as CommonOptions, READ, Variable } from "./variable";
 
-interface BooleanOptions extends Options<boolean> {
-  literals?: BooleanLiterals;
+interface Options extends CommonOptions<boolean> {
+  literals?: Literals;
 }
 
-interface BooleanLiterals {
+interface Literals {
   true: string[];
   false: string[];
 }
 
-const defaultLiterals: BooleanLiterals = {
+const defaultLiterals: Literals = {
   true: ["true"],
   false: ["false"],
 };
 
-export function boolean<O extends BooleanOptions>(
+export function boolean<O extends Options>(
   name: string,
   description: string,
   options: O | undefined = undefined
@@ -73,9 +73,7 @@ function assertLiterals(name: string, literals: string[]) {
   }
 }
 
-function buildMapping(
-  literals: BooleanLiterals
-): Record<string, boolean | undefined> {
+function buildMapping(literals: Literals): Record<string, boolean | undefined> {
   const mapping: Record<string, boolean | undefined> = {};
   for (const literal of literals.true) mapping[literal] = true;
   for (const literal of literals.false) mapping[literal] = false;

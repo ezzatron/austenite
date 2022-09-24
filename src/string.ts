@@ -1,8 +1,10 @@
 import { register, result } from "./environment";
 import { UndefinedError } from "./validation";
-import { Options, READ, Variable } from "./variable";
+import { Options as CommonOptions, READ, Variable } from "./variable";
 
-export function string<O extends Options<string>>(
+type Options = CommonOptions<string>;
+
+export function string<O extends Options>(
   name: string,
   description: string,
   options: O | undefined = undefined
