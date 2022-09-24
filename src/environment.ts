@@ -1,3 +1,4 @@
+import { EOL } from "os";
 import { createTable } from "./table";
 import { AnyVariable, READ, VariableValue } from "./variable";
 
@@ -17,28 +18,24 @@ export function initialize(): void {
   for (const name of names) {
     const variable = state.variables[name];
     const { description, schema } = variable;
-    let result: string, indicator: string;
 
     try {
       const value = variable[READ](readEnv);
       state.results[name] = { value };
-      result = `✓ set to ${JSON.stringify(value)}`;
-      indicator = "";
+      const quotedValue = JSON.stringify(value);
+
+      table.addRow(["", name, description, schema, `✓ set to ${quotedValue}`]);
     } catch (e) {
       isValid = false;
       const error = e as Error;
       state.results[name] = { error };
-      result = `✗ ${error.message}`;
-      indicator = "❯";
-    }
 
-    table.addRow([indicator, name, description, schema, result]);
+      table.addRow(["❯", name, description, schema, `✗ ${error.message}`]);
+    }
   }
 
   if (!isValid) {
-    console.log("Environment Variables:");
-    console.log("");
-    console.log(table.render());
+    console.log(`Environment Variables:${EOL}${EOL}${table.render()}`);
   }
 
   state.isInitialized = true;
