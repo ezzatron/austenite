@@ -27,11 +27,8 @@ export function createTable(): Table {
         const cells = [];
 
         for (let i = 0; i < row.length; ++i) {
-          if (i === row.length - 1) {
-            cells.push(row[i]);
-          } else {
-            cells.push(row[i].padEnd(widths[i]));
-          }
+          const cell = row[i];
+          cells.push(i < row.length - 1 ? cell.padEnd(widths[i]) : cell);
         }
 
         lines.push(cells.join("  "));
