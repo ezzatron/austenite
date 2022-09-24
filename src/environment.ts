@@ -66,8 +66,10 @@ export function register<V extends AnyVariable>(variable: V): V {
   return variable;
 }
 
-function defaultOnInvalid(table: ReadOnlyTable) {
+function defaultOnInvalid(table: ReadOnlyTable): never {
   console.log(`Environment Variables:${EOL}${EOL}${table.render()}`);
+
+  process.exit(1); // eslint-disable-line n/no-process-exit
 }
 
 function readEnv(name: string): string {

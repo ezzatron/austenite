@@ -12,10 +12,17 @@ type VariableFactory = (
 ) => Variable<unknown, Options<unknown>>;
 
 describe("initialize()", () => {
-  let readConsole: () => string;
+  let exitCode: number;
   let env: typeof process.env;
+  let readConsole: () => string;
 
   beforeEach(() => {
+    jest.spyOn(process, "exit").mockImplementation((code) => {
+      exitCode = code ?? 0;
+
+      return undefined as never;
+    });
+
     env = process.env;
     process.env = { ...env };
 
@@ -139,7 +146,7 @@ describe("initialize()", () => {
         initialize();
       });
 
-      it("should output a table describing why the environment is invalid", () => {
+      it("outputs a table describing why the environment is invalid", () => {
         expect(readConsole()).toBe(
           [
             `Environment Variables:`,
@@ -150,6 +157,11 @@ describe("initialize()", () => {
             ``,
           ].join(EOL)
         );
+      });
+
+      it("exits the process with a non-zero exit code", () => {
+        expect(exitCode).toBeDefined();
+        expect(exitCode).toBeGreaterThan(0);
       });
     });
   });
