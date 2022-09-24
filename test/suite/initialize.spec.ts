@@ -60,10 +60,10 @@ describe("initialize()", () => {
       });
 
       describe("when called again", () => {
-        it("throws", () => {
+        it("does nothing", () => {
           expect(() => {
             initialize();
-          }).toThrow("The environment is already initialized.");
+          }).not.toThrow();
         });
       });
     });
