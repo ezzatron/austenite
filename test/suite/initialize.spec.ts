@@ -146,7 +146,7 @@ describe("initialize()", () => {
         initialize();
       });
 
-      it("outputs a table describing why the environment is invalid", () => {
+      it("outputs a summary table", () => {
         expect(readConsole()).toBe(
           [
             `Environment Variables:`,
