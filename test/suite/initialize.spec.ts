@@ -1,5 +1,5 @@
 import { boolean, string } from "../../src";
-import { reset } from "../../src/environment";
+import { initialize, reset } from "../../src/environment";
 import { Options } from "../../src/options";
 import { Variable } from "../../src/variable";
 
@@ -23,44 +23,82 @@ describe("initialize()", () => {
   });
 
   describe("when the environment is valid", () => {
-    it.each`
-      type         | factory
-      ${"boolean"} | ${boolean}
-      ${"string"}  | ${string}
-    `(
-      "prevents access to $type values until called",
-      ({ factory }: { factory: VariableFactory }) => {
-        const variable = factory("AUSTENITE_VAR", "<description>", {
+    describe("before being called", () => {
+      it.each`
+        type         | factory
+        ${"boolean"} | ${boolean}
+        ${"string"}  | ${string}
+      `(
+        "prevents access to $type values",
+        ({ factory }: { factory: VariableFactory }) => {
+          const variable = factory("AUSTENITE_VAR", "<description>", {
+            required: false,
+          });
+
+          expect(() => {
+            variable.value();
+          }).toThrow(
+            "AUSTENITE_VAR can not be read until the environment is initialized."
+          );
+        }
+      );
+    });
+
+    describe("after being called", () => {
+      beforeEach(() => {
+        initialize();
+      });
+
+      it("allows access to values", () => {
+        const variable = string("AUSTENITE_VAR", "<description>", {
           required: false,
         });
 
         expect(() => {
           variable.value();
-        }).toThrow(
-          "AUSTENITE_VAR can not be read until the environment is initialized."
-        );
-      }
-    );
+        }).not.toThrow();
+      });
+    });
   });
 
   describe("when the environment is invalid", () => {
-    it.each`
-      type         | factory
-      ${"boolean"} | ${boolean}
-      ${"string"}  | ${string}
-    `(
-      "prevents access to $type values until called",
-      ({ factory }: { factory: VariableFactory }) => {
-        const variable = factory("AUSTENITE_VAR", "<description>", {
+    describe("before being called", () => {
+      it.each`
+        type         | factory
+        ${"boolean"} | ${boolean}
+        ${"string"}  | ${string}
+      `(
+        "prevents access to $type values",
+        ({ factory }: { factory: VariableFactory }) => {
+          const variable = factory("AUSTENITE_VAR", "<description>", {
+            required: true,
+          });
+
+          expect(() => {
+            variable.value();
+          }).toThrow(
+            "AUSTENITE_VAR can not be read until the environment is initialized."
+          );
+        }
+      );
+    });
+
+    describe("after being called", () => {
+      beforeEach(() => {
+        initialize();
+      });
+
+      it("allows access to errors about the invalid environment", () => {
+        const variable = string("AUSTENITE_VAR", "<description>", {
           required: true,
         });
 
         expect(() => {
           variable.value();
         }).toThrow(
-          "AUSTENITE_VAR can not be read until the environment is initialized."
+          "AUSTENITE_VAR is undefined and does not have a default value."
         );
-      }
-    );
+      });
+    });
   });
 });
