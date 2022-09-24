@@ -26,9 +26,7 @@ describe("String variables", () => {
 
       expect(() => {
         variable.value();
-      }).toThrow(
-        "AUSTENITE_STRING is undefined and does not have a default value."
-      );
+      }).toThrow("undefined");
     });
   });
 
@@ -40,9 +38,7 @@ describe("String variables", () => {
 
       expect(() => {
         variable.value();
-      }).toThrow(
-        "AUSTENITE_STRING is undefined and does not have a default value."
-      );
+      }).toThrow("undefined");
     });
   });
 
@@ -108,9 +104,7 @@ describe("String variables", () => {
 
               expect(() => {
                 variable.value();
-              }).toThrow(
-                "AUSTENITE_STRING is undefined and does not have a default value."
-              );
+              }).toThrow("undefined");
             });
           });
         });

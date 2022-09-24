@@ -1,5 +1,5 @@
 import { register, result } from "./environment";
-import { UndefinedError } from "./errors";
+import { UndefinedError } from "./validation";
 import { Options, READ, Variable } from "./variable";
 
 export function string<O extends Options<string>>(

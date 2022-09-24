@@ -1,4 +1,3 @@
-import { describeError } from "./errors";
 import { createTable } from "./table";
 import { AnyVariable, READ, VariableValue } from "./variable";
 
@@ -29,7 +28,7 @@ export function initialize(): void {
       isValid = false;
       const error = e as Error;
       state.results[name] = { error };
-      result = `✗ ${describeError(error)}`;
+      result = `✗ ${error.message}`;
       indicator = "❯";
     }
 

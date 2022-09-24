@@ -1,5 +1,5 @@
 import { register, result } from "./environment";
-import { UndefinedError } from "./errors";
+import { UndefinedError, ValidationError } from "./validation";
 import { Options, READ, Variable } from "./variable";
 
 interface BooleanOptions extends Options<boolean> {
@@ -104,7 +104,7 @@ class ReusedLiteralError extends Error {
   }
 }
 
-class InvalidBooleanError extends Error {
+class InvalidBooleanError extends ValidationError {
   constructor(name: string, literals: string[], value: string) {
     const listFormatter = new Intl.ListFormat("en", {
       style: "short",
@@ -116,8 +116,6 @@ class InvalidBooleanError extends Error {
       literals.map((literal) => JSON.stringify(literal))
     );
 
-    super(
-      `The value of ${name} (${quotedValue}) is invalid: expected ${expectedList}.`
-    );
+    super(name, `set to ${quotedValue}, expected ${expectedList}`);
   }
 }
