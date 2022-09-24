@@ -2,8 +2,6 @@ import { EOL } from "os";
 
 const segmenter = new Intl.Segmenter("en");
 
-export type ReadOnlyTable = Pick<ReturnType<typeof createTable>, "render">;
-
 export function createTable() {
   const rows: string[][] = [];
   const widths: number[] = [];
@@ -35,6 +33,8 @@ export function createTable() {
     },
   };
 }
+
+export type ReadOnlyTable = Pick<ReturnType<typeof createTable>, "render">;
 
 function graphemeCount(string: string) {
   return [...segmenter.segment(string)].length;

@@ -2,15 +2,6 @@ import { register, result } from "./environment";
 import { UndefinedError, ValidationError } from "./validation";
 import { Options as CommonOptions, READ, Variable } from "./variable";
 
-interface Options extends CommonOptions<boolean> {
-  literals?: Literals;
-}
-
-interface Literals {
-  true: string[];
-  false: string[];
-}
-
 const defaultLiterals: Literals = {
   true: ["true"],
   false: ["false"],
@@ -108,4 +99,13 @@ class InvalidBooleanError extends ValidationError {
 
     super(name, `set to ${value}, expected ${listFormatter.format(literals)}`);
   }
+}
+
+interface Options extends CommonOptions<boolean> {
+  literals?: Literals;
+}
+
+interface Literals {
+  true: string[];
+  false: string[];
 }

@@ -2,8 +2,6 @@ import { register, result } from "./environment";
 import { UndefinedError } from "./validation";
 import { Options as CommonOptions, READ, Variable } from "./variable";
 
-type Options = CommonOptions<string>;
-
 export function string<O extends Options>(
   name: string,
   description: string,
@@ -33,3 +31,5 @@ export function string<O extends Options>(
 
   return register(variable);
 }
+
+type Options = CommonOptions<string>;

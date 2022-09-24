@@ -2,22 +2,7 @@ import { EOL } from "os";
 import { createTable, ReadOnlyTable } from "./table";
 import { AnyVariable, READ, VariableValue } from "./variable";
 
-interface State {
-  isInitialized: boolean;
-  variables: Record<string, AnyVariable>;
-  results: Map<AnyVariable, Result>;
-}
-
 let state: State = createInitialState();
-
-type OnInvalid = (
-  table: ReadOnlyTable,
-  defaultHandler: typeof defaultOnInvalid
-) => void;
-
-interface Options {
-  onInvalid?: OnInvalid;
-}
 
 export function initialize({
   onInvalid = defaultOnInvalid,
@@ -66,28 +51,6 @@ export function register<V extends AnyVariable>(variable: V): V {
   return variable;
 }
 
-function defaultOnInvalid(table: ReadOnlyTable): never {
-  console.log(`Environment Variables:${EOL}${EOL}${table.render()}`);
-
-  process.exit(1); // eslint-disable-line n/no-process-exit
-}
-
-function readEnv(name: string): string {
-  return process.env[name] ?? "";
-}
-
-interface ErrorResult {
-  error: Error;
-  value?: undefined;
-}
-
-interface ValueResult {
-  error?: undefined;
-  value: unknown;
-}
-
-type Result = ErrorResult | ValueResult;
-
 export function result<V extends AnyVariable>(variable: V): VariableValue<V> {
   if (!state.isInitialized) throw new UninitializedError(variable.name);
 
@@ -106,6 +69,16 @@ function createInitialState(): State {
   };
 }
 
+function readEnv(name: string): string {
+  return process.env[name] ?? "";
+}
+
+function defaultOnInvalid(table: ReadOnlyTable): never {
+  console.log(`Environment Variables:${EOL}${EOL}${table.render()}`);
+
+  process.exit(1); // eslint-disable-line n/no-process-exit
+}
+
 class FinalizedError extends Error {
   constructor(name: string) {
     super(`${name} can not be defined after the environment is initialized.`);
@@ -117,3 +90,30 @@ class UninitializedError extends Error {
     super(`${name} can not be read until the environment is initialized.`);
   }
 }
+
+interface State {
+  isInitialized: boolean;
+  variables: Record<string, AnyVariable>;
+  results: Map<AnyVariable, Result>;
+}
+
+interface ErrorResult {
+  error: Error;
+  value?: undefined;
+}
+
+interface ValueResult {
+  error?: undefined;
+  value: unknown;
+}
+
+type Result = ErrorResult | ValueResult;
+
+interface Options {
+  onInvalid?: OnInvalid;
+}
+
+type OnInvalid = (
+  table: ReadOnlyTable,
+  defaultHandler: typeof defaultOnInvalid
+) => void;

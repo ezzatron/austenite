@@ -1,10 +1,5 @@
 export const READ = Symbol("READ");
 
-export interface Options<T> {
-  required?: boolean;
-  default?: T;
-}
-
 export interface Variable<T, O extends Options<T>> {
   readonly name: string;
   readonly description: string;
@@ -21,6 +16,11 @@ export type VariableValue<V extends AnyVariable> = V extends Variable<
 >
   ? Value<T, O>
   : never;
+
+export interface Options<T> {
+  required?: boolean;
+  default?: T;
+}
 
 type ReadEnv = (name: string) => string;
 
