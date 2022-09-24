@@ -1,3 +1,6 @@
+import { Console } from "node:console";
+import { Transform } from "node:stream";
+import { EOL } from "os";
 import { boolean, string } from "../../src";
 import { initialize, reset } from "../../src/environment";
 import { Options } from "../../src/options";
@@ -10,14 +13,29 @@ type VariableFactory = (
 ) => Variable<unknown, Options<unknown>>;
 
 describe("initialize()", () => {
+  let readConsole: () => string;
   let env: typeof process.env;
 
   beforeEach(() => {
     env = process.env;
     process.env = { ...env };
+
+    const stdout = new Transform({
+      transform(chunk, _, cb) {
+        cb(null, chunk);
+      },
+    });
+    const mockConsole = new Console({ stdout });
+
+    jest
+      .spyOn(console, "log")
+      .mockImplementation(mockConsole.log.bind(mockConsole));
+
+    readConsole = () => String(stdout.read() ?? "");
   });
 
   afterEach(() => {
+    jest.resetAllMocks();
     process.env = env;
     reset();
   });
@@ -106,6 +124,32 @@ describe("initialize()", () => {
           );
         }
       );
+    });
+
+    describe("when called", () => {
+      beforeEach(() => {
+        process.env.AUSTENITE_BOOLEAN = "true";
+        process.env.AUSTENITE_STRING = "hello, world!";
+
+        string("AUSTENITE_XTRIGGER", "trigger failure");
+        string("AUSTENITE_STRING", "example string");
+        boolean("AUSTENITE_BOOLEAN", "example boolean");
+
+        initialize();
+      });
+
+      it("should output a table describing why the environment is invalid", () => {
+        expect(readConsole()).toBe(
+          [
+            `Environment Variables:`,
+            ``,
+            `   AUSTENITE_BOOLEAN   example boolean  "true" | "false"  ✓ set to true`,
+            `   AUSTENITE_STRING    example string   <string>          ✓ set to "hello, world!"`,
+            `❯  AUSTENITE_XTRIGGER  trigger failure  <string>          ✗ undefined`,
+            ``,
+          ].join(EOL)
+        );
+      });
     });
   });
 });

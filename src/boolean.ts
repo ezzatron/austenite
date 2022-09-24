@@ -1,7 +1,7 @@
-import { read, register } from "./environment";
+import { read, register, result } from "./environment";
 import { UndefinedError } from "./errors";
 import { Options } from "./options";
-import { Variable } from "./variable";
+import { READ, Variable } from "./variable";
 
 interface BooleanOptions extends Options<boolean> {
   literals?: BooleanLiterals;
@@ -19,11 +19,9 @@ const defaultLiterals: BooleanLiterals = {
 
 export function boolean<O extends BooleanOptions>(
   name: string,
-  _description: string,
+  description: string,
   options: O | undefined = undefined
 ): Variable<boolean, O> {
-  register(name);
-
   const {
     default: d,
     required = true,
@@ -31,9 +29,21 @@ export function boolean<O extends BooleanOptions>(
   } = options ?? {};
 
   assertLiterals(name, literals);
+  const allLiterals = [...literals.true, ...literals.false];
+  const schema = allLiterals
+    .map((literal) => JSON.stringify(literal))
+    .join(" | ");
 
-  return {
+  return register({
+    name,
+    description,
+    schema,
+
     value() {
+      return result(name);
+    },
+
+    [READ]() {
       const v = read(name);
 
       if (v != "") {
@@ -47,7 +57,7 @@ export function boolean<O extends BooleanOptions>(
 
       return undefined;
     },
-  } as Variable<boolean, O>;
+  } as Variable<boolean, O>);
 }
 
 function assertLiterals(name: string, literals: BooleanLiterals) {

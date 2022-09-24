@@ -8,9 +8,12 @@ describe("String variables", () => {
   beforeEach(() => {
     env = process.env;
     process.env = { ...env };
+
+    jest.spyOn(console, "log").mockImplementation();
   });
 
   afterEach(() => {
+    jest.resetAllMocks();
     process.env = env;
     reset();
   });

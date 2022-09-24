@@ -1,18 +1,25 @@
-import { read, register } from "./environment";
+import { read, register, result } from "./environment";
 import { UndefinedError } from "./errors";
 import { Options } from "./options";
-import { Variable } from "./variable";
+import { READ, Variable } from "./variable";
 
 export function string<O extends Options<string>>(
   name: string,
-  _description: string,
+  description: string,
   options: O | undefined = undefined
 ): Variable<string, O> {
-  register(name);
   const { default: d, required = true } = options ?? {};
 
-  return {
+  return register({
+    name,
+    description,
+    schema: "<string>",
+
     value() {
+      return result(name);
+    },
+
+    [READ]() {
       const v = read(name);
 
       if (v != "") return v;
@@ -21,5 +28,5 @@ export function string<O extends Options<string>>(
 
       return undefined;
     },
-  } as Variable<string, O>;
+  } as Variable<string, O>);
 }
