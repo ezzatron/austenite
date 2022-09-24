@@ -48,12 +48,12 @@ export function reset(): void {
   state = createInitialState();
 }
 
-export function register<V extends AnyVariable>(v: V): V {
-  if (state.isInitialized) throw new FinalizedError(v.name);
+export function register<V extends AnyVariable>(variable: V): V {
+  if (state.isInitialized) throw new FinalizedError(variable.name);
 
-  state.variables[v.name] = v;
+  state.variables[variable.name] = variable;
 
-  return v;
+  return variable;
 }
 
 function readEnv(name: string): string {

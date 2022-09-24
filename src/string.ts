@@ -7,7 +7,7 @@ export function string<O extends Options<string>>(
   description: string,
   options: O | undefined = undefined
 ): Variable<string, O> {
-  const { default: d, required = true } = options ?? {};
+  const { default: defaultValue, required = true } = options ?? {};
 
   const variable: Variable<string, O> = {
     name,
@@ -19,10 +19,10 @@ export function string<O extends Options<string>>(
     },
 
     [READ](readEnv) {
-      const v = readEnv(name);
+      const value = readEnv(name);
 
-      if (v != "") return v;
-      if (d != null) return d;
+      if (value != "") return value;
+      if (defaultValue != null) return defaultValue;
       if (required) throw new UndefinedError(name);
 
       return undefined;

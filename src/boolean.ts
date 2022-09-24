@@ -22,7 +22,7 @@ export function boolean<O extends BooleanOptions>(
   options: O | undefined = undefined
 ): Variable<boolean, O> {
   const {
-    default: d,
+    default: defaultValue,
     required = true,
     literals = defaultLiterals,
   } = options ?? {};
@@ -42,17 +42,17 @@ export function boolean<O extends BooleanOptions>(
     },
 
     [READ](readEnv) {
-      const v = readEnv(name);
+      const value = readEnv(name);
 
-      if (v != "") {
-        const mapped = mapping[v];
+      if (value != "") {
+        const mapped = mapping[value];
 
         if (mapped != null) return mapped;
 
-        throw new InvalidBooleanError(name, allLiterals, v);
+        throw new InvalidBooleanError(name, allLiterals, value);
       }
 
-      if (d != null) return d;
+      if (defaultValue != null) return defaultValue;
       if (required) throw new UndefinedError(name);
 
       return undefined;
