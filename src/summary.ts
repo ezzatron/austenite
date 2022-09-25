@@ -10,7 +10,7 @@ export function renderSummary(resultSet: ResultSet): string {
       renderName(variable, result),
       variable.description,
       renderSchema(variable),
-      renderResult(result),
+      renderResult(variable, result),
     ]);
   }
 
@@ -23,19 +23,22 @@ function renderName({ name }: AnyVariable, { error }: Result) {
 
 function renderSchema({
   schema,
+  required,
   hasDefault,
   default: defaultValue,
 }: AnyVariable) {
-  const optionality = hasDefault ? "[]" : "  ";
+  const optionality = !required || hasDefault ? "[]" : "  ";
   const schemaDefault = hasDefault ? ` = ${JSON.stringify(defaultValue)}` : "";
 
   return `${optionality[0]} ${schema} ${optionality[1]}${schemaDefault}`;
 }
 
-function renderResult({ error, value, isDefault }: Result) {
-  return error != null
-    ? `✗ ${error.message}`
-    : isDefault
-    ? `✓ using default value`
-    : `✓ set to ${JSON.stringify(value)}`;
+function renderResult(
+  { hasDefault }: AnyVariable,
+  { error, value, isDefault }: Result
+) {
+  if (error != null) return `✗ ${error.message}`;
+  if (isDefault) return hasDefault ? "✓ using default value" : "• undefined";
+
+  return `✓ set to ${JSON.stringify(value)}`;
 }

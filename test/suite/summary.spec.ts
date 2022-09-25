@@ -44,11 +44,11 @@ describe("Validation summary", () => {
       boolean("AUSTENITE_BOOLEAN", "example boolean", {
         literals: { true: ["y", "yes"], false: ["n", "no"] },
       });
-
-      initialize();
     });
 
     it("outputs a summary table", () => {
+      initialize();
+
       expect(readConsole()).toBe(
         [
           `Environment Variables:`,
@@ -72,11 +72,11 @@ describe("Validation summary", () => {
         default: true,
         literals: { true: ["y", "yes"], false: ["n", "no"] },
       });
-
-      initialize();
     });
 
     it("outputs a summary table", () => {
+      initialize();
+
       expect(readConsole()).toBe(
         [
           `Environment Variables:`,
@@ -84,6 +84,34 @@ describe("Validation summary", () => {
           `  AUSTENITE_BOOLEAN   example boolean  [ y | yes | n | no ] = true     ✓ using default value`,
           `  AUSTENITE_STRING    example string   [ <string> ] = "hello, world!"  ✓ using default value`,
           `❯ AUSTENITE_XTRIGGER  trigger failure    <string>                      ✗ undefined`,
+          ``,
+        ].join(EOL)
+      );
+    });
+  });
+
+  describe("when there are optional variables with no defaults", () => {
+    beforeEach(() => {
+      string("AUSTENITE_XTRIGGER", "trigger failure");
+      string("AUSTENITE_STRING", "example string", {
+        required: false,
+      });
+      boolean("AUSTENITE_BOOLEAN", "example boolean", {
+        required: false,
+        literals: { true: ["y", "yes"], false: ["n", "no"] },
+      });
+    });
+
+    it("outputs a summary table", () => {
+      initialize();
+
+      expect(readConsole()).toBe(
+        [
+          `Environment Variables:`,
+          ``,
+          `  AUSTENITE_BOOLEAN   example boolean  [ y | yes | n | no ]  • undefined`,
+          `  AUSTENITE_STRING    example string   [ <string> ]          • undefined`,
+          `❯ AUSTENITE_XTRIGGER  trigger failure    <string>            ✗ undefined`,
           ``,
         ].join(EOL)
       );
