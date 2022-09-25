@@ -1,5 +1,5 @@
 import { register, result } from "./environment";
-import { UndefinedError, ValidationError } from "./validation";
+import { ValidationError } from "./validation";
 import { Options as CommonOptions, READ, Variable } from "./variable";
 
 const defaultLiterals: Literals = {
@@ -12,11 +12,13 @@ export function boolean<O extends Options>(
   description: string,
   options: O | undefined = undefined
 ): Variable<boolean, O> {
+  const definedOptions = options ?? ({} as O);
+  const hasDefault = "default" in definedOptions;
   const {
-    default: defaultValue,
     required = true,
+    default: defaultValue,
     literals = defaultLiterals,
-  } = options ?? {};
+  } = definedOptions;
 
   const allLiterals = [...literals.true, ...literals.false];
   assertLiterals(name, allLiterals);
@@ -27,26 +29,24 @@ export function boolean<O extends Options>(
     name,
     description,
     schema,
+    required,
+    hasDefault,
+    default: defaultValue,
 
     value() {
       return result(variable);
     },
 
-    [READ](readEnv) {
+    [READ](readEnv, DEFAULT) {
       const value = readEnv(name);
 
-      if (value != "") {
-        const mapped = mapping[value];
+      if (value == "") return DEFAULT;
 
-        if (mapped != null) return mapped;
+      const mapped = mapping[value];
 
-        throw new InvalidBooleanError(name, allLiterals, value);
-      }
+      if (mapped != null) return mapped;
 
-      if (defaultValue != null) return defaultValue;
-      if (required) throw new UndefinedError(name);
-
-      return undefined;
+      throw new InvalidBooleanError(name, allLiterals, value);
     },
   };
 

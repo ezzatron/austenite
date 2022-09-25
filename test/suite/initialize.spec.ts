@@ -148,7 +148,7 @@ describe("initialize()", () => {
       });
     });
 
-    describe("when called with required variables with no defaults", () => {
+    describe("when there are required variables with no defaults", () => {
       beforeEach(() => {
         process.env.AUSTENITE_BOOLEAN = "y";
         process.env.AUSTENITE_STRING = "hello, world!";
@@ -158,21 +158,57 @@ describe("initialize()", () => {
         boolean("AUSTENITE_BOOLEAN", "example boolean", {
           literals: { true: ["y", "yes"], false: ["n", "no"] },
         });
-
-        initialize();
       });
 
-      it("outputs a summary table", () => {
-        expect(readConsole()).toBe(
-          [
-            `Environment Variables:`,
-            ``,
-            `  AUSTENITE_BOOLEAN   example boolean  y | yes | n | no  ✓ set to true`,
-            `  AUSTENITE_STRING    example string   <string>          ✓ set to "hello, world!"`,
-            `❯ AUSTENITE_XTRIGGER  trigger failure  <string>          ✗ undefined`,
-            ``,
-          ].join(EOL)
-        );
+      describe("when called", () => {
+        beforeEach(() => {
+          initialize();
+        });
+
+        it("outputs a summary table", () => {
+          expect(readConsole()).toBe(
+            [
+              `Environment Variables:`,
+              ``,
+              `  AUSTENITE_BOOLEAN   example boolean    y | yes | n | no    ✓ set to true`,
+              `  AUSTENITE_STRING    example string     <string>            ✓ set to "hello, world!"`,
+              `❯ AUSTENITE_XTRIGGER  trigger failure    <string>            ✗ undefined`,
+              ``,
+            ].join(EOL)
+          );
+        });
+      });
+    });
+
+    describe("when there are variables with defaults", () => {
+      beforeEach(() => {
+        string("AUSTENITE_XTRIGGER", "trigger failure");
+        string("AUSTENITE_STRING", "example string", {
+          default: "hello, world!",
+        });
+        boolean("AUSTENITE_BOOLEAN", "example boolean", {
+          default: true,
+          literals: { true: ["y", "yes"], false: ["n", "no"] },
+        });
+      });
+
+      describe("when called", () => {
+        beforeEach(() => {
+          initialize();
+        });
+
+        it("outputs a summary table", () => {
+          expect(readConsole()).toBe(
+            [
+              `Environment Variables:`,
+              ``,
+              `  AUSTENITE_BOOLEAN   example boolean  [ y | yes | n | no ] = true     ✓ using default value`,
+              `  AUSTENITE_STRING    example string   [ <string> ] = "hello, world!"  ✓ using default value`,
+              `❯ AUSTENITE_XTRIGGER  trigger failure    <string>                      ✗ undefined`,
+              ``,
+            ].join(EOL)
+          );
+        });
       });
     });
 
@@ -210,7 +246,7 @@ describe("initialize()", () => {
         expect(resultSet).toEqual([
           {
             variable: b,
-            result: { value: true },
+            result: { value: true, isDefault: false },
           },
           {
             variable: s,

@@ -1,11 +1,17 @@
 export const READ = Symbol("READ");
+export const DEFAULT = Symbol("DEFAULT");
+
+type DefaultSymbol = typeof DEFAULT;
 
 export interface Variable<T, O extends Options<T>> {
   readonly name: string;
   readonly description: string;
   readonly schema: string;
+  readonly required: boolean;
+  readonly hasDefault: boolean;
+  readonly default: T | undefined;
   readonly value: () => Value<T, O>;
-  readonly [READ]: (readEnv: ReadEnv) => T | undefined;
+  readonly [READ]: (readEnv: ReadEnv, D: DefaultSymbol) => T | DefaultSymbol;
 }
 
 export type AnyVariable = Variable<unknown, Options<unknown>>;

@@ -1,6 +1,7 @@
 import { EOL } from "os";
 import { createTable } from "./table";
-import { AnyVariable, READ, VariableValue } from "./variable";
+import { UndefinedError } from "./validation";
+import { AnyVariable, DEFAULT, READ, VariableValue } from "./variable";
 
 let state: State = createInitialState();
 
@@ -16,7 +17,17 @@ export function initialize({
     let result;
 
     try {
-      result = { value: variable[READ](readEnv) };
+      const valueOrDefault = variable[READ](readEnv, DEFAULT);
+
+      if (valueOrDefault === DEFAULT) {
+        if (variable.required && !variable.hasDefault) {
+          throw new UndefinedError(name);
+        }
+
+        result = { value: variable.default, isDefault: true };
+      } else {
+        result = { value: valueOrDefault, isDefault: false };
+      }
     } catch (e) {
       isValid = false;
       const error = e as Error;
@@ -79,15 +90,29 @@ function defaultOnInvalid({ resultSet }: { resultSet: ResultSet }): never {
   const table = createTable();
 
   for (const { variable, result } of resultSet) {
-    const { name, description, schema } = variable;
-    const { error, value } = result;
-    const isError = error != null;
-    const indicatorAndName = `${isError ? "❯" : " "} ${name}`;
-    const status = isError
-      ? `✗ ${error.message}`
-      : `✓ set to ${JSON.stringify(value)}`;
+    const {
+      name,
+      description,
+      schema,
+      hasDefault,
+      default: defaultValue,
+    } = variable;
 
-    table.addRow([indicatorAndName, description, schema, status]);
+    const { error, value, isDefault } = result;
+    const nameCell = `${error != null ? "❯" : " "} ${name}`;
+    const optionality = hasDefault ? "[]" : "  ";
+    const schemaDefault = hasDefault
+      ? ` = ${JSON.stringify(defaultValue)}`
+      : "";
+    const schemaCell = `${optionality[0]} ${schema} ${optionality[1]}${schemaDefault}`;
+    const statusCell =
+      error != null
+        ? `✗ ${error.message}`
+        : isDefault
+        ? `✓ using default value`
+        : `✓ set to ${JSON.stringify(value)}`;
+
+    table.addRow([nameCell, description, schemaCell, statusCell]);
   }
 
   console.log(`Environment Variables:${EOL}${EOL}${table.render()}`);
@@ -116,11 +141,13 @@ interface State {
 interface ErrorResult {
   error: Error;
   value?: undefined;
+  isDefault?: undefined;
 }
 
 interface ValueResult {
   error?: undefined;
   value: unknown;
+  isDefault: boolean;
 }
 
 type Result = ErrorResult | ValueResult;
