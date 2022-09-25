@@ -137,6 +137,19 @@ describe("initialize()", () => {
 
     describe("when called", () => {
       beforeEach(() => {
+        string("AUSTENITE_XTRIGGER", "trigger failure");
+
+        initialize();
+      });
+
+      it("exits the process with a non-zero exit code", () => {
+        expect(exitCode).toBeDefined();
+        expect(exitCode).toBeGreaterThan(0);
+      });
+    });
+
+    describe("when called with required variables with no defaults", () => {
+      beforeEach(() => {
         process.env.AUSTENITE_BOOLEAN = "y";
         process.env.AUSTENITE_STRING = "hello, world!";
 
@@ -160,11 +173,6 @@ describe("initialize()", () => {
             ``,
           ].join(EOL)
         );
-      });
-
-      it("exits the process with a non-zero exit code", () => {
-        expect(exitCode).toBeDefined();
-        expect(exitCode).toBeGreaterThan(0);
       });
     });
 
