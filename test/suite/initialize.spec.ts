@@ -1,6 +1,5 @@
 import { Console } from "node:console";
 import { Transform } from "node:stream";
-import { EOL } from "os";
 import { boolean, initialize, ResultSet, string } from "../../src";
 import { reset } from "../../src/environment";
 import { AnyVariable, Options, Variable } from "../../src/variable";
@@ -136,78 +135,22 @@ describe("initialize()", () => {
 
     describe("when called", () => {
       beforeEach(() => {
-        string("AUSTENITE_XTRIGGER", "trigger failure");
+        string("AUSTENITE_STRING", "example string");
+        boolean("AUSTENITE_BOOLEAN", "example boolean");
 
         initialize();
+      });
+
+      it("outputs a summary table", () => {
+        const actual = readConsole();
+
+        expect(actual).toContain("AUSTENITE_BOOLEAN");
+        expect(actual).toContain("AUSTENITE_STRING");
       });
 
       it("exits the process with a non-zero exit code", () => {
         expect(exitCode).toBeDefined();
         expect(exitCode).toBeGreaterThan(0);
-      });
-    });
-
-    describe("when there are required variables with no defaults", () => {
-      beforeEach(() => {
-        process.env.AUSTENITE_BOOLEAN = "y";
-        process.env.AUSTENITE_STRING = "hello, world!";
-
-        string("AUSTENITE_XTRIGGER", "trigger failure");
-        string("AUSTENITE_STRING", "example string");
-        boolean("AUSTENITE_BOOLEAN", "example boolean", {
-          literals: { true: ["y", "yes"], false: ["n", "no"] },
-        });
-      });
-
-      describe("when called", () => {
-        beforeEach(() => {
-          initialize();
-        });
-
-        it("outputs a summary table", () => {
-          expect(readConsole()).toBe(
-            [
-              `Environment Variables:`,
-              ``,
-              `  AUSTENITE_BOOLEAN   example boolean    y | yes | n | no    ✓ set to true`,
-              `  AUSTENITE_STRING    example string     <string>            ✓ set to "hello, world!"`,
-              `❯ AUSTENITE_XTRIGGER  trigger failure    <string>            ✗ undefined`,
-              ``,
-            ].join(EOL)
-          );
-        });
-      });
-    });
-
-    describe("when there are variables with defaults", () => {
-      beforeEach(() => {
-        string("AUSTENITE_XTRIGGER", "trigger failure");
-        string("AUSTENITE_STRING", "example string", {
-          default: "hello, world!",
-        });
-        boolean("AUSTENITE_BOOLEAN", "example boolean", {
-          default: true,
-          literals: { true: ["y", "yes"], false: ["n", "no"] },
-        });
-      });
-
-      describe("when called", () => {
-        beforeEach(() => {
-          initialize();
-        });
-
-        it("outputs a summary table", () => {
-          expect(readConsole()).toBe(
-            [
-              `Environment Variables:`,
-              ``,
-              `  AUSTENITE_BOOLEAN   example boolean  [ y | yes | n | no ] = true     ✓ using default value`,
-              `  AUSTENITE_STRING    example string   [ <string> ] = "hello, world!"  ✓ using default value`,
-              `❯ AUSTENITE_XTRIGGER  trigger failure    <string>                      ✗ undefined`,
-              ``,
-            ].join(EOL)
-          );
-        });
       });
     });
 
