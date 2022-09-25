@@ -90,34 +90,40 @@ function defaultOnInvalid({ resultSet }: { resultSet: ResultSet }): never {
   const table = createTable();
 
   for (const { variable, result } of resultSet) {
-    const {
-      name,
-      description,
-      schema,
-      hasDefault,
-      default: defaultValue,
-    } = variable;
-
-    const { error, value, isDefault } = result;
-    const nameCell = `${error != null ? "❯" : " "} ${name}`;
-    const optionality = hasDefault ? "[]" : "  ";
-    const schemaDefault = hasDefault
-      ? ` = ${JSON.stringify(defaultValue)}`
-      : "";
-    const schemaCell = `${optionality[0]} ${schema} ${optionality[1]}${schemaDefault}`;
-    const statusCell =
-      error != null
-        ? `✗ ${error.message}`
-        : isDefault
-        ? `✓ using default value`
-        : `✓ set to ${JSON.stringify(value)}`;
-
-    table.addRow([nameCell, description, schemaCell, statusCell]);
+    table.addRow([
+      renderName(variable, result),
+      variable.description,
+      renderSchema(variable),
+      renderResult(result),
+    ]);
   }
 
   console.log(`Environment Variables:${EOL}${EOL}${table.render()}`);
 
   process.exit(1); // eslint-disable-line n/no-process-exit
+}
+
+function renderName({ name }: AnyVariable, { error }: Result) {
+  return `${error != null ? "❯" : " "} ${name}`;
+}
+
+function renderSchema({
+  schema,
+  hasDefault,
+  default: defaultValue,
+}: AnyVariable) {
+  const optionality = hasDefault ? "[]" : "  ";
+  const schemaDefault = hasDefault ? ` = ${JSON.stringify(defaultValue)}` : "";
+
+  return `${optionality[0]} ${schema} ${optionality[1]}${schemaDefault}`;
+}
+
+function renderResult({ error, value, isDefault }: Result) {
+  return error != null
+    ? `✗ ${error.message}`
+    : isDefault
+    ? `✓ using default value`
+    : `✓ set to ${JSON.stringify(value)}`;
 }
 
 class FinalizedError extends Error {
