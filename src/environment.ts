@@ -1,6 +1,6 @@
 import { EOL } from "os";
-import { createTable } from "./table";
-import { UndefinedError } from "./validation";
+import { renderSummary } from "./summary";
+import { Result, ResultSet, UndefinedError } from "./validation";
 import { AnyVariable, DEFAULT, READ, VariableValue } from "./variable";
 
 let state: State = createInitialState();
@@ -72,8 +72,6 @@ export function result<V extends AnyVariable>(variable: V): VariableValue<V> {
   return value as VariableValue<V>;
 }
 
-export type ResultSet = VariableWithResult[];
-
 function createInitialState(): State {
   return {
     isInitialized: false,
@@ -87,43 +85,9 @@ function readEnv(name: string): string {
 }
 
 function defaultOnInvalid({ resultSet }: { resultSet: ResultSet }): never {
-  const table = createTable();
-
-  for (const { variable, result } of resultSet) {
-    table.addRow([
-      renderName(variable, result),
-      variable.description,
-      renderSchema(variable),
-      renderResult(result),
-    ]);
-  }
-
-  console.log(`Environment Variables:${EOL}${EOL}${table.render()}`);
+  console.log(`Environment Variables:${EOL}${EOL}${renderSummary(resultSet)}`);
 
   process.exit(1); // eslint-disable-line n/no-process-exit
-}
-
-function renderName({ name }: AnyVariable, { error }: Result) {
-  return `${error != null ? "❯" : " "} ${name}`;
-}
-
-function renderSchema({
-  schema,
-  hasDefault,
-  default: defaultValue,
-}: AnyVariable) {
-  const optionality = hasDefault ? "[]" : "  ";
-  const schemaDefault = hasDefault ? ` = ${JSON.stringify(defaultValue)}` : "";
-
-  return `${optionality[0]} ${schema} ${optionality[1]}${schemaDefault}`;
-}
-
-function renderResult({ error, value, isDefault }: Result) {
-  return error != null
-    ? `✗ ${error.message}`
-    : isDefault
-    ? `✓ using default value`
-    : `✓ set to ${JSON.stringify(value)}`;
 }
 
 class FinalizedError extends Error {
@@ -142,25 +106,6 @@ interface State {
   isInitialized: boolean;
   variables: Record<string, AnyVariable>;
   results: Map<AnyVariable, Result>;
-}
-
-interface ErrorResult {
-  error: Error;
-  value?: undefined;
-  isDefault?: undefined;
-}
-
-interface ValueResult {
-  error?: undefined;
-  value: unknown;
-  isDefault: boolean;
-}
-
-type Result = ErrorResult | ValueResult;
-
-interface VariableWithResult {
-  variable: AnyVariable;
-  result: Result;
 }
 
 interface Options {

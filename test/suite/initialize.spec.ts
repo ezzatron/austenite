@@ -2,8 +2,8 @@ import { Console } from "node:console";
 import { Transform } from "node:stream";
 import { EOL } from "os";
 import { boolean, string } from "../../src";
-import { initialize, reset, ResultSet } from "../../src/environment";
-import { UndefinedError } from "../../src/validation";
+import { initialize, reset } from "../../src/environment";
+import { ResultSet, UndefinedError } from "../../src/validation";
 import { AnyVariable, Options, Variable } from "../../src/variable";
 
 type VariableFactory = (
