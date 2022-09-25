@@ -117,4 +117,30 @@ describe("Validation summary", () => {
       );
     });
   });
+
+  describe("when there are invalid values", () => {
+    beforeEach(() => {
+      process.env.AUSTENITE_BOOLEAN = "yes";
+
+      string("AUSTENITE_XTRIGGER", "trigger failure");
+      // strings cannot really be "invalid" aside from being undefined
+      string("AUSTENITE_STRING", "example string");
+      boolean("AUSTENITE_BOOLEAN", "example boolean");
+    });
+
+    it("outputs a summary table", () => {
+      initialize();
+
+      expect(readConsole()).toBe(
+        [
+          `Environment Variables:`,
+          ``,
+          `❯ AUSTENITE_BOOLEAN   example boolean    true | false    ✗ set to yes, expected true or false`,
+          `❯ AUSTENITE_STRING    example string     <string>        ✗ undefined`,
+          `❯ AUSTENITE_XTRIGGER  trigger failure    <string>        ✗ undefined`,
+          ``,
+        ].join(EOL)
+      );
+    });
+  });
 });
