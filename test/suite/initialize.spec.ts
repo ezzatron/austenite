@@ -1,9 +1,8 @@
 import { Console } from "node:console";
 import { Transform } from "node:stream";
 import { EOL } from "os";
-import { boolean, string } from "../../src";
-import { initialize, reset } from "../../src/environment";
-import { ResultSet, UndefinedError } from "../../src/validation";
+import { boolean, initialize, ResultSet, string } from "../../src";
+import { reset } from "../../src/environment";
 import { AnyVariable, Options, Variable } from "../../src/variable";
 
 type VariableFactory = (
@@ -250,7 +249,7 @@ describe("initialize()", () => {
           },
           {
             variable: s,
-            result: { error: new UndefinedError("AUSTENITE_STRING") },
+            result: { error: new Error("undefined") },
           },
         ]);
       });
