@@ -34,8 +34,6 @@ export function createTable() {
   };
 }
 
-export type ReadOnlyTable = Pick<ReturnType<typeof createTable>, "render">;
-
 function graphemeCount(string: string) {
   return [...segmenter.segment(string)].length;
 }

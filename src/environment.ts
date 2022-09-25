@@ -1,5 +1,5 @@
 import { EOL } from "os";
-import { createTable, ReadOnlyTable } from "./table";
+import { createTable } from "./table";
 import { AnyVariable, READ, VariableValue } from "./variable";
 
 let state: State = createInitialState();
@@ -8,33 +8,33 @@ export function initialize({
   onInvalid = defaultOnInvalid,
 }: Options = {}): void {
   const names = Object.keys(state.variables).sort();
-  const table = createTable();
+  const resultSet: ResultSet = [];
   let isValid = true;
 
   for (const name of names) {
     const variable = state.variables[name];
-    const { description, schema } = variable;
+    let result;
 
     try {
-      const value = variable[READ](readEnv);
-      state.results.set(variable, { value });
-
-      table.addRow([
-        `  ${name}`,
-        description,
-        schema,
-        `✓ set to ${JSON.stringify(value)}`,
-      ]);
+      result = { value: variable[READ](readEnv) };
     } catch (e) {
       isValid = false;
       const error = e as Error;
-      state.results.set(variable, { error });
-
-      table.addRow([`❯ ${name}`, description, schema, `✗ ${error.message}`]);
+      result = { error };
     }
+
+    state.results.set(variable, result);
+    resultSet.push({ variable, result });
   }
 
-  if (!isValid) onInvalid(table, defaultOnInvalid);
+  if (!isValid) {
+    onInvalid({
+      resultSet,
+      defaultHandler() {
+        defaultOnInvalid({ resultSet });
+      },
+    });
+  }
 
   state.isInitialized = true;
 }
@@ -61,6 +61,8 @@ export function result<V extends AnyVariable>(variable: V): VariableValue<V> {
   return value as VariableValue<V>;
 }
 
+export type ResultSet = VariableWithResult[];
+
 function createInitialState(): State {
   return {
     isInitialized: false,
@@ -73,7 +75,21 @@ function readEnv(name: string): string {
   return process.env[name] ?? "";
 }
 
-function defaultOnInvalid(table: ReadOnlyTable): never {
+function defaultOnInvalid({ resultSet }: { resultSet: ResultSet }): never {
+  const table = createTable();
+
+  for (const { variable, result } of resultSet) {
+    const { name, description, schema } = variable;
+    const { error, value } = result;
+    const isError = error != null;
+    const indicatorAndName = `${isError ? "❯" : " "} ${name}`;
+    const status = isError
+      ? `✗ ${error.message}`
+      : `✓ set to ${JSON.stringify(value)}`;
+
+    table.addRow([indicatorAndName, description, schema, status]);
+  }
+
   console.log(`Environment Variables:${EOL}${EOL}${table.render()}`);
 
   process.exit(1); // eslint-disable-line n/no-process-exit
@@ -109,11 +125,18 @@ interface ValueResult {
 
 type Result = ErrorResult | ValueResult;
 
+interface VariableWithResult {
+  variable: AnyVariable;
+  result: Result;
+}
+
 interface Options {
   onInvalid?: OnInvalid;
 }
 
-type OnInvalid = (
-  table: ReadOnlyTable,
-  defaultHandler: typeof defaultOnInvalid
-) => void;
+interface OnInvalidArgs {
+  resultSet: ResultSet;
+  defaultHandler: () => never;
+}
+
+type OnInvalid = (args: OnInvalidArgs) => void;

@@ -2,8 +2,9 @@ import { Console } from "node:console";
 import { Transform } from "node:stream";
 import { EOL } from "os";
 import { boolean, string } from "../../src";
-import { initialize, reset } from "../../src/environment";
-import { Options, Variable } from "../../src/variable";
+import { initialize, reset, ResultSet } from "../../src/environment";
+import { UndefinedError } from "../../src/validation";
+import { AnyVariable, Options, Variable } from "../../src/variable";
 
 type VariableFactory = (
   name: string,
@@ -12,11 +13,13 @@ type VariableFactory = (
 ) => Variable<unknown, Options<unknown>>;
 
 describe("initialize()", () => {
-  let exitCode: number;
+  let exitCode: number | undefined;
   let env: typeof process.env;
   let readConsole: () => string;
 
   beforeEach(() => {
+    exitCode = undefined;
+
     jest.spyOn(process, "exit").mockImplementation((code) => {
       exitCode = code ?? 0;
 
@@ -162,6 +165,72 @@ describe("initialize()", () => {
       it("exits the process with a non-zero exit code", () => {
         expect(exitCode).toBeDefined();
         expect(exitCode).toBeGreaterThan(0);
+      });
+    });
+
+    describe("when a custom invalid environment handler is specified", () => {
+      let s: AnyVariable;
+      let b: AnyVariable;
+      let resultSet: ResultSet | undefined;
+      let defaultHandler: () => unknown;
+
+      beforeEach(() => {
+        process.env.AUSTENITE_BOOLEAN = "true";
+
+        s = string("AUSTENITE_STRING", "example string");
+        b = boolean("AUSTENITE_BOOLEAN", "example boolean");
+
+        resultSet = undefined;
+
+        initialize({
+          onInvalid(args) {
+            resultSet = args.resultSet;
+            defaultHandler = args.defaultHandler;
+          },
+        });
+      });
+
+      it("prevents outputting the summary table", () => {
+        expect(readConsole()).toBe("");
+      });
+
+      it("prevents exiting the process", () => {
+        expect(exitCode).toBeUndefined();
+      });
+
+      it("provides a result set", () => {
+        expect(resultSet).toEqual([
+          {
+            variable: b,
+            result: { value: true },
+          },
+          {
+            variable: s,
+            result: { error: new UndefinedError("AUSTENITE_STRING") },
+          },
+        ]);
+      });
+
+      it("provides a default handler function", () => {
+        expect(typeof defaultHandler).toBe("function");
+      });
+
+      describe("when the default handler is called", () => {
+        beforeEach(() => {
+          defaultHandler();
+        });
+
+        it("outputs a summary table", () => {
+          const actual = readConsole();
+
+          expect(actual).toContain("AUSTENITE_BOOLEAN");
+          expect(actual).toContain("AUSTENITE_STRING");
+        });
+
+        it("exits the process with a non-zero exit code", () => {
+          expect(exitCode).toBeDefined();
+          expect(exitCode).toBeGreaterThan(0);
+        });
       });
     });
   });
