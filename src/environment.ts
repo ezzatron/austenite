@@ -1,53 +1,37 @@
 import { EOL } from "os";
+import { renderSpec } from "./spec";
 import { renderSummary } from "./summary";
-import { Result, ResultSet, UndefinedError } from "./validation";
-import { AnyVariable, DEFAULT, READ, VariableValue } from "./variable";
+import { Result, ResultSet, validate } from "./validation";
+import { AnyVariable, VariableValue } from "./variable";
 
 let state: State = createInitialState();
 
 export function initialize({
   onInvalid = defaultOnInvalid,
 }: Options = {}): void {
-  const names = Object.keys(state.variables).sort();
-  const resultSet: ResultSet = [];
-  let isValid = true;
+  if (process.env.AUSTENITE_SPEC === "true") {
+    console.log(renderSpec());
 
-  for (const name of names) {
-    const variable = state.variables[name];
-    let result;
+    // eslint-disable-next-line n/no-process-exit
+    process.exit(0);
+  } else {
+    const [isValid, resultSet] = validate(state.variables);
 
-    try {
-      const valueOrDefault = variable[READ](readEnv, DEFAULT);
-
-      if (valueOrDefault === DEFAULT) {
-        if (variable.required && !variable.hasDefault) {
-          throw new UndefinedError(name);
-        }
-
-        result = { value: variable.default, isDefault: true };
-      } else {
-        result = { value: valueOrDefault, isDefault: false };
-      }
-    } catch (e) {
-      isValid = false;
-      const error = e as Error;
-      result = { error };
+    for (const { variable, result } of resultSet) {
+      state.results.set(variable, result);
     }
 
-    state.results.set(variable, result);
-    resultSet.push({ variable, result });
-  }
+    if (!isValid) {
+      onInvalid({
+        resultSet,
+        defaultHandler() {
+          defaultOnInvalid({ resultSet });
+        },
+      });
+    }
 
-  if (!isValid) {
-    onInvalid({
-      resultSet,
-      defaultHandler() {
-        defaultOnInvalid({ resultSet });
-      },
-    });
+    state.isInitialized = true;
   }
-
-  state.isInitialized = true;
 }
 
 export function reset(): void {
@@ -78,10 +62,6 @@ function createInitialState(): State {
     variables: {},
     results: new Map(),
   };
-}
-
-function readEnv(name: string): string {
-  return process.env[name] ?? "";
 }
 
 function defaultOnInvalid({ resultSet }: { resultSet: ResultSet }): never {
