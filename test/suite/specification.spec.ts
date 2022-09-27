@@ -1,16 +1,15 @@
 import { readFile } from "fs/promises";
-import { Console } from "node:console";
-import { Transform } from "node:stream";
 import { join } from "path";
 import { string } from "../../src";
 import { initialize, reset } from "../../src/environment";
+import { createMockConsole, MockConsole } from "../helpers";
 
 const fixturesPath = join(__dirname, "../fixture/specification");
 
 describe("Specification documents", () => {
   let argv: typeof process.argv;
   let env: typeof process.env;
-  let readConsole: () => string;
+  let mockConsole: MockConsole;
 
   beforeEach(() => {
     jest.spyOn(process, "exit").mockImplementation();
@@ -20,18 +19,7 @@ describe("Specification documents", () => {
     env = process.env;
     process.env = { ...env };
 
-    const stdout = new Transform({
-      transform(chunk, _, cb) {
-        cb(null, chunk);
-      },
-    });
-    const mockConsole = new Console({ stdout });
-
-    jest
-      .spyOn(console, "log")
-      .mockImplementation(mockConsole.log.bind(mockConsole));
-
-    readConsole = () => String(stdout.read() ?? "");
+    mockConsole = createMockConsole();
   });
 
   afterEach(() => {
@@ -46,7 +34,7 @@ describe("Specification documents", () => {
     string("READ_DSN", "database connection string for read-models");
     initialize();
 
-    expect(readConsole()).toBe(await readFixture("string/required"));
+    expect(mockConsole.readStdout()).toBe(await readFixture("string/required"));
   });
 });
 

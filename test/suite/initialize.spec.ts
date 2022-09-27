@@ -1,8 +1,7 @@
-import { Console } from "node:console";
-import { Transform } from "node:stream";
 import { boolean, initialize, ResultSet, string } from "../../src";
 import { reset } from "../../src/environment";
 import { AnyVariable, Options, Variable } from "../../src/variable";
+import { createMockConsole, MockConsole } from "../helpers";
 
 type VariableFactory = (
   name: string,
@@ -13,7 +12,7 @@ type VariableFactory = (
 describe("initialize()", () => {
   let exitCode: number | undefined;
   let env: typeof process.env;
-  let readConsole: () => string;
+  let mockConsole: MockConsole;
 
   beforeEach(() => {
     exitCode = undefined;
@@ -27,18 +26,7 @@ describe("initialize()", () => {
     env = process.env;
     process.env = { ...env };
 
-    const stdout = new Transform({
-      transform(chunk, _, cb) {
-        cb(null, chunk);
-      },
-    });
-    const mockConsole = new Console({ stdout });
-
-    jest
-      .spyOn(console, "log")
-      .mockImplementation(mockConsole.log.bind(mockConsole));
-
-    readConsole = () => String(stdout.read() ?? "");
+    mockConsole = createMockConsole();
   });
 
   afterEach(() => {
@@ -142,7 +130,7 @@ describe("initialize()", () => {
       });
 
       it("outputs a summary table", () => {
-        const actual = readConsole();
+        const actual = mockConsole.readStderr();
 
         expect(actual).toContain("AUSTENITE_BOOLEAN");
         expect(actual).toContain("AUSTENITE_STRING");
@@ -177,7 +165,7 @@ describe("initialize()", () => {
       });
 
       it("prevents outputting the summary table", () => {
-        expect(readConsole()).toBe("");
+        expect(mockConsole.readStderr()).toBe("");
       });
 
       it("prevents exiting the process", () => {
@@ -207,7 +195,7 @@ describe("initialize()", () => {
         });
 
         it("outputs a summary table", () => {
-          const actual = readConsole();
+          const actual = mockConsole.readStderr();
 
           expect(actual).toContain("AUSTENITE_BOOLEAN");
           expect(actual).toContain("AUSTENITE_STRING");

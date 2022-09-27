@@ -1,12 +1,11 @@
-import { Console } from "node:console";
-import { Transform } from "node:stream";
 import { EOL } from "os";
 import { boolean, initialize, string } from "../../src";
 import { reset } from "../../src/environment";
+import { createMockConsole, MockConsole } from "../helpers";
 
 describe("Validation summary", () => {
   let env: typeof process.env;
-  let readConsole: () => string;
+  let mockConsole: MockConsole;
 
   beforeEach(() => {
     jest.spyOn(process, "exit").mockImplementation();
@@ -14,18 +13,7 @@ describe("Validation summary", () => {
     env = process.env;
     process.env = { ...env };
 
-    const stdout = new Transform({
-      transform(chunk, _, cb) {
-        cb(null, chunk);
-      },
-    });
-    const mockConsole = new Console({ stdout });
-
-    jest
-      .spyOn(console, "log")
-      .mockImplementation(mockConsole.log.bind(mockConsole));
-
-    readConsole = () => String(stdout.read() ?? "");
+    mockConsole = createMockConsole();
   });
 
   afterEach(() => {
@@ -46,7 +34,7 @@ describe("Validation summary", () => {
 
     initialize();
 
-    expect(readConsole()).toBe(
+    expect(mockConsole.readStderr()).toBe(
       [
         `Environment Variables:`,
         ``,
@@ -70,7 +58,7 @@ describe("Validation summary", () => {
 
     initialize();
 
-    expect(readConsole()).toBe(
+    expect(mockConsole.readStderr()).toBe(
       [
         `Environment Variables:`,
         ``,
@@ -94,7 +82,7 @@ describe("Validation summary", () => {
 
     initialize();
 
-    expect(readConsole()).toBe(
+    expect(mockConsole.readStderr()).toBe(
       [
         `Environment Variables:`,
         ``,
@@ -116,7 +104,7 @@ describe("Validation summary", () => {
 
     initialize();
 
-    expect(readConsole()).toBe(
+    expect(mockConsole.readStderr()).toBe(
       [
         `Environment Variables:`,
         ``,

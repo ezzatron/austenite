@@ -65,7 +65,9 @@ function createInitialState(): State {
 }
 
 function defaultOnInvalid({ resultSet }: { resultSet: ResultSet }): never {
-  console.log(`Environment Variables:${EOL}${EOL}${renderSummary(resultSet)}`);
+  console.error(
+    ["Environment Variables:", "", renderSummary(resultSet)].join(EOL)
+  );
 
   process.exit(1); // eslint-disable-line n/no-process-exit
 }
