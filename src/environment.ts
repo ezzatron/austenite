@@ -1,5 +1,5 @@
 import { EOL } from "os";
-import { renderSpec } from "./spec";
+import { renderSpecification } from "./specification";
 import { renderSummary } from "./summary";
 import { Result, ResultSet, validate } from "./validation";
 import { AnyVariable, VariableValue } from "./variable";
@@ -10,7 +10,7 @@ export function initialize({
   onInvalid = defaultOnInvalid,
 }: Options = {}): void {
   if (process.env.AUSTENITE_SPEC === "true") {
-    console.log(renderSpec());
+    console.log(renderSpecification());
 
     // eslint-disable-next-line n/no-process-exit
     process.exit(0);

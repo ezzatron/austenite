@@ -5,7 +5,7 @@ import { join } from "path";
 import { string } from "../../src";
 import { initialize, reset } from "../../src/environment";
 
-const fixturesPath = join(__dirname, "../fixture/spec");
+const fixturesPath = join(__dirname, "../fixture/specification");
 
 describe("Specification documents", () => {
   let env: typeof process.env;

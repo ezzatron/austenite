@@ -1,3 +1,4 @@
 /.github/
 /.makefiles/
 /artifacts/
+/test/fixture/specification/
