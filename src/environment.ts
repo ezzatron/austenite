@@ -2,7 +2,7 @@ import { EOL } from "os";
 import { renderSpecification } from "./specification";
 import { renderSummary } from "./summary";
 import { Result, ResultSet, validate } from "./validation";
-import { AnyVariable, VariableValue } from "./variable";
+import { AnyVariable, Variables, VariableValue } from "./variable";
 
 let state: State = createInitialState();
 
@@ -10,7 +10,7 @@ export function initialize({
   onInvalid = defaultOnInvalid,
 }: Options = {}): void {
   if (process.env.AUSTENITE_SPEC === "true") {
-    console.log(renderSpecification());
+    console.log(renderSpecification(state.variables));
 
     // eslint-disable-next-line n/no-process-exit
     process.exit(0);
@@ -86,7 +86,7 @@ class UninitializedError extends Error {
 
 interface State {
   isInitialized: boolean;
-  variables: Record<string, AnyVariable>;
+  variables: Variables;
   results: Map<AnyVariable, Result>;
 }
 

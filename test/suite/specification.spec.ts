@@ -29,12 +29,22 @@ describe("Specification documents", () => {
     reset();
   });
 
-  it("describes required string variables", async () => {
+  it("describes required string variables with no defaults", async () => {
     process.env.AUSTENITE_SPEC = "true";
     string("READ_DSN", "database connection string for read-models");
     initialize();
 
     expect(mockConsole.readStdout()).toBe(await readFixture("string/required"));
+  });
+
+  it("describes optional string variables with no defaults", async () => {
+    process.env.AUSTENITE_SPEC = "true";
+    string("READ_DSN", "database connection string for read-models", {
+      required: false,
+    });
+    initialize();
+
+    expect(mockConsole.readStdout()).toBe(await readFixture("string/optional"));
   });
 });
 

@@ -1,13 +1,12 @@
-import { AnyVariable, DEFAULT, READ } from "./variable";
+import { AnyVariable, DEFAULT, READ, sortedVariableNames } from "./variable";
 
 export function validate(
   variables: Record<string, AnyVariable>
 ): [boolean, ResultSet] {
-  const names = Object.keys(variables).sort();
   const resultSet: ResultSet = [];
   let isValid = true;
 
-  for (const name of names) {
+  for (const name of sortedVariableNames(variables)) {
     const variable = variables[name];
     let result;
 

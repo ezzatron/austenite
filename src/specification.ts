@@ -2,12 +2,13 @@ import { fromMarkdown } from "mdast-util-from-markdown";
 import { toMarkdown } from "mdast-util-to-markdown";
 import { Content } from "mdast-util-to-markdown/lib/types";
 import { basename } from "path";
+import { AnyVariable, sortedVariableNames, Variables } from "./variable";
 
-export function renderSpecification(): string {
+export function renderSpecification(variables: Variables): string {
   return toMarkdown(
     {
       type: "root",
-      children: [...header(), ...index(), ...specification()],
+      children: [...header(), ...index(), ...specification(variables)],
     },
     {
       bullet: "-",
@@ -104,7 +105,17 @@ function index(): Content[] {
   ];
 }
 
-function specification(): Content[] {
+function specification(variables: Variables): Content[] {
+  let content: Content[] = [];
+
+  for (const name of sortedVariableNames(variables)) {
+    content = [...content, ...variable(variables[name])];
+  }
+
+  return content;
+}
+
+function variable(variable: AnyVariable): Content[] {
   return [
     {
       type: "heading",
@@ -140,7 +151,7 @@ function specification(): Content[] {
         },
       ],
     },
-    required(),
+    variable.required ? required() : optional(),
     {
       type: "code",
       lang: "bash",
@@ -156,6 +167,12 @@ function required(): Content {
       "application will print usage information to `STDERR` then exit with a non-zero",
       "exit code.",
     ].join("\n")
+  )[0];
+}
+
+function optional(): Content {
+  return markdownToContent(
+    "This variable **MAY** be set to a non-empty string or left undefined."
   )[0];
 }
 

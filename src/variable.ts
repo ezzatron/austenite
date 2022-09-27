@@ -3,6 +3,8 @@ export const DEFAULT = Symbol("DEFAULT");
 
 type DefaultSymbol = typeof DEFAULT;
 
+export type Variables = Record<string, AnyVariable>;
+
 export interface Variable<T, O extends Options<T>> {
   readonly name: string;
   readonly description: string;
@@ -26,6 +28,10 @@ export type VariableValue<V extends AnyVariable> = V extends Variable<
 export interface Options<T> {
   required?: boolean;
   default?: T;
+}
+
+export function sortedVariableNames(variables: Variables) {
+  return Object.keys(variables).sort();
 }
 
 type ReadEnv = (name: string) => string;
