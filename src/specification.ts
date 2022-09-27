@@ -1,6 +1,7 @@
 import { fromMarkdown } from "mdast-util-from-markdown";
 import { toMarkdown } from "mdast-util-to-markdown";
 import { Content } from "mdast-util-to-markdown/lib/types";
+import { basename } from "path";
 
 export function renderSpecification(): string {
   return toMarkdown(
@@ -15,21 +16,48 @@ export function renderSpecification(): string {
 }
 
 function header(): Content[] {
-  const root = fromMarkdown(
-    `# Environment Variables
+  const app = basename(process.argv[1]);
 
-This document describes the environment variables used by \`<app>\`.
-
-Please note that **undefined** variables and **empty strings** are considered
-equivalent.
-
-The application may consume other undocumented environment variables; this
-document only shows those variables defined using [Austenite].
-
-[austenite]: https://github.com/eloquent/austenite`
-  );
-
-  return root.children;
+  return [
+    {
+      type: "heading",
+      depth: 1,
+      children: [
+        {
+          type: "text",
+          value: "Environment Variables",
+        },
+      ],
+    },
+    {
+      type: "paragraph",
+      children: [
+        {
+          type: "text",
+          value: "This document describes the environment variables used by ",
+        },
+        {
+          type: "inlineCode",
+          value: app,
+        },
+        {
+          type: "text",
+          value: ".",
+        },
+      ],
+    },
+    ...markdownToContent(
+      [
+        "Please note that **undefined** variables and **empty strings** are considered",
+        "equivalent.",
+        "",
+        "The application may consume other undocumented environment variables; this",
+        "document only shows those variables defined using [Austenite].",
+        "",
+        "[austenite]: https://github.com/eloquent/austenite",
+      ].join("\n")
+    ),
+  ];
 }
 
 function index(): Content[] {
@@ -122,37 +150,15 @@ function specification(): Content[] {
 }
 
 function required(): Content {
-  return {
-    type: "paragraph",
-    children: [
-      {
-        type: "text",
-        value: "This variable ",
-      },
-      {
-        type: "strong",
-        children: [
-          {
-            type: "text",
-            value: "MUST",
-          },
-        ],
-      },
-      {
-        type: "text",
-        value: [
-          " be set to a non-empty string. If left undefined the",
-          "application will print usage information to ",
-        ].join("\n"),
-      },
-      {
-        type: "inlineCode",
-        value: "STDERR",
-      },
-      {
-        type: "text",
-        value: [" then exit with a non-zero", "exit code."].join("\n"),
-      },
-    ],
-  };
+  return markdownToContent(
+    [
+      "This variable **MUST** be set to a non-empty string. If left undefined the",
+      "application will print usage information to `STDERR` then exit with a non-zero",
+      "exit code.",
+    ].join("\n")
+  )[0];
+}
+
+function markdownToContent(markdown: string): Content[] {
+  return fromMarkdown(markdown).children;
 }
