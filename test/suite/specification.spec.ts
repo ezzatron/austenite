@@ -46,6 +46,16 @@ describe("Specification documents", () => {
 
     expect(mockConsole.readStdout()).toBe(await readFixture("string/optional"));
   });
+
+  it("describes string variables with defaults", async () => {
+    process.env.AUSTENITE_SPEC = "true";
+    string("READ_DSN", "database connection string for read-models", {
+      default: "host=localhost dbname=readmodels user=projector",
+    });
+    initialize();
+
+    expect(mockConsole.readStdout()).toBe(await readFixture("string/default"));
+  });
 });
 
 async function readFixture(name: string): Promise<string> {
