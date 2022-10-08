@@ -1,6 +1,6 @@
 import { readFile } from "fs/promises";
 import { join } from "path";
-import { string } from "../../src";
+import { boolean, string } from "../../src";
 import { initialize, reset } from "../../src/environment";
 import { createMockConsole, MockConsole } from "../helpers";
 
@@ -29,32 +29,52 @@ describe("Specification documents", () => {
     reset();
   });
 
-  it("describes required string variables with no defaults", async () => {
-    process.env.AUSTENITE_SPEC = "true";
-    string("READ_DSN", "database connection string for read-models");
-    initialize();
+  describe("when there are string variables", () => {
+    it("describes required string variables with no defaults", async () => {
+      process.env.AUSTENITE_SPEC = "true";
+      string("READ_DSN", "database connection string for read-models");
+      initialize();
 
-    expect(mockConsole.readStdout()).toBe(await readFixture("string/required"));
+      expect(mockConsole.readStdout()).toBe(
+        await readFixture("string/required")
+      );
+    });
+
+    it("describes optional string variables with no defaults", async () => {
+      process.env.AUSTENITE_SPEC = "true";
+      string("READ_DSN", "database connection string for read-models", {
+        required: false,
+      });
+      initialize();
+
+      expect(mockConsole.readStdout()).toBe(
+        await readFixture("string/optional")
+      );
+    });
+
+    it("describes string variables with defaults", async () => {
+      process.env.AUSTENITE_SPEC = "true";
+      string("READ_DSN", "database connection string for read-models", {
+        default: "host=localhost dbname=readmodels user=projector",
+      });
+      initialize();
+
+      expect(mockConsole.readStdout()).toBe(
+        await readFixture("string/default")
+      );
+    });
   });
 
-  it("describes optional string variables with no defaults", async () => {
-    process.env.AUSTENITE_SPEC = "true";
-    string("READ_DSN", "database connection string for read-models", {
-      required: false,
+  describe("when there are boolean variables", () => {
+    it("describes required boolean variables with no defaults", async () => {
+      process.env.AUSTENITE_SPEC = "true";
+      boolean("DEBUG", "enable or disable debugging features");
+      initialize();
+
+      expect(mockConsole.readStdout()).toBe(
+        await readFixture("boolean/required")
+      );
     });
-    initialize();
-
-    expect(mockConsole.readStdout()).toBe(await readFixture("string/optional"));
-  });
-
-  it("describes string variables with defaults", async () => {
-    process.env.AUSTENITE_SPEC = "true";
-    string("READ_DSN", "database connection string for read-models", {
-      default: "host=localhost dbname=readmodels user=projector",
-    });
-    initialize();
-
-    expect(mockConsole.readStdout()).toBe(await readFixture("string/default"));
   });
 });
 

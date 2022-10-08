@@ -1,3 +1,5 @@
+import { Schema } from "./schema";
+
 export const READ = Symbol("READ");
 export const DEFAULT = Symbol("DEFAULT");
 
@@ -8,7 +10,7 @@ export type Variables = Record<string, AnyVariable>;
 export interface Variable<T, O extends Options<T>> {
   readonly name: string;
   readonly description: string;
-  readonly schema: string;
+  readonly schema: Schema;
   readonly required: boolean;
   readonly hasDefault: boolean;
   readonly default: T | undefined;

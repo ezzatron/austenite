@@ -1,3 +1,4 @@
+import { Visitor } from "./schema";
 import { createTable } from "./table";
 import { Result, ResultSet } from "./validation";
 import { AnyVariable } from "./variable";
@@ -27,10 +28,24 @@ function renderSchema({
   hasDefault,
   default: defaultValue,
 }: AnyVariable) {
+  const rendered = schema.accept(createSchemaRenderer());
+
   const optionality = !required || hasDefault ? "[]" : "  ";
   const schemaDefault = hasDefault ? ` = ${JSON.stringify(defaultValue)}` : "";
 
-  return `${optionality[0]} ${schema} ${optionality[1]}${schemaDefault}`;
+  return `${optionality[0]} ${rendered} ${optionality[1]}${schemaDefault}`;
+}
+
+function createSchemaRenderer(): Visitor<string> {
+  return {
+    visitSet(set) {
+      return set.literals.join(" | ");
+    },
+
+    visitString() {
+      return "<string>";
+    },
+  };
 }
 
 function renderResult(

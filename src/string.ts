@@ -1,5 +1,8 @@
 import { register, result } from "./environment";
+import { createString } from "./schema";
 import { Options as CommonOptions, READ, Variable } from "./variable";
+
+type Options = CommonOptions<string>;
 
 export function string<O extends Options>(
   name: string,
@@ -13,7 +16,7 @@ export function string<O extends Options>(
   const variable: Variable<string, O> = {
     name,
     description,
-    schema: "<string>",
+    schema: createString(),
     required,
     hasDefault,
     default: defaultValue,
@@ -31,5 +34,3 @@ export function string<O extends Options>(
 
   return register(variable);
 }
-
-type Options = CommonOptions<string>;

@@ -1,4 +1,5 @@
 import { register, result } from "./environment";
+import { createSet } from "./schema";
 import { ValidationError } from "./validation";
 import { Options as CommonOptions, READ, Variable } from "./variable";
 
@@ -22,13 +23,12 @@ export function boolean<O extends Options>(
 
   const allLiterals = [...literals.true, ...literals.false];
   assertLiterals(name, allLiterals);
-  const schema = allLiterals.join(" | ");
   const mapping = buildMapping(literals);
 
   const variable: Variable<boolean, O> = {
     name,
     description,
-    schema,
+    schema: createSet(allLiterals),
     required,
     hasDefault,
     default: defaultValue,

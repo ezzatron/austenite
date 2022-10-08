@@ -1,15 +1,17 @@
 import { fromMarkdown } from "mdast-util-from-markdown";
+import type { ListItem } from "mdast-util-from-markdown/lib";
 import { toMarkdown } from "mdast-util-to-markdown";
 import { Content } from "mdast-util-to-markdown/lib/types";
 import { basename } from "path";
 import { quote } from "shell-quote";
+import { Visitor } from "./schema";
 import { AnyVariable, sortedVariableNames, Variables } from "./variable";
 
 export function renderSpecification(variables: Variables): string {
   return toMarkdown(
     {
       type: "root",
-      children: [...header(), ...index(), ...specification(variables)],
+      children: [...header(), ...index(variables), ...specification(variables)],
     },
     {
       bullet: "-",
@@ -62,7 +64,7 @@ function header(): Content[] {
   ];
 }
 
-function index(): Content[] {
+function index(variables: Variables): Content[] {
   return [
     {
       type: "heading",
@@ -76,34 +78,38 @@ function index(): Content[] {
     },
     {
       type: "list",
-      children: [
-        {
-          type: "listItem",
-          children: [
-            {
-              type: "paragraph",
-              children: [
-                {
-                  type: "link",
-                  url: "#READ_DSN",
-                  children: [
-                    {
-                      type: "inlineCode",
-                      value: "READ_DSN",
-                    },
-                  ],
-                },
-                {
-                  type: "text",
-                  value: " — database connection string for read-models",
-                },
-              ],
-            },
-          ],
-        },
-      ],
+      children: Object.values(variables).map((variable) =>
+        indexEntry(variable)
+      ),
     },
   ];
+}
+
+function indexEntry({ name, description }: AnyVariable): ListItem {
+  return {
+    type: "listItem",
+    children: [
+      {
+        type: "paragraph",
+        children: [
+          {
+            type: "link",
+            url: `#${encodeURIComponent(name)}`,
+            children: [
+              {
+                type: "inlineCode",
+                value: name,
+              },
+            ],
+          },
+          {
+            type: "text",
+            value: ` — ${description}`,
+          },
+        ],
+      },
+    ],
+  };
 }
 
 function specification(variables: Variables): Content[] {
@@ -117,6 +123,8 @@ function specification(variables: Variables): Content[] {
 }
 
 function variable(variable: AnyVariable): Content[] {
+  const { name, description } = variable;
+
   return [
     {
       type: "heading",
@@ -134,7 +142,7 @@ function variable(variable: AnyVariable): Content[] {
       children: [
         {
           type: "inlineCode",
-          value: "READ_DSN",
+          value: name,
         },
       ],
     },
@@ -146,51 +154,83 @@ function variable(variable: AnyVariable): Content[] {
           children: [
             {
               type: "text",
-              value: "database connection string for read-models",
+              value: description,
             },
           ],
         },
       ],
     },
-    optionality(variable),
-    example(variable),
+    variable.schema.accept(createSchemaRenderer(variable)),
+    examples(variable),
   ];
 }
 
-function optionality({ required, hasDefault }: AnyVariable): Content {
-  if (hasDefault) {
-    return markdownToContent(
-      [
-        "This variable **MAY** be set to a non-empty string. If left undefined the",
-        "default value is used (see below).",
-      ].join("\n")
-    )[0];
-  }
+function createSchemaRenderer({
+  required,
+  hasDefault,
+}: AnyVariable): Visitor<Content> {
+  return {
+    visitSet() {
+      return markdownToContent(
+        [
+          "This variable **MUST** be set to one of the values below. If left undefined the",
+          "application will print usage information to `STDERR` then exit with a non-zero",
+          "exit code.",
+        ].join("\n")
+      )[0];
+    },
 
-  if (required) {
-    return markdownToContent(
-      [
-        "This variable **MUST** be set to a non-empty string. If left undefined the",
-        "application will print usage information to `STDERR` then exit with a non-zero",
-        "exit code.",
-      ].join("\n")
-    )[0];
-  }
+    visitString() {
+      if (hasDefault) {
+        return markdownToContent(
+          [
+            "This variable **MAY** be set to a non-empty string. If left undefined the",
+            "default value is used (see below).",
+          ].join("\n")
+        )[0];
+      }
 
-  return markdownToContent(
-    "This variable **MAY** be set to a non-empty string or left undefined."
-  )[0];
+      if (required) {
+        return markdownToContent(
+          [
+            "This variable **MUST** be set to a non-empty string. If left undefined the",
+            "application will print usage information to `STDERR` then exit with a non-zero",
+            "exit code.",
+          ].join("\n")
+        )[0];
+      }
+
+      return markdownToContent(
+        "This variable **MAY** be set to a non-empty string or left undefined."
+      )[0];
+    },
+  };
 }
 
-function example({ hasDefault, default: defaultValue }: AnyVariable): Content {
-  const value = hasDefault
-    ? `${quote([String(defaultValue)])} # (default)`
-    : "foo # randomly generated example";
+function examples({
+  name,
+  schema,
+  hasDefault,
+  default: defaultValue,
+}: AnyVariable): Content {
+  const lines = [];
+
+  if (hasDefault) {
+    lines.push(`export ${name}=${quote([String(defaultValue)])} # (default)`);
+  } else {
+    for (const { value, description } of schema.examples()) {
+      if (description == null) {
+        lines.push(`export ${name}=${value}`);
+      } else {
+        lines.push(`export ${name}=${value} # ${description}`);
+      }
+    }
+  }
 
   return {
     type: "code",
     lang: "bash",
-    value: `export READ_DSN=${value}`,
+    value: lines.join("\n"),
   };
 }
 
