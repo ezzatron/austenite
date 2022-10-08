@@ -22,6 +22,7 @@ document only shows those variables defined using [Austenite].
 
 This variable **MAY** be set to a non-empty string or left undefined.
 
-```bash
-export READ_DSN=foo # randomly generated example
+```sh
+export READ_DSN=conquistador         # any value
+export READ_DSN='alabaster parakeet' # some values may need escaping
 ```

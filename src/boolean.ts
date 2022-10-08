@@ -1,0 +1,98 @@
+import {
+  Declaration,
+  DeclarationOptions,
+  defaultFromOptions,
+  Value,
+} from "./declaration";
+import { registerVariable } from "./environment";
+import { createExamples, Examples } from "./example";
+import { Maybe, resolveMaybe } from "./maybe";
+import { BooleanLiterals, createBoolean } from "./schema";
+
+export interface BooleanOptions extends DeclarationOptions<boolean> {
+  readonly literals?: BooleanLiterals;
+}
+
+const defaultLiterals: BooleanLiterals = {
+  true: ["true"],
+  false: ["false"],
+};
+
+export function boolean<O extends BooleanOptions>(
+  name: string,
+  description: string,
+  options: O = {} as O
+): Declaration<boolean, O> {
+  const literals = assertLiterals(name, options.literals);
+  const def = defaultFromOptions(options);
+
+  const v = registerVariable({
+    name,
+    description,
+    default: def,
+    schema: createBoolean(literals),
+    examples: buildExamples(literals, def),
+  });
+
+  return {
+    value() {
+      return resolveMaybe(v.nativeValue()) as Value<boolean, O>;
+    },
+  };
+}
+
+function assertLiterals(
+  name: string,
+  literals: BooleanLiterals | undefined
+): BooleanLiterals {
+  if (literals == null) return defaultLiterals;
+
+  const seen = new Set();
+
+  for (const literal of [...literals.true, ...literals.false]) {
+    if (literal.length < 1) throw new EmptyLiteralError(name);
+    if (seen.has(literal)) throw new ReusedLiteralError(name, literal);
+
+    seen.add(literal);
+  }
+
+  return literals;
+}
+
+function buildExamples(
+  literals: BooleanLiterals,
+  def: Maybe<boolean | undefined>
+): Examples<boolean> {
+  const defValue = def.isDefined ? def.value : undefined;
+
+  return createExamples(
+    ...literals.true.map((literal) => ({
+      canonical: literal,
+      native: true,
+      description: defValue === true ? "true (default)" : "true",
+    })),
+    ...literals.false.map((literal) => ({
+      canonical: literal,
+      native: false,
+      description: defValue === false ? "false (default)" : "false",
+    }))
+  );
+}
+
+class EmptyLiteralError extends Error {
+  constructor(name: string) {
+    super(
+      `The specification for ${name} is invalid: literals can not be an empty string.`
+    );
+  }
+}
+
+class ReusedLiteralError extends Error {
+  constructor(name: string, literal: string) {
+    const quotedLiteral = JSON.stringify(literal);
+
+    super(
+      `The specification for ${name} is invalid: literal ${quotedLiteral} can not be used multiple times.`
+    );
+  }
+}

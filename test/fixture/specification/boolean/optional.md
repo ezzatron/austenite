@@ -22,7 +22,7 @@ document only shows those variables defined using [Austenite].
 
 This variable **MAY** be set to one of the values below or left undefined.
 
-```bash
-export DEBUG=true
-export DEBUG=false
+```sh
+export DEBUG=true  # true
+export DEBUG=false # false
 ```
