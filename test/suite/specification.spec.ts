@@ -75,6 +75,18 @@ describe("Specification documents", () => {
         await readFixture("boolean/required")
       );
     });
+
+    it("describes optional boolean variables with no defaults", async () => {
+      process.env.AUSTENITE_SPEC = "true";
+      boolean("DEBUG", "enable or disable debugging features", {
+        required: false,
+      });
+      initialize();
+
+      expect(mockConsole.readStdout()).toBe(
+        await readFixture("boolean/optional")
+      );
+    });
   });
 });
 

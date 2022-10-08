@@ -171,12 +171,18 @@ function createSchemaRenderer({
 }: AnyVariable): Visitor<Content> {
   return {
     visitSet() {
+      if (required) {
+        return markdownToContent(
+          [
+            "This variable **MUST** be set to one of the values below. If left undefined the",
+            "application will print usage information to `STDERR` then exit with a non-zero",
+            "exit code.",
+          ].join("\n")
+        )[0];
+      }
+
       return markdownToContent(
-        [
-          "This variable **MUST** be set to one of the values below. If left undefined the",
-          "application will print usage information to `STDERR` then exit with a non-zero",
-          "exit code.",
-        ].join("\n")
+        "This variable **MAY** be set to one of the values below or left undefined."
       )[0];
     },
 
