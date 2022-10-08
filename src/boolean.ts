@@ -24,14 +24,16 @@ export function boolean<O extends Options>(
   const allLiterals = [...literals.true, ...literals.false];
   assertLiterals(name, allLiterals);
   const mapping = buildMapping(literals);
+  const schema = createSet(allLiterals);
 
   const variable: Variable<boolean, O> = {
     name,
     description,
-    schema: createSet(allLiterals),
+    schema,
     required,
     hasDefault,
     default: defaultValue,
+    examples: schema.examples(),
 
     value() {
       return result(variable);

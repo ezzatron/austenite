@@ -1,3 +1,4 @@
+import { Example } from "./example";
 import { Schema } from "./schema";
 
 export const READ = Symbol("READ");
@@ -14,6 +15,7 @@ export interface Variable<T, O extends Options<T>> {
   readonly required: boolean;
   readonly hasDefault: boolean;
   readonly default: T | undefined;
+  readonly examples: Example[];
   readonly value: () => Value<T, O>;
   readonly [READ]: (readEnv: ReadEnv, D: DefaultSymbol) => T | DefaultSymbol;
 }

@@ -168,9 +168,46 @@ function variable(variable: AnyVariable): Content[] {
 function createSchemaRenderer({
   required,
   hasDefault,
+  default: defaultValue,
 }: AnyVariable): Visitor<Content> {
   return {
     visitSet() {
+      if (hasDefault) {
+        return {
+          type: "paragraph",
+          children: [
+            {
+              type: "text",
+              value: "This variable ",
+            },
+            {
+              type: "strong",
+              children: [
+                {
+                  type: "text",
+                  value: "MAY",
+                },
+              ],
+            },
+            {
+              type: "text",
+              value: [
+                " be set to one of the values below. If left undefined the",
+                "default value of ",
+              ].join("\n"),
+            },
+            {
+              type: "inlineCode",
+              value: String(defaultValue),
+            },
+            {
+              type: "text",
+              value: " is used.",
+            },
+          ],
+        };
+      }
+
       if (required) {
         return markdownToContent(
           [
@@ -215,22 +252,22 @@ function createSchemaRenderer({
 
 function examples({
   name,
-  schema,
+  examples,
   hasDefault,
   default: defaultValue,
 }: AnyVariable): Content {
   const lines = [];
 
-  if (hasDefault) {
-    lines.push(`export ${name}=${quote([String(defaultValue)])} # (default)`);
-  } else {
-    for (const { value, description } of schema.examples()) {
-      if (description == null) {
-        lines.push(`export ${name}=${value}`);
-      } else {
-        lines.push(`export ${name}=${value} # ${description}`);
-      }
-    }
+  for (const { value, description } of examples) {
+    const comments = [];
+    if (hasDefault && String(defaultValue) === value)
+      comments.push("(default)");
+    if (description != null) comments.push(description);
+
+    let line = `export ${name}=${quote([value])}`;
+    if (comments.length > 0) line += ` # ${comments.join(" ")}`;
+
+    lines.push(line);
   }
 
   return {
