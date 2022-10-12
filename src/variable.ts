@@ -19,6 +19,8 @@ export interface Variable<T> {
   readonly spec: VariableSpec<T>;
   value(): Maybe<Value<T>>;
   nativeValue(): Maybe<T>;
+  marshal(value: T): string;
+  unmarshal(value: string): T;
 }
 
 export interface Value<T> {
@@ -36,6 +38,8 @@ export function createVariable<T>(spec: VariableSpec<T>): Variable<T> {
     spec,
     value,
     nativeValue,
+    marshal,
+    unmarshal,
   };
 
   function defaultValue(): Maybe<Value<T>> | undefined {

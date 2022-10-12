@@ -1,3 +1,4 @@
+import { quote } from "shell-quote";
 import { Visitor } from "./schema";
 import { createTable } from "./table";
 import { Result, Results } from "./validation";
@@ -27,13 +28,16 @@ function renderName({ spec: { name } }: Variable<unknown>, { error }: Result) {
   return `${error == null ? " " : ATTENTION} ${name}`;
 }
 
-function renderSchema({ spec: { default: def, schema } }: Variable<unknown>) {
+function renderSchema({
+  spec: { default: def, schema },
+  marshal,
+}: Variable<unknown>) {
   const rendered = schema.accept(createSchemaRenderer());
 
   const optionality = def.isDefined ? "[]" : "  ";
   const schemaDefault =
     def.isDefined && typeof def.value !== "undefined"
-      ? ` = ${JSON.stringify(def.value)}`
+      ? ` = ${quote([marshal(def.value)])}`
       : "";
 
   return `${optionality[0]} ${rendered} ${optionality[1]}${schemaDefault}`;
@@ -56,5 +60,5 @@ function renderResult({ error, maybe }: Result) {
   if (!maybe.isDefined) return `${NEUTRAL} undefined`;
   if (maybe.value.isDefault) return `${VALID} using default value`;
 
-  return `${VALID} set to ${JSON.stringify(maybe.value.native)}`;
+  return `${VALID} set to ${quote([maybe.value.verbatim])}`;
 }
