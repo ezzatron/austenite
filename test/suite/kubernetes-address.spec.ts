@@ -1,6 +1,10 @@
 import { initialize, kubernetesAddress } from "../../src";
+import { Declaration } from "../../src/declaration";
 import { reset } from "../../src/environment";
-import { KubernetesAddress } from "../../src/kubernetes-address";
+import {
+  KubernetesAddress,
+  KubernetesAddressOptions,
+} from "../../src/kubernetes-address";
 import { hasType, noop } from "../helpers";
 
 const invalidHostTable = [
@@ -21,6 +25,7 @@ const invalidPortTable = [
 ];
 
 describe("Kubernetes address declarations", () => {
+  let declaration: Declaration<KubernetesAddress, KubernetesAddressOptions>;
   let env: typeof process.env;
 
   beforeEach(() => {
@@ -34,9 +39,11 @@ describe("Kubernetes address declarations", () => {
   });
 
   describe("when no options are supplied", () => {
-    it("defaults to a required declaration", () => {
-      const declaration = kubernetesAddress("austenite-svc");
+    beforeEach(() => {
+      declaration = kubernetesAddress("austenite-svc");
+    });
 
+    it("defaults to a required declaration", () => {
       initialize({ onInvalid: noop });
 
       expect(() => {
@@ -46,9 +53,11 @@ describe("Kubernetes address declarations", () => {
   });
 
   describe("when empty options are supplied", () => {
-    it("defaults to a required declaration", () => {
-      const declaration = kubernetesAddress("austenite-svc", {});
+    beforeEach(() => {
+      declaration = kubernetesAddress("austenite-svc", {});
+    });
 
+    it("defaults to a required declaration", () => {
       initialize({ onInvalid: noop });
 
       expect(() => {
@@ -58,50 +67,58 @@ describe("Kubernetes address declarations", () => {
   });
 
   describe("when the declaration is required", () => {
-    it("returns a kubernetes address", () => {
-      const declaration = kubernetesAddress("austenite-svc");
-
-      process.env.AUSTENITE_SVC_SERVICE_HOST = "host.example.org";
-      process.env.AUSTENITE_SVC_SERVICE_PORT = "12345";
-      initialize({ onInvalid: noop });
-      const actual = declaration.value();
-
-      expect(hasType<KubernetesAddress, typeof actual>(actual)).toBeNull();
+    beforeEach(() => {
+      declaration = kubernetesAddress("austenite-svc");
     });
 
-    describe("when the host and port are valid", () => {
-      describe(".value()", () => {
-        it.each`
-          host                  | port
-          ${"host.example.org"} | ${"12345"}
-          ${"10.0.0.11"}        | ${"54321"}
-        `(
-          "returns the value ($host:$port)",
-          ({ host, port }: { host: string; port: string }) => {
-            const declaration = kubernetesAddress("austenite-svc");
+    describe(".value()", () => {
+      it("returns a kubernetes address", () => {
+        const declaration = kubernetesAddress("austenite-svc");
 
-            process.env.AUSTENITE_SVC_SERVICE_HOST = host;
-            process.env.AUSTENITE_SVC_SERVICE_PORT = port;
+        process.env.AUSTENITE_SVC_SERVICE_HOST = "host.example.org";
+        process.env.AUSTENITE_SVC_SERVICE_PORT = "12345";
+        initialize({ onInvalid: noop });
+        const actual = declaration.value();
+
+        expect(hasType<KubernetesAddress, typeof actual>(actual)).toBeNull();
+      });
+    });
+
+    describe.each`
+      host                  | port
+      ${"host.example.org"} | ${"12345"}
+      ${"10.0.0.11"}        | ${"54321"}
+    `(
+      "when the host and port are valid ($host:$port)",
+      ({ host, port }: { host: string; port: string }) => {
+        beforeEach(() => {
+          process.env.AUSTENITE_SVC_SERVICE_HOST = host;
+          process.env.AUSTENITE_SVC_SERVICE_PORT = port;
+        });
+
+        describe(".value()", () => {
+          it("returns the value", () => {
             initialize({ onInvalid: noop });
 
             expect(declaration.value()).toEqual({
               host,
               port: Number(port),
             });
-          }
-        );
-      });
-    });
+          });
+        });
+      }
+    );
 
     describe.each(invalidHostTable)(
       "when the host is invalid (%s)",
       (_, value: string, expected: string) => {
+        beforeEach(() => {
+          process.env.AUSTENITE_SVC_SERVICE_HOST = value;
+          process.env.AUSTENITE_SVC_SERVICE_PORT = "12345";
+        });
+
         describe(".value()", () => {
           it("throws", () => {
-            const declaration = kubernetesAddress("austenite-svc");
-
-            process.env.AUSTENITE_SVC_SERVICE_HOST = value;
-            process.env.AUSTENITE_SVC_SERVICE_PORT = "12345";
             initialize({ onInvalid: noop });
 
             expect(() => {
@@ -115,12 +132,13 @@ describe("Kubernetes address declarations", () => {
     describe.each(invalidPortTable)(
       "when the port is invalid (%s)",
       (_, value: string, expected: string) => {
+        beforeEach(() => {
+          process.env.AUSTENITE_SVC_SERVICE_HOST = "host.example.org";
+          process.env.AUSTENITE_SVC_SERVICE_PORT = value;
+        });
+
         describe(".value()", () => {
           it("throws", () => {
-            const declaration = kubernetesAddress("austenite-svc");
-
-            process.env.AUSTENITE_SVC_SERVICE_HOST = "host.example.org";
-            process.env.AUSTENITE_SVC_SERVICE_PORT = value;
             initialize({ onInvalid: noop });
 
             expect(() => {
@@ -132,11 +150,12 @@ describe("Kubernetes address declarations", () => {
     );
 
     describe("when the host is empty", () => {
+      beforeEach(() => {
+        process.env.AUSTENITE_SVC_SERVICE_PORT = "12345";
+      });
+
       describe(".value()", () => {
         it("throws", () => {
-          const declaration = kubernetesAddress("austenite-svc");
-
-          process.env.AUSTENITE_SVC_SERVICE_PORT = "12345";
           initialize({ onInvalid: noop });
 
           expect(() => {
@@ -147,11 +166,12 @@ describe("Kubernetes address declarations", () => {
     });
 
     describe("when the port is empty", () => {
+      beforeEach(() => {
+        process.env.AUSTENITE_SVC_SERVICE_HOST = "host.example.org";
+      });
+
       describe(".value()", () => {
         it("throws", () => {
-          const declaration = kubernetesAddress("austenite-svc");
-
-          process.env.AUSTENITE_SVC_SERVICE_HOST = "host.example.org";
           initialize({ onInvalid: noop });
 
           expect(() => {
@@ -164,8 +184,6 @@ describe("Kubernetes address declarations", () => {
     describe("when the host and port are empty", () => {
       describe(".value()", () => {
         it("throws", () => {
-          const declaration = kubernetesAddress("austenite-svc");
-
           initialize({ onInvalid: noop });
 
           expect(() => {
@@ -177,56 +195,62 @@ describe("Kubernetes address declarations", () => {
   });
 
   describe("when the declaration is optional", () => {
-    it("returns an optional boolean value", () => {
-      const declaration = kubernetesAddress("austenite-svc", {
+    beforeEach(() => {
+      declaration = kubernetesAddress("austenite-svc", {
         default: undefined,
       });
-
-      initialize({ onInvalid: noop });
-      const actual = declaration.value();
-
-      expect(
-        hasType<KubernetesAddress | undefined, typeof actual>(actual)
-      ).toBeNull();
     });
 
-    describe("when the host and port are valid", () => {
-      describe(".value()", () => {
-        it.each`
-          host                  | port
-          ${"host.example.org"} | ${"12345"}
-          ${"10.0.0.11"}        | ${"54321"}
-        `(
-          "returns the value ($host:$port)",
-          ({ host, port }: { host: string; port: string }) => {
-            const declaration = kubernetesAddress("austenite-svc", {
-              default: undefined,
-            });
+    describe(".value()", () => {
+      it("returns an optional boolean value", () => {
+        const declaration = kubernetesAddress("austenite-svc", {
+          default: undefined,
+        });
 
-            process.env.AUSTENITE_SVC_SERVICE_HOST = host;
-            process.env.AUSTENITE_SVC_SERVICE_PORT = port;
+        initialize({ onInvalid: noop });
+        const actual = declaration.value();
+
+        expect(
+          hasType<KubernetesAddress | undefined, typeof actual>(actual)
+        ).toBeNull();
+      });
+    });
+
+    describe.each`
+      host                  | port
+      ${"host.example.org"} | ${"12345"}
+      ${"10.0.0.11"}        | ${"54321"}
+    `(
+      "when the host and port are valid ($host:$port)",
+      ({ host, port }: { host: string; port: string }) => {
+        beforeEach(() => {
+          process.env.AUSTENITE_SVC_SERVICE_HOST = host;
+          process.env.AUSTENITE_SVC_SERVICE_PORT = port;
+        });
+
+        describe(".value()", () => {
+          it("returns the value", () => {
             initialize({ onInvalid: noop });
 
             expect(declaration.value()).toEqual({
               host,
               port: Number(port),
             });
-          }
-        );
-      });
-    });
+          });
+        });
+      }
+    );
 
     describe.each(invalidHostTable)(
       "when the host is invalid (%s)",
       (_, value: string, expected: string) => {
+        beforeEach(() => {
+          process.env.AUSTENITE_SVC_SERVICE_HOST = value;
+          process.env.AUSTENITE_SVC_SERVICE_PORT = "12345";
+        });
+
         describe(".value()", () => {
           it("throws", () => {
-            const declaration = kubernetesAddress("austenite-svc", {
-              default: undefined,
-            });
-
-            process.env.AUSTENITE_SVC_SERVICE_HOST = value;
-            process.env.AUSTENITE_SVC_SERVICE_PORT = "12345";
             initialize({ onInvalid: noop });
 
             expect(() => {
@@ -240,14 +264,13 @@ describe("Kubernetes address declarations", () => {
     describe.each(invalidPortTable)(
       "when the port is invalid (%s)",
       (_, value: string, expected: string) => {
+        beforeEach(() => {
+          process.env.AUSTENITE_SVC_SERVICE_HOST = "host.example.org";
+          process.env.AUSTENITE_SVC_SERVICE_PORT = value;
+        });
+
         describe(".value()", () => {
           it("throws", () => {
-            const declaration = kubernetesAddress("austenite-svc", {
-              default: undefined,
-            });
-
-            process.env.AUSTENITE_SVC_SERVICE_HOST = "host.example.org";
-            process.env.AUSTENITE_SVC_SERVICE_PORT = value;
             initialize({ onInvalid: noop });
 
             expect(() => {
@@ -264,15 +287,17 @@ describe("Kubernetes address declarations", () => {
       });
 
       describe("when there is a default value", () => {
+        beforeEach(() => {
+          declaration = kubernetesAddress("austenite-svc", {
+            default: {
+              host: "default.example.org",
+              port: 54321,
+            },
+          });
+        });
+
         describe(".value()", () => {
           it("returns a value with the default host", () => {
-            const declaration = kubernetesAddress("austenite-svc", {
-              default: {
-                host: "default.example.org",
-                port: 54321,
-              },
-            });
-
             initialize({ onInvalid: noop });
 
             expect(declaration.value()).toEqual({
@@ -284,12 +309,14 @@ describe("Kubernetes address declarations", () => {
       });
 
       describe("when there is no default value", () => {
+        beforeEach(() => {
+          declaration = kubernetesAddress("austenite-svc", {
+            default: undefined,
+          });
+        });
+
         describe(".value()", () => {
           it("throws", () => {
-            const declaration = kubernetesAddress("austenite-svc", {
-              default: undefined,
-            });
-
             initialize({ onInvalid: noop });
 
             expect(() => declaration.value()).toThrow(
@@ -306,15 +333,17 @@ describe("Kubernetes address declarations", () => {
       });
 
       describe("when there is a default value", () => {
+        beforeEach(() => {
+          declaration = kubernetesAddress("austenite-svc", {
+            default: {
+              host: "default.example.org",
+              port: 54321,
+            },
+          });
+        });
+
         describe(".value()", () => {
           it("returns a value with the default port", () => {
-            const declaration = kubernetesAddress("austenite-svc", {
-              default: {
-                host: "default.example.org",
-                port: 54321,
-              },
-            });
-
             initialize({ onInvalid: noop });
 
             expect(declaration.value()).toEqual({
@@ -326,12 +355,14 @@ describe("Kubernetes address declarations", () => {
       });
 
       describe("when there is no default value", () => {
+        beforeEach(() => {
+          declaration = kubernetesAddress("austenite-svc", {
+            default: undefined,
+          });
+        });
+
         describe(".value()", () => {
           it("throws", () => {
-            const declaration = kubernetesAddress("austenite-svc", {
-              default: undefined,
-            });
-
             initialize({ onInvalid: noop });
 
             expect(() => declaration.value()).toThrow(
@@ -344,30 +375,36 @@ describe("Kubernetes address declarations", () => {
 
     describe("when the host and port are empty", () => {
       describe("when there is a default value", () => {
-        describe(".value()", () => {
-          it("returns the default", () => {
-            const def = {
+        beforeEach(() => {
+          declaration = kubernetesAddress("austenite-svc", {
+            default: {
               host: "default.example.org",
               port: 54321,
-            };
-            const declaration = kubernetesAddress("austenite-svc", {
-              default: def,
-            });
+            },
+          });
+        });
 
+        describe(".value()", () => {
+          it("returns the default", () => {
             initialize({ onInvalid: noop });
 
-            expect(declaration.value()).toEqual(def);
+            expect(declaration.value()).toEqual({
+              host: "default.example.org",
+              port: 54321,
+            });
           });
         });
       });
 
       describe("when there is no default value", () => {
+        beforeEach(() => {
+          declaration = kubernetesAddress("austenite-svc", {
+            default: undefined,
+          });
+        });
+
         describe(".value()", () => {
           it("returns undefined", () => {
-            const declaration = kubernetesAddress("austenite-svc", {
-              default: undefined,
-            });
-
             initialize({ onInvalid: noop });
 
             expect(declaration.value()).toBeUndefined();
