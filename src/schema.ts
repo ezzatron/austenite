@@ -65,10 +65,7 @@ export function createString(): Scalar<string> {
   };
 }
 
-export function createUnsignedInteger(
-  minimum: number,
-  maximum: number
-): Scalar<number> {
+export function createUnsignedInteger(): Scalar<number> {
   return {
     type: "number",
 
@@ -82,13 +79,7 @@ export function createUnsignedInteger(
         throw new Error("must not have leading zeros");
       }
 
-      const n = Number(v);
-
-      if (n < minimum || n > maximum) {
-        throw new Error(`must be between ${minimum} and ${maximum}`);
-      }
-
-      return n;
+      return Number(v);
     },
 
     accept(visitor) {

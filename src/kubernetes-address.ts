@@ -1,3 +1,4 @@
+import createIpPattern from "ip-regex";
 import {
   Declaration,
   DeclarationOptions,
@@ -9,6 +10,8 @@ import { createExamples, Example } from "./example";
 import { mapMaybe, Maybe, resolveMaybe } from "./maybe";
 import { createString, createUnsignedInteger } from "./schema";
 import { Variable, VariableSpec } from "./variable";
+
+const IP_PATTERN = createIpPattern({ exact: true });
 
 export interface KubernetesAddress {
   readonly host: string;
@@ -106,7 +109,7 @@ function registerPort(
   }
 
   const portDef = mapMaybe(def, (service) => service?.port);
-  const schema = createUnsignedInteger(1, 65535);
+  const schema = createUnsignedInteger();
   let defExample: Example<number> | undefined;
 
   if (portDef.isDefined && typeof portDef.value !== "undefined") {
@@ -127,22 +130,44 @@ function registerPort(
       native: 12345,
       description: "a port number",
     }),
+    constraint: validatePort,
   });
 }
 
 function validateHost(_: VariableSpec<string>, host: string): void {
+  if (IP_PATTERN.test(host)) return;
+
   if (host.includes(" ")) {
     throw new Error("must not contain whitespace");
   }
   if (host.includes(":")) {
-    throw new Error("must not contain a colon (:)");
+    throw new Error(
+      "must not contain a colon (:) unless part of an IPv6 address"
+    );
   }
   if (host.startsWith(".") || host.endsWith(".")) {
     throw new Error("must not begin or end with a dot");
   }
 }
 
+function validatePort(_: VariableSpec<number>, port: number): void {
+  if (!Number.isInteger(port) || port < 0) {
+    throw new Error("must be an unsigned integer");
+  }
+  if (port < 1 || port > 65535) throw new Error("must be between 1 and 65535");
+}
+
 function kubernetesNameToEnv(name: string): string {
+  if (name === "") throw new Error("must not be empty");
+  if (name.startsWith("-") || name.endsWith("-")) {
+    throw new Error("must not begin or end with a hyphen");
+  }
+  if (!/^[a-z0-9-]+$/.test(name)) {
+    throw new Error(
+      "must contain only lowercase ASCII letters, digits and hyphen"
+    );
+  }
+
   return name.replaceAll("-", "_").toUpperCase();
 }
 
