@@ -1,4 +1,4 @@
-import { boolean, initialize, string } from "../../src";
+import { boolean, initialize, kubernetesAddress, string } from "../../src";
 import { Declaration, DeclarationOptions } from "../../src/declaration";
 import { reset } from "../../src/environment";
 import { Results } from "../../src/validation";
@@ -9,6 +9,7 @@ type DeclarationFactory = (
 ) => Declaration<unknown, DeclarationOptions<unknown>>;
 
 const booleanFactory = boolean.bind(null, "AUSTENITE_VAR", "<description>");
+const k8sAddressFactory = kubernetesAddress.bind(null, "austenite-svc");
 const stringFactory = string.bind(null, "AUSTENITE_VAR", "<description>");
 
 describe("initialize()", () => {
@@ -40,9 +41,10 @@ describe("initialize()", () => {
   describe("when the environment is valid", () => {
     describe("before being called", () => {
       it.each`
-        type         | factory
-        ${"boolean"} | ${booleanFactory}
-        ${"string"}  | ${stringFactory}
+        type                    | factory
+        ${"boolean"}            | ${booleanFactory}
+        ${"kubernetes address"} | ${k8sAddressFactory}
+        ${"string"}             | ${stringFactory}
       `(
         "prevents access to $type values",
         ({ factory }: { factory: DeclarationFactory }) => {
@@ -52,9 +54,7 @@ describe("initialize()", () => {
 
           expect(() => {
             declaration.value();
-          }).toThrow(
-            "AUSTENITE_VAR can not be read until the environment is initialized."
-          );
+          }).toThrow("can not be read until the environment is initialized");
         }
       );
     });
@@ -77,17 +77,16 @@ describe("initialize()", () => {
       });
 
       it.each`
-        type         | factory
-        ${"boolean"} | ${booleanFactory}
-        ${"string"}  | ${stringFactory}
+        type                    | factory
+        ${"boolean"}            | ${booleanFactory}
+        ${"kubernetes address"} | ${k8sAddressFactory}
+        ${"string"}             | ${stringFactory}
       `(
         "prevents additional $type declarations",
         ({ factory }: { factory: DeclarationFactory }) => {
           expect(() => {
             factory();
-          }).toThrow(
-            "AUSTENITE_VAR can not be defined after the environment is initialized."
-          );
+          }).toThrow("can not be defined after the environment is initialized");
         }
       );
 
@@ -104,9 +103,10 @@ describe("initialize()", () => {
   describe("when the environment is invalid", () => {
     describe("before being called", () => {
       it.each`
-        type         | factory
-        ${"boolean"} | ${booleanFactory}
-        ${"string"}  | ${stringFactory}
+        type                    | factory
+        ${"boolean"}            | ${booleanFactory}
+        ${"kubernetes address"} | ${k8sAddressFactory}
+        ${"string"}             | ${stringFactory}
       `(
         "prevents access to $type values",
         ({ factory }: { factory: DeclarationFactory }) => {
@@ -114,9 +114,7 @@ describe("initialize()", () => {
 
           expect(() => {
             declaration.value();
-          }).toThrow(
-            "AUSTENITE_VAR can not be read until the environment is initialized."
-          );
+          }).toThrow("can not be read until the environment is initialized");
         }
       );
     });
