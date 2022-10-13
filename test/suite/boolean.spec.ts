@@ -70,9 +70,12 @@ describe("Boolean declarations", () => {
     `(
       "when the value is one of the accepted literals ($value)",
       ({ value, expected }: { value: string; expected: boolean }) => {
+        beforeEach(() => {
+          process.env.AUSTENITE_BOOLEAN = value;
+        });
+
         describe(".value()", () => {
           it("returns the value associated with the literal ($value)", () => {
-            process.env.AUSTENITE_BOOLEAN = value;
             initialize({ onInvalid: noop });
 
             expect(declaration.value()).toBe(expected);
@@ -88,9 +91,12 @@ describe("Boolean declarations", () => {
     `(
       "when the value is invalid ($value)",
       ({ value, message }: { value: string; message: string }) => {
+        beforeEach(() => {
+          process.env.AUSTENITE_BOOLEAN = value;
+        });
+
         describe(".value()", () => {
           it("throws", () => {
-            process.env.AUSTENITE_BOOLEAN = value;
             initialize({ onInvalid: noop });
 
             expect(() => {
@@ -141,9 +147,12 @@ describe("Boolean declarations", () => {
     `(
       "when the value is one of the accepted literals ($value)",
       ({ value, expected }: { value: string; expected: boolean }) => {
+        beforeEach(() => {
+          process.env.AUSTENITE_BOOLEAN = value;
+        });
+
         describe(".value()", () => {
           it("returns the value", () => {
-            process.env.AUSTENITE_BOOLEAN = value;
             initialize({ onInvalid: noop });
 
             expect(declaration.value()).toBe(expected);
@@ -159,9 +168,12 @@ describe("Boolean declarations", () => {
     `(
       "when the value is invalid ($value)",
       ({ value, message }: { value: string; message: string }) => {
+        beforeEach(() => {
+          process.env.AUSTENITE_BOOLEAN = value;
+        });
+
         describe(".value()", () => {
           it("throws", () => {
-            process.env.AUSTENITE_BOOLEAN = value;
             initialize({ onInvalid: noop });
 
             expect(() => {
@@ -229,9 +241,12 @@ describe("Boolean declarations", () => {
     `(
       "when the value matches a custom literal ($value)",
       ({ value, expected }: { value: string; expected: boolean }) => {
+        beforeEach(() => {
+          process.env.AUSTENITE_BOOLEAN = value;
+        });
+
         describe(".value()", () => {
           it("returns the value", () => {
-            process.env.AUSTENITE_BOOLEAN = value;
             initialize({ onInvalid: noop });
 
             expect(declaration.value()).toBe(expected);
@@ -247,9 +262,12 @@ describe("Boolean declarations", () => {
     `(
       "when the value does not match a custom literal ($value)",
       ({ value, message }: { value: string; message: string }) => {
+        beforeEach(() => {
+          process.env.AUSTENITE_BOOLEAN = value;
+        });
+
         describe(".value()", () => {
           it("throws", () => {
-            process.env.AUSTENITE_BOOLEAN = value;
             initialize({ onInvalid: noop });
 
             expect(() => {
@@ -261,14 +279,16 @@ describe("Boolean declarations", () => {
     );
 
     describe("when a true literal is empty", () => {
+      const literals = {
+        true: ["y", ""],
+        false: ["n", "no"],
+      };
+
       describe(".value()", () => {
         it("throws", () => {
           expect(() => {
             boolean("AUSTENITE_BOOLEAN", "<description>", {
-              literals: {
-                true: ["y", ""],
-                false: ["n", "no"],
-              },
+              literals,
             });
           }).toThrow(
             "The specification for AUSTENITE_BOOLEAN is invalid: literals can not be an empty string."
@@ -278,14 +298,16 @@ describe("Boolean declarations", () => {
     });
 
     describe("when a false literal is empty", () => {
+      const literals = {
+        true: ["y", "yes"],
+        false: ["n", ""],
+      };
+
       describe(".value()", () => {
         it("throws", () => {
           expect(() => {
             boolean("AUSTENITE_BOOLEAN", "<description>", {
-              literals: {
-                true: ["y", "yes"],
-                false: ["n", ""],
-              },
+              literals,
             });
           }).toThrow(
             "The specification for AUSTENITE_BOOLEAN is invalid: literals can not be an empty string."
@@ -295,14 +317,16 @@ describe("Boolean declarations", () => {
     });
 
     describe("when the same literal is specified for both true and false", () => {
+      const literals = {
+        true: ["a", "b"],
+        false: ["c", "a"],
+      };
+
       describe(".value()", () => {
         it("throws", () => {
           expect(() => {
             boolean("AUSTENITE_BOOLEAN", "<description>", {
-              literals: {
-                true: ["a", "b"],
-                false: ["c", "a"],
-              },
+              literals,
             });
           }).toThrow(
             'The specification for AUSTENITE_BOOLEAN is invalid: literal "a" can not be used multiple times.'
@@ -312,14 +336,16 @@ describe("Boolean declarations", () => {
     });
 
     describe("when the same literal is used for true multiple times", () => {
+      const literals = {
+        true: ["a", "a"],
+        false: ["b", "c"],
+      };
+
       describe(".value()", () => {
         it("throws", () => {
           expect(() => {
             boolean("AUSTENITE_BOOLEAN", "<description>", {
-              literals: {
-                true: ["a", "a"],
-                false: ["b", "c"],
-              },
+              literals,
             });
           }).toThrow(
             'The specification for AUSTENITE_BOOLEAN is invalid: literal "a" can not be used multiple times.'
