@@ -25,6 +25,11 @@ const invalidPortTable = [
 ];
 
 describe("Kubernetes address declarations", () => {
+  const def = {
+    host: "default.example.org",
+    port: 54321,
+  };
+
   let declaration: Declaration<KubernetesAddress, KubernetesAddressOptions>;
   let env: typeof process.env;
 
@@ -88,7 +93,7 @@ describe("Kubernetes address declarations", () => {
     describe.each`
       host                  | port
       ${"host.example.org"} | ${"12345"}
-      ${"10.0.0.11"}        | ${"54321"}
+      ${"10.0.0.11"}        | ${"1337"}
     `(
       "when the host and port are valid ($host:$port)",
       ({ host, port }: { host: string; port: string }) => {
@@ -223,7 +228,7 @@ describe("Kubernetes address declarations", () => {
     describe.each`
       host                  | port
       ${"host.example.org"} | ${"12345"}
-      ${"10.0.0.11"}        | ${"54321"}
+      ${"10.0.0.11"}        | ${"1337"}
     `(
       "when the host and port are valid ($host:$port)",
       ({ host, port }: { host: string; port: string }) => {
@@ -293,10 +298,7 @@ describe("Kubernetes address declarations", () => {
       describe("when there is a default value", () => {
         beforeEach(() => {
           declaration = kubernetesAddress("austenite-svc", {
-            default: {
-              host: "default.example.org",
-              port: 54321,
-            },
+            default: def,
           });
 
           initialize({ onInvalid: noop });
@@ -305,7 +307,7 @@ describe("Kubernetes address declarations", () => {
         describe(".value()", () => {
           it("returns a value with the default host", () => {
             expect(declaration.value()).toEqual({
-              host: "default.example.org",
+              host: def.host,
               port: 12345,
             });
           });
@@ -339,10 +341,7 @@ describe("Kubernetes address declarations", () => {
       describe("when there is a default value", () => {
         beforeEach(() => {
           declaration = kubernetesAddress("austenite-svc", {
-            default: {
-              host: "default.example.org",
-              port: 54321,
-            },
+            default: def,
           });
 
           initialize({ onInvalid: noop });
@@ -352,7 +351,7 @@ describe("Kubernetes address declarations", () => {
           it("returns a value with the default port", () => {
             expect(declaration.value()).toEqual({
               host: "host.example.org",
-              port: 54321,
+              port: def.port,
             });
           });
         });
@@ -381,10 +380,7 @@ describe("Kubernetes address declarations", () => {
       describe("when there is a default value", () => {
         beforeEach(() => {
           declaration = kubernetesAddress("austenite-svc", {
-            default: {
-              host: "default.example.org",
-              port: 54321,
-            },
+            default: def,
           });
 
           initialize({ onInvalid: noop });
@@ -392,10 +388,7 @@ describe("Kubernetes address declarations", () => {
 
         describe(".value()", () => {
           it("returns the default", () => {
-            expect(declaration.value()).toEqual({
-              host: "default.example.org",
-              port: 54321,
-            });
+            expect(declaration.value()).toEqual(def);
           });
         });
       });
