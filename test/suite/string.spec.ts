@@ -21,11 +21,11 @@ describe("String declarations", () => {
   describe("when no options are supplied", () => {
     beforeEach(() => {
       declaration = string("AUSTENITE_STRING", "<description>");
+
+      initialize({ onInvalid: noop });
     });
 
     it("defaults to a required declaration", () => {
-      initialize({ onInvalid: noop });
-
       expect(() => {
         declaration.value();
       }).toThrow("undefined");
@@ -35,11 +35,11 @@ describe("String declarations", () => {
   describe("when empty options are supplied", () => {
     beforeEach(() => {
       declaration = string("AUSTENITE_STRING", "<description>", {});
+
+      initialize({ onInvalid: noop });
     });
 
     it("defaults to a required declaration", () => {
-      initialize({ onInvalid: noop });
-
       expect(() => {
         declaration.value();
       }).toThrow("undefined");
@@ -53,6 +53,7 @@ describe("String declarations", () => {
 
     describe(".value()", () => {
       it("returns a string value", () => {
+        // this test is weird because it tests type inference
         const declaration = string("AUSTENITE_STRING", "<description>");
 
         process.env.AUSTENITE_STRING = "<value>";
@@ -66,22 +67,24 @@ describe("String declarations", () => {
     describe("when the value is not empty", () => {
       beforeEach(() => {
         process.env.AUSTENITE_STRING = "<value>";
+
+        initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
         it("returns the value", () => {
-          initialize({ onInvalid: noop });
-
           expect(declaration.value()).toBe("<value>");
         });
       });
     });
 
     describe("when the value is empty", () => {
+      beforeEach(() => {
+        initialize({ onInvalid: noop });
+      });
+
       describe(".value()", () => {
         it("throws", () => {
-          initialize({ onInvalid: noop });
-
           expect(() => {
             declaration.value();
           }).toThrow("undefined");
@@ -99,6 +102,7 @@ describe("String declarations", () => {
 
     describe(".value()", () => {
       it("returns an optional string value", () => {
+        // this test is weird because it tests type inference
         const declaration = string("AUSTENITE_STRING", "<description>", {
           default: undefined,
         });
@@ -113,12 +117,12 @@ describe("String declarations", () => {
     describe("when the value is not empty", () => {
       beforeEach(() => {
         process.env.AUSTENITE_STRING = "<value>";
+
+        initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
         it("returns the value", () => {
-          initialize({ onInvalid: noop });
-
           expect(declaration.value()).toBe("<value>");
         });
       });
@@ -130,12 +134,12 @@ describe("String declarations", () => {
           declaration = string("AUSTENITE_STRING", "<description>", {
             default: "<default>",
           });
+
+          initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
           it("returns the default", () => {
-            initialize({ onInvalid: noop });
-
             expect(declaration.value()).toBe("<default>");
           });
         });
@@ -146,12 +150,12 @@ describe("String declarations", () => {
           declaration = string("AUSTENITE_STRING", "<description>", {
             default: undefined,
           });
+
+          initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
           it("returns undefined", () => {
-            initialize({ onInvalid: noop });
-
             expect(declaration.value()).toBeUndefined();
           });
         });

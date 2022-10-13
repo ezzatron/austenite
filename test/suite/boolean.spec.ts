@@ -21,11 +21,11 @@ describe("Boolean declarations", () => {
   describe("when no options are supplied", () => {
     beforeEach(() => {
       declaration = boolean("AUSTENITE_BOOLEAN", "<description>");
+
+      initialize({ onInvalid: noop });
     });
 
     it("defaults to a required declaration", () => {
-      initialize({ onInvalid: noop });
-
       expect(() => {
         declaration.value();
       }).toThrow("undefined");
@@ -35,11 +35,11 @@ describe("Boolean declarations", () => {
   describe("when empty options are supplied", () => {
     beforeEach(() => {
       declaration = boolean("AUSTENITE_BOOLEAN", "<description>", {});
+
+      initialize({ onInvalid: noop });
     });
 
     it("defaults to a required declaration", () => {
-      initialize({ onInvalid: noop });
-
       expect(() => {
         declaration.value();
       }).toThrow("undefined");
@@ -53,6 +53,7 @@ describe("Boolean declarations", () => {
 
     describe(".value()", () => {
       it("returns a boolean value", () => {
+        // this test is weird because it tests type inference
         const declaration = boolean("AUSTENITE_BOOLEAN", "<description>");
 
         process.env.AUSTENITE_BOOLEAN = "false";
@@ -72,12 +73,12 @@ describe("Boolean declarations", () => {
       ({ value, expected }: { value: string; expected: boolean }) => {
         beforeEach(() => {
           process.env.AUSTENITE_BOOLEAN = value;
+
+          initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
           it("returns the value associated with the literal ($value)", () => {
-            initialize({ onInvalid: noop });
-
             expect(declaration.value()).toBe(expected);
           });
         });
@@ -93,12 +94,12 @@ describe("Boolean declarations", () => {
       ({ value, message }: { value: string; message: string }) => {
         beforeEach(() => {
           process.env.AUSTENITE_BOOLEAN = value;
+
+          initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
           it("throws", () => {
-            initialize({ onInvalid: noop });
-
             expect(() => {
               declaration.value();
             }).toThrow(message);
@@ -108,10 +109,12 @@ describe("Boolean declarations", () => {
     );
 
     describe("when the value is empty", () => {
+      beforeEach(() => {
+        initialize({ onInvalid: noop });
+      });
+
       describe(".value()", () => {
         it("throws", () => {
-          initialize({ onInvalid: noop });
-
           expect(() => {
             declaration.value();
           }).toThrow("undefined");
@@ -129,6 +132,7 @@ describe("Boolean declarations", () => {
 
     describe(".value()", () => {
       it("returns an optional boolean value", () => {
+        // this test is weird because it tests type inference
         const declaration = boolean("AUSTENITE_BOOLEAN", "<description>", {
           default: undefined,
         });
@@ -149,12 +153,12 @@ describe("Boolean declarations", () => {
       ({ value, expected }: { value: string; expected: boolean }) => {
         beforeEach(() => {
           process.env.AUSTENITE_BOOLEAN = value;
+
+          initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
           it("returns the value", () => {
-            initialize({ onInvalid: noop });
-
             expect(declaration.value()).toBe(expected);
           });
         });
@@ -170,12 +174,12 @@ describe("Boolean declarations", () => {
       ({ value, message }: { value: string; message: string }) => {
         beforeEach(() => {
           process.env.AUSTENITE_BOOLEAN = value;
+
+          initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
           it("throws", () => {
-            initialize({ onInvalid: noop });
-
             expect(() => {
               declaration.value();
             }).toThrow(message);
@@ -192,12 +196,12 @@ describe("Boolean declarations", () => {
             declaration = boolean("AUSTENITE_BOOLEAN", "<description>", {
               default: def,
             });
+
+            initialize({ onInvalid: noop });
           });
 
           describe(".value()", () => {
             it("returns the default", () => {
-              initialize({ onInvalid: noop });
-
               expect(declaration.value()).toBe(def);
             });
           });
@@ -209,12 +213,12 @@ describe("Boolean declarations", () => {
           declaration = boolean("AUSTENITE_BOOLEAN", "<description>", {
             default: undefined,
           });
+
+          initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
           it("returns undefined", () => {
-            initialize({ onInvalid: noop });
-
             expect(declaration.value()).toBeUndefined();
           });
         });
@@ -243,12 +247,12 @@ describe("Boolean declarations", () => {
       ({ value, expected }: { value: string; expected: boolean }) => {
         beforeEach(() => {
           process.env.AUSTENITE_BOOLEAN = value;
+
+          initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
           it("returns the value", () => {
-            initialize({ onInvalid: noop });
-
             expect(declaration.value()).toBe(expected);
           });
         });
@@ -264,12 +268,12 @@ describe("Boolean declarations", () => {
       ({ value, message }: { value: string; message: string }) => {
         beforeEach(() => {
           process.env.AUSTENITE_BOOLEAN = value;
+
+          initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
           it("throws", () => {
-            initialize({ onInvalid: noop });
-
             expect(() => {
               declaration.value();
             }).toThrow(message);
