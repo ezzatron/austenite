@@ -86,6 +86,7 @@ export function createVariable<T>(spec: VariableSpec<T>): Variable<T> {
       };
 
   function resolve(): Resolution<T> {
+    // Stryker disable next-line ConditionalExpression: This is a performance optimization.
     if (resolution != null) return resolution;
 
     const value = readVariable(spec);
