@@ -1,7 +1,7 @@
-import { initialize, kubernetesAddress } from "../../src";
 import { Declaration } from "../../src/declaration";
-import { reset } from "../../src/environment";
+import { initialize, reset } from "../../src/environment";
 import {
+  kubernetesAddress,
   KubernetesAddress,
   KubernetesAddressOptions,
 } from "../../src/kubernetes-address";

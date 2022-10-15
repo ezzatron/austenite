@@ -1,7 +1,6 @@
-import { boolean, initialize } from "../../src";
-import { BooleanOptions } from "../../src/boolean";
+import { boolean, BooleanOptions } from "../../src/boolean";
 import { Declaration } from "../../src/declaration";
-import { reset } from "../../src/environment";
+import { initialize, reset } from "../../src/environment";
 import { hasType, noop } from "../helpers";
 
 describe("Boolean declarations", () => {

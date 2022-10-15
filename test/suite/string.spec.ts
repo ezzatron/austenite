@@ -1,7 +1,6 @@
-import { initialize, string } from "../../src";
 import { Declaration } from "../../src/declaration";
-import { reset } from "../../src/environment";
-import { StringOptions } from "../../src/string";
+import { initialize, reset } from "../../src/environment";
+import { string, StringOptions } from "../../src/string";
 import { hasType, noop } from "../helpers";
 
 describe("String declarations", () => {

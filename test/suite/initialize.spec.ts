@@ -1,6 +1,8 @@
-import { boolean, initialize, kubernetesAddress, string } from "../../src";
+import { boolean } from "../../src/boolean";
 import { Declaration, DeclarationOptions } from "../../src/declaration";
-import { reset, setProcessExit } from "../../src/environment";
+import { initialize, reset, setProcessExit } from "../../src/environment";
+import { kubernetesAddress } from "../../src/kubernetes-address";
+import { string } from "../../src/string";
 import { Results } from "../../src/validation";
 import { UndefinedError } from "../../src/variable";
 import { createMockConsole, MockConsole } from "../helpers";

@@ -1,7 +1,9 @@
 import { readFile } from "fs/promises";
 import { join } from "path";
-import { boolean, initialize, kubernetesAddress, string } from "../../src";
-import { reset, setProcessExit } from "../../src/environment";
+import { boolean } from "../../src/boolean";
+import { initialize, reset, setProcessExit } from "../../src/environment";
+import { kubernetesAddress } from "../../src/kubernetes-address";
+import { string } from "../../src/string";
 import { createMockConsole, MockConsole } from "../helpers";
 
 const fixturesPath = join(__dirname, "../fixture/specification");

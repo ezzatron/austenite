@@ -1,8 +1,15 @@
 import { EOL } from "os";
-import { boolean, initialize, kubernetesAddress, string } from "../../src";
-import { registerVariable, reset, setProcessExit } from "../../src/environment";
+import { boolean } from "../../src/boolean";
+import {
+  initialize,
+  registerVariable,
+  reset,
+  setProcessExit,
+} from "../../src/environment";
+import { kubernetesAddress } from "../../src/kubernetes-address";
 import { undefinedValue } from "../../src/maybe";
 import { createString } from "../../src/schema";
+import { string } from "../../src/string";
 import { VariableSpec } from "../../src/variable";
 import { createMockConsole, MockConsole } from "../helpers";
 
