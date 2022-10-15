@@ -6,5 +6,5 @@ module.exports = {
   transformIgnorePatterns: [],
   collectCoverageFrom: ["src/**/*"],
   coverageDirectory: "artifacts/coverage/jest",
-  testMatch: ["**/test/suite/**/*.spec.*"],
+  testMatch: ["<rootDir>/test/suite/**/*.spec.*"],
 };
