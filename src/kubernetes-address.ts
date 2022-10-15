@@ -77,7 +77,7 @@ function registerHost(
 
   return registerVariable({
     name: `${envName}_SERVICE_HOST`,
-    description: `kubernetes ${JSON.stringify(name)} service host`,
+    description: `kubernetes \`${name}\` service host`,
     default: hostDef,
     schema,
     examples: createExamples(
@@ -103,7 +103,6 @@ function registerPort(
   portName?: string
 ): Variable<number> {
   const envName = kubernetesNameToEnv(name);
-  const quotedName = JSON.stringify(name);
   let varName: string, description: string;
 
   if (typeof portName === "string") {
@@ -115,13 +114,11 @@ function registerPort(
       throw new InvalidK8sPortNameError(name, portName, normalizeError(error));
     }
 
-    const quotedPortName = JSON.stringify(portName);
-
     varName = `${envName}_SERVICE_PORT_${envPortName}`;
-    description = `kubernetes ${quotedName} service ${quotedPortName} port`;
+    description = `kubernetes \`${name}\` service \`${portName}\` port`;
   } else {
     varName = `${envName}_SERVICE_PORT`;
-    description = `kubernetes ${quotedName} service port`;
+    description = `kubernetes \`${name}\` service port`;
   }
 
   const portDef = mapMaybe(def, (service) => service?.port);

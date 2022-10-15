@@ -39,14 +39,14 @@ describe("Validation summary", () => {
 
     expect(mockConsole.readStderr()).toBe(
       [
-        `Environment Variables:`,
-        ``,
-        `  AUSTENITE_BOOLEAN           example boolean                            y | yes | n | no    ✓ set to y`,
-        `  AUSTENITE_STRING            example string                             <string>            ✓ set to 'hello, world!'`,
-        `  AUSTENITE_SVC_SERVICE_HOST  kubernetes "austenite-svc" service host    <string>            ✓ set to host.example.org`,
-        `  AUSTENITE_SVC_SERVICE_PORT  kubernetes "austenite-svc" service port    <string>            ✓ set to 443`,
-        `❯ AUSTENITE_XTRIGGER          trigger failure                            <string>            ✗ undefined`,
-        ``,
+        "Environment Variables:",
+        "",
+        "  AUSTENITE_BOOLEAN           example boolean                            y | yes | n | no    ✓ set to y",
+        "  AUSTENITE_STRING            example string                             <string>            ✓ set to 'hello, world!'",
+        "  AUSTENITE_SVC_SERVICE_HOST  kubernetes `austenite-svc` service host    <string>            ✓ set to host.example.org",
+        "  AUSTENITE_SVC_SERVICE_PORT  kubernetes `austenite-svc` service port    <string>            ✓ set to 443",
+        "❯ AUSTENITE_XTRIGGER          trigger failure                            <string>            ✗ undefined",
+        "",
       ].join(EOL)
     );
   });
@@ -68,14 +68,14 @@ describe("Validation summary", () => {
 
     expect(mockConsole.readStderr()).toBe(
       [
-        `Environment Variables:`,
-        ``,
-        `  AUSTENITE_BOOLEAN           example boolean                          [ y | yes | n | no ]  • undefined`,
-        `  AUSTENITE_STRING            example string                           [ <string> ]          • undefined`,
-        `  AUSTENITE_SVC_SERVICE_HOST  kubernetes "austenite-svc" service host  [ <string> ]          • undefined`,
-        `  AUSTENITE_SVC_SERVICE_PORT  kubernetes "austenite-svc" service port  [ <string> ]          • undefined`,
-        `❯ AUSTENITE_XTRIGGER          trigger failure                            <string>            ✗ undefined`,
-        ``,
+        "Environment Variables:",
+        "",
+        "  AUSTENITE_BOOLEAN           example boolean                          [ y | yes | n | no ]  • undefined",
+        "  AUSTENITE_STRING            example string                           [ <string> ]          • undefined",
+        "  AUSTENITE_SVC_SERVICE_HOST  kubernetes `austenite-svc` service host  [ <string> ]          • undefined",
+        "  AUSTENITE_SVC_SERVICE_PORT  kubernetes `austenite-svc` service port  [ <string> ]          • undefined",
+        "❯ AUSTENITE_XTRIGGER          trigger failure                            <string>            ✗ undefined",
+        "",
       ].join(EOL)
     );
   });
@@ -100,14 +100,14 @@ describe("Validation summary", () => {
 
     expect(mockConsole.readStderr()).toBe(
       [
-        `Environment Variables:`,
-        ``,
-        `  AUSTENITE_BOOLEAN           example boolean                          [ y | yes | n | no ] = y         ✓ using default value`,
-        `  AUSTENITE_STRING            example string                           [ <string> ] = 'hello, world!'   ✓ using default value`,
-        `  AUSTENITE_SVC_SERVICE_HOST  kubernetes "austenite-svc" service host  [ <string> ] = host.example.org  ✓ using default value`,
-        `  AUSTENITE_SVC_SERVICE_PORT  kubernetes "austenite-svc" service port  [ <string> ] = 443               ✓ using default value`,
-        `❯ AUSTENITE_XTRIGGER          trigger failure                            <string>                       ✗ undefined`,
-        ``,
+        "Environment Variables:",
+        "",
+        "  AUSTENITE_BOOLEAN           example boolean                          [ y | yes | n | no ] = y         ✓ using default value",
+        "  AUSTENITE_STRING            example string                           [ <string> ] = 'hello, world!'   ✓ using default value",
+        "  AUSTENITE_SVC_SERVICE_HOST  kubernetes `austenite-svc` service host  [ <string> ] = host.example.org  ✓ using default value",
+        "  AUSTENITE_SVC_SERVICE_PORT  kubernetes `austenite-svc` service port  [ <string> ] = 443               ✓ using default value",
+        "❯ AUSTENITE_XTRIGGER          trigger failure                            <string>                       ✗ undefined",
+        "",
       ].join(EOL)
     );
   });

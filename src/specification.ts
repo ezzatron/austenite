@@ -1,5 +1,5 @@
 import { fromMarkdown } from "mdast-util-from-markdown";
-import type { ListItem } from "mdast-util-from-markdown/lib";
+import type { ListItem, PhrasingContent } from "mdast-util-from-markdown/lib";
 import { toMarkdown } from "mdast-util-to-markdown";
 import { Content } from "mdast-util-to-markdown/lib/types";
 import { basename } from "path";
@@ -51,7 +51,7 @@ function header(): Content[] {
         },
       ],
     },
-    ...markdownToContentArray(
+    ...markdownToContentArray<Content>(
       [
         "Please note that **undefined** variables and **empty strings** are considered",
         "equivalent.",
@@ -106,8 +106,9 @@ function indexEntry({
           },
           {
             type: "text",
-            value: ` — ${description}`,
+            value: " — ",
           },
+          ...markdownToContentArray<PhrasingContent>(description),
         ],
       },
     ],
@@ -155,12 +156,7 @@ function variable(variable: Variable<unknown>): Content[] {
       children: [
         {
           type: "paragraph",
-          children: [
-            {
-              type: "text",
-              value: description,
-            },
-          ],
+          children: markdownToContentArray<PhrasingContent>(description),
         },
       ],
     },
@@ -245,12 +241,12 @@ function examples({ spec: { name, examples } }: Variable<unknown>): Content {
   };
 }
 
-function markdownToContentArray(markdown: string): Content[] {
-  return fromMarkdown(markdown).children;
+function markdownToContentArray<T>(markdown: string): T[] {
+  return fromMarkdown(markdown).children as T[];
 }
 
-function markdownToContent(markdown: string): Content {
-  const content = markdownToContentArray(markdown);
+function markdownToContent<T>(markdown: string): T {
+  const content = markdownToContentArray<T>(markdown);
 
   return content[0];
 }
