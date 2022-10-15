@@ -15,7 +15,7 @@ export function initialize(options: InitializeOptions = {}): void {
   if (process.env.AUSTENITE_SPEC === "true") {
     console.log(renderSpecification(variablesByName()));
 
-    processExit?.(0);
+    processExit(0);
   } else {
     state.isInitialized = true;
 
@@ -75,7 +75,7 @@ function defaultOnInvalid({ results }: { results: Results }): never {
     ["Environment Variables:", "", renderSummary(results)].join(EOL)
   );
 
-  processExit?.(1);
+  processExit(1);
 
   return undefined as never;
 }
