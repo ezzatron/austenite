@@ -11,8 +11,9 @@ export function createTable(padding: number) {
     addRow(row: string[]) {
       rows.push(row);
 
-      for (let i = 0; i < row.length; ++i) {
-        widths[i] = Math.max(widths[i] ?? 0, graphemeCount(row[i]));
+      for (const [index, cell] of Object.entries(row)) {
+        const i = Number(index);
+        widths[i] = Math.max(widths[i] ?? 0, graphemeCount(cell));
       }
     },
 
