@@ -175,33 +175,40 @@ describe("Kubernetes address declarations", () => {
       });
     });
 
-    describe("when the host and port are valid", () => {
-      beforeEach(() => {
-        process.env.AUSTENITE_SVC_SERVICE_HOST = "host.example.org";
-        process.env.AUSTENITE_SVC_SERVICE_PORT = "12345";
+    describe.each`
+      host                  | port
+      ${"host.example.org"} | ${"1"}
+      ${"host.example.org"} | ${"65535"}
+    `(
+      "when the host and port are valid ($host:$port)",
+      ({ host, port }: { host: string; port: string }) => {
+        beforeEach(() => {
+          process.env.AUSTENITE_SVC_SERVICE_HOST = host;
+          process.env.AUSTENITE_SVC_SERVICE_PORT = port;
 
-        initialize({ onInvalid: noop });
-      });
+          initialize({ onInvalid: noop });
+        });
 
-      describe(".value()", () => {
-        it("returns the value", () => {
-          expect(declaration.value()).toEqual({
-            host: "host.example.org",
-            port: 12345,
+        describe(".value()", () => {
+          it("returns the value", () => {
+            expect(declaration.value()).toEqual({
+              host,
+              port: Number(port),
+            });
+          });
+
+          it("returns the same value when called multiple times", () => {
+            const expected = {
+              host,
+              port: Number(port),
+            };
+
+            expect(declaration.value()).toEqual(expected);
+            expect(declaration.value()).toEqual(expected);
           });
         });
-
-        it("returns the same value when called multiple times", () => {
-          const expected = {
-            host: "host.example.org",
-            port: 12345,
-          };
-
-          expect(declaration.value()).toEqual(expected);
-          expect(declaration.value()).toEqual(expected);
-        });
-      });
-    });
+      }
+    );
 
     describe.each(invalidHostValueTable)(
       "when the host is invalid (%s)",
@@ -319,23 +326,30 @@ describe("Kubernetes address declarations", () => {
       });
     });
 
-    describe("when the host and port are valid", () => {
-      beforeEach(() => {
-        process.env.AUSTENITE_SVC_SERVICE_HOST = "host.example.org";
-        process.env.AUSTENITE_SVC_SERVICE_PORT = "12345";
+    describe.each`
+      host                  | port
+      ${"host.example.org"} | ${"1"}
+      ${"host.example.org"} | ${"65535"}
+    `(
+      "when the host and port are valid ($host:$port)",
+      ({ host, port }: { host: string; port: string }) => {
+        beforeEach(() => {
+          process.env.AUSTENITE_SVC_SERVICE_HOST = host;
+          process.env.AUSTENITE_SVC_SERVICE_PORT = port;
 
-        initialize({ onInvalid: noop });
-      });
+          initialize({ onInvalid: noop });
+        });
 
-      describe(".value()", () => {
-        it("returns the value", () => {
-          expect(declaration.value()).toEqual({
-            host: "host.example.org",
-            port: 12345,
+        describe(".value()", () => {
+          it("returns the value", () => {
+            expect(declaration.value()).toEqual({
+              host,
+              port: Number(port),
+            });
           });
         });
-      });
-    });
+      }
+    );
 
     describe.each(invalidHostValueTable)(
       "when the host is invalid (%s)",
@@ -582,6 +596,26 @@ describe("Kubernetes address declarations", () => {
         }).toThrow(
           `specification for AUSTENITE_SVC_SERVICE_HOST is invalid: default value: ${expected}`
         );
+      });
+    }
+  );
+
+  describe.each`
+    description | port
+    ${"min"}    | ${1}
+    ${"max"}    | ${65535}
+  `(
+    "when using a valid default port ($description)",
+    ({ port }: { port: number }) => {
+      it("does not throw", () => {
+        expect(() => {
+          kubernetesAddress("austenite-svc", {
+            default: {
+              host: def.host,
+              port,
+            },
+          });
+        }).not.toThrow();
       });
     }
   );
