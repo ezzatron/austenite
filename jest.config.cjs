@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   preset: "es-jest",
   transform: {
     "\\.tsx?$": "ts-jest",
