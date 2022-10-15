@@ -1,21 +1,17 @@
 // @ts-check
 /** @type {import('@stryker-mutator/api/core').PartialStrykerOptions} */
 const config = {
-  tempDirName: "artifacts/stryker/temp",
   packageManager: "yarn",
+  testRunner: "jest",
+  checkers: ["typescript"],
   reporters: ["html", "clear-text", "progress"],
+  tempDirName: "artifacts/stryker/temp",
   htmlReporter: {
     fileName: "artifacts/stryker/report.html",
   },
-  testRunner: "jest",
   jest: {
-    projectType: "custom",
     configFile: "jest.config.cjs",
-    enableFindRelatedTests: false,
   },
-  coverageAnalysis: "perTest",
-  checkers: ["typescript"],
-  tsconfigFile: "tsconfig.json",
-  disableTypeChecks: "**/*.ts",
 };
+
 export default config;
