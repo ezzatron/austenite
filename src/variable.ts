@@ -1,3 +1,4 @@
+import { quote } from "shell-quote";
 import { readVariable } from "./environment";
 import { normalizeError } from "./error";
 import { Examples } from "./example";
@@ -48,11 +49,17 @@ export function createVariable<T>(spec: VariableSpec<T>): Variable<T> {
     if (!def.isDefined) return undefined;
     if (typeof def.value === "undefined") return undefinedValue();
 
-    return definedValue({
-      verbatim: marshal(def.value),
-      native: def.value,
-      isDefault: true,
-    });
+    try {
+      return definedValue({
+        verbatim: marshal(def.value),
+        native: def.value,
+        isDefault: true,
+      });
+    } catch (error) {
+      const message = normalizeError(error).message;
+
+      throw new SpecError(spec.name, new Error(`default value: ${message}`));
+    }
   }
 
   function value(): Maybe<Value<T>> {
@@ -85,7 +92,10 @@ export function createVariable<T>(spec: VariableSpec<T>): Variable<T> {
     let r: Resolution<T>;
 
     if (value === "") {
-      r = def == null ? { error: new Error("undefined") } : { result: def };
+      r =
+        def == null
+          ? { error: new UndefinedError(spec.name) }
+          : { result: def };
     } else {
       try {
         r = {
@@ -110,10 +120,36 @@ export function createVariable<T>(spec: VariableSpec<T>): Variable<T> {
   }
 
   function unmarshal(value: string): T {
-    const native = schema.unmarshal(value);
-    spec.constraint?.(spec, native);
-    // TODO: canonicalize
+    try {
+      const native = schema.unmarshal(value);
+      spec.constraint?.(spec, native);
+      // TODO: canonicalize
 
-    return native;
+      return native;
+    } catch (error) {
+      throw new ValueError(spec.name, value, normalizeError(error));
+    }
+  }
+}
+
+export class SpecError extends Error {
+  constructor(public readonly name: string, public readonly cause: Error) {
+    super(`specification for ${name} is invalid: ${cause.message}`);
+  }
+}
+
+export class ValueError extends Error {
+  constructor(
+    public readonly name: string,
+    public readonly value: string,
+    public readonly cause: Error
+  ) {
+    super(`value of ${name} (${quote([value])}) is invalid: ${cause.message}`);
+  }
+}
+
+export class UndefinedError extends Error {
+  constructor(public readonly name: string) {
+    super(`${name} is undefined and does not have a default value`);
   }
 }

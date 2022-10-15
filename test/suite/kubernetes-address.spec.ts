@@ -7,47 +7,88 @@ import {
 } from "../../src/kubernetes-address";
 import { hasType, noop } from "../helpers";
 
-const invalidHostTable = [
-  ["leading dot", ".host.example.org", "must not begin or end with a dot"],
-  ["trailing dot", "host.example.org.", "must not begin or end with a dot"],
-  ["whitespace", "host.examp le.org", "must not contain whitespace"],
+const invalidHostValueTable = [
+  [
+    "leading dot",
+    ".host.example.org",
+    `value of AUSTENITE_SVC_SERVICE_HOST (.host.example.org) is invalid: must not begin or end with a dot`,
+  ],
+  [
+    "trailing dot",
+    "host.example.org.",
+    `value of AUSTENITE_SVC_SERVICE_HOST (host.example.org.) is invalid: must not begin or end with a dot`,
+  ],
+  [
+    "whitespace",
+    "host.examp le.org",
+    `value of AUSTENITE_SVC_SERVICE_HOST ('host.examp le.org') is invalid: must not contain whitespace`,
+  ],
   [
     "full address",
     "host.example.org:12345",
-    "must not contain a colon (:) unless part of an IPv6 address",
+    `value of AUSTENITE_SVC_SERVICE_HOST (host.example.org\\:12345) is invalid: must not contain a colon (:) unless part of an IPv6 address`,
   ],
 ];
 
-const invalidPortStringTable = [
-  ["non-numeric", "host.example.org", "must be an unsigned integer"],
-  ["non-integer", "123.456", "must be an unsigned integer"],
-  ["negative sign", "-1", "must be an unsigned integer"],
-  ["positive sign", "+1", "must be an unsigned integer"],
-  ["leading zero", "01234", "must not have leading zeros"],
-  ["zero", "0", "must be between 1 and 65535"],
-  ["above max", "65536", "must be between 1 and 65535"],
+const invalidPortValueTable = [
+  [
+    "non-numeric",
+    "host.example.org",
+    "value of AUSTENITE_SVC_SERVICE_PORT (host.example.org) is invalid: must be an unsigned integer",
+  ],
+  [
+    "non-integer",
+    "123.456",
+    "value of AUSTENITE_SVC_SERVICE_PORT (123.456) is invalid: must be an unsigned integer",
+  ],
+  [
+    "negative sign",
+    "-1",
+    "value of AUSTENITE_SVC_SERVICE_PORT (-1) is invalid: must be an unsigned integer",
+  ],
+  [
+    "positive sign",
+    "+1",
+    "value of AUSTENITE_SVC_SERVICE_PORT (+1) is invalid: must be an unsigned integer",
+  ],
+  [
+    "leading zero",
+    "01234",
+    "value of AUSTENITE_SVC_SERVICE_PORT (01234) is invalid: must not have leading zeros",
+  ],
+  [
+    "zero",
+    "0",
+    "value of AUSTENITE_SVC_SERVICE_PORT (0) is invalid: must be between 1 and 65535",
+  ],
+  [
+    "above max",
+    "65536",
+    "value of AUSTENITE_SVC_SERVICE_PORT (65536) is invalid: must be between 1 and 65535",
+  ],
 ];
 
-const invalidPortNumberTable = [
-  ["non-integer", 123.456, "must be an unsigned integer"],
-  ["negative", -1, "must be an unsigned integer"],
-  ["zero", 0, "must be between 1 and 65535"],
-  ["above max", 65536, "must be between 1 and 65535"],
-] as const;
-
 const invalidK8sNameTable = [
-  ["empty", "", "must not be empty"],
-  ["starts with a hyphen", "-foo", "must not begin or end with a hyphen"],
-  ["ends with a hyphen", "foo-", "must not begin or end with a hyphen"],
+  ["empty", "", '(""): must not be empty'],
+  [
+    "starts with a hyphen",
+    "-foo",
+    '("-foo"): must not begin or end with a hyphen',
+  ],
+  [
+    "ends with a hyphen",
+    "foo-",
+    '("foo-"): must not begin or end with a hyphen',
+  ],
   [
     "contains an invalid character",
     "foo*bar",
-    "must contain only lowercase ASCII letters, digits and hyphen",
+    '("foo*bar"): must contain only lowercase ASCII letters, digits and hyphen',
   ],
   [
     "contains an uppercase character",
     "fooBar",
-    "must contain only lowercase ASCII letters, digits and hyphen",
+    '("fooBar"): must contain only lowercase ASCII letters, digits and hyphen',
   ],
 ];
 
@@ -80,7 +121,9 @@ describe("Kubernetes address declarations", () => {
     it("defaults to a required declaration", () => {
       expect(() => {
         declaration.value();
-      }).toThrow("undefined");
+      }).toThrow(
+        "AUSTENITE_SVC_SERVICE_HOST is undefined and does not have a default value"
+      );
     });
   });
 
@@ -94,7 +137,9 @@ describe("Kubernetes address declarations", () => {
     it("defaults to a required declaration", () => {
       expect(() => {
         declaration.value();
-      }).toThrow("undefined");
+      }).toThrow(
+        "AUSTENITE_SVC_SERVICE_HOST is undefined and does not have a default value"
+      );
     });
   });
 
@@ -104,7 +149,9 @@ describe("Kubernetes address declarations", () => {
       it("throws", () => {
         expect(() => {
           kubernetesAddress(name);
-        }).toThrow(expected);
+        }).toThrow(
+          `specification for Kubernetes service address is invalid: service name ${expected}`
+        );
       });
     }
   );
@@ -146,7 +193,7 @@ describe("Kubernetes address declarations", () => {
       });
     });
 
-    describe.each(invalidHostTable)(
+    describe.each(invalidHostValueTable)(
       "when the host is invalid (%s)",
       (_, value: string, expected: string) => {
         beforeEach(() => {
@@ -166,7 +213,7 @@ describe("Kubernetes address declarations", () => {
       }
     );
 
-    describe.each(invalidPortStringTable)(
+    describe.each(invalidPortValueTable)(
       "when the port is invalid (%s)",
       (_, value: string, expected: string) => {
         beforeEach(() => {
@@ -197,7 +244,9 @@ describe("Kubernetes address declarations", () => {
         it("throws", () => {
           expect(() => {
             declaration.value();
-          }).toThrow("undefined");
+          }).toThrow(
+            "AUSTENITE_SVC_SERVICE_HOST is undefined and does not have a default value"
+          );
         });
       });
     });
@@ -213,7 +262,9 @@ describe("Kubernetes address declarations", () => {
         it("throws", () => {
           expect(() => {
             declaration.value();
-          }).toThrow("undefined");
+          }).toThrow(
+            "AUSTENITE_SVC_SERVICE_PORT is undefined and does not have a default value"
+          );
         });
       });
     });
@@ -227,7 +278,9 @@ describe("Kubernetes address declarations", () => {
         it("throws", () => {
           expect(() => {
             declaration.value();
-          }).toThrow("undefined");
+          }).toThrow(
+            "AUSTENITE_SVC_SERVICE_HOST is undefined and does not have a default value"
+          );
         });
       });
     });
@@ -274,7 +327,7 @@ describe("Kubernetes address declarations", () => {
       });
     });
 
-    describe.each(invalidHostTable)(
+    describe.each(invalidHostValueTable)(
       "when the host is invalid (%s)",
       (_, value: string, expected: string) => {
         beforeEach(() => {
@@ -294,7 +347,7 @@ describe("Kubernetes address declarations", () => {
       }
     );
 
-    describe.each(invalidPortStringTable)(
+    describe.each(invalidPortValueTable)(
       "when the port is invalid (%s)",
       (_, value: string, expected: string) => {
         beforeEach(() => {
@@ -450,7 +503,9 @@ describe("Kubernetes address declarations", () => {
             kubernetesAddress("austenite-svc", {
               portName,
             });
-          }).toThrow(expected);
+          }).toThrow(
+            `specification for Kubernetes austenite-svc service address is invalid: port name ${expected}`
+          );
         });
       }
     );
@@ -496,9 +551,16 @@ describe("Kubernetes address declarations", () => {
     }
   );
 
-  describe.each(invalidHostTable)(
-    "when using a invalid default host (%s)",
-    (_, host: string, expected: string) => {
+  describe.each`
+    description       | host                        | expected
+    ${"empty"}        | ${""}                       | ${"must not be empty"}
+    ${"leading dot"}  | ${".host.example.org"}      | ${"must not begin or end with a dot"}
+    ${"trailing dot"} | ${"host.example.org."}      | ${"must not begin or end with a dot"}
+    ${"whitespace"}   | ${"host.examp le.org"}      | ${"must not contain whitespace"}
+    ${"full address"} | ${"host.example.org:12345"} | ${"must not contain a colon (:) unless part of an IPv6 address"}
+  `(
+    "when using an invalid default host ($description)",
+    ({ host, expected }: { host: string; expected: string }) => {
       it("throws", () => {
         expect(() => {
           kubernetesAddress("austenite-svc", {
@@ -507,14 +569,22 @@ describe("Kubernetes address declarations", () => {
               port: def.port,
             },
           });
-        }).toThrow(expected);
+        }).toThrow(
+          `specification for AUSTENITE_SVC_SERVICE_HOST is invalid: default value: ${expected}`
+        );
       });
     }
   );
 
-  describe.each(invalidPortNumberTable)(
-    "when using a invalid default port (%s)",
-    (_, port: number, expected: string) => {
+  describe.each`
+    description      | port       | expected
+    ${"non-integer"} | ${123.456} | ${"must be an unsigned integer"}
+    ${"negative"}    | ${-1}      | ${"must be an unsigned integer"}
+    ${"zero"}        | ${0}       | ${"must be between 1 and 65535"}
+    ${"above max"}   | ${65536}   | ${"must be between 1 and 65535"}
+  `(
+    "when using an invalid default port ($description)",
+    ({ port, expected }: { port: number; expected: string }) => {
       it("throws", () => {
         expect(() => {
           kubernetesAddress("austenite-svc", {
@@ -523,7 +593,9 @@ describe("Kubernetes address declarations", () => {
               port,
             },
           });
-        }).toThrow(expected);
+        }).toThrow(
+          `specification for AUSTENITE_SVC_SERVICE_PORT is invalid: default value: ${expected}`
+        );
       });
     }
   );

@@ -2,7 +2,7 @@ import { quote } from "shell-quote";
 import { Visitor } from "./schema";
 import { createTable } from "./table";
 import { Result, Results } from "./validation";
-import { Variable } from "./variable";
+import { UndefinedError, ValueError, Variable } from "./variable";
 
 const ATTENTION = "❯";
 const INVALID = "✗";
@@ -56,9 +56,15 @@ function createSchemaRenderer(): Visitor<string> {
 }
 
 function renderResult({ error, maybe }: Result) {
-  if (error != null) return `${INVALID} ${error.message}`;
+  if (error != null) return `${INVALID} ${describeError(error)}`;
   if (!maybe.isDefined) return `${NEUTRAL} undefined`;
   if (maybe.value.isDefault) return `${VALID} using default value`;
 
   return `${VALID} set to ${quote([maybe.value.verbatim])}`;
+}
+
+function describeError(error: Error) {
+  if (error instanceof UndefinedError) return "undefined";
+
+  return error instanceof ValueError ? error.cause.message : error.message;
 }

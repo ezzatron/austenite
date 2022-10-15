@@ -6,6 +6,7 @@ import {
   Value,
 } from "./declaration";
 import { registerVariable } from "./environment";
+import { normalizeError } from "./error";
 import { createExamples, Example } from "./example";
 import { mapMaybe, Maybe, resolveMaybe } from "./maybe";
 import { createString, createUnsignedInteger } from "./schema";
@@ -66,8 +67,16 @@ function registerHost(
     };
   }
 
+  let envName: string;
+
+  try {
+    envName = kubernetesNameToEnv(name);
+  } catch (error) {
+    throw new InvalidK8sServiceNameError(name, normalizeError(error));
+  }
+
   return registerVariable({
-    name: `${kubernetesNameToEnv(name)}_SERVICE_HOST`,
+    name: `${envName}_SERVICE_HOST`,
     description: `kubernetes ${JSON.stringify(name)} service host`,
     default: hostDef,
     schema,
@@ -98,7 +107,14 @@ function registerPort(
   let varName: string, description: string;
 
   if (typeof portName === "string") {
-    const envPortName = kubernetesNameToEnv(portName);
+    let envPortName: string;
+
+    try {
+      envPortName = kubernetesNameToEnv(portName);
+    } catch (error) {
+      throw new InvalidK8sPortNameError(name, portName, normalizeError(error));
+    }
+
     const quotedPortName = JSON.stringify(portName);
 
     varName = `${envName}_SERVICE_PORT_${envPortName}`;
@@ -135,6 +151,8 @@ function registerPort(
 }
 
 function validateHost(_: VariableSpec<string>, host: string): void {
+  if (host === "") throw new Error("must not be empty");
+
   if (IP_PATTERN.test(host)) return;
 
   if (host.includes(" ")) {
@@ -169,6 +187,26 @@ function kubernetesNameToEnv(name: string): string {
   }
 
   return name.replaceAll("-", "_").toUpperCase();
+}
+
+class InvalidK8sServiceNameError extends Error {
+  constructor(name: string, cause: Error) {
+    const quotedName = JSON.stringify(name);
+
+    super(
+      `specification for Kubernetes service address is invalid: service name (${quotedName}): ${cause.message}`
+    );
+  }
+}
+
+class InvalidK8sPortNameError extends Error {
+  constructor(name: string, portName: string, cause: Error) {
+    const quotedName = JSON.stringify(portName);
+
+    super(
+      `specification for Kubernetes ${name} service address is invalid: port name (${quotedName}): ${cause.message}`
+    );
+  }
 }
 
 class PartiallyDefinedError extends Error {

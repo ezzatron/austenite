@@ -2,6 +2,7 @@ import { boolean, initialize, kubernetesAddress, string } from "../../src";
 import { Declaration, DeclarationOptions } from "../../src/declaration";
 import { reset } from "../../src/environment";
 import { Results } from "../../src/validation";
+import { UndefinedError } from "../../src/variable";
 import { createMockConsole, MockConsole } from "../helpers";
 
 type DeclarationFactory = (
@@ -194,7 +195,7 @@ describe("initialize()", () => {
               },
             },
             result: {
-              error: new Error("undefined"),
+              error: new UndefinedError("AUSTENITE_STRING"),
             },
           },
         ]);
