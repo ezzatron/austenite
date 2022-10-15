@@ -99,6 +99,20 @@ describe("initialize()", () => {
         });
       });
     });
+
+    describe("when a custom invalid environment handler is specified", () => {
+      let onInvalid: jest.Mock;
+
+      beforeEach(() => {
+        onInvalid = jest.fn();
+      });
+
+      it("does not call the handler", () => {
+        initialize({ onInvalid });
+
+        expect(onInvalid).not.toHaveBeenCalled();
+      });
+    });
   });
 
   describe("when the environment is invalid", () => {

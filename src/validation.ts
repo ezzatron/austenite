@@ -4,6 +4,7 @@ import { Value, Variable } from "./variable";
 
 export function validate(variables: Variable<unknown>[]): [boolean, Results] {
   const results: Results = [];
+  let isValid = true;
 
   for (const variable of variables) {
     try {
@@ -12,11 +13,12 @@ export function validate(variables: Variable<unknown>[]): [boolean, Results] {
         result: { maybe: variable.value() },
       });
     } catch (error) {
+      isValid = false;
       results.push({ variable, result: { error: normalizeError(error) } });
     }
   }
 
-  return [false, results];
+  return [isValid, results];
 }
 
 export type Result = ErrorResult | ValueResult;
