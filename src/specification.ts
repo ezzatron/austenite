@@ -225,13 +225,7 @@ function examples({ spec: { name, examples } }: Variable<unknown>): Content {
   const table = createTable(1);
 
   for (const { canonical, description } of examples) {
-    const comments = [];
-    if (description != null) comments.push(description);
-
-    const row = [`export ${name}=${quote([canonical])}`];
-    if (comments.length > 0) row.push(`# ${comments.join(" ")}`);
-
-    table.addRow(row);
+    table.addRow([`export ${name}=${quote([canonical])}`, `# ${description}`]);
   }
 
   return {

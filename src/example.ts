@@ -1,7 +1,7 @@
 export interface Example<T> {
   readonly canonical: string;
   readonly native: T;
-  readonly description?: string;
+  readonly description: string;
 }
 
 export type Examples<T> = Iterable<Example<T>>;
