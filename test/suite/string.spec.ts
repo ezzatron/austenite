@@ -79,6 +79,11 @@ describe("String declarations", () => {
         it("returns the value", () => {
           expect(declaration.value()).toBe("<value>");
         });
+
+        it("returns the same value when called multiple times", () => {
+          expect(declaration.value()).toBe("<value>");
+          expect(declaration.value()).toBe("<value>");
+        });
       });
     });
 

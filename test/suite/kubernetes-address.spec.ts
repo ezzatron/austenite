@@ -190,6 +190,16 @@ describe("Kubernetes address declarations", () => {
             port: 12345,
           });
         });
+
+        it("returns the same value when called multiple times", () => {
+          const expected = {
+            host: "host.example.org",
+            port: 12345,
+          };
+
+          expect(declaration.value()).toEqual(expected);
+          expect(declaration.value()).toEqual(expected);
+        });
       });
     });
 

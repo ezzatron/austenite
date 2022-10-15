@@ -89,16 +89,15 @@ export function createVariable<T>(spec: VariableSpec<T>): Variable<T> {
     if (resolution != null) return resolution;
 
     const value = readVariable(spec);
-    let r: Resolution<T>;
 
     if (value === "") {
-      r =
+      resolution =
         def == null
           ? { error: new UndefinedError(spec.name) }
           : { result: def };
     } else {
       try {
-        r = {
+        resolution = {
           result: definedValue({
             verbatim: value,
             native: unmarshal(value),
@@ -106,11 +105,11 @@ export function createVariable<T>(spec: VariableSpec<T>): Variable<T> {
           }),
         };
       } catch (error) {
-        r = { error: normalizeError(error) };
+        resolution = { error: normalizeError(error) };
       }
     }
 
-    return r;
+    return resolution;
   }
 
   function marshal(value: T): string {

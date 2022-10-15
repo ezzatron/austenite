@@ -82,7 +82,12 @@ describe("Boolean declarations", () => {
         });
 
         describe(".value()", () => {
-          it("returns the value associated with the literal ($value)", () => {
+          it("returns the value associated with the literal", () => {
+            expect(declaration.value()).toBe(expected);
+          });
+
+          it("returns the same value when called multiple times", () => {
+            expect(declaration.value()).toBe(expected);
             expect(declaration.value()).toBe(expected);
           });
         });
