@@ -1,18 +1,26 @@
 import { readFile } from "fs/promises";
 import { join } from "path";
 import { boolean, initialize, kubernetesAddress, string } from "../../src";
-import { reset } from "../../src/environment";
+import { reset, setProcessExit } from "../../src/environment";
 import { createMockConsole, MockConsole } from "../helpers";
 
 const fixturesPath = join(__dirname, "../fixture/specification");
 
 describe("Specification documents", () => {
+  let exitCode: number | undefined;
   let argv: typeof process.argv;
   let env: typeof process.env;
   let mockConsole: MockConsole;
 
+  function processExit(code: number): never {
+    exitCode = code;
+
+    return undefined as never;
+  }
+
   beforeEach(() => {
-    jest.spyOn(process, "exit").mockImplementation();
+    exitCode = undefined;
+    setProcessExit(processExit);
 
     argv = process.argv;
     process.argv = [process.argv0, "<app>"];
@@ -38,6 +46,7 @@ describe("Specification documents", () => {
       expect(mockConsole.readStdout()).toBe(
         await readFixture("boolean/required")
       );
+      expect(exitCode).toBe(0);
     });
 
     it("describes optional booleans", async () => {
@@ -50,6 +59,7 @@ describe("Specification documents", () => {
       expect(mockConsole.readStdout()).toBe(
         await readFixture("boolean/optional")
       );
+      expect(exitCode).toBe(0);
     });
 
     it("describes optional booleans with defaults", async () => {
@@ -65,6 +75,7 @@ describe("Specification documents", () => {
       expect(mockConsole.readStdout()).toBe(
         await readFixture("boolean/default")
       );
+      expect(exitCode).toBe(0);
     });
 
     it("describes booleans with custom literals", async () => {
@@ -81,6 +92,7 @@ describe("Specification documents", () => {
       expect(mockConsole.readStdout()).toBe(
         await readFixture("boolean/custom-literals")
       );
+      expect(exitCode).toBe(0);
     });
   });
 
@@ -93,6 +105,7 @@ describe("Specification documents", () => {
       expect(mockConsole.readStdout()).toBe(
         await readFixture("kubernetes-address/required")
       );
+      expect(exitCode).toBe(0);
     });
 
     it("describes optional addresses", async () => {
@@ -105,6 +118,7 @@ describe("Specification documents", () => {
       expect(mockConsole.readStdout()).toBe(
         await readFixture("kubernetes-address/optional")
       );
+      expect(exitCode).toBe(0);
     });
 
     it("describes optional addresses with defaults", async () => {
@@ -120,6 +134,7 @@ describe("Specification documents", () => {
       expect(mockConsole.readStdout()).toBe(
         await readFixture("kubernetes-address/default")
       );
+      expect(exitCode).toBe(0);
     });
 
     it("describes addresses with named ports", async () => {
@@ -135,6 +150,7 @@ describe("Specification documents", () => {
       expect(mockConsole.readStdout()).toBe(
         await readFixture("kubernetes-address/named-ports")
       );
+      expect(exitCode).toBe(0);
     });
   });
 
@@ -147,6 +163,7 @@ describe("Specification documents", () => {
       expect(mockConsole.readStdout()).toBe(
         await readFixture("string/required")
       );
+      expect(exitCode).toBe(0);
     });
 
     it("describes optional strings", async () => {
@@ -159,6 +176,7 @@ describe("Specification documents", () => {
       expect(mockConsole.readStdout()).toBe(
         await readFixture("string/optional")
       );
+      expect(exitCode).toBe(0);
     });
 
     it("describes optional strings with defaults", async () => {
@@ -171,6 +189,7 @@ describe("Specification documents", () => {
       expect(mockConsole.readStdout()).toBe(
         await readFixture("string/default")
       );
+      expect(exitCode).toBe(0);
     });
   });
 });

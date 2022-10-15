@@ -1,6 +1,6 @@
 import { boolean, initialize, kubernetesAddress, string } from "../../src";
 import { Declaration, DeclarationOptions } from "../../src/declaration";
-import { reset } from "../../src/environment";
+import { reset, setProcessExit } from "../../src/environment";
 import { Results } from "../../src/validation";
 import { UndefinedError } from "../../src/variable";
 import { createMockConsole, MockConsole } from "../helpers";
@@ -18,14 +18,15 @@ describe("initialize()", () => {
   let env: typeof process.env;
   let mockConsole: MockConsole;
 
+  function processExit(code: number): never {
+    exitCode = code;
+
+    return undefined as never;
+  }
+
   beforeEach(() => {
     exitCode = undefined;
-
-    jest.spyOn(process, "exit").mockImplementation((code) => {
-      exitCode = code ?? 0;
-
-      return undefined as never;
-    });
+    setProcessExit(processExit);
 
     env = process.env;
     process.env = { ...env };

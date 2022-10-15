@@ -1,17 +1,25 @@
 import { EOL } from "os";
 import { boolean, initialize, kubernetesAddress, string } from "../../src";
-import { registerVariable, reset } from "../../src/environment";
+import { registerVariable, reset, setProcessExit } from "../../src/environment";
 import { undefinedValue } from "../../src/maybe";
 import { createString } from "../../src/schema";
 import { VariableSpec } from "../../src/variable";
 import { createMockConsole, MockConsole } from "../helpers";
 
 describe("Validation summary", () => {
+  let exitCode: number | undefined;
   let env: typeof process.env;
   let mockConsole: MockConsole;
 
+  function processExit(code: number): never {
+    exitCode = code;
+
+    return undefined as never;
+  }
+
   beforeEach(() => {
-    jest.spyOn(process, "exit").mockImplementation();
+    exitCode = undefined;
+    setProcessExit(processExit);
 
     env = process.env;
     process.env = { ...env };
@@ -52,6 +60,7 @@ describe("Validation summary", () => {
         "",
       ].join(EOL)
     );
+    expect(exitCode).toBeGreaterThan(0);
   });
 
   it("summarizes optional variables with no defaults", () => {
@@ -81,6 +90,7 @@ describe("Validation summary", () => {
         "",
       ].join(EOL)
     );
+    expect(exitCode).toBeGreaterThan(0);
   });
 
   it("summarizes variables with defaults", () => {
@@ -113,6 +123,7 @@ describe("Validation summary", () => {
         "",
       ].join(EOL)
     );
+    expect(exitCode).toBeGreaterThan(0);
   });
 
   it("summarizes invalid values", () => {
@@ -135,6 +146,7 @@ describe("Validation summary", () => {
         ``,
       ].join(EOL)
     );
+    expect(exitCode).toBeGreaterThan(0);
   });
 
   it("summarizes misbehaving variables", () => {
@@ -170,5 +182,6 @@ describe("Validation summary", () => {
         "",
       ].join(EOL)
     );
+    expect(exitCode).toBeGreaterThan(0);
   });
 });

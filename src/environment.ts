@@ -4,6 +4,7 @@ import { renderSummary } from "./summary";
 import { Results, validate } from "./validation";
 import { createVariable, Variable, VariableSpec } from "./variable";
 
+let processExit = process.exit.bind(process);
 let state: State = createInitialState();
 
 export interface InitializeOptions {
@@ -14,8 +15,7 @@ export function initialize(options: InitializeOptions = {}): void {
   if (process.env.AUSTENITE_SPEC === "true") {
     console.log(renderSpecification(variablesByName()));
 
-    // eslint-disable-next-line n/no-process-exit
-    process.exit(0);
+    processExit(0);
   } else {
     state.isInitialized = true;
 
@@ -48,6 +48,10 @@ export function readVariable<T>(spec: VariableSpec<T>): string {
   return process.env[spec.name] ?? "";
 }
 
+export function setProcessExit(exit: typeof process.exit) {
+  processExit = exit;
+}
+
 export function reset(): void {
   state = createInitialState();
 }
@@ -71,7 +75,9 @@ function defaultOnInvalid({ results }: { results: Results }): never {
     ["Environment Variables:", "", renderSummary(results)].join(EOL)
   );
 
-  process.exit(1); // eslint-disable-line n/no-process-exit
+  processExit(1);
+
+  return undefined as never;
 }
 
 function variablesByName(): Variable<unknown>[] {
