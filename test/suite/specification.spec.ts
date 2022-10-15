@@ -57,6 +57,9 @@ describe("Specification documents", () => {
       boolean("DEBUG", "enable or disable debugging features", {
         default: false,
       });
+      boolean("PRODUCTION", "enable or disable production mode", {
+        default: true,
+      });
       initialize();
 
       expect(mockConsole.readStdout()).toBe(
