@@ -1,6 +1,9 @@
 import { EOL } from "os";
 import { boolean, initialize, kubernetesAddress, string } from "../../src";
-import { reset } from "../../src/environment";
+import { registerVariable, reset } from "../../src/environment";
+import { undefinedValue } from "../../src/maybe";
+import { createString } from "../../src/schema";
+import { VariableSpec } from "../../src/variable";
 import { createMockConsole, MockConsole } from "../helpers";
 
 describe("Validation summary", () => {
@@ -130,6 +133,41 @@ describe("Validation summary", () => {
         `❯ AUSTENITE_STRING    example string     <string>        ✗ undefined`,
         `❯ AUSTENITE_XTRIGGER  trigger failure    <string>        ✗ undefined`,
         ``,
+      ].join(EOL)
+    );
+  });
+
+  it("summarizes misbehaving variables", () => {
+    process.env.AUSTENITE_CUSTOM = "custom value";
+    process.env.AUSTENITE_STRING = "hello, world!";
+
+    const spec: VariableSpec<string> = {
+      name: "AUSTENITE_CUSTOM",
+      description: "custom variable",
+      default: undefinedValue(),
+      schema: createString(),
+      examples: [],
+      constraint: () => {
+        throw {
+          toString() {
+            return "not really an error";
+          },
+        };
+      },
+    };
+
+    registerVariable(spec);
+    string("AUSTENITE_STRING", "example string");
+
+    initialize();
+
+    expect(mockConsole.readStderr()).toBe(
+      [
+        "Environment Variables:",
+        "",
+        "❯ AUSTENITE_CUSTOM  custom variable    <string>    ✗ set to 'custom value', not really an error",
+        "  AUSTENITE_STRING  example string     <string>    ✓ set to 'hello, world!'",
+        "",
       ].join(EOL)
     );
   });
