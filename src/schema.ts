@@ -38,7 +38,7 @@ export function createBoolean(literals: BooleanLiterals): Enum<boolean> {
 
       if (mapped != null) return mapped;
 
-      throw new InvalidEnumError(members, v);
+      throw new InvalidEnumError(members);
     },
 
     accept(visitor) {
@@ -111,12 +111,12 @@ export type TypeNameOf<T> = T extends bigint
   : "object";
 
 class InvalidEnumError extends Error {
-  constructor(members: string[], value: string) {
+  constructor(members: string[]) {
     const listFormatter = new Intl.ListFormat("en", {
       style: "short",
       type: "disjunction",
     });
 
-    super(`set to ${value}, expected ${listFormatter.format(members)}`);
+    super(`expected ${listFormatter.format(members)}`);
   }
 }

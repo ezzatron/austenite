@@ -66,5 +66,9 @@ function renderResult({ error, maybe }: Result) {
 function describeError(error: Error) {
   if (error instanceof UndefinedError) return "undefined";
 
-  return error instanceof ValueError ? error.cause.message : error.message;
+  if (error instanceof ValueError) {
+    return `set to ${quote([error.value])}, ${error.cause.message}`;
+  }
+
+  return error.message;
 }

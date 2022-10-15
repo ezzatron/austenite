@@ -28,7 +28,9 @@ describe("Boolean declarations", () => {
     it("defaults to a required declaration", () => {
       expect(() => {
         declaration.value();
-      }).toThrow("undefined");
+      }).toThrow(
+        "AUSTENITE_BOOLEAN is undefined and does not have a default value"
+      );
     });
   });
 
@@ -42,7 +44,9 @@ describe("Boolean declarations", () => {
     it("defaults to a required declaration", () => {
       expect(() => {
         declaration.value();
-      }).toThrow("undefined");
+      }).toThrow(
+        "AUSTENITE_BOOLEAN is undefined and does not have a default value"
+      );
     });
   });
 
@@ -86,12 +90,12 @@ describe("Boolean declarations", () => {
     );
 
     describe.each`
-      value      | message
-      ${"ture"}  | ${"set to ture, expected true or false"}
-      ${"flase"} | ${"set to flase, expected true or false"}
+      value      | expected
+      ${"ture"}  | ${"value of AUSTENITE_BOOLEAN (ture) is invalid: expected true or false"}
+      ${"flase"} | ${"value of AUSTENITE_BOOLEAN (flase) is invalid: expected true or false"}
     `(
       "when the value is invalid ($value)",
-      ({ value, message }: { value: string; message: string }) => {
+      ({ value, expected }: { value: string; expected: string }) => {
         beforeEach(() => {
           process.env.AUSTENITE_BOOLEAN = value;
 
@@ -102,7 +106,7 @@ describe("Boolean declarations", () => {
           it("throws", () => {
             expect(() => {
               declaration.value();
-            }).toThrow(message);
+            }).toThrow(expected);
           });
         });
       }
@@ -117,7 +121,9 @@ describe("Boolean declarations", () => {
         it("throws", () => {
           expect(() => {
             declaration.value();
-          }).toThrow("undefined");
+          }).toThrow(
+            "AUSTENITE_BOOLEAN is undefined and does not have a default value"
+          );
         });
       });
     });
@@ -166,12 +172,12 @@ describe("Boolean declarations", () => {
     );
 
     describe.each`
-      value      | message
-      ${"ture"}  | ${"set to ture, expected true or false"}
-      ${"flase"} | ${"set to flase, expected true or false"}
+      value      | expected
+      ${"ture"}  | ${"value of AUSTENITE_BOOLEAN (ture) is invalid: expected true or false"}
+      ${"flase"} | ${"value of AUSTENITE_BOOLEAN (flase) is invalid: expected true or false"}
     `(
       "when the value is invalid ($value)",
-      ({ value, message }: { value: string; message: string }) => {
+      ({ value, expected }: { value: string; expected: string }) => {
         beforeEach(() => {
           process.env.AUSTENITE_BOOLEAN = value;
 
@@ -182,7 +188,7 @@ describe("Boolean declarations", () => {
           it("throws", () => {
             expect(() => {
               declaration.value();
-            }).toThrow(message);
+            }).toThrow(expected);
           });
         });
       }
@@ -260,12 +266,12 @@ describe("Boolean declarations", () => {
     );
 
     describe.each`
-      value      | message
-      ${"true"}  | ${"set to true, expected y, yes, n, or no"}
-      ${"false"} | ${"set to false, expected y, yes, n, or no"}
+      value      | expected
+      ${"true"}  | ${"value of AUSTENITE_BOOLEAN (true) is invalid: expected y, yes, n, or no"}
+      ${"false"} | ${"value of AUSTENITE_BOOLEAN (false) is invalid: expected y, yes, n, or no"}
     `(
       "when the value does not match a custom literal ($value)",
-      ({ value, message }: { value: string; message: string }) => {
+      ({ value, expected }: { value: string; expected: string }) => {
         beforeEach(() => {
           process.env.AUSTENITE_BOOLEAN = value;
 
@@ -276,7 +282,7 @@ describe("Boolean declarations", () => {
           it("throws", () => {
             expect(() => {
               declaration.value();
-            }).toThrow(message);
+            }).toThrow(expected);
           });
         });
       }
@@ -295,7 +301,7 @@ describe("Boolean declarations", () => {
               literals,
             });
           }).toThrow(
-            "The specification for AUSTENITE_BOOLEAN is invalid: literals can not be an empty string."
+            "specification for AUSTENITE_BOOLEAN is invalid: literals can not be empty strings"
           );
         });
       });
@@ -314,7 +320,7 @@ describe("Boolean declarations", () => {
               literals,
             });
           }).toThrow(
-            "The specification for AUSTENITE_BOOLEAN is invalid: literals can not be an empty string."
+            "specification for AUSTENITE_BOOLEAN is invalid: literals can not be empty strings"
           );
         });
       });
@@ -333,7 +339,7 @@ describe("Boolean declarations", () => {
               literals,
             });
           }).toThrow(
-            'The specification for AUSTENITE_BOOLEAN is invalid: literal "a" can not be used multiple times.'
+            'specification for AUSTENITE_BOOLEAN is invalid: literal "a" can not be used multiple times'
           );
         });
       });
@@ -352,7 +358,7 @@ describe("Boolean declarations", () => {
               literals,
             });
           }).toThrow(
-            'The specification for AUSTENITE_BOOLEAN is invalid: literal "a" can not be used multiple times.'
+            'specification for AUSTENITE_BOOLEAN is invalid: literal "a" can not be used multiple times'
           );
         });
       });

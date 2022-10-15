@@ -8,6 +8,7 @@ import { registerVariable } from "./environment";
 import { createExamples, Examples } from "./example";
 import { Maybe, resolveMaybe } from "./maybe";
 import { BooleanLiterals, createBoolean } from "./schema";
+import { SpecError } from "./variable";
 
 export interface BooleanOptions extends DeclarationOptions<boolean> {
   readonly literals?: BooleanLiterals;
@@ -79,20 +80,19 @@ function buildExamples(
   );
 }
 
-class EmptyLiteralError extends Error {
+class EmptyLiteralError extends SpecError {
   constructor(name: string) {
-    super(
-      `The specification for ${name} is invalid: literals can not be an empty string.`
-    );
+    super(name, new Error("literals can not be empty strings"));
   }
 }
 
-class ReusedLiteralError extends Error {
+class ReusedLiteralError extends SpecError {
   constructor(name: string, literal: string) {
-    const quotedLiteral = JSON.stringify(literal);
-
     super(
-      `The specification for ${name} is invalid: literal ${quotedLiteral} can not be used multiple times.`
+      name,
+      new Error(
+        `literal ${JSON.stringify(literal)} can not be used multiple times`
+      )
     );
   }
 }
