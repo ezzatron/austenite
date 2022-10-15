@@ -63,18 +63,16 @@ function assertLiterals(
 function buildExamples(
   literals: BooleanLiterals,
   def: Maybe<boolean | undefined>
-): Examples<boolean> {
+): Examples {
   const defValue = def.isDefined ? def.value : undefined;
 
   return createExamples(
     ...literals.true.map((literal) => ({
       canonical: literal,
-      native: true,
       description: defValue === true ? "true (default)" : "true",
     })),
     ...literals.false.map((literal) => ({
       canonical: literal,
-      native: false,
       description: defValue === false ? "false (default)" : "false",
     }))
   );

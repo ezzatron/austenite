@@ -10,7 +10,7 @@ export interface VariableSpec<T> {
   readonly description: string;
   readonly default: Maybe<T | undefined>;
   readonly schema: Schema<T>;
-  readonly examples: Examples<T>;
+  readonly examples: Examples;
   readonly constraint?: Constraint<T>;
 }
 

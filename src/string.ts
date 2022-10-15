@@ -37,13 +37,12 @@ export function string<O extends StringOptions>(
 function buildExamples(
   schema: Scalar<string>,
   def: Maybe<string | undefined>
-): Examples<string> {
-  let defExample: Example<string> | undefined;
+): Examples {
+  let defExample: Example | undefined;
 
   if (def.isDefined && typeof def.value !== "undefined") {
     defExample = {
       canonical: schema.marshal(def.value),
-      native: def.value,
       description: "(default)",
     };
   }
@@ -52,12 +51,10 @@ function buildExamples(
     defExample,
     {
       canonical: "conquistador",
-      native: "conquistador",
       description: "any value",
     },
     {
       canonical: "alabaster parakeet",
-      native: "alabaster parakeet",
       description: "some values may need escaping",
     }
   );

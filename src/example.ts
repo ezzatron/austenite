@@ -1,16 +1,13 @@
-export interface Example<T> {
+export interface Example {
   readonly canonical: string;
-  readonly native: T;
   readonly description: string;
 }
 
-export type Examples<T> = Iterable<Example<T>>;
+export type Examples = Iterable<Example>;
 
-export function createExamples<T>(
-  ...init: (Example<T> | undefined)[]
-): Examples<T> {
+export function createExamples(...init: (Example | undefined)[]): Examples {
   const seen = new Set();
-  const examples: Example<T>[] = [];
+  const examples: Example[] = [];
 
   for (const example of init) {
     if (example == null || seen.has(example.canonical)) continue;

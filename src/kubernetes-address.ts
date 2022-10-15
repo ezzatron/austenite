@@ -57,12 +57,11 @@ function registerHost(
 ): Variable<string> {
   const hostDef = mapMaybe(def, (address) => address?.host);
   const schema = createString();
-  let defExample: Example<string> | undefined;
+  let defExample: Example | undefined;
 
   if (hostDef.isDefined && typeof hostDef.value !== "undefined") {
     defExample = {
       canonical: schema.marshal(hostDef.value),
-      native: hostDef.value,
       description: "(default)",
     };
   }
@@ -84,12 +83,10 @@ function registerHost(
       defExample,
       {
         canonical: "service.example.org",
-        native: "service.example.org",
         description: "a hostname",
       },
       {
         canonical: "10.0.0.11",
-        native: "10.0.0.11",
         description: "an IP address",
       }
     ),
@@ -123,12 +120,11 @@ function registerPort(
 
   const portDef = mapMaybe(def, (service) => service?.port);
   const schema = createUnsignedInteger();
-  let defExample: Example<number> | undefined;
+  let defExample: Example | undefined;
 
   if (portDef.isDefined && typeof portDef.value !== "undefined") {
     defExample = {
       canonical: schema.marshal(portDef.value),
-      native: portDef.value,
       description: "(default)",
     };
   }
@@ -140,7 +136,6 @@ function registerPort(
     schema,
     examples: createExamples(defExample, {
       canonical: "12345",
-      native: 12345,
       description: "a port number",
     }),
     constraint: validatePort,
