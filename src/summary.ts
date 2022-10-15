@@ -2,7 +2,7 @@ import { quote } from "shell-quote";
 import { Visitor } from "./schema";
 import { createTable } from "./table";
 import { Result, Results } from "./validation";
-import { UndefinedError, ValueError, Variable } from "./variable";
+import { ValueError, Variable } from "./variable";
 
 const ATTENTION = "❯";
 const INVALID = "✗";
@@ -64,11 +64,7 @@ function renderResult({ error, maybe }: Result) {
 }
 
 function describeError(error: Error) {
-  if (error instanceof UndefinedError) return "undefined";
+  if (!(error instanceof ValueError)) return "undefined";
 
-  if (error instanceof ValueError) {
-    return `set to ${quote([error.value])}, ${error.cause.message}`;
-  }
-
-  return error.message;
+  return `set to ${quote([error.value])}, ${error.cause.message}`;
 }
