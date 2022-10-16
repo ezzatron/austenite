@@ -36,7 +36,7 @@ export function boolean<O extends BooleanOptions>(
     name,
     description,
     default: def,
-    schema: createBoolean(literals),
+    schema: createSchema(literals),
     examples: buildExamples(literals, def),
   });
 
@@ -65,7 +65,7 @@ function assertLiterals(
   return literals;
 }
 
-export function createBoolean(literals: BooleanLiterals): Enum<boolean> {
+export function createSchema(literals: BooleanLiterals): Enum<boolean> {
   const members = [...literals.true, ...literals.false];
   const trueLiteral = literals.true[0];
   const falseLiteral = literals.false[0];
