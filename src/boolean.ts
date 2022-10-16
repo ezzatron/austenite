@@ -65,7 +65,7 @@ function assertLiterals(
   return literals;
 }
 
-export function createSchema(literals: BooleanLiterals): Enum<boolean> {
+function createSchema(literals: BooleanLiterals): Enum<boolean> {
   const members = [...literals.true, ...literals.false];
   const trueLiteral = literals.true[0];
   const falseLiteral = literals.false[0];
@@ -74,11 +74,11 @@ export function createSchema(literals: BooleanLiterals): Enum<boolean> {
   for (const literal of literals.true) mapping[literal] = true;
   for (const literal of literals.false) mapping[literal] = false;
 
-  function marshal(v: boolean) {
+  function marshal(v: boolean): string {
     return v ? trueLiteral : falseLiteral;
   }
 
-  function unmarshal(v: string) {
+  function unmarshal(v: string): boolean {
     const mapped = mapping[v];
 
     if (mapped != null) return mapped;

@@ -18,7 +18,7 @@ export function createString(): Scalar<string> {
 }
 
 export function createUnsignedInteger(): Scalar<number> {
-  function unmarshal(v: string) {
+  function unmarshal(v: string): number {
     if (!/^\d*$/.test(v)) throw new Error("must be an unsigned integer");
     if (v !== "0" && v.startsWith("0")) {
       throw new Error("must not have leading zeros");
