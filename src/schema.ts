@@ -15,11 +15,11 @@ export interface Enum<T> extends Schema<T> {
   members: string[];
 }
 
-export function createString(): Scalar<string> {
-  return createScalar("string", identity, identity);
+export function createString(description: string): Scalar<string> {
+  return createScalar(description, identity, identity);
 }
 
-export function createUnsignedInteger(): Scalar<number> {
+export function createUnsignedInteger(description: string): Scalar<number> {
   function unmarshal(v: string): number {
     if (!/^\d*$/.test(v)) throw new Error("must be an unsigned integer");
     if (v !== "0" && v.startsWith("0")) {
@@ -29,7 +29,7 @@ export function createUnsignedInteger(): Scalar<number> {
     return Number(v);
   }
 
-  return createScalar("unsigned integer", toString, unmarshal);
+  return createScalar(description, toString, unmarshal);
 }
 
 export function createEnum<T>(

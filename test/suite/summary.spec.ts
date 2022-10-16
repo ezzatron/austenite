@@ -68,8 +68,8 @@ describe("Validation summary", () => {
         "  AUSTENITE_BOOLEAN           example boolean                            y | yes | n | no       ✓ set to y",
         "  AUSTENITE_DURATION          example duration                           <ISO 8601 duration>    ✓ set to PT3H20M",
         "  AUSTENITE_STRING            example string                             <string>               ✓ set to 'hello, world!'",
-        "  AUSTENITE_SVC_SERVICE_HOST  kubernetes `austenite-svc` service host    <string>               ✓ set to host.example.org",
-        "  AUSTENITE_SVC_SERVICE_PORT  kubernetes `austenite-svc` service port    <unsigned integer>     ✓ set to 443",
+        "  AUSTENITE_SVC_SERVICE_HOST  kubernetes `austenite-svc` service host    <hostname>             ✓ set to host.example.org",
+        "  AUSTENITE_SVC_SERVICE_PORT  kubernetes `austenite-svc` service port    <port number>          ✓ set to 443",
         "❯ AUSTENITE_XTRIGGER          trigger failure                            <string>               ✗ undefined",
         "",
       ].join(EOL)
@@ -102,8 +102,8 @@ describe("Validation summary", () => {
         "  AUSTENITE_BOOLEAN           example boolean                          [ y | yes | n | no ]     • undefined",
         "  AUSTENITE_DURATION          example duration                         [ <ISO 8601 duration> ]  • undefined",
         "  AUSTENITE_STRING            example string                           [ <string> ]             • undefined",
-        "  AUSTENITE_SVC_SERVICE_HOST  kubernetes `austenite-svc` service host  [ <string> ]             • undefined",
-        "  AUSTENITE_SVC_SERVICE_PORT  kubernetes `austenite-svc` service port  [ <unsigned integer> ]   • undefined",
+        "  AUSTENITE_SVC_SERVICE_HOST  kubernetes `austenite-svc` service host  [ <hostname> ]           • undefined",
+        "  AUSTENITE_SVC_SERVICE_PORT  kubernetes `austenite-svc` service port  [ <port number> ]        • undefined",
         "❯ AUSTENITE_XTRIGGER          trigger failure                            <string>               ✗ undefined",
         "",
       ].join(EOL)
@@ -136,12 +136,12 @@ describe("Validation summary", () => {
       [
         "Environment Variables:",
         "",
-        "  AUSTENITE_BOOLEAN           example boolean                          [ y | yes | n | no ] = y         ✓ using default value",
-        "  AUSTENITE_DURATION          example duration                         [ <ISO 8601 duration> ] = PT10S  ✓ using default value",
-        "  AUSTENITE_STRING            example string                           [ <string> ] = 'hello, world!'   ✓ using default value",
-        "  AUSTENITE_SVC_SERVICE_HOST  kubernetes `austenite-svc` service host  [ <string> ] = host.example.org  ✓ using default value",
-        "  AUSTENITE_SVC_SERVICE_PORT  kubernetes `austenite-svc` service port  [ <unsigned integer> ] = 443     ✓ using default value",
-        "❯ AUSTENITE_XTRIGGER          trigger failure                            <string>                       ✗ undefined",
+        "  AUSTENITE_BOOLEAN           example boolean                          [ y | yes | n | no ] = y           ✓ using default value",
+        "  AUSTENITE_DURATION          example duration                         [ <ISO 8601 duration> ] = PT10S    ✓ using default value",
+        "  AUSTENITE_STRING            example string                           [ <string> ] = 'hello, world!'     ✓ using default value",
+        "  AUSTENITE_SVC_SERVICE_HOST  kubernetes `austenite-svc` service host  [ <hostname> ] = host.example.org  ✓ using default value",
+        "  AUSTENITE_SVC_SERVICE_PORT  kubernetes `austenite-svc` service port  [ <port number> ] = 443            ✓ using default value",
+        "❯ AUSTENITE_XTRIGGER          trigger failure                            <string>                         ✗ undefined",
         "",
       ].join(EOL)
     );
@@ -202,7 +202,7 @@ describe("Validation summary", () => {
       name: "AUSTENITE_CUSTOM",
       description: "custom variable",
       default: undefinedValue(),
-      schema: createString(),
+      schema: createString("string"),
       examples: [],
       constraint: () => {
         throw {

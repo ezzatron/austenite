@@ -17,7 +17,7 @@ export function string<O extends StringOptions>(
   options: O = {} as O
 ): Declaration<string, O> {
   const def = defaultFromOptions(options);
-  const schema = createString();
+  const schema = createString("string");
 
   const v = registerVariable({
     name,

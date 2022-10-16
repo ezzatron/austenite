@@ -56,7 +56,7 @@ function registerHost(
   def: Maybe<KubernetesAddress | undefined>
 ): Variable<string> {
   const hostDef = mapMaybe(def, (address) => address?.host);
-  const schema = createString();
+  const schema = createString("hostname");
   let defExample: Example | undefined;
 
   if (hostDef.isDefined && typeof hostDef.value !== "undefined") {
@@ -119,7 +119,7 @@ function registerPort(
   }
 
   const portDef = mapMaybe(def, (service) => service?.port);
-  const schema = createUnsignedInteger();
+  const schema = createUnsignedInteger("port number");
   let defExample: Example | undefined;
 
   if (portDef.isDefined && typeof portDef.value !== "undefined") {
