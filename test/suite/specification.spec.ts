@@ -1,12 +1,16 @@
+import { Temporal } from "@js-temporal/polyfill";
 import { readFile } from "fs/promises";
 import { join } from "path";
 import { boolean } from "../../src/boolean";
+import { duration } from "../../src/duration";
 import { initialize, reset, setProcessExit } from "../../src/environment";
 import { kubernetesAddress } from "../../src/kubernetes-address";
 import { string } from "../../src/string";
 import { createMockConsole, MockConsole } from "../helpers";
 
 const fixturesPath = join(__dirname, "../fixture/specification");
+
+const { Duration } = Temporal;
 
 describe("Specification documents", () => {
   let exitCode: number | undefined;
@@ -93,6 +97,45 @@ describe("Specification documents", () => {
 
       expect(mockConsole.readStdout()).toBe(
         await readFixture("boolean/custom-literals")
+      );
+      expect(exitCode).toBe(0);
+    });
+  });
+
+  describe("when there are durations", () => {
+    it("describes required durations", async () => {
+      process.env.AUSTENITE_SPEC = "true";
+      duration("GRPC_TIMEOUT", "gRPC request timeout");
+      initialize();
+
+      expect(mockConsole.readStdout()).toBe(
+        await readFixture("duration/required")
+      );
+      expect(exitCode).toBe(0);
+    });
+
+    it("describes optional durations", async () => {
+      process.env.AUSTENITE_SPEC = "true";
+      duration("GRPC_TIMEOUT", "gRPC request timeout", {
+        default: undefined,
+      });
+      initialize();
+
+      expect(mockConsole.readStdout()).toBe(
+        await readFixture("duration/optional")
+      );
+      expect(exitCode).toBe(0);
+    });
+
+    it("describes optional durations with defaults", async () => {
+      process.env.AUSTENITE_SPEC = "true";
+      duration("GRPC_TIMEOUT", "gRPC request timeout", {
+        default: Duration.from("PT0.01S"),
+      });
+      initialize();
+
+      expect(mockConsole.readStdout()).toBe(
+        await readFixture("duration/default")
       );
       expect(exitCode).toBe(0);
     });

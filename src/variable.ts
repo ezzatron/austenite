@@ -26,6 +26,7 @@ export interface Variable<T> {
 
 export interface Value<T> {
   readonly verbatim: string;
+  readonly canonical: string;
   readonly native: T;
   readonly isDefault: boolean;
 }
@@ -49,17 +50,22 @@ export function createVariable<T>(spec: VariableSpec<T>): Variable<T> {
     if (!def.isDefined) return undefined;
     if (typeof def.value === "undefined") return undefinedValue();
 
+    let marshalled;
+
     try {
-      return definedValue({
-        verbatim: marshal(def.value),
-        native: def.value,
-        isDefault: true,
-      });
+      marshalled = marshal(def.value);
     } catch (error) {
       const message = normalizeError(error).message;
 
       throw new SpecError(spec.name, new Error(`default value: ${message}`));
     }
+
+    return definedValue({
+      verbatim: marshalled,
+      canonical: marshalled,
+      native: def.value,
+      isDefault: true,
+    });
   }
 
   function value(): Maybe<Value<T>> {
@@ -98,10 +104,13 @@ export function createVariable<T>(spec: VariableSpec<T>): Variable<T> {
           : { result: def };
     } else {
       try {
+        const native = unmarshal(value);
+
         resolution = {
           result: definedValue({
             verbatim: value,
-            native: unmarshal(value),
+            canonical: marshal(native),
+            native,
             isDefault: false,
           }),
         };
@@ -123,7 +132,6 @@ export function createVariable<T>(spec: VariableSpec<T>): Variable<T> {
     try {
       const native = schema.unmarshal(value);
       spec.constraint?.(spec, native);
-      // TODO: canonicalize
 
       return native;
     } catch (error) {

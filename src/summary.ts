@@ -49,8 +49,8 @@ function createSchemaRenderer(): Visitor<string> {
       return e.members.join(" | ");
     },
 
-    visitScalar() {
-      return "<string>";
+    visitScalar(s) {
+      return `<${s.description}>`;
     },
   };
 }
@@ -60,7 +60,15 @@ function renderResult({ error, maybe }: Result) {
   if (!maybe.isDefined) return `${NEUTRAL} undefined`;
   if (maybe.value.isDefault) return `${VALID} using default value`;
 
-  return `${VALID} set to ${quote([maybe.value.verbatim])}`;
+  const { value } = maybe;
+  const { canonical, verbatim } = value;
+  const result = `${VALID} set to ${quote([canonical])}`;
+
+  if (verbatim !== canonical) {
+    return `${result} (specified non-canonically as ${quote([verbatim])})`;
+  }
+
+  return result;
 }
 
 function describeError(error: Error) {

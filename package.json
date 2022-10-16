@@ -30,6 +30,7 @@
     "size-limit-clean": "rm -rf artifacts/dist"
   },
   "dependencies": {
+    "@js-temporal/polyfill": "^0.4.2",
     "@types/shell-quote": "^1.7.1",
     "ip-regex": "^5.0.0",
     "mdast-util-from-markdown": "^1.2.0",

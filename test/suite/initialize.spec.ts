@@ -1,5 +1,6 @@
 import { boolean } from "../../src/boolean";
 import { Declaration, DeclarationOptions } from "../../src/declaration";
+import { duration } from "../../src/duration";
 import { initialize, reset, setProcessExit } from "../../src/environment";
 import { kubernetesAddress } from "../../src/kubernetes-address";
 import { string } from "../../src/string";
@@ -12,6 +13,7 @@ type DeclarationFactory = (
 ) => Declaration<unknown, DeclarationOptions<unknown>>;
 
 const booleanFactory = boolean.bind(null, "AUSTENITE_VAR", "<description>");
+const durationFactory = duration.bind(null, "AUSTENITE_VAR", "<description>");
 const k8sAddressFactory = kubernetesAddress.bind(null, "austenite-svc");
 const stringFactory = string.bind(null, "AUSTENITE_VAR", "<description>");
 
@@ -47,6 +49,7 @@ describe("initialize()", () => {
       it.each`
         type                    | factory
         ${"boolean"}            | ${booleanFactory}
+        ${"duration"}           | ${durationFactory}
         ${"kubernetes address"} | ${k8sAddressFactory}
         ${"string"}             | ${stringFactory}
       `(
@@ -83,6 +86,7 @@ describe("initialize()", () => {
       it.each`
         type                    | factory
         ${"boolean"}            | ${booleanFactory}
+        ${"duration"}           | ${durationFactory}
         ${"kubernetes address"} | ${k8sAddressFactory}
         ${"string"}             | ${stringFactory}
       `(
@@ -123,6 +127,7 @@ describe("initialize()", () => {
       it.each`
         type                    | factory
         ${"boolean"}            | ${booleanFactory}
+        ${"duration"}           | ${durationFactory}
         ${"kubernetes address"} | ${k8sAddressFactory}
         ${"string"}             | ${stringFactory}
       `(

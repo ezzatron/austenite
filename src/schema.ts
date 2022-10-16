@@ -7,14 +7,16 @@ export interface Schema<T> {
 export type MarshalFn<T> = Schema<T>["marshal"];
 export type UnmarshalFn<T> = Schema<T>["unmarshal"];
 
-export type Scalar<T> = Schema<T>;
+export interface Scalar<T> extends Schema<T> {
+  readonly description: string;
+}
 
 export interface Enum<T> extends Schema<T> {
   members: string[];
 }
 
 export function createString(): Scalar<string> {
-  return createScalar(identity, identity);
+  return createScalar("string", identity, identity);
 }
 
 export function createUnsignedInteger(): Scalar<number> {
@@ -27,7 +29,7 @@ export function createUnsignedInteger(): Scalar<number> {
     return Number(v);
   }
 
-  return createScalar(toString, unmarshal);
+  return createScalar("unsigned integer", toString, unmarshal);
 }
 
 export function createEnum<T>(
@@ -47,10 +49,12 @@ export function createEnum<T>(
 }
 
 export function createScalar<T>(
+  description: string,
   marshal: MarshalFn<T>,
   unmarshal: UnmarshalFn<T>
 ): Scalar<T> {
   return {
+    description,
     marshal,
     unmarshal,
 
@@ -76,10 +80,14 @@ export class InvalidEnumError extends Error {
   }
 }
 
-function identity<T>(v: T): T {
+export function identity<T>(v: T): T {
   return v;
 }
 
-function toString<T>(v: T): string {
-  return String(v);
+interface Stringable {
+  toString(): string;
+}
+
+export function toString<T extends Stringable>(v: T): string {
+  return v.toString();
 }
