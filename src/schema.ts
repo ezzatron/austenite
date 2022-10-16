@@ -4,40 +4,41 @@ export interface Schema<T> {
   accept<U>(visitor: Visitor<U>): U;
 }
 
+export type MarshalFn<T> = Schema<T>["marshal"];
+export type UnmarshalFn<T> = Schema<T>["unmarshal"];
+
 export type Scalar<T> = Schema<T>;
 
 export interface Enum<T> extends Schema<T> {
   members: string[];
 }
 
-export interface BooleanLiterals {
-  readonly true: string[];
-  readonly false: string[];
+export function createString(): Scalar<string> {
+  return createScalar(identity, identity);
 }
 
-export function createBoolean(literals: BooleanLiterals): Enum<boolean> {
-  const members = [...literals.true, ...literals.false];
-  const trueLiteral = literals.true[0];
-  const falseLiteral = literals.false[0];
+export function createUnsignedInteger(): Scalar<number> {
+  function unmarshal(v: string) {
+    if (!/^\d*$/.test(v)) throw new Error("must be an unsigned integer");
+    if (v !== "0" && v.startsWith("0")) {
+      throw new Error("must not have leading zeros");
+    }
 
-  const mapping: Record<string, boolean | undefined> = {};
-  for (const literal of literals.true) mapping[literal] = true;
-  for (const literal of literals.false) mapping[literal] = false;
+    return Number(v);
+  }
 
+  return createScalar(toString, unmarshal);
+}
+
+export function createEnum<T>(
+  members: string[],
+  marshal: MarshalFn<T>,
+  unmarshal: UnmarshalFn<T>
+): Enum<T> {
   return {
     members,
-
-    marshal(v) {
-      return v ? trueLiteral : falseLiteral;
-    },
-
-    unmarshal(v) {
-      const mapped = mapping[v];
-
-      if (mapped != null) return mapped;
-
-      throw new InvalidEnumError(members);
-    },
+    marshal,
+    unmarshal,
 
     accept(visitor) {
       return visitor.visitEnum(this);
@@ -45,36 +46,13 @@ export function createBoolean(literals: BooleanLiterals): Enum<boolean> {
   };
 }
 
-export function createString(): Scalar<string> {
+export function createScalar<T>(
+  marshal: MarshalFn<T>,
+  unmarshal: UnmarshalFn<T>
+): Scalar<T> {
   return {
-    marshal(v) {
-      return v;
-    },
-
-    unmarshal(v) {
-      return v;
-    },
-
-    accept(visitor) {
-      return visitor.visitScalar(this);
-    },
-  };
-}
-
-export function createUnsignedInteger(): Scalar<number> {
-  return {
-    marshal(v) {
-      return String(v);
-    },
-
-    unmarshal(v) {
-      if (!/^\d*$/.test(v)) throw new Error("must be an unsigned integer");
-      if (v !== "0" && v.startsWith("0")) {
-        throw new Error("must not have leading zeros");
-      }
-
-      return Number(v);
-    },
+    marshal,
+    unmarshal,
 
     accept(visitor) {
       return visitor.visitScalar(this);
@@ -87,7 +65,7 @@ export interface Visitor<T> {
   visitScalar(s: Scalar<unknown>): T;
 }
 
-class InvalidEnumError extends Error {
+export class InvalidEnumError extends Error {
   constructor(members: string[]) {
     const listFormatter = new Intl.ListFormat("en", {
       style: "short",
@@ -96,4 +74,12 @@ class InvalidEnumError extends Error {
 
     super(`expected ${listFormatter.format(members)}`);
   }
+}
+
+function identity<T>(v: T): T {
+  return v;
+}
+
+function toString<T>(v: T): string {
+  return String(v);
 }

@@ -7,11 +7,16 @@ import {
 import { registerVariable } from "./environment";
 import { createExamples, Examples } from "./example";
 import { Maybe, resolveMaybe } from "./maybe";
-import { BooleanLiterals, createBoolean } from "./schema";
+import { createEnum, Enum, InvalidEnumError } from "./schema";
 import { SpecError } from "./variable";
 
 export interface BooleanOptions extends DeclarationOptions<boolean> {
   readonly literals?: BooleanLiterals;
+}
+
+export interface BooleanLiterals {
+  readonly true: string[];
+  readonly false: string[];
 }
 
 const defaultLiterals: BooleanLiterals = {
@@ -58,6 +63,30 @@ function assertLiterals(
   }
 
   return literals;
+}
+
+export function createBoolean(literals: BooleanLiterals): Enum<boolean> {
+  const members = [...literals.true, ...literals.false];
+  const trueLiteral = literals.true[0];
+  const falseLiteral = literals.false[0];
+
+  const mapping: Record<string, boolean | undefined> = {};
+  for (const literal of literals.true) mapping[literal] = true;
+  for (const literal of literals.false) mapping[literal] = false;
+
+  function marshal(v: boolean) {
+    return v ? trueLiteral : falseLiteral;
+  }
+
+  function unmarshal(v: string) {
+    const mapped = mapping[v];
+
+    if (mapped != null) return mapped;
+
+    throw new InvalidEnumError(members);
+  }
+
+  return createEnum(members, marshal, unmarshal);
 }
 
 function buildExamples(
