@@ -12,7 +12,11 @@ export function renderSpecification(variables: Variable<unknown>[]): string {
   return toMarkdown(
     {
       type: "root",
-      children: [...header(), ...index(variables), ...specification(variables)],
+      children: [
+        ...header(variables),
+        ...index(variables),
+        ...specification(variables),
+      ],
     },
     {
       bullet: "-",
@@ -20,7 +24,7 @@ export function renderSpecification(variables: Variable<unknown>[]): string {
   ).trim();
 }
 
-function header(): Content[] {
+function header(variables: Variable<unknown>[]): Content[] {
   const app = basename(process.argv[1]);
 
   return [
@@ -51,10 +55,18 @@ function header(): Content[] {
         },
       ],
     },
+    variables.length > 0
+      ? markdownToContent<Content>(
+          [
+            "Please note that **undefined** variables and **empty strings** are considered",
+            "equivalent.",
+          ].join("\n")
+        )
+      : markdownToContent<Content>(
+          "**There do not appear to be any environment variables.**"
+        ),
     ...markdownToContentArray<Content>(
       [
-        "Please note that **undefined** variables and **empty strings** are considered",
-        "equivalent.",
         "",
         "The application may consume other undocumented environment variables; this",
         "document only shows those variables defined using [Austenite].",
@@ -66,6 +78,8 @@ function header(): Content[] {
 }
 
 function index(variables: Variable<unknown>[]): Content[] {
+  if (variables.length < 1) return [];
+
   return [
     {
       type: "heading",
@@ -116,6 +130,8 @@ function indexEntry({
 }
 
 function specification(variables: Variable<unknown>[]): Content[] {
+  if (variables.length < 1) return [];
+
   let content: Content[] = [];
   for (const v of variables) content = [...content, ...variable(v)];
 

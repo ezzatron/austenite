@@ -237,6 +237,16 @@ describe("Specification documents", () => {
       expect(exitCode).toBe(0);
     });
   });
+
+  describe("when there no declarations", () => {
+    it("describes an empty environment", async () => {
+      process.env.AUSTENITE_SPEC = "true";
+      initialize();
+
+      expect(mockConsole.readStdout()).toBe(await readFixture("empty"));
+      expect(exitCode).toBe(0);
+    });
+  });
 });
 
 async function readFixture(name: string): Promise<string> {
