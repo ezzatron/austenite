@@ -1,12 +1,23 @@
+import type { Definition, LinkReference } from "mdast-util-from-markdown/lib";
 import { Content } from "mdast-util-to-markdown/lib/types";
-import { markdownToContent, markdownToContentArray } from "./markdown";
+import { markdownToContentArray } from "./markdown";
 import { Variable } from "./variable";
 
 export function usage(app: string, variables: Variable<unknown>[]): Content[] {
   if (variables.length < 1) return [];
 
   return [
-    markdownToContent<Content>("## Usage Examples"),
+    {
+      type: "heading",
+      depth: 2,
+      children: [
+        {
+          type: "text",
+          value: "Usage Examples",
+        },
+      ],
+    },
+
     ...kubernetesUsage(app, variables),
     ...dockerUsage(app, variables),
   ];
@@ -17,9 +28,10 @@ function kubernetesUsage(
   variables: Variable<unknown>[]
 ): Content[] {
   return [
-    ...markdownToContentArray<Content>(
-      ["<details>", "<summary>Kubernetes</summary>"].join("\n")
-    ),
+    {
+      type: "html",
+      value: "<details>\n<summary>Kubernetes</summary>",
+    },
     {
       type: "paragraph",
       children: [
@@ -38,7 +50,6 @@ function kubernetesUsage(
         },
         {
           type: "linkReference",
-          identifier: "",
           label: "Kubernetes container",
           referenceType: "shortcut",
           children: [
@@ -47,16 +58,18 @@ function kubernetesUsage(
               value: "Kubernetes container",
             },
           ],
-        },
+        } as LinkReference,
         {
           type: "text",
           value: " within a Kubenetes deployment manifest.",
         },
       ],
     },
-    markdownToContent<Content>(
-      "[kubernetes container]: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/#define-an-environment-variable-for-a-container"
-    ),
+    {
+      type: "definition",
+      label: "kubernetes container",
+      url: "https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/#define-an-environment-variable-for-a-container",
+    } as Definition,
     {
       type: "code",
       lang: "yaml",
@@ -75,7 +88,10 @@ function kubernetesUsage(
       lang: "yaml",
       value: k8sConfigMapYaml(variables),
     },
-    markdownToContent<Content>("</details>"),
+    {
+      type: "html",
+      value: "</details>",
+    },
   ];
 }
 
@@ -134,9 +150,10 @@ function k8sConfigMapYaml(variables: Variable<unknown>[]): string {
 
 function dockerUsage(app: string, variables: Variable<unknown>[]): Content[] {
   return [
-    ...markdownToContentArray<Content>(
-      ["<details>", "<summary>Docker</summary>"].join("\n")
-    ),
+    {
+      type: "html",
+      value: "<details>\n<summary>Docker</summary>",
+    },
     {
       type: "paragraph",
       children: [
@@ -155,7 +172,6 @@ function dockerUsage(app: string, variables: Variable<unknown>[]): Content[] {
         },
         {
           type: "linkReference",
-          identifier: "",
           label: "Docker service",
           referenceType: "shortcut",
           children: [
@@ -164,22 +180,27 @@ function dockerUsage(app: string, variables: Variable<unknown>[]): Content[] {
               value: "Docker service",
             },
           ],
-        },
+        } as LinkReference,
         {
           type: "text",
           value: " defined in a Docker compose file.",
         },
       ],
     },
-    markdownToContent<Content>(
-      "[docker service]: https://docs.docker.com/compose/environment-variables/#set-environment-variables-in-containers"
-    ),
+    {
+      type: "definition",
+      label: "docker service",
+      url: "https://docs.docker.com/compose/environment-variables/#set-environment-variables-in-containers",
+    } as Definition,
     {
       type: "code",
       lang: "yaml",
       value: dockerComposeYaml(variables),
     },
-    markdownToContent<Content>("</details>"),
+    {
+      type: "html",
+      value: "</details>",
+    },
   ];
 }
 
