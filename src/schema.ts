@@ -1,5 +1,4 @@
 export interface Schema<T> {
-  readonly type: TypeNameOf<T>;
   marshal(value: T): string;
   unmarshal(value: string): T;
   accept<U>(visitor: Visitor<U>): U;
@@ -26,7 +25,6 @@ export function createBoolean(literals: BooleanLiterals): Enum<boolean> {
   for (const literal of literals.false) mapping[literal] = false;
 
   return {
-    type: "boolean",
     members,
 
     marshal(v) {
@@ -49,8 +47,6 @@ export function createBoolean(literals: BooleanLiterals): Enum<boolean> {
 
 export function createString(): Scalar<string> {
   return {
-    type: "string",
-
     marshal(v) {
       return v;
     },
@@ -67,8 +63,6 @@ export function createString(): Scalar<string> {
 
 export function createUnsignedInteger(): Scalar<number> {
   return {
-    type: "number",
-
     marshal(v) {
       return String(v);
     },
@@ -92,23 +86,6 @@ export interface Visitor<T> {
   visitEnum(e: Enum<unknown>): T;
   visitScalar(s: Scalar<unknown>): T;
 }
-
-export type TypeNameOf<T> = T extends bigint
-  ? "bigint"
-  : T extends boolean
-  ? "boolean"
-  : // eslint-disable-next-line @typescript-eslint/ban-types
-  T extends Function
-  ? "function"
-  : T extends string
-  ? "string"
-  : T extends symbol
-  ? "symbol"
-  : T extends number
-  ? "number"
-  : T extends undefined
-  ? "undefined"
-  : "object";
 
 class InvalidEnumError extends Error {
   constructor(members: string[]) {
