@@ -20,7 +20,7 @@ document only shows those variables defined using [Austenite].
 
 > gRPC request timeout
 
-This variable **MAY** be set to a non-empty string or left undefined.
+This variable **MAY** be set to a non-empty **ISO 8601 duration** or left undefined.
 
 ```sh
 export GRPC_TIMEOUT=PT1M30S    # ISO 8601 duration

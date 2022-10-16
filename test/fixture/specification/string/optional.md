@@ -20,7 +20,7 @@ document only shows those variables defined using [Austenite].
 
 > database connection string for read-models
 
-This variable **MAY** be set to a non-empty string or left undefined.
+This variable **MAY** be set to a non-empty **string** or left undefined.
 
 ```sh
 export READ_DSN=conquistador         # any value

@@ -21,7 +21,7 @@ document only shows those variables defined using [Austenite].
 
 > kubernetes `redis-primary` service host
 
-This variable **MUST** be set to a non-empty string.
+This variable **MUST** be set to a non-empty **hostname**.
 If left undefined the application will print usage information to `STDERR` then
 exit with a non-zero exit code.
 
@@ -34,7 +34,7 @@ export REDIS_PRIMARY_SERVICE_HOST=10.0.0.11           # an IP address
 
 > kubernetes `redis-primary` service port
 
-This variable **MUST** be set to a non-empty string.
+This variable **MUST** be set to a non-empty **port number**.
 If left undefined the application will print usage information to `STDERR` then
 exit with a non-zero exit code.
 

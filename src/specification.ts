@@ -194,29 +194,112 @@ function createSchemaRenderer({
       );
     },
 
-    visitScalar() {
+    visitScalar({ description }) {
+      const beSetTo: PhrasingContent[] = [
+        {
+          type: "text",
+          value: " be set to a non-empty ",
+        },
+        {
+          type: "strong",
+          children: [
+            {
+              type: "text",
+              value: description,
+            },
+          ],
+        },
+      ];
+
       if (!def.isDefined) {
-        return markdownToContent(
-          [
-            "This variable **MUST** be set to a non-empty string.",
-            "If left undefined the application will print usage information to `STDERR` then",
-            "exit with a non-zero exit code.",
-          ].join("\n")
-        );
+        return {
+          type: "paragraph",
+          children: [
+            {
+              type: "text",
+              value: "This variable ",
+            },
+            {
+              type: "strong",
+              children: [
+                {
+                  type: "text",
+                  value: "MUST",
+                },
+              ],
+            },
+            ...beSetTo,
+            {
+              type: "text",
+              value: [
+                ".",
+                "If left undefined the application will print usage information to ",
+              ].join("\n"),
+            },
+            {
+              type: "inlineCode",
+              value: "STDERR",
+            },
+            {
+              type: "text",
+              value: [" then", "exit with a non-zero exit code."].join("\n"),
+            },
+          ],
+        };
       }
 
       if (typeof def.value === "undefined") {
-        return markdownToContent(
-          "This variable **MAY** be set to a non-empty string or left undefined."
-        );
+        return {
+          type: "paragraph",
+          children: [
+            {
+              type: "text",
+              value: "This variable ",
+            },
+            {
+              type: "strong",
+              children: [
+                {
+                  type: "text",
+                  value: "MAY",
+                },
+              ],
+            },
+            ...beSetTo,
+            {
+              type: "text",
+              value: " or left undefined.",
+            },
+          ],
+        };
       }
 
-      return markdownToContent(
-        [
-          "This variable **MAY** be set to a non-empty string.",
-          "If left undefined the default value is used (see below).",
-        ].join("\n")
-      );
+      return {
+        type: "paragraph",
+        children: [
+          {
+            type: "text",
+            value: "This variable ",
+          },
+          {
+            type: "strong",
+            children: [
+              {
+                type: "text",
+                value: "MAY",
+              },
+            ],
+          },
+          ...beSetTo,
+          {
+            type: "text",
+            value: [
+              ".",
+              "If left undefined the default value is used (see below).",
+            ].join("\n"),
+          },
+        ],
+      };
     },
   };
 }

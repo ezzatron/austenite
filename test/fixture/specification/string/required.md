@@ -20,7 +20,7 @@ document only shows those variables defined using [Austenite].
 
 > database connection string for read-models
 
-This variable **MUST** be set to a non-empty string.
+This variable **MUST** be set to a non-empty **string**.
 If left undefined the application will print usage information to `STDERR` then
 exit with a non-zero exit code.
 
