@@ -49,7 +49,7 @@ describe("Specification documents", () => {
       boolean("DEBUG", "enable or disable debugging features");
       initialize();
 
-      expect(mockConsole.readStdout()).toBe(
+      expect(mockConsole.readStdout()).toContain(
         await readFixture("boolean/required")
       );
       expect(exitCode).toBe(0);
@@ -62,7 +62,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      expect(mockConsole.readStdout()).toBe(
+      expect(mockConsole.readStdout()).toContain(
         await readFixture("boolean/optional")
       );
       expect(exitCode).toBe(0);
@@ -78,7 +78,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      expect(mockConsole.readStdout()).toBe(
+      expect(mockConsole.readStdout()).toContain(
         await readFixture("boolean/default")
       );
       expect(exitCode).toBe(0);
@@ -95,7 +95,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      expect(mockConsole.readStdout()).toBe(
+      expect(mockConsole.readStdout()).toContain(
         await readFixture("boolean/custom-literals")
       );
       expect(exitCode).toBe(0);
@@ -108,7 +108,7 @@ describe("Specification documents", () => {
       duration("GRPC_TIMEOUT", "gRPC request timeout");
       initialize();
 
-      expect(mockConsole.readStdout()).toBe(
+      expect(mockConsole.readStdout()).toContain(
         await readFixture("duration/required")
       );
       expect(exitCode).toBe(0);
@@ -121,7 +121,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      expect(mockConsole.readStdout()).toBe(
+      expect(mockConsole.readStdout()).toContain(
         await readFixture("duration/optional")
       );
       expect(exitCode).toBe(0);
@@ -134,7 +134,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      expect(mockConsole.readStdout()).toBe(
+      expect(mockConsole.readStdout()).toContain(
         await readFixture("duration/default")
       );
       expect(exitCode).toBe(0);
@@ -147,7 +147,7 @@ describe("Specification documents", () => {
       kubernetesAddress("redis-primary");
       initialize();
 
-      expect(mockConsole.readStdout()).toBe(
+      expect(mockConsole.readStdout()).toContain(
         await readFixture("kubernetes-address/required")
       );
       expect(exitCode).toBe(0);
@@ -160,7 +160,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      expect(mockConsole.readStdout()).toBe(
+      expect(mockConsole.readStdout()).toContain(
         await readFixture("kubernetes-address/optional")
       );
       expect(exitCode).toBe(0);
@@ -176,7 +176,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      expect(mockConsole.readStdout()).toBe(
+      expect(mockConsole.readStdout()).toContain(
         await readFixture("kubernetes-address/default")
       );
       expect(exitCode).toBe(0);
@@ -192,7 +192,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      expect(mockConsole.readStdout()).toBe(
+      expect(mockConsole.readStdout()).toContain(
         await readFixture("kubernetes-address/named-ports")
       );
       expect(exitCode).toBe(0);
@@ -205,7 +205,7 @@ describe("Specification documents", () => {
       string("READ_DSN", "database connection string for read-models");
       initialize();
 
-      expect(mockConsole.readStdout()).toBe(
+      expect(mockConsole.readStdout()).toContain(
         await readFixture("string/required")
       );
       expect(exitCode).toBe(0);
@@ -218,7 +218,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      expect(mockConsole.readStdout()).toBe(
+      expect(mockConsole.readStdout()).toContain(
         await readFixture("string/optional")
       );
       expect(exitCode).toBe(0);
@@ -231,7 +231,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      expect(mockConsole.readStdout()).toBe(
+      expect(mockConsole.readStdout()).toContain(
         await readFixture("string/default")
       );
       expect(exitCode).toBe(0);
@@ -246,6 +246,17 @@ describe("Specification documents", () => {
       expect(mockConsole.readStdout()).toBe(await readFixture("empty"));
       expect(exitCode).toBe(0);
     });
+  });
+
+  it("provides usage instructions", async () => {
+    process.env.AUSTENITE_SPEC = "true";
+    boolean("DEBUG", "enable or disable debugging features", {
+      default: undefined,
+    });
+    initialize();
+
+    expect(mockConsole.readStdout()).toBe(await readFixture("usage"));
+    expect(exitCode).toBe(0);
   });
 });
 

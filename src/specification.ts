@@ -1,21 +1,25 @@
-import { fromMarkdown } from "mdast-util-from-markdown";
 import type { ListItem, PhrasingContent } from "mdast-util-from-markdown/lib";
 import { toMarkdown } from "mdast-util-to-markdown";
 import { Content } from "mdast-util-to-markdown/lib/types";
 import { basename } from "path";
 import { quote } from "shell-quote";
+import { markdownToContent, markdownToContentArray } from "./markdown";
 import { Visitor } from "./schema";
 import { createTable } from "./table";
+import { usage } from "./usage";
 import { Variable } from "./variable";
 
 export function renderSpecification(variables: Variable<unknown>[]): string {
+  const app = basename(process.argv[1]);
+
   return toMarkdown(
     {
       type: "root",
       children: [
-        ...header(variables),
+        ...header(app, variables),
         ...index(variables),
         ...specification(variables),
+        ...usage(app, variables),
       ],
     },
     {
@@ -24,9 +28,7 @@ export function renderSpecification(variables: Variable<unknown>[]): string {
   ).trim();
 }
 
-function header(variables: Variable<unknown>[]): Content[] {
-  const app = basename(process.argv[1]);
-
+function header(app: string, variables: Variable<unknown>[]): Content[] {
   return [
     {
       type: "heading",
@@ -332,14 +334,4 @@ function examples({ spec: { name, examples } }: Variable<unknown>): Content {
     lang: "sh",
     value: table.render(),
   };
-}
-
-function markdownToContentArray<T>(markdown: string): T[] {
-  return fromMarkdown(markdown).children as T[];
-}
-
-function markdownToContent<T>(markdown: string): T {
-  const content = markdownToContentArray<T>(markdown);
-
-  return content[0];
 }
