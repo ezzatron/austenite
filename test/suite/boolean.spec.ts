@@ -1,10 +1,10 @@
-import { boolean, BooleanOptions } from "../../src/boolean";
+import { boolean, Options } from "../../src/boolean";
 import { Declaration } from "../../src/declaration";
 import { initialize, reset } from "../../src/environment";
 import { hasType, noop } from "../helpers";
 
 describe("Boolean declarations", () => {
-  let declaration: Declaration<boolean, BooleanOptions>;
+  let declaration: Declaration<boolean, Options>;
   let env: typeof process.env;
 
   beforeEach(() => {

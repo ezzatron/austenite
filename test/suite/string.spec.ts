@@ -1,10 +1,10 @@
 import { Declaration } from "../../src/declaration";
 import { initialize, reset } from "../../src/environment";
-import { string, StringOptions } from "../../src/string";
+import { Options, string } from "../../src/string";
 import { hasType, noop } from "../helpers";
 
 describe("String declarations", () => {
-  let declaration: Declaration<string, StringOptions>;
+  let declaration: Declaration<string, Options>;
   let env: typeof process.env;
 
   beforeEach(() => {

@@ -1,3 +1,3 @@
-export function normalizeError(error: unknown): Error {
+export function normalize(error: unknown): Error {
   return error instanceof Error ? error : new Error(String(error));
 }

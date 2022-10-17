@@ -1,6 +1,6 @@
 import type { Definition, LinkReference } from "mdast-util-from-markdown/lib";
 import { Content } from "mdast-util-to-markdown/lib/types";
-import { markdownToContentArray } from "./markdown";
+import { toContentArray } from "./markdown";
 import { Variable } from "./variable";
 
 export function usage(app: string, variables: Variable<unknown>[]): Content[] {
@@ -75,7 +75,7 @@ function kubernetesUsage(
       lang: "yaml",
       value: k8sDeploymentYaml(variables),
     },
-    ...markdownToContentArray<Content>(
+    ...toContentArray<Content>(
       [
         "Alternatively, the environment variables can be defined within a [config map]",
         "then referenced a deployment manifest using `configMapRef`.",

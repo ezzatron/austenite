@@ -1,17 +1,17 @@
 import {
   Declaration,
-  DeclarationOptions,
   defaultFromOptions,
+  Options as DeclarationOptions,
   Value,
 } from "./declaration";
 import { registerVariable } from "./environment";
-import { createExamples, Example, Examples } from "./example";
-import { Maybe, resolveMaybe } from "./maybe";
+import { create as createExamples, Example, Examples } from "./example";
+import { Maybe, resolve } from "./maybe";
 import { createString, Scalar } from "./schema";
 
-export type StringOptions = DeclarationOptions<string>;
+export type Options = DeclarationOptions<string>;
 
-export function string<O extends StringOptions>(
+export function string<O extends Options>(
   name: string,
   description: string,
   options: O = {} as O
@@ -29,7 +29,7 @@ export function string<O extends StringOptions>(
 
   return {
     value() {
-      return resolveMaybe(v.nativeValue()) as Value<string, O>;
+      return resolve(v.nativeValue()) as Value<string, O>;
     },
   };
 }

@@ -1,5 +1,5 @@
 import { boolean } from "../../src/boolean";
-import { Declaration, DeclarationOptions } from "../../src/declaration";
+import { Declaration, Options } from "../../src/declaration";
 import { duration } from "../../src/duration";
 import { initialize, reset, setProcessExit } from "../../src/environment";
 import { kubernetesAddress } from "../../src/kubernetes-address";
@@ -9,8 +9,8 @@ import { UndefinedError } from "../../src/variable";
 import { createMockConsole, MockConsole } from "../helpers";
 
 type DeclarationFactory = (
-  options?: DeclarationOptions<unknown>
-) => Declaration<unknown, DeclarationOptions<unknown>>;
+  options?: Options<unknown>
+) => Declaration<unknown, Options<unknown>>;
 
 const booleanFactory = boolean.bind(null, "AUSTENITE_VAR", "<description>");
 const durationFactory = duration.bind(null, "AUSTENITE_VAR", "<description>");
@@ -67,7 +67,7 @@ describe("initialize()", () => {
     });
 
     describe("after being called", () => {
-      let declaration: Declaration<string, DeclarationOptions<string>>;
+      let declaration: Declaration<string, Options<string>>;
 
       beforeEach(() => {
         declaration = string("AUSTENITE_VAR", "<description>", {

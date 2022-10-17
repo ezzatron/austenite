@@ -1,20 +1,20 @@
 import { definedValue, Maybe, undefinedValue } from "./maybe";
 
-export interface Declaration<T, O extends DeclarationOptions<unknown>> {
+export interface Declaration<T, O extends Options<unknown>> {
   value(): Value<T, O>;
 }
 
 export type Value<
   T,
-  O extends DeclarationOptions<unknown>
+  O extends Options<unknown>
 > = O["default"] extends undefined ? T | undefined : T;
 
-export interface DeclarationOptions<T> {
+export interface Options<T> {
   readonly default?: T;
 }
 
 export function defaultFromOptions<T>(
-  options: DeclarationOptions<T>
+  options: Options<T>
 ): Maybe<T | undefined> {
   return "default" in options
     ? definedValue(options.default)

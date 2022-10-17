@@ -17,13 +17,10 @@ export function undefinedValue(): UndefinedValue {
   return { isDefined: false };
 }
 
-export function mapMaybe<T, U>(
-  maybe: Maybe<T>,
-  map: (value: T) => U
-): Maybe<U> {
+export function map<T, U>(maybe: Maybe<T>, map: (value: T) => U): Maybe<U> {
   return maybe.isDefined ? definedValue(map(maybe.value)) : undefinedValue();
 }
 
-export function resolveMaybe<T>(maybe: Maybe<T>): T | undefined {
+export function resolve<T>(maybe: Maybe<T>): T | undefined {
   return maybe.isDefined ? maybe.value : undefined;
 }

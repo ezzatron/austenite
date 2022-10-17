@@ -1,33 +1,32 @@
 import createIpPattern from "ip-regex";
 import {
   Declaration,
-  DeclarationOptions,
   defaultFromOptions,
+  Options as DeclarationOptions,
   Value,
 } from "./declaration";
 import { registerVariable } from "./environment";
-import { normalizeError } from "./error";
-import { createExamples, Example } from "./example";
-import { mapMaybe, Maybe, resolveMaybe } from "./maybe";
+import { normalize } from "./error";
+import { create as createExamples, Example } from "./example";
+import { map, Maybe, resolve } from "./maybe";
 import { createString, createUnsignedInteger } from "./schema";
 import { Variable, VariableSpec } from "./variable";
 
 const IP_PATTERN = createIpPattern({ exact: true });
 
-export interface KubernetesAddress {
+export interface Address {
   readonly host: string;
   readonly port: number;
 }
 
-export interface KubernetesAddressOptions
-  extends DeclarationOptions<KubernetesAddress> {
+export interface Options extends DeclarationOptions<Address> {
   readonly portName?: string;
 }
 
-export function kubernetesAddress<O extends KubernetesAddressOptions>(
+export function kubernetesAddress<O extends Options>(
   name: string,
   options: O = {} as O
-): Declaration<KubernetesAddress, O> {
+): Declaration<Address, O> {
   const { portName } = options;
   const def = defaultFromOptions(options);
 
@@ -38,24 +37,24 @@ export function kubernetesAddress<O extends KubernetesAddressOptions>(
 
   return {
     value() {
-      const host = resolveMaybe(hostVar.nativeValue());
-      const port = resolveMaybe(portVar.nativeValue());
+      const host = resolve(hostVar.nativeValue());
+      const port = resolve(portVar.nativeValue());
 
       if (host != null && port != null) return { host, port };
 
       if (host != null) throw new PartiallyDefinedError(hName, pName);
       if (port != null) throw new PartiallyDefinedError(pName, hName);
 
-      return undefined as Value<KubernetesAddress, O>;
+      return undefined as Value<Address, O>;
     },
   };
 }
 
 function registerHost(
   name: string,
-  def: Maybe<KubernetesAddress | undefined>
+  def: Maybe<Address | undefined>
 ): Variable<string> {
-  const hostDef = mapMaybe(def, (address) => address?.host);
+  const hostDef = map(def, (address) => address?.host);
   const schema = createString("hostname");
   let defExample: Example | undefined;
 
@@ -69,9 +68,9 @@ function registerHost(
   let envName: string;
 
   try {
-    envName = kubernetesNameToEnv(name);
+    envName = nameToEnv(name);
   } catch (error) {
-    throw new InvalidK8sServiceNameError(name, normalizeError(error));
+    throw new InvalidServiceNameError(name, normalize(error));
   }
 
   return registerVariable({
@@ -96,19 +95,19 @@ function registerHost(
 
 function registerPort(
   name: string,
-  def: Maybe<KubernetesAddress | undefined>,
+  def: Maybe<Address | undefined>,
   portName?: string
 ): Variable<number> {
-  const envName = kubernetesNameToEnv(name);
+  const envName = nameToEnv(name);
   let varName: string, description: string;
 
   if (typeof portName === "string") {
     let envPortName: string;
 
     try {
-      envPortName = kubernetesNameToEnv(portName);
+      envPortName = nameToEnv(portName);
     } catch (error) {
-      throw new InvalidK8sPortNameError(name, portName, normalizeError(error));
+      throw new InvalidPortNameError(name, portName, normalize(error));
     }
 
     varName = `${envName}_SERVICE_PORT_${envPortName}`;
@@ -118,7 +117,7 @@ function registerPort(
     description = `kubernetes \`${name}\` service port`;
   }
 
-  const portDef = mapMaybe(def, (service) => service?.port);
+  const portDef = map(def, (service) => service?.port);
   const schema = createUnsignedInteger("port number");
   let defExample: Example | undefined;
 
@@ -167,7 +166,7 @@ function validatePort(_: VariableSpec<number>, port: number): void {
   if (port < 1 || port > 65535) throw new Error("must be between 1 and 65535");
 }
 
-function kubernetesNameToEnv(name: string): string {
+function nameToEnv(name: string): string {
   if (name === "") throw new Error("must not be empty");
   if (name.startsWith("-") || name.endsWith("-")) {
     throw new Error("must not begin or end with a hyphen");
@@ -181,7 +180,7 @@ function kubernetesNameToEnv(name: string): string {
   return name.replaceAll("-", "_").toUpperCase();
 }
 
-class InvalidK8sServiceNameError extends Error {
+class InvalidServiceNameError extends Error {
   constructor(name: string, cause: Error) {
     const quotedName = JSON.stringify(name);
 
@@ -191,7 +190,7 @@ class InvalidK8sServiceNameError extends Error {
   }
 }
 
-class InvalidK8sPortNameError extends Error {
+class InvalidPortNameError extends Error {
   constructor(name: string, portName: string, cause: Error) {
     const quotedName = JSON.stringify(portName);
 

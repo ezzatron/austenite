@@ -1,4 +1,4 @@
-import { normalizeError } from "./error";
+import { normalize } from "./error";
 import { Maybe } from "./maybe";
 import { Value, Variable } from "./variable";
 
@@ -14,7 +14,7 @@ export function validate(variables: Variable<unknown>[]): [boolean, Results] {
       });
     } catch (error) {
       isValid = false;
-      results.push({ variable, result: { error: normalizeError(error) } });
+      results.push({ variable, result: { error: normalize(error) } });
     }
   }
 

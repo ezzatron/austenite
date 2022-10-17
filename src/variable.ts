@@ -1,8 +1,8 @@
 import { quote } from "shell-quote";
 import { readVariable } from "./environment";
-import { normalizeError } from "./error";
+import { normalize } from "./error";
 import { Examples } from "./example";
-import { definedValue, mapMaybe, Maybe, undefinedValue } from "./maybe";
+import { definedValue, map, Maybe, undefinedValue } from "./maybe";
 import { Schema } from "./schema";
 
 export interface VariableSpec<T> {
@@ -31,7 +31,7 @@ export interface Value<T> {
   readonly isDefault: boolean;
 }
 
-export function createVariable<T>(spec: VariableSpec<T>): Variable<T> {
+export function create<T>(spec: VariableSpec<T>): Variable<T> {
   const { schema } = spec;
   const def = defaultValue();
   let resolution: Resolution<T>;
@@ -55,7 +55,7 @@ export function createVariable<T>(spec: VariableSpec<T>): Variable<T> {
     try {
       marshalled = marshal(def.value);
     } catch (error) {
-      const message = normalizeError(error).message;
+      const message = normalize(error).message;
 
       throw new SpecError(spec.name, new Error(`default value: ${message}`));
     }
@@ -78,7 +78,7 @@ export function createVariable<T>(spec: VariableSpec<T>): Variable<T> {
   }
 
   function nativeValue(): Maybe<T> {
-    return mapMaybe(value(), (value) => value.native);
+    return map(value(), (value) => value.native);
   }
 
   type Resolution<T> =
@@ -115,7 +115,7 @@ export function createVariable<T>(spec: VariableSpec<T>): Variable<T> {
           }),
         };
       } catch (error) {
-        resolution = { error: normalizeError(error) };
+        resolution = { error: normalize(error) };
       }
     }
 
@@ -135,7 +135,7 @@ export function createVariable<T>(spec: VariableSpec<T>): Variable<T> {
 
       return native;
     } catch (error) {
-      throw new ValueError(spec.name, value, normalizeError(error));
+      throw new ValueError(spec.name, value, normalize(error));
     }
   }
 }

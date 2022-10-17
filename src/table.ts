@@ -2,7 +2,7 @@ import { EOL } from "os";
 
 const segmenter = new Intl.Segmenter("en");
 
-export function createTable(padding: number) {
+export function create(padding: number) {
   const pad = " ".repeat(padding);
   const rows: string[][] = [];
   const widths: number[] = [];

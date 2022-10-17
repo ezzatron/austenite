@@ -1,11 +1,11 @@
 import { Temporal } from "@js-temporal/polyfill";
 import { Declaration } from "../../src/declaration";
-import { duration, DurationOptions } from "../../src/duration";
+import { duration, Options } from "../../src/duration";
 import { initialize, reset } from "../../src/environment";
 import { hasType, noop } from "../helpers";
 
 const { Duration } = Temporal;
-type DurationInstance = InstanceType<typeof Duration>;
+type Duration = Temporal.Duration;
 
 const invalidValueTable = [
   [
@@ -36,7 +36,7 @@ const invalidValueTable = [
 ];
 
 describe("Duration declarations", () => {
-  let declaration: Declaration<DurationInstance, DurationOptions>;
+  let declaration: Declaration<Duration, Options>;
   let env: typeof process.env;
 
   beforeEach(() => {
@@ -95,7 +95,7 @@ describe("Duration declarations", () => {
         initialize({ onInvalid: noop });
         const actual = declaration.value();
 
-        expect(hasType<DurationInstance, typeof actual>(actual)).toBeNull();
+        expect(hasType<Duration, typeof actual>(actual)).toBeNull();
       });
     });
 
@@ -171,9 +171,7 @@ describe("Duration declarations", () => {
         initialize({ onInvalid: noop });
         const actual = declaration.value();
 
-        expect(
-          hasType<DurationInstance | undefined, typeof actual>(actual)
-        ).toBeNull();
+        expect(hasType<Duration | undefined, typeof actual>(actual)).toBeNull();
       });
     });
 

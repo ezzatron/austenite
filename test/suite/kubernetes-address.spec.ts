@@ -1,9 +1,9 @@
 import { Declaration } from "../../src/declaration";
 import { initialize, reset } from "../../src/environment";
 import {
+  Address,
   kubernetesAddress,
-  KubernetesAddress,
-  KubernetesAddressOptions,
+  Options,
 } from "../../src/kubernetes-address";
 import { hasType, noop } from "../helpers";
 
@@ -98,7 +98,7 @@ describe("Kubernetes address declarations", () => {
     port: 54321,
   };
 
-  let declaration: Declaration<KubernetesAddress, KubernetesAddressOptions>;
+  let declaration: Declaration<Address, Options>;
   let env: typeof process.env;
 
   beforeEach(() => {
@@ -171,7 +171,7 @@ describe("Kubernetes address declarations", () => {
         initialize({ onInvalid: noop });
         const actual = declaration.value();
 
-        expect(hasType<KubernetesAddress, typeof actual>(actual)).toBeNull();
+        expect(hasType<Address, typeof actual>(actual)).toBeNull();
       });
     });
 
@@ -320,9 +320,7 @@ describe("Kubernetes address declarations", () => {
         initialize({ onInvalid: noop });
         const actual = declaration.value();
 
-        expect(
-          hasType<KubernetesAddress | undefined, typeof actual>(actual)
-        ).toBeNull();
+        expect(hasType<Address | undefined, typeof actual>(actual)).toBeNull();
       });
     });
 

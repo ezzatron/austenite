@@ -1,6 +1,6 @@
 import { quote } from "shell-quote";
 import { Visitor } from "./schema";
-import { createTable } from "./table";
+import { create as createTable } from "./table";
 import { Result, Results } from "./validation";
 import { ValueError, Variable } from "./variable";
 
@@ -9,7 +9,7 @@ const INVALID = "✗";
 const NEUTRAL = "•";
 const VALID = "✓";
 
-export function renderSummary(results: Results): string {
+export function render(results: Results): string {
   const table = createTable(2);
 
   for (const { variable, result } of results) {

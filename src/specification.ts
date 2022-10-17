@@ -3,13 +3,13 @@ import { toMarkdown } from "mdast-util-to-markdown";
 import { Content } from "mdast-util-to-markdown/lib/types";
 import { basename } from "path";
 import { quote } from "shell-quote";
-import { markdownToContent, markdownToContentArray } from "./markdown";
+import { toContent, toContentArray } from "./markdown";
 import { Visitor } from "./schema";
-import { createTable } from "./table";
+import { create as createTable } from "./table";
 import { usage } from "./usage";
 import { Variable } from "./variable";
 
-export function renderSpecification(variables: Variable<unknown>[]): string {
+export function render(variables: Variable<unknown>[]): string {
   const app = basename(process.argv[1]);
 
   return toMarkdown(
@@ -58,16 +58,16 @@ function header(app: string, variables: Variable<unknown>[]): Content[] {
       ],
     },
     variables.length > 0
-      ? markdownToContent<Content>(
+      ? toContent<Content>(
           [
             "Please note that **undefined** variables and **empty strings** are considered",
             "equivalent.",
           ].join("\n")
         )
-      : markdownToContent<Content>(
+      : toContent<Content>(
           "**There do not appear to be any environment variables.**"
         ),
-    ...markdownToContentArray<Content>(
+    ...toContentArray<Content>(
       [
         "",
         "The application may consume other undocumented environment variables; this",
@@ -124,7 +124,7 @@ function indexEntry({
             type: "text",
             value: " — ",
           },
-          ...markdownToContentArray<PhrasingContent>(description),
+          ...toContentArray<PhrasingContent>(description),
         ],
       },
     ],
@@ -174,7 +174,7 @@ function variable(variable: Variable<unknown>): Content[] {
       children: [
         {
           type: "paragraph",
-          children: markdownToContentArray<PhrasingContent>(description),
+          children: toContentArray<PhrasingContent>(description),
         },
       ],
     },
@@ -189,7 +189,7 @@ function createSchemaRenderer({
   return {
     visitEnum() {
       if (!def.isDefined) {
-        return markdownToContent(
+        return toContent(
           [
             "This variable **MUST** be set to one of the values below.",
             "If left undefined the application will print usage information to `STDERR` then",
@@ -199,12 +199,12 @@ function createSchemaRenderer({
       }
 
       if (typeof def.value === "undefined") {
-        return markdownToContent(
+        return toContent(
           "This variable **MAY** be set to one of the values below or left undefined."
         );
       }
 
-      return markdownToContent(
+      return toContent(
         [
           "This variable **MAY** be set to one of the values below.",
           "If left undefined the default value is used (see below).",

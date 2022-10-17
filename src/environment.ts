@@ -1,8 +1,8 @@
 import { EOL } from "os";
-import { renderSpecification } from "./specification";
-import { renderSummary } from "./summary";
+import { render as renderSpecification } from "./specification";
+import { render as renderSummary } from "./summary";
 import { Results, validate } from "./validation";
-import { createVariable, Variable, VariableSpec } from "./variable";
+import { create as createVariable, Variable, VariableSpec } from "./variable";
 
 let processExit: typeof process.exit;
 let state: State = createInitialState();

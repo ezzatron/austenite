@@ -1,25 +1,25 @@
 import { Temporal } from "@js-temporal/polyfill";
 import {
   Declaration,
-  DeclarationOptions,
   defaultFromOptions,
+  Options as DeclarationOptions,
   Value,
 } from "./declaration";
 import { registerVariable } from "./environment";
-import { createExamples, Example, Examples } from "./example";
-import { Maybe, resolveMaybe } from "./maybe";
+import { create as createExamples, Example, Examples } from "./example";
+import { Maybe, resolve } from "./maybe";
 import { createScalar, Scalar, toString } from "./schema";
 
 const { Duration } = Temporal;
-type DurationInstance = InstanceType<typeof Duration>;
+type Duration = Temporal.Duration;
 
-export type DurationOptions = DeclarationOptions<DurationInstance>;
+export type Options = DeclarationOptions<Duration>;
 
-export function duration<O extends DurationOptions>(
+export function duration<O extends Options>(
   name: string,
   description: string,
   options: O = {} as O
-): Declaration<DurationInstance, O> {
+): Declaration<Duration, O> {
   const def = defaultFromOptions(options);
   const schema = createSchema();
 
@@ -33,13 +33,13 @@ export function duration<O extends DurationOptions>(
 
   return {
     value() {
-      return resolveMaybe(v.nativeValue()) as Value<DurationInstance, O>;
+      return resolve(v.nativeValue()) as Value<Duration, O>;
     },
   };
 }
 
-function createSchema(): Scalar<DurationInstance> {
-  function unmarshal(v: string): DurationInstance {
+function createSchema(): Scalar<Duration> {
+  function unmarshal(v: string): Duration {
     try {
       return Duration.from(v);
     } catch {
@@ -51,8 +51,8 @@ function createSchema(): Scalar<DurationInstance> {
 }
 
 function buildExamples(
-  schema: Scalar<DurationInstance>,
-  def: Maybe<DurationInstance | undefined>
+  schema: Scalar<Duration>,
+  def: Maybe<Duration | undefined>
 ): Examples {
   let defExample: Example | undefined;
 

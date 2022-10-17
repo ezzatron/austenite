@@ -5,7 +5,7 @@ export interface Example {
 
 export type Examples = Iterable<Example>;
 
-export function createExamples(...init: (Example | undefined)[]): Examples {
+export function create(...init: (Example | undefined)[]): Examples {
   const seen = new Set();
   const examples: Example[] = [];
 

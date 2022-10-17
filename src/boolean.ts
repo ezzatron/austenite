@@ -1,30 +1,30 @@
 import {
   Declaration,
-  DeclarationOptions,
   defaultFromOptions,
+  Options as DeclarationOptions,
   Value,
 } from "./declaration";
 import { registerVariable } from "./environment";
-import { createExamples, Examples } from "./example";
-import { Maybe, resolveMaybe } from "./maybe";
+import { create as createExamples, Examples } from "./example";
+import { Maybe, resolve } from "./maybe";
 import { createEnum, Enum, InvalidEnumError } from "./schema";
 import { SpecError } from "./variable";
 
-export interface BooleanOptions extends DeclarationOptions<boolean> {
-  readonly literals?: BooleanLiterals;
+export interface Options extends DeclarationOptions<boolean> {
+  readonly literals?: Literals;
 }
 
-export interface BooleanLiterals {
+export interface Literals {
   readonly true: string[];
   readonly false: string[];
 }
 
-const defaultLiterals: BooleanLiterals = {
+const defaultLiterals: Literals = {
   true: ["true"],
   false: ["false"],
 };
 
-export function boolean<O extends BooleanOptions>(
+export function boolean<O extends Options>(
   name: string,
   description: string,
   options: O = {} as O
@@ -42,15 +42,15 @@ export function boolean<O extends BooleanOptions>(
 
   return {
     value() {
-      return resolveMaybe(v.nativeValue()) as Value<boolean, O>;
+      return resolve(v.nativeValue()) as Value<boolean, O>;
     },
   };
 }
 
 function assertLiterals(
   name: string,
-  literals: BooleanLiterals | undefined
-): BooleanLiterals {
+  literals: Literals | undefined
+): Literals {
   if (literals == null) return defaultLiterals;
 
   const seen = new Set();
@@ -65,7 +65,7 @@ function assertLiterals(
   return literals;
 }
 
-function createSchema(literals: BooleanLiterals): Enum<boolean> {
+function createSchema(literals: Literals): Enum<boolean> {
   const members = [...literals.true, ...literals.false];
   const trueLiteral = literals.true[0];
   const falseLiteral = literals.false[0];
@@ -90,7 +90,7 @@ function createSchema(literals: BooleanLiterals): Enum<boolean> {
 }
 
 function buildExamples(
-  literals: BooleanLiterals,
+  literals: Literals,
   def: Maybe<boolean | undefined>
 ): Examples {
   const defValue = def.isDefined ? def.value : undefined;
