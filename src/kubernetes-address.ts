@@ -9,7 +9,7 @@ import { registerVariable } from "./environment";
 import { normalize } from "./error";
 import { create as createExamples, Example } from "./example";
 import { map, Maybe, resolve } from "./maybe";
-import { createString, createUnsignedInteger } from "./schema";
+import { createScalar, createString, Scalar, toString } from "./schema";
 import { Variable, VariableSpec } from "./variable";
 
 const IP_PATTERN = createIpPattern({ exact: true });
@@ -93,6 +93,24 @@ function registerHost(
   });
 }
 
+function validateHost(_: VariableSpec<string>, host: string): void {
+  if (host === "") throw new Error("must not be empty");
+
+  if (IP_PATTERN.test(host)) return;
+
+  if (host.includes(" ")) {
+    throw new Error("must not contain whitespace");
+  }
+  if (host.includes(":")) {
+    throw new Error(
+      "must not contain a colon (:) unless part of an IPv6 address"
+    );
+  }
+  if (host.startsWith(".") || host.endsWith(".")) {
+    throw new Error("must not begin or end with a dot");
+  }
+}
+
 function registerPort(
   name: string,
   def: Maybe<Address | undefined>,
@@ -118,7 +136,7 @@ function registerPort(
   }
 
   const portDef = map(def, (service) => service?.port);
-  const schema = createUnsignedInteger("port number");
+  const schema = createPortSchema();
   let defExample: Example | undefined;
 
   if (portDef.isDefined && typeof portDef.value !== "undefined") {
@@ -141,22 +159,17 @@ function registerPort(
   });
 }
 
-function validateHost(_: VariableSpec<string>, host: string): void {
-  if (host === "") throw new Error("must not be empty");
+function createPortSchema(): Scalar<number> {
+  function unmarshal(v: string): number {
+    if (!/^\d*$/.test(v)) throw new Error("must be an unsigned integer");
+    if (v !== "0" && v.startsWith("0")) {
+      throw new Error("must not have leading zeros");
+    }
 
-  if (IP_PATTERN.test(host)) return;
+    return Number(v);
+  }
 
-  if (host.includes(" ")) {
-    throw new Error("must not contain whitespace");
-  }
-  if (host.includes(":")) {
-    throw new Error(
-      "must not contain a colon (:) unless part of an IPv6 address"
-    );
-  }
-  if (host.startsWith(".") || host.endsWith(".")) {
-    throw new Error("must not begin or end with a dot");
-  }
+  return createScalar("port number", toString, unmarshal);
 }
 
 function validatePort(_: VariableSpec<number>, port: number): void {

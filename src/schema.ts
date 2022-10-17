@@ -21,19 +21,6 @@ export function createString(description: string): Scalar<string> {
   return createScalar(description, identity, identity);
 }
 
-export function createUnsignedInteger(description: string): Scalar<number> {
-  function unmarshal(v: string): number {
-    if (!/^\d*$/.test(v)) throw new Error("must be an unsigned integer");
-    if (v !== "0" && v.startsWith("0")) {
-      throw new Error("must not have leading zeros");
-    }
-
-    return Number(v);
-  }
-
-  return createScalar(description, toString, unmarshal);
-}
-
 export function createEnum<T>(
   members: Record<string, T>,
   marshal: MarshalFn<T>,
