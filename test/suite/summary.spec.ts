@@ -1,6 +1,6 @@
 import { Temporal } from "@js-temporal/polyfill";
 import { EOL } from "os";
-import { duration } from "../../src";
+import { duration, enumeration } from "../../src";
 import { boolean } from "../../src/boolean";
 import {
   initialize,
@@ -47,6 +47,7 @@ describe("Validation summary", () => {
   it("summarizes required variables", () => {
     process.env.AUSTENITE_BOOLEAN = "y";
     process.env.AUSTENITE_DURATION = "PT3H20M";
+    process.env.AUSTENITE_ENUMERATION = "foo";
     process.env.AUSTENITE_STRING = "hello, world!";
     process.env.AUSTENITE_SVC_SERVICE_HOST = "host.example.org";
     process.env.AUSTENITE_SVC_SERVICE_PORT = "443";
@@ -54,6 +55,20 @@ describe("Validation summary", () => {
     string("AUSTENITE_XTRIGGER", "trigger failure");
     kubernetesAddress("austenite-svc");
     string("AUSTENITE_STRING", "example string");
+    enumeration("AUSTENITE_ENUMERATION", "example enumeration", {
+      foo: {
+        value: "foo",
+        description: "foo",
+      },
+      bar: {
+        value: "bar",
+        description: "bar",
+      },
+      baz: {
+        value: "baz",
+        description: "baz",
+      },
+    });
     duration("AUSTENITE_DURATION", "example duration");
     boolean("AUSTENITE_BOOLEAN", "example boolean", {
       literals: {
@@ -72,6 +87,7 @@ describe("Validation summary", () => {
         "",
         "  AUSTENITE_BOOLEAN           example boolean                            y | yes | n | no       ✓ set to y",
         "  AUSTENITE_DURATION          example duration                           <ISO 8601 duration>    ✓ set to PT3H20M",
+        "  AUSTENITE_ENUMERATION       example enumeration                        foo | bar | baz        ✓ set to foo",
         "  AUSTENITE_STRING            example string                             <string>               ✓ set to 'hello, world!'",
         "  AUSTENITE_SVC_SERVICE_HOST  kubernetes `austenite-svc` service host    <hostname>             ✓ set to host.example.org",
         "  AUSTENITE_SVC_SERVICE_PORT  kubernetes `austenite-svc` service port    <port number>          ✓ set to 443",
@@ -90,6 +106,27 @@ describe("Validation summary", () => {
     string("AUSTENITE_STRING", "example string", {
       default: undefined,
     });
+    enumeration(
+      "AUSTENITE_ENUMERATION",
+      "example enumeration",
+      {
+        foo: {
+          value: "foo",
+          description: "foo",
+        },
+        bar: {
+          value: "bar",
+          description: "bar",
+        },
+        baz: {
+          value: "baz",
+          description: "baz",
+        },
+      },
+      {
+        default: undefined,
+      }
+    );
     duration("AUSTENITE_DURATION", "example duration", {
       default: undefined,
     });
@@ -111,6 +148,7 @@ describe("Validation summary", () => {
         "",
         "  AUSTENITE_BOOLEAN           example boolean                          [ y | yes | n | no ]     • undefined",
         "  AUSTENITE_DURATION          example duration                         [ <ISO 8601 duration> ]  • undefined",
+        "  AUSTENITE_ENUMERATION       example enumeration                      [ foo | bar | baz ]      • undefined",
         "  AUSTENITE_STRING            example string                           [ <string> ]             • undefined",
         "  AUSTENITE_SVC_SERVICE_HOST  kubernetes `austenite-svc` service host  [ <hostname> ]           • undefined",
         "  AUSTENITE_SVC_SERVICE_PORT  kubernetes `austenite-svc` service port  [ <port number> ]        • undefined",
@@ -132,6 +170,27 @@ describe("Validation summary", () => {
     string("AUSTENITE_STRING", "example string", {
       default: "hello, world!",
     });
+    enumeration(
+      "AUSTENITE_ENUMERATION",
+      "example enumeration",
+      {
+        foo: {
+          value: "foo",
+          description: "foo",
+        },
+        bar: {
+          value: "bar",
+          description: "bar",
+        },
+        baz: {
+          value: "baz",
+          description: "baz",
+        },
+      } as const,
+      {
+        default: "bar",
+      }
+    );
     duration("AUSTENITE_DURATION", "example duration", {
       default: Duration.from("PT10S"),
     });
@@ -153,6 +212,7 @@ describe("Validation summary", () => {
         "",
         "  AUSTENITE_BOOLEAN           example boolean                          [ y | yes | n | no ] = y           ✓ using default value",
         "  AUSTENITE_DURATION          example duration                         [ <ISO 8601 duration> ] = PT10S    ✓ using default value",
+        "  AUSTENITE_ENUMERATION       example enumeration                      [ foo | bar | baz ] = bar          ✓ using default value",
         "  AUSTENITE_STRING            example string                           [ <string> ] = 'hello, world!'     ✓ using default value",
         "  AUSTENITE_SVC_SERVICE_HOST  kubernetes `austenite-svc` service host  [ <hostname> ] = host.example.org  ✓ using default value",
         "  AUSTENITE_SVC_SERVICE_PORT  kubernetes `austenite-svc` service port  [ <port number> ] = 443            ✓ using default value",
@@ -186,10 +246,25 @@ describe("Validation summary", () => {
   it("summarizes invalid values", () => {
     process.env.AUSTENITE_BOOLEAN = "yes";
     process.env.AUSTENITE_DURATION = "10S";
+    process.env.AUSTENITE_ENUMERATION = "qux";
 
     string("AUSTENITE_XTRIGGER", "trigger failure");
     // strings cannot really be "invalid" aside from being undefined
     string("AUSTENITE_STRING", "example string");
+    enumeration("AUSTENITE_ENUMERATION", "example enumeration", {
+      foo: {
+        value: "foo",
+        description: "foo",
+      },
+      bar: {
+        value: "bar",
+        description: "bar",
+      },
+      baz: {
+        value: "baz",
+        description: "baz",
+      },
+    });
     duration("AUSTENITE_DURATION", "example duration");
     boolean("AUSTENITE_BOOLEAN", "example boolean");
 
@@ -199,10 +274,11 @@ describe("Validation summary", () => {
       [
         `Environment Variables:`,
         ``,
-        `❯ AUSTENITE_BOOLEAN   example boolean     true | false           ✗ set to yes, expected true or false`,
-        "❯ AUSTENITE_DURATION  example duration    <ISO 8601 duration>    ✗ set to 10S, must be an ISO 8601 duration",
-        `❯ AUSTENITE_STRING    example string      <string>               ✗ undefined`,
-        `❯ AUSTENITE_XTRIGGER  trigger failure     <string>               ✗ undefined`,
+        `❯ AUSTENITE_BOOLEAN      example boolean        true | false           ✗ set to yes, expected true or false`,
+        "❯ AUSTENITE_DURATION     example duration       <ISO 8601 duration>    ✗ set to 10S, must be an ISO 8601 duration",
+        "❯ AUSTENITE_ENUMERATION  example enumeration    foo | bar | baz        ✗ set to qux, expected foo, bar, or baz",
+        `❯ AUSTENITE_STRING       example string         <string>               ✗ undefined`,
+        `❯ AUSTENITE_XTRIGGER     trigger failure        <string>               ✗ undefined`,
         ``,
       ].join(EOL)
     );

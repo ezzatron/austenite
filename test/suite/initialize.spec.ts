@@ -1,6 +1,10 @@
 import { boolean } from "../../src/boolean";
 import { Declaration, Options } from "../../src/declaration";
 import { duration } from "../../src/duration";
+import {
+  enumeration,
+  Options as EnumerationOptions,
+} from "../../src/enumeration";
 import { initialize, reset, setProcessExit } from "../../src/environment";
 import { kubernetesAddress } from "../../src/kubernetes-address";
 import { string } from "../../src/string";
@@ -14,6 +18,22 @@ type DeclarationFactory = (
 
 const booleanFactory = boolean.bind(null, "AUSTENITE_VAR", "<description>");
 const durationFactory = duration.bind(null, "AUSTENITE_VAR", "<description>");
+const enumerationFactory = (options: EnumerationOptions<0 | 1>) =>
+  enumeration(
+    "AUSTENITE_VAR",
+    "<description>",
+    {
+      "<member-0>": {
+        value: 0,
+        description: "member 0",
+      },
+      "<member-1>": {
+        value: 1,
+        description: "member 1",
+      },
+    } as const,
+    options
+  );
 const k8sAddressFactory = kubernetesAddress.bind(null, "austenite-svc");
 const stringFactory = string.bind(null, "AUSTENITE_VAR", "<description>");
 
@@ -50,6 +70,7 @@ describe("initialize()", () => {
         type                    | factory
         ${"boolean"}            | ${booleanFactory}
         ${"duration"}           | ${durationFactory}
+        ${"enumeration"}        | ${enumerationFactory}
         ${"kubernetes address"} | ${k8sAddressFactory}
         ${"string"}             | ${stringFactory}
       `(
@@ -87,6 +108,7 @@ describe("initialize()", () => {
         type                    | factory
         ${"boolean"}            | ${booleanFactory}
         ${"duration"}           | ${durationFactory}
+        ${"enumeration"}        | ${enumerationFactory}
         ${"kubernetes address"} | ${k8sAddressFactory}
         ${"string"}             | ${stringFactory}
       `(
@@ -128,6 +150,7 @@ describe("initialize()", () => {
         type                    | factory
         ${"boolean"}            | ${booleanFactory}
         ${"duration"}           | ${durationFactory}
+        ${"enumeration"}        | ${enumerationFactory}
         ${"kubernetes address"} | ${k8sAddressFactory}
         ${"string"}             | ${stringFactory}
       `(

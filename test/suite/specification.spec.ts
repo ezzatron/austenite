@@ -3,6 +3,7 @@ import { readFile } from "fs/promises";
 import { join } from "path";
 import { boolean } from "../../src/boolean";
 import { duration } from "../../src/duration";
+import { enumeration } from "../../src/enumeration";
 import { initialize, reset, setProcessExit } from "../../src/environment";
 import { kubernetesAddress } from "../../src/kubernetes-address";
 import { string } from "../../src/string";
@@ -138,6 +139,59 @@ describe("Specification documents", () => {
 
       expect(mockConsole.readStdout()).toContain(
         await readFixture("duration/default")
+      );
+      expect(exitCode).toBe(0);
+    });
+  });
+
+  describe("when there are enumerations", () => {
+    const members = {
+      debug: { value: "debug", description: "show information for developers" },
+      info: { value: "info", description: "standard log messages" },
+      warn: {
+        value: "warn",
+        description: "important, but don't need individual human review",
+      },
+      error: {
+        value: "error",
+        description: "a healthy application shouldn't produce any errors",
+      },
+      fatal: { value: "fatal", description: "the application cannot proceed" },
+    } as const;
+
+    it("describes required enumerations", async () => {
+      process.env.AUSTENITE_SPEC = "true";
+      enumeration("LOG_LEVEL", "the minimum log level to record", members);
+      initialize();
+
+      expect(mockConsole.readStdout()).toContain(
+        await readFixture("enumeration/required")
+      );
+      expect(exitCode).toBe(0);
+    });
+
+    it("describes optional enumerations", async () => {
+      process.env.AUSTENITE_SPEC = "true";
+      enumeration("LOG_LEVEL", "the minimum log level to record", members, {
+        default: undefined,
+      });
+      initialize();
+
+      expect(mockConsole.readStdout()).toContain(
+        await readFixture("enumeration/optional")
+      );
+      expect(exitCode).toBe(0);
+    });
+
+    it("describes optional enumerations with defaults", async () => {
+      process.env.AUSTENITE_SPEC = "true";
+      enumeration("LOG_LEVEL", "the minimum log level to record", members, {
+        default: "error",
+      });
+      initialize();
+
+      expect(mockConsole.readStdout()).toContain(
+        await readFixture("enumeration/default")
       );
       expect(exitCode).toBe(0);
     });

@@ -1,3 +1,5 @@
+import { quote } from "shell-quote";
+
 export interface Schema<T> {
   marshal(value: T): string;
   unmarshal(value: string): T;
@@ -71,12 +73,13 @@ export interface Visitor<T> {
 
 export class InvalidEnumError<T> extends Error {
   constructor(members: Record<string, T>) {
+    const quotedMembers = Object.keys(members).map((member) => quote([member]));
     const listFormatter = new Intl.ListFormat("en", {
       style: "short",
       type: "disjunction",
     });
 
-    super(`expected ${listFormatter.format(Object.keys(members))}`);
+    super(`expected ${listFormatter.format(quotedMembers)}`);
   }
 }
 
