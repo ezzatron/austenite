@@ -12,7 +12,7 @@ export interface Scalar<T> extends Schema<T> {
 }
 
 export interface Enum<T> extends Schema<T> {
-  members: string[];
+  members: Record<string, T>;
 }
 
 export function createString(description: string): Scalar<string> {
@@ -33,7 +33,7 @@ export function createUnsignedInteger(description: string): Scalar<number> {
 }
 
 export function createEnum<T>(
-  members: string[],
+  members: Record<string, T>,
   marshal: MarshalFn<T>,
   unmarshal: UnmarshalFn<T>
 ): Enum<T> {
@@ -69,14 +69,14 @@ export interface Visitor<T> {
   visitScalar(s: Scalar<unknown>): T;
 }
 
-export class InvalidEnumError extends Error {
-  constructor(members: string[]) {
+export class InvalidEnumError<T> extends Error {
+  constructor(members: Record<string, T>) {
     const listFormatter = new Intl.ListFormat("en", {
       style: "short",
       type: "disjunction",
     });
 
-    super(`expected ${listFormatter.format(members)}`);
+    super(`expected ${listFormatter.format(Object.keys(members))}`);
   }
 }
 

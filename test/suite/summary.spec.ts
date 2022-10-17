@@ -56,7 +56,12 @@ describe("Validation summary", () => {
     string("AUSTENITE_STRING", "example string");
     duration("AUSTENITE_DURATION", "example duration");
     boolean("AUSTENITE_BOOLEAN", "example boolean", {
-      literals: { true: ["y", "yes"], false: ["n", "no"] },
+      literals: {
+        y: true,
+        yes: true,
+        n: false,
+        no: false,
+      },
     });
 
     initialize();
@@ -90,7 +95,12 @@ describe("Validation summary", () => {
     });
     boolean("AUSTENITE_BOOLEAN", "example boolean", {
       default: undefined,
-      literals: { true: ["y", "yes"], false: ["n", "no"] },
+      literals: {
+        y: true,
+        yes: true,
+        n: false,
+        no: false,
+      },
     });
 
     initialize();
@@ -127,7 +137,12 @@ describe("Validation summary", () => {
     });
     boolean("AUSTENITE_BOOLEAN", "example boolean", {
       default: true,
-      literals: { true: ["y", "yes"], false: ["n", "no"] },
+      literals: {
+        y: true,
+        yes: true,
+        n: false,
+        no: false,
+      },
     });
 
     initialize();

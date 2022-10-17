@@ -14,14 +14,11 @@ export interface Options extends DeclarationOptions<boolean> {
   readonly literals?: Literals;
 }
 
-export interface Literals {
-  readonly true: string[];
-  readonly false: string[];
-}
+export type Literals = Record<string, boolean>;
 
-const defaultLiterals: Literals = {
-  true: ["true"],
-  false: ["false"],
+const defaultLiterals = {
+  true: true,
+  false: false,
 };
 
 export function boolean<O extends Options>(
@@ -29,14 +26,15 @@ export function boolean<O extends Options>(
   description: string,
   options: O = {} as O
 ): Declaration<boolean, O> {
-  const literals = assertLiterals(name, options.literals);
+  const { literals = defaultLiterals } = options;
+  const schema = createSchema(name, literals);
   const def = defaultFromOptions(options);
 
   const v = registerVariable({
     name,
     description,
     default: def,
-    schema: createSchema(literals),
+    schema,
     examples: buildExamples(literals, def),
   });
 
@@ -47,46 +45,39 @@ export function boolean<O extends Options>(
   };
 }
 
-function assertLiterals(
-  name: string,
-  literals: Literals | undefined
-): Literals {
-  if (literals == null) return defaultLiterals;
-
-  const seen = new Set();
-
-  for (const literal of [...literals.true, ...literals.false]) {
+function createSchema(name: string, literals: Literals): Enum<boolean> {
+  for (const literal of Object.keys(literals)) {
     if (literal.length < 1) throw new EmptyLiteralError(name);
-    if (seen.has(literal)) throw new ReusedLiteralError(name, literal);
-
-    seen.add(literal);
   }
 
-  return literals;
-}
-
-function createSchema(literals: Literals): Enum<boolean> {
-  const members = [...literals.true, ...literals.false];
-  const trueLiteral = literals.true[0];
-  const falseLiteral = literals.false[0];
-
-  const mapping: Record<string, boolean | undefined> = {};
-  for (const literal of literals.true) mapping[literal] = true;
-  for (const literal of literals.false) mapping[literal] = false;
+  const trueLiteral = findLiteral(name, literals, true);
+  const falseLiteral = findLiteral(name, literals, false);
 
   function marshal(v: boolean): string {
     return v ? trueLiteral : falseLiteral;
   }
 
   function unmarshal(v: string): boolean {
-    const mapped = mapping[v];
+    const mapped = literals[v];
 
     if (mapped != null) return mapped;
 
-    throw new InvalidEnumError(members);
+    throw new InvalidEnumError(literals);
   }
 
-  return createEnum(members, marshal, unmarshal);
+  return createEnum(literals, marshal, unmarshal);
+}
+
+function findLiteral(
+  name: string,
+  literals: Literals,
+  native: boolean
+): string {
+  for (const [literal, n] of Object.entries(literals)) {
+    if (n === native) return literal;
+  }
+
+  throw new MissingLiteralError(name, native);
 }
 
 function buildExamples(
@@ -96,13 +87,10 @@ function buildExamples(
   const defValue = def.isDefined ? def.value : undefined;
 
   return createExamples(
-    ...literals.true.map((literal) => ({
+    ...Object.entries(literals).map(([literal, native]) => ({
       canonical: literal,
-      description: defValue === true ? "true (default)" : "true",
-    })),
-    ...literals.false.map((literal) => ({
-      canonical: literal,
-      description: defValue === false ? "false (default)" : "false",
+      description:
+        defValue === native ? `${String(native)} (default)` : String(native),
     }))
   );
 }
@@ -113,13 +101,8 @@ class EmptyLiteralError extends SpecError {
   }
 }
 
-class ReusedLiteralError extends SpecError {
-  constructor(name: string, literal: string) {
-    super(
-      name,
-      new Error(
-        `literal ${JSON.stringify(literal)} can not be used multiple times`
-      )
-    );
+class MissingLiteralError extends SpecError {
+  constructor(name: string, native: boolean) {
+    super(name, new Error(`a ${String(native)} literal must be defined`));
   }
 }

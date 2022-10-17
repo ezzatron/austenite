@@ -46,7 +46,7 @@ function renderSchema({
 function createSchemaRenderer(): Visitor<string> {
   return {
     visitEnum(e) {
-      return e.members.join(" | ");
+      return Object.keys(e.members).join(" | ");
     },
 
     visitScalar(s) {

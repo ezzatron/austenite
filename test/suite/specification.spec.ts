@@ -89,8 +89,10 @@ describe("Specification documents", () => {
       boolean("DEBUG", "enable or disable debugging features", {
         default: false,
         literals: {
-          true: ["y", "yes"],
-          false: ["n", "no"],
+          y: true,
+          yes: true,
+          n: false,
+          no: false,
         },
       });
       initialize();

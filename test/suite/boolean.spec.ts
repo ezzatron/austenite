@@ -240,8 +240,10 @@ describe("Boolean declarations", () => {
     beforeEach(() => {
       declaration = boolean("AUSTENITE_BOOLEAN", "<description>", {
         literals: {
-          true: ["y", "yes"],
-          false: ["n", "no"],
+          y: true,
+          yes: true,
+          n: false,
+          no: false,
         },
       });
     });
@@ -294,8 +296,10 @@ describe("Boolean declarations", () => {
 
     describe("when a true literal is empty", () => {
       const literals = {
-        true: ["y", ""],
-        false: ["n", "no"],
+        y: true,
+        "": true,
+        n: false,
+        no: false,
       };
 
       describe(".value()", () => {
@@ -313,8 +317,10 @@ describe("Boolean declarations", () => {
 
     describe("when a false literal is empty", () => {
       const literals = {
-        true: ["y", "yes"],
-        false: ["n", ""],
+        y: true,
+        yes: true,
+        n: false,
+        "": false,
       };
 
       describe(".value()", () => {
@@ -330,10 +336,10 @@ describe("Boolean declarations", () => {
       });
     });
 
-    describe("when the same literal is specified for both true and false", () => {
+    describe("when no true literal is defined", () => {
       const literals = {
-        true: ["a", "b"],
-        false: ["c", "a"],
+        n: false,
+        no: false,
       };
 
       describe(".value()", () => {
@@ -343,16 +349,16 @@ describe("Boolean declarations", () => {
               literals,
             });
           }).toThrow(
-            'specification for AUSTENITE_BOOLEAN is invalid: literal "a" can not be used multiple times'
+            "specification for AUSTENITE_BOOLEAN is invalid: a true literal must be defined"
           );
         });
       });
     });
 
-    describe("when the same literal is used for true multiple times", () => {
+    describe("when no false literal is defined", () => {
       const literals = {
-        true: ["a", "a"],
-        false: ["b", "c"],
+        y: true,
+        yes: true,
       };
 
       describe(".value()", () => {
@@ -362,7 +368,7 @@ describe("Boolean declarations", () => {
               literals,
             });
           }).toThrow(
-            'specification for AUSTENITE_BOOLEAN is invalid: literal "a" can not be used multiple times'
+            "specification for AUSTENITE_BOOLEAN is invalid: a false literal must be defined"
           );
         });
       });
