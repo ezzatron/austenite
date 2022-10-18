@@ -7,6 +7,7 @@ import {
 } from "../../src/enumeration";
 import { initialize, reset, setProcessExit } from "../../src/environment";
 import { kubernetesAddress } from "../../src/kubernetes-address";
+import { number } from "../../src/number";
 import { string } from "../../src/string";
 import { Results } from "../../src/validation";
 import { UndefinedError } from "../../src/variable";
@@ -35,6 +36,7 @@ const enumerationFactory = (options: EnumerationOptions<0 | 1>) =>
     options
   );
 const k8sAddressFactory = kubernetesAddress.bind(null, "austenite-svc");
+const numberFactory = number.bind(null, "AUSTENITE_VAR", "<description>");
 const stringFactory = string.bind(null, "AUSTENITE_VAR", "<description>");
 
 describe("initialize()", () => {
@@ -72,6 +74,7 @@ describe("initialize()", () => {
         ${"duration"}           | ${durationFactory}
         ${"enumeration"}        | ${enumerationFactory}
         ${"kubernetes address"} | ${k8sAddressFactory}
+        ${"number"}             | ${numberFactory}
         ${"string"}             | ${stringFactory}
       `(
         "prevents access to $type values",
@@ -110,6 +113,7 @@ describe("initialize()", () => {
         ${"duration"}           | ${durationFactory}
         ${"enumeration"}        | ${enumerationFactory}
         ${"kubernetes address"} | ${k8sAddressFactory}
+        ${"number"}             | ${numberFactory}
         ${"string"}             | ${stringFactory}
       `(
         "prevents additional $type declarations",
@@ -152,6 +156,7 @@ describe("initialize()", () => {
         ${"duration"}           | ${durationFactory}
         ${"enumeration"}        | ${enumerationFactory}
         ${"kubernetes address"} | ${k8sAddressFactory}
+        ${"number"}             | ${numberFactory}
         ${"string"}             | ${stringFactory}
       `(
         "prevents access to $type values",

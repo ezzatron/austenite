@@ -10,6 +10,7 @@ import {
 } from "../../src/environment";
 import { kubernetesAddress } from "../../src/kubernetes-address";
 import { undefinedValue } from "../../src/maybe";
+import { number } from "../../src/number";
 import { createString } from "../../src/schema";
 import { string } from "../../src/string";
 import { VariableSpec } from "../../src/variable";
@@ -48,6 +49,7 @@ describe("Validation summary", () => {
     process.env.AUSTENITE_BOOLEAN = "y";
     process.env.AUSTENITE_DURATION = "PT3H20M";
     process.env.AUSTENITE_ENUMERATION = "foo";
+    process.env.AUSTENITE_NUMBER = "-123.456";
     process.env.AUSTENITE_STRING = "hello, world!";
     process.env.AUSTENITE_SVC_SERVICE_HOST = "host.example.org";
     process.env.AUSTENITE_SVC_SERVICE_PORT = "443";
@@ -55,6 +57,7 @@ describe("Validation summary", () => {
     string("AUSTENITE_XTRIGGER", "trigger failure");
     kubernetesAddress("austenite-svc");
     string("AUSTENITE_STRING", "example string");
+    number("AUSTENITE_NUMBER", "example number");
     enumeration("AUSTENITE_ENUMERATION", "example enumeration", {
       foo: {
         value: "foo",
@@ -88,6 +91,7 @@ describe("Validation summary", () => {
         "  AUSTENITE_BOOLEAN           example boolean                            y | yes | n | no       ✓ set to y",
         "  AUSTENITE_DURATION          example duration                           <ISO 8601 duration>    ✓ set to PT3H20M",
         "  AUSTENITE_ENUMERATION       example enumeration                        foo | bar | baz        ✓ set to foo",
+        "  AUSTENITE_NUMBER            example number                             <number>               ✓ set to -123.456",
         "  AUSTENITE_STRING            example string                             <string>               ✓ set to 'hello, world!'",
         "  AUSTENITE_SVC_SERVICE_HOST  kubernetes `austenite-svc` service host    <hostname>             ✓ set to host.example.org",
         "  AUSTENITE_SVC_SERVICE_PORT  kubernetes `austenite-svc` service port    <port number>          ✓ set to 443",
@@ -104,6 +108,9 @@ describe("Validation summary", () => {
       default: undefined,
     });
     string("AUSTENITE_STRING", "example string", {
+      default: undefined,
+    });
+    number("AUSTENITE_NUMBER", "example number", {
       default: undefined,
     });
     enumeration(
@@ -149,6 +156,7 @@ describe("Validation summary", () => {
         "  AUSTENITE_BOOLEAN           example boolean                          [ y | yes | n | no ]     • undefined",
         "  AUSTENITE_DURATION          example duration                         [ <ISO 8601 duration> ]  • undefined",
         "  AUSTENITE_ENUMERATION       example enumeration                      [ foo | bar | baz ]      • undefined",
+        "  AUSTENITE_NUMBER            example number                           [ <number> ]             • undefined",
         "  AUSTENITE_STRING            example string                           [ <string> ]             • undefined",
         "  AUSTENITE_SVC_SERVICE_HOST  kubernetes `austenite-svc` service host  [ <hostname> ]           • undefined",
         "  AUSTENITE_SVC_SERVICE_PORT  kubernetes `austenite-svc` service port  [ <port number> ]        • undefined",
@@ -169,6 +177,9 @@ describe("Validation summary", () => {
     });
     string("AUSTENITE_STRING", "example string", {
       default: "hello, world!",
+    });
+    number("AUSTENITE_NUMBER", "example number", {
+      default: 123.456,
     });
     enumeration(
       "AUSTENITE_ENUMERATION",
@@ -213,6 +224,7 @@ describe("Validation summary", () => {
         "  AUSTENITE_BOOLEAN           example boolean                          [ y | yes | n | no ] = y           ✓ using default value",
         "  AUSTENITE_DURATION          example duration                         [ <ISO 8601 duration> ] = PT10S    ✓ using default value",
         "  AUSTENITE_ENUMERATION       example enumeration                      [ foo | bar | baz ] = bar          ✓ using default value",
+        "  AUSTENITE_NUMBER            example number                           [ <number> ] = 123.456             ✓ using default value",
         "  AUSTENITE_STRING            example string                           [ <string> ] = 'hello, world!'     ✓ using default value",
         "  AUSTENITE_SVC_SERVICE_HOST  kubernetes `austenite-svc` service host  [ <hostname> ] = host.example.org  ✓ using default value",
         "  AUSTENITE_SVC_SERVICE_PORT  kubernetes `austenite-svc` service port  [ <port number> ] = 443            ✓ using default value",
@@ -225,8 +237,10 @@ describe("Validation summary", () => {
 
   it("summarizes non-canonical values", () => {
     process.env.AUSTENITE_DURATION = "PT3H10M0S";
+    process.env.AUSTENITE_NUMBER = "1.23456e2";
 
     string("AUSTENITE_XTRIGGER", "trigger failure");
+    number("AUSTENITE_NUMBER", "example number");
     duration("AUSTENITE_DURATION", "example duration");
 
     initialize();
@@ -236,6 +250,7 @@ describe("Validation summary", () => {
         `Environment Variables:`,
         ``,
         "  AUSTENITE_DURATION  example duration    <ISO 8601 duration>    ✓ set to PT3H10M (specified non-canonically as PT3H10M0S)",
+        "  AUSTENITE_NUMBER    example number      <number>               ✓ set to 123.456 (specified non-canonically as 1.23456e2)",
         `❯ AUSTENITE_XTRIGGER  trigger failure     <string>               ✗ undefined`,
         ``,
       ].join(EOL)
@@ -247,10 +262,12 @@ describe("Validation summary", () => {
     process.env.AUSTENITE_BOOLEAN = "yes";
     process.env.AUSTENITE_DURATION = "10S";
     process.env.AUSTENITE_ENUMERATION = "qux";
+    process.env.AUSTENITE_NUMBER = "1.2.3";
 
     string("AUSTENITE_XTRIGGER", "trigger failure");
     // strings cannot really be "invalid" aside from being undefined
     string("AUSTENITE_STRING", "example string");
+    number("AUSTENITE_NUMBER", "example number");
     enumeration("AUSTENITE_ENUMERATION", "example enumeration", {
       foo: {
         value: "foo",
@@ -277,6 +294,7 @@ describe("Validation summary", () => {
         `❯ AUSTENITE_BOOLEAN      example boolean        true | false           ✗ set to yes, expected true or false`,
         "❯ AUSTENITE_DURATION     example duration       <ISO 8601 duration>    ✗ set to 10S, must be an ISO 8601 duration",
         "❯ AUSTENITE_ENUMERATION  example enumeration    foo | bar | baz        ✗ set to qux, expected foo, bar, or baz",
+        "❯ AUSTENITE_NUMBER       example number         <number>               ✗ set to 1.2.3, must be numeric",
         `❯ AUSTENITE_STRING       example string         <string>               ✗ undefined`,
         `❯ AUSTENITE_XTRIGGER     trigger failure        <string>               ✗ undefined`,
         ``,

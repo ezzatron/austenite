@@ -6,6 +6,7 @@ import { duration } from "../../src/duration";
 import { enumeration } from "../../src/enumeration";
 import { initialize, reset, setProcessExit } from "../../src/environment";
 import { kubernetesAddress } from "../../src/kubernetes-address";
+import { number } from "../../src/number";
 import { string } from "../../src/string";
 import { createMockConsole, MockConsole } from "../helpers";
 
@@ -50,7 +51,7 @@ describe("Specification documents", () => {
       boolean("DEBUG", "enable or disable debugging features");
       initialize();
 
-      expect(mockConsole.readStdout()).toContain(
+      expect(stripUsage(mockConsole.readStdout())).toBe(
         await readFixture("boolean/required")
       );
       expect(exitCode).toBe(0);
@@ -63,7 +64,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      expect(mockConsole.readStdout()).toContain(
+      expect(stripUsage(mockConsole.readStdout())).toBe(
         await readFixture("boolean/optional")
       );
       expect(exitCode).toBe(0);
@@ -79,7 +80,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      expect(mockConsole.readStdout()).toContain(
+      expect(stripUsage(mockConsole.readStdout())).toBe(
         await readFixture("boolean/default")
       );
       expect(exitCode).toBe(0);
@@ -98,7 +99,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      expect(mockConsole.readStdout()).toContain(
+      expect(stripUsage(mockConsole.readStdout())).toBe(
         await readFixture("boolean/custom-literals")
       );
       expect(exitCode).toBe(0);
@@ -111,7 +112,7 @@ describe("Specification documents", () => {
       duration("GRPC_TIMEOUT", "gRPC request timeout");
       initialize();
 
-      expect(mockConsole.readStdout()).toContain(
+      expect(stripUsage(mockConsole.readStdout())).toBe(
         await readFixture("duration/required")
       );
       expect(exitCode).toBe(0);
@@ -124,7 +125,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      expect(mockConsole.readStdout()).toContain(
+      expect(stripUsage(mockConsole.readStdout())).toBe(
         await readFixture("duration/optional")
       );
       expect(exitCode).toBe(0);
@@ -137,7 +138,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      expect(mockConsole.readStdout()).toContain(
+      expect(stripUsage(mockConsole.readStdout())).toBe(
         await readFixture("duration/default")
       );
       expect(exitCode).toBe(0);
@@ -164,7 +165,7 @@ describe("Specification documents", () => {
       enumeration("LOG_LEVEL", "the minimum log level to record", members);
       initialize();
 
-      expect(mockConsole.readStdout()).toContain(
+      expect(stripUsage(mockConsole.readStdout())).toBe(
         await readFixture("enumeration/required")
       );
       expect(exitCode).toBe(0);
@@ -177,7 +178,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      expect(mockConsole.readStdout()).toContain(
+      expect(stripUsage(mockConsole.readStdout())).toBe(
         await readFixture("enumeration/optional")
       );
       expect(exitCode).toBe(0);
@@ -190,7 +191,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      expect(mockConsole.readStdout()).toContain(
+      expect(stripUsage(mockConsole.readStdout())).toBe(
         await readFixture("enumeration/default")
       );
       expect(exitCode).toBe(0);
@@ -203,7 +204,7 @@ describe("Specification documents", () => {
       kubernetesAddress("redis-primary");
       initialize();
 
-      expect(mockConsole.readStdout()).toContain(
+      expect(stripUsage(mockConsole.readStdout())).toBe(
         await readFixture("kubernetes-address/required")
       );
       expect(exitCode).toBe(0);
@@ -216,7 +217,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      expect(mockConsole.readStdout()).toContain(
+      expect(stripUsage(mockConsole.readStdout())).toBe(
         await readFixture("kubernetes-address/optional")
       );
       expect(exitCode).toBe(0);
@@ -232,7 +233,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      expect(mockConsole.readStdout()).toContain(
+      expect(stripUsage(mockConsole.readStdout())).toBe(
         await readFixture("kubernetes-address/default")
       );
       expect(exitCode).toBe(0);
@@ -248,8 +249,47 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      expect(mockConsole.readStdout()).toContain(
+      expect(stripUsage(mockConsole.readStdout())).toBe(
         await readFixture("kubernetes-address/named-ports")
+      );
+      expect(exitCode).toBe(0);
+    });
+  });
+
+  describe("when there are numbers", () => {
+    it("describes required numbers", async () => {
+      process.env.AUSTENITE_SPEC = "true";
+      number("WEIGHT", "weighting for this node");
+      initialize();
+
+      expect(stripUsage(mockConsole.readStdout())).toBe(
+        await readFixture("number/required")
+      );
+      expect(exitCode).toBe(0);
+    });
+
+    it("describes optional numbers", async () => {
+      process.env.AUSTENITE_SPEC = "true";
+      number("WEIGHT", "weighting for this node", {
+        default: undefined,
+      });
+      initialize();
+
+      expect(stripUsage(mockConsole.readStdout())).toBe(
+        await readFixture("number/optional")
+      );
+      expect(exitCode).toBe(0);
+    });
+
+    it("describes optional numbers with defaults", async () => {
+      process.env.AUSTENITE_SPEC = "true";
+      number("WEIGHT", "weighting for this node", {
+        default: 100.001,
+      });
+      initialize();
+
+      expect(stripUsage(mockConsole.readStdout())).toBe(
+        await readFixture("number/default")
       );
       expect(exitCode).toBe(0);
     });
@@ -261,7 +301,7 @@ describe("Specification documents", () => {
       string("READ_DSN", "database connection string for read-models");
       initialize();
 
-      expect(mockConsole.readStdout()).toContain(
+      expect(stripUsage(mockConsole.readStdout())).toBe(
         await readFixture("string/required")
       );
       expect(exitCode).toBe(0);
@@ -274,7 +314,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      expect(mockConsole.readStdout()).toContain(
+      expect(stripUsage(mockConsole.readStdout())).toBe(
         await readFixture("string/optional")
       );
       expect(exitCode).toBe(0);
@@ -287,7 +327,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      expect(mockConsole.readStdout()).toContain(
+      expect(stripUsage(mockConsole.readStdout())).toBe(
         await readFixture("string/default")
       );
       expect(exitCode).toBe(0);
@@ -320,4 +360,8 @@ async function readFixture(name: string): Promise<string> {
   const fixturePath = join(fixturesPath, `${name}.md`);
 
   return (await readFile(fixturePath)).toString();
+}
+
+function stripUsage(output: string): string {
+  return output.split("\n## Usage Examples")[0];
 }
