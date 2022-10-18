@@ -87,7 +87,7 @@ describe("Duration declarations", () => {
     });
 
     describe(".value()", () => {
-      it("returns a number value", () => {
+      it("returns a Duration value", () => {
         // this test is weird because it tests type inference
         const declaration = duration("AUSTENITE_DURATION", "<description>");
 
@@ -162,7 +162,7 @@ describe("Duration declarations", () => {
     });
 
     describe(".value()", () => {
-      it("returns an optional number value", () => {
+      it("returns an optional Duration value", () => {
         // this test is weird because it tests type inference
         const declaration = duration("AUSTENITE_DURATION", "<description>", {
           default: undefined,
