@@ -1,7 +1,8 @@
 import { Temporal } from "@js-temporal/polyfill";
+import { duration, initialize } from "../../../src";
 import { Declaration } from "../../../src/declaration";
-import { duration, Options } from "../../../src/declaration/duration";
-import { initialize, reset } from "../../../src/environment";
+import { Options } from "../../../src/declaration/duration";
+import { reset } from "../../../src/environment";
 import { hasType, noop } from "../../helpers";
 
 const { Duration } = Temporal;

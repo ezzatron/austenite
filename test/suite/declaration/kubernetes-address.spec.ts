@@ -1,10 +1,7 @@
+import { initialize, kubernetesAddress, KubernetesAddress } from "../../../src";
 import { Declaration } from "../../../src/declaration";
-import {
-  Address,
-  kubernetesAddress,
-  Options,
-} from "../../../src/declaration/kubernetes-address";
-import { initialize, reset } from "../../../src/environment";
+import { Options } from "../../../src/declaration/kubernetes-address";
+import { reset } from "../../../src/environment";
 import { hasType, noop } from "../../helpers";
 
 const invalidHostValueTable = [
@@ -98,7 +95,7 @@ describe("Kubernetes address declarations", () => {
     port: 54321,
   };
 
-  let declaration: Declaration<Address, Options>;
+  let declaration: Declaration<KubernetesAddress, Options>;
   let env: typeof process.env;
 
   beforeEach(() => {
@@ -175,7 +172,7 @@ describe("Kubernetes address declarations", () => {
         initialize({ onInvalid: noop });
         const actual = declaration.value();
 
-        expect(hasType<Address, typeof actual>(actual)).toBeNull();
+        expect(hasType<KubernetesAddress, typeof actual>(actual)).toBeNull();
       });
     });
 
@@ -324,7 +321,9 @@ describe("Kubernetes address declarations", () => {
         initialize({ onInvalid: noop });
         const actual = declaration.value();
 
-        expect(hasType<Address | undefined, typeof actual>(actual)).toBeNull();
+        expect(
+          hasType<KubernetesAddress | undefined, typeof actual>(actual)
+        ).toBeNull();
       });
     });
 

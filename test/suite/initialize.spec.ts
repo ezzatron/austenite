@@ -1,16 +1,17 @@
-import { Declaration, Options } from "../../src/declaration";
-import { bigInteger } from "../../src/declaration/big-integer";
-import { boolean } from "../../src/declaration/boolean";
-import { duration } from "../../src/declaration/duration";
 import {
+  bigInteger,
+  boolean,
+  duration,
   enumeration,
-  Options as EnumerationOptions,
-} from "../../src/declaration/enumeration";
-import { integer } from "../../src/declaration/integer";
-import { kubernetesAddress } from "../../src/declaration/kubernetes-address";
-import { number } from "../../src/declaration/number";
-import { string } from "../../src/declaration/string";
-import { initialize, reset } from "../../src/environment";
+  initialize,
+  integer,
+  kubernetesAddress,
+  number,
+  string,
+} from "../../src";
+import { Declaration, Options } from "../../src/declaration";
+import { Options as EnumerationOptions } from "../../src/declaration/enumeration";
+import { reset } from "../../src/environment";
 import { Results } from "../../src/validation";
 import { UndefinedError } from "../../src/variable";
 import { createMockConsole, MockConsole } from "../helpers";

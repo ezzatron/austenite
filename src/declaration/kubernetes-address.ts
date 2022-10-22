@@ -14,19 +14,19 @@ import { Variable, VariableSpec } from "../variable";
 
 const IP_PATTERN = createIpPattern({ exact: true });
 
-export interface Address {
+export interface KubernetesAddress {
   readonly host: string;
   readonly port: number;
 }
 
-export interface Options extends DeclarationOptions<Address> {
+export interface Options extends DeclarationOptions<KubernetesAddress> {
   readonly portName?: string;
 }
 
 export function kubernetesAddress<O extends Options>(
   name: string,
   options: O = {} as O
-): Declaration<Address, O> {
+): Declaration<KubernetesAddress, O> {
   const { portName } = options;
   const def = defaultFromOptions(options);
 
@@ -45,14 +45,14 @@ export function kubernetesAddress<O extends Options>(
       if (host != null) throw new PartiallyDefinedError(hName, pName);
       if (port != null) throw new PartiallyDefinedError(pName, hName);
 
-      return undefined as Value<Address, O>;
+      return undefined as Value<KubernetesAddress, O>;
     },
   };
 }
 
 function registerHost(
   name: string,
-  def: Maybe<Address | undefined>
+  def: Maybe<KubernetesAddress | undefined>
 ): Variable<string> {
   const hostDef = map(def, (address) => address?.host);
   const schema = createString("hostname");
@@ -113,7 +113,7 @@ function validateHost(_: VariableSpec<string>, host: string): void {
 
 function registerPort(
   name: string,
-  def: Maybe<Address | undefined>,
+  def: Maybe<KubernetesAddress | undefined>,
   portName?: string
 ): Variable<number> {
   const envName = nameToEnv(name);

@@ -1,6 +1,7 @@
+import { enumeration, initialize } from "../../../src";
 import { Declaration } from "../../../src/declaration";
-import { enumeration, Options } from "../../../src/declaration/enumeration";
-import { initialize, reset } from "../../../src/environment";
+import { Options } from "../../../src/declaration/enumeration";
+import { reset } from "../../../src/environment";
 import { hasType, noop } from "../../helpers";
 
 describe("Enumeration declarations", () => {

@@ -1,6 +1,7 @@
+import { bigInteger, initialize } from "../../../src";
 import { Declaration } from "../../../src/declaration";
-import { bigInteger, Options } from "../../../src/declaration/big-integer";
-import { initialize, reset } from "../../../src/environment";
+import { Options } from "../../../src/declaration/big-integer";
+import { reset } from "../../../src/environment";
 import { hasType, noop } from "../../helpers";
 
 const validValueTable = [
