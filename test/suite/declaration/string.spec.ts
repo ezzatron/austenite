@@ -1,7 +1,7 @@
-import { Declaration } from "../../src/declaration";
-import { Options, string } from "../../src/declaration/string";
-import { initialize, reset } from "../../src/environment";
-import { hasType, noop } from "../helpers";
+import { Declaration } from "../../../src/declaration";
+import { Options, string } from "../../../src/declaration/string";
+import { initialize, reset } from "../../../src/environment";
+import { hasType, noop } from "../../helpers";
 
 describe("String declarations", () => {
   let declaration: Declaration<string, Options>;

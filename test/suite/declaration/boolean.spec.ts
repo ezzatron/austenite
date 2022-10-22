@@ -1,7 +1,7 @@
-import { Declaration } from "../../src/declaration";
-import { boolean, Options } from "../../src/declaration/boolean";
-import { initialize, reset } from "../../src/environment";
-import { hasType, noop } from "../helpers";
+import { Declaration } from "../../../src/declaration";
+import { boolean, Options } from "../../../src/declaration/boolean";
+import { initialize, reset } from "../../../src/environment";
+import { hasType, noop } from "../../helpers";
 
 describe("Boolean declarations", () => {
   let declaration: Declaration<boolean, Options>;

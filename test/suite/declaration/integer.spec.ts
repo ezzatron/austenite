@@ -1,16 +1,16 @@
-import { Declaration } from "../../src/declaration";
-import { number, Options } from "../../src/declaration/number";
-import { initialize, reset } from "../../src/environment";
-import { hasType, noop } from "../helpers";
+import { Declaration } from "../../../src/declaration";
+import { integer, Options } from "../../../src/declaration/integer";
+import { initialize, reset } from "../../../src/environment";
+import { hasType, noop } from "../../helpers";
 
 const validValueTable = [
-  ["zero", "0.0", 0],
-  ["positive zero", "+0.0", 0],
-  ["negative zero", "-0.0", -0],
-  ["positive", "123.456", 123.456],
-  ["explicit positive", "+123.456", 123.456],
-  ["negative", "-123.456", -123.456],
-  ["exponential", "1.23456e+2", 123.456],
+  ["zero", "0", 0],
+  ["positive zero", "+0", 0],
+  ["negative zero", "-0", -0],
+  ["positive", "123456", 123456],
+  ["explicit positive", "+123456", 123456],
+  ["negative", "-123456", -123456],
+  ["exponential", "1.23456e+5", 123456],
   ["octal", "0o361100", 123456],
   ["hexadecimal", "0x1E240", 123456],
   ["binary", "0b11110001001000000", 123456],
@@ -20,22 +20,27 @@ const invalidValueTable = [
   [
     "non-numeric",
     "a",
-    "value of AUSTENITE_NUMBER (a) is invalid: must be numeric",
+    "value of AUSTENITE_INTEGER (a) is invalid: must be an integer",
   ],
   [
     "too many decimal places",
     "1.2.3",
-    "value of AUSTENITE_NUMBER (1.2.3) is invalid: must be numeric",
+    "value of AUSTENITE_INTEGER (1.2.3) is invalid: must be an integer",
+  ],
+  [
+    "non-integer",
+    "1.2",
+    "value of AUSTENITE_INTEGER (1.2) is invalid: must be an integer",
   ],
   [
     "contains whitespace",
     "1 .2",
-    "value of AUSTENITE_NUMBER ('1 .2') is invalid: must be numeric",
+    "value of AUSTENITE_INTEGER ('1 .2') is invalid: must be an integer",
   ],
 ];
 
-describe("Number declarations", () => {
-  let declaration: Declaration<number, Options>;
+describe("Integer declarations", () => {
+  let declaration: Declaration<number, Options<number>>;
   let env: typeof process.env;
 
   beforeEach(() => {
@@ -54,7 +59,7 @@ describe("Number declarations", () => {
 
   describe("when no options are supplied", () => {
     beforeEach(() => {
-      declaration = number("AUSTENITE_NUMBER", "<description>");
+      declaration = integer("AUSTENITE_INTEGER", "<description>");
 
       initialize({ onInvalid: noop });
     });
@@ -63,14 +68,14 @@ describe("Number declarations", () => {
       expect(() => {
         declaration.value();
       }).toThrow(
-        "AUSTENITE_NUMBER is undefined and does not have a default value"
+        "AUSTENITE_INTEGER is undefined and does not have a default value"
       );
     });
   });
 
   describe("when empty options are supplied", () => {
     beforeEach(() => {
-      declaration = number("AUSTENITE_NUMBER", "<description>", {});
+      declaration = integer("AUSTENITE_INTEGER", "<description>", {});
 
       initialize({ onInvalid: noop });
     });
@@ -79,22 +84,22 @@ describe("Number declarations", () => {
       expect(() => {
         declaration.value();
       }).toThrow(
-        "AUSTENITE_NUMBER is undefined and does not have a default value"
+        "AUSTENITE_INTEGER is undefined and does not have a default value"
       );
     });
   });
 
   describe("when the declaration is required", () => {
     beforeEach(() => {
-      declaration = number("AUSTENITE_NUMBER", "<description>");
+      declaration = integer("AUSTENITE_INTEGER", "<description>");
     });
 
     describe(".value()", () => {
       it("returns a number value", () => {
         // this test is weird because it tests type inference
-        const declaration = number("AUSTENITE_NUMBER", "<description>");
+        const declaration = integer("AUSTENITE_INTEGER", "<description>");
 
-        process.env.AUSTENITE_NUMBER = "123.456";
+        process.env.AUSTENITE_INTEGER = "123456";
         initialize({ onInvalid: noop });
         const actual = declaration.value();
 
@@ -104,9 +109,9 @@ describe("Number declarations", () => {
 
     describe.each(validValueTable)(
       "when the value is valid (%s)",
-      (_, number: string, expected: number) => {
+      (_, integer: string, expected: number) => {
         beforeEach(() => {
-          process.env.AUSTENITE_NUMBER = number;
+          process.env.AUSTENITE_INTEGER = integer;
 
           initialize({ onInvalid: noop });
         });
@@ -126,9 +131,9 @@ describe("Number declarations", () => {
 
     describe.each(invalidValueTable)(
       "when the value is invalid (%s)",
-      (_, number: string, expected: string) => {
+      (_, integer: string, expected: string) => {
         beforeEach(() => {
-          process.env.AUSTENITE_NUMBER = number;
+          process.env.AUSTENITE_INTEGER = integer;
 
           initialize({ onInvalid: noop });
         });
@@ -153,7 +158,7 @@ describe("Number declarations", () => {
           expect(() => {
             declaration.value();
           }).toThrow(
-            "AUSTENITE_NUMBER is undefined and does not have a default value"
+            "AUSTENITE_INTEGER is undefined and does not have a default value"
           );
         });
       });
@@ -162,7 +167,7 @@ describe("Number declarations", () => {
 
   describe("when the declaration is optional", () => {
     beforeEach(() => {
-      declaration = number("AUSTENITE_NUMBER", "<description>", {
+      declaration = integer("AUSTENITE_INTEGER", "<description>", {
         default: undefined,
       });
     });
@@ -170,7 +175,7 @@ describe("Number declarations", () => {
     describe(".value()", () => {
       it("returns an optional number value", () => {
         // this test is weird because it tests type inference
-        const declaration = number("AUSTENITE_NUMBER", "<description>", {
+        const declaration = integer("AUSTENITE_INTEGER", "<description>", {
           default: undefined,
         });
 
@@ -183,9 +188,9 @@ describe("Number declarations", () => {
 
     describe.each(validValueTable)(
       "when the value is valid (%s)",
-      (_, number: string, expected: number) => {
+      (_, integer: string, expected: number) => {
         beforeEach(() => {
-          process.env.AUSTENITE_NUMBER = number;
+          process.env.AUSTENITE_INTEGER = integer;
 
           initialize({ onInvalid: noop });
         });
@@ -200,9 +205,9 @@ describe("Number declarations", () => {
 
     describe.each(invalidValueTable)(
       "when the value is invalid (%s)",
-      (_, number: string, expected: string) => {
+      (_, integer: string, expected: string) => {
         beforeEach(() => {
-          process.env.AUSTENITE_NUMBER = number;
+          process.env.AUSTENITE_INTEGER = integer;
 
           initialize({ onInvalid: noop });
         });
@@ -220,8 +225,8 @@ describe("Number declarations", () => {
     describe("when the value is empty", () => {
       describe("when there is a default value", () => {
         beforeEach(() => {
-          declaration = number("AUSTENITE_NUMBER", "<description>", {
-            default: -123.456,
+          declaration = integer("AUSTENITE_INTEGER", "<description>", {
+            default: -123456,
           });
 
           initialize({ onInvalid: noop });
@@ -229,14 +234,14 @@ describe("Number declarations", () => {
 
         describe(".value()", () => {
           it("returns the default", () => {
-            expect(declaration.value()).toBe(-123.456);
+            expect(declaration.value()).toBe(-123456);
           });
         });
       });
 
       describe("when there is no default value", () => {
         beforeEach(() => {
-          declaration = number("AUSTENITE_NUMBER", "<description>", {
+          declaration = integer("AUSTENITE_INTEGER", "<description>", {
             default: undefined,
           });
 

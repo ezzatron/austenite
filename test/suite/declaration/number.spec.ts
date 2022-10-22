@@ -1,50 +1,41 @@
-import { Declaration } from "../../src/declaration";
-import { bigInteger, Options } from "../../src/declaration/big-integer";
-import { initialize, reset } from "../../src/environment";
-import { hasType, noop } from "../helpers";
+import { Declaration } from "../../../src/declaration";
+import { number, Options } from "../../../src/declaration/number";
+import { initialize, reset } from "../../../src/environment";
+import { hasType, noop } from "../../helpers";
 
 const validValueTable = [
-  ["zero", "0", 0n],
-  ["positive zero", "+0", 0n],
-  ["negative zero", "-0", -0n],
-  ["positive", "123456", 123456n],
-  ["explicit positive", "+123456", 123456n],
-  ["negative", "-123456", -123456n],
-  ["octal", "0o361100", 123456n],
-  ["hexadecimal", "0x1E240", 123456n],
-  ["binary", "0b11110001001000000", 123456n],
+  ["zero", "0.0", 0],
+  ["positive zero", "+0.0", 0],
+  ["negative zero", "-0.0", -0],
+  ["positive", "123.456", 123.456],
+  ["explicit positive", "+123.456", 123.456],
+  ["negative", "-123.456", -123.456],
+  ["exponential", "1.23456e+2", 123.456],
+  ["octal", "0o361100", 123456],
+  ["hexadecimal", "0x1E240", 123456],
+  ["binary", "0b11110001001000000", 123456],
 ] as const;
 
 const invalidValueTable = [
   [
     "non-numeric",
     "a",
-    "value of AUSTENITE_INTEGER (a) is invalid: must be a big integer",
+    "value of AUSTENITE_NUMBER (a) is invalid: must be numeric",
   ],
   [
     "too many decimal places",
     "1.2.3",
-    "value of AUSTENITE_INTEGER (1.2.3) is invalid: must be a big integer",
-  ],
-  [
-    "non-integer",
-    "1.2",
-    "value of AUSTENITE_INTEGER (1.2) is invalid: must be a big integer",
+    "value of AUSTENITE_NUMBER (1.2.3) is invalid: must be numeric",
   ],
   [
     "contains whitespace",
     "1 .2",
-    "value of AUSTENITE_INTEGER ('1 .2') is invalid: must be a big integer",
-  ],
-  [
-    "exponential",
-    "1.23456e+5",
-    "value of AUSTENITE_INTEGER (1.23456e+5) is invalid: must be a big integer",
+    "value of AUSTENITE_NUMBER ('1 .2') is invalid: must be numeric",
   ],
 ];
 
-describe("Big integer declarations", () => {
-  let declaration: Declaration<bigint, Options<bigint>>;
+describe("Number declarations", () => {
+  let declaration: Declaration<number, Options>;
   let env: typeof process.env;
 
   beforeEach(() => {
@@ -63,7 +54,7 @@ describe("Big integer declarations", () => {
 
   describe("when no options are supplied", () => {
     beforeEach(() => {
-      declaration = bigInteger("AUSTENITE_INTEGER", "<description>");
+      declaration = number("AUSTENITE_NUMBER", "<description>");
 
       initialize({ onInvalid: noop });
     });
@@ -72,14 +63,14 @@ describe("Big integer declarations", () => {
       expect(() => {
         declaration.value();
       }).toThrow(
-        "AUSTENITE_INTEGER is undefined and does not have a default value"
+        "AUSTENITE_NUMBER is undefined and does not have a default value"
       );
     });
   });
 
   describe("when empty options are supplied", () => {
     beforeEach(() => {
-      declaration = bigInteger("AUSTENITE_INTEGER", "<description>", {});
+      declaration = number("AUSTENITE_NUMBER", "<description>", {});
 
       initialize({ onInvalid: noop });
     });
@@ -88,34 +79,34 @@ describe("Big integer declarations", () => {
       expect(() => {
         declaration.value();
       }).toThrow(
-        "AUSTENITE_INTEGER is undefined and does not have a default value"
+        "AUSTENITE_NUMBER is undefined and does not have a default value"
       );
     });
   });
 
   describe("when the declaration is required", () => {
     beforeEach(() => {
-      declaration = bigInteger("AUSTENITE_INTEGER", "<description>");
+      declaration = number("AUSTENITE_NUMBER", "<description>");
     });
 
     describe(".value()", () => {
-      it("returns a bigint value", () => {
+      it("returns a number value", () => {
         // this test is weird because it tests type inference
-        const declaration = bigInteger("AUSTENITE_INTEGER", "<description>");
+        const declaration = number("AUSTENITE_NUMBER", "<description>");
 
-        process.env.AUSTENITE_INTEGER = "123456";
+        process.env.AUSTENITE_NUMBER = "123.456";
         initialize({ onInvalid: noop });
         const actual = declaration.value();
 
-        expect(hasType<bigint, typeof actual>(actual)).toBeNull();
+        expect(hasType<number, typeof actual>(actual)).toBeNull();
       });
     });
 
     describe.each(validValueTable)(
       "when the value is valid (%s)",
-      (_, integer: string, expected: bigint) => {
+      (_, number: string, expected: number) => {
         beforeEach(() => {
-          process.env.AUSTENITE_INTEGER = integer;
+          process.env.AUSTENITE_NUMBER = number;
 
           initialize({ onInvalid: noop });
         });
@@ -135,9 +126,9 @@ describe("Big integer declarations", () => {
 
     describe.each(invalidValueTable)(
       "when the value is invalid (%s)",
-      (_, integer: string, expected: string) => {
+      (_, number: string, expected: string) => {
         beforeEach(() => {
-          process.env.AUSTENITE_INTEGER = integer;
+          process.env.AUSTENITE_NUMBER = number;
 
           initialize({ onInvalid: noop });
         });
@@ -162,7 +153,7 @@ describe("Big integer declarations", () => {
           expect(() => {
             declaration.value();
           }).toThrow(
-            "AUSTENITE_INTEGER is undefined and does not have a default value"
+            "AUSTENITE_NUMBER is undefined and does not have a default value"
           );
         });
       });
@@ -171,30 +162,30 @@ describe("Big integer declarations", () => {
 
   describe("when the declaration is optional", () => {
     beforeEach(() => {
-      declaration = bigInteger("AUSTENITE_INTEGER", "<description>", {
+      declaration = number("AUSTENITE_NUMBER", "<description>", {
         default: undefined,
       });
     });
 
     describe(".value()", () => {
-      it("returns an optional bigint value", () => {
+      it("returns an optional number value", () => {
         // this test is weird because it tests type inference
-        const declaration = bigInteger("AUSTENITE_INTEGER", "<description>", {
+        const declaration = number("AUSTENITE_NUMBER", "<description>", {
           default: undefined,
         });
 
         initialize({ onInvalid: noop });
         const actual = declaration.value();
 
-        expect(hasType<bigint | undefined, typeof actual>(actual)).toBeNull();
+        expect(hasType<number | undefined, typeof actual>(actual)).toBeNull();
       });
     });
 
     describe.each(validValueTable)(
       "when the value is valid (%s)",
-      (_, integer: string, expected: bigint) => {
+      (_, number: string, expected: number) => {
         beforeEach(() => {
-          process.env.AUSTENITE_INTEGER = integer;
+          process.env.AUSTENITE_NUMBER = number;
 
           initialize({ onInvalid: noop });
         });
@@ -209,9 +200,9 @@ describe("Big integer declarations", () => {
 
     describe.each(invalidValueTable)(
       "when the value is invalid (%s)",
-      (_, integer: string, expected: string) => {
+      (_, number: string, expected: string) => {
         beforeEach(() => {
-          process.env.AUSTENITE_INTEGER = integer;
+          process.env.AUSTENITE_NUMBER = number;
 
           initialize({ onInvalid: noop });
         });
@@ -229,8 +220,8 @@ describe("Big integer declarations", () => {
     describe("when the value is empty", () => {
       describe("when there is a default value", () => {
         beforeEach(() => {
-          declaration = bigInteger("AUSTENITE_INTEGER", "<description>", {
-            default: -123456n,
+          declaration = number("AUSTENITE_NUMBER", "<description>", {
+            default: -123.456,
           });
 
           initialize({ onInvalid: noop });
@@ -238,14 +229,14 @@ describe("Big integer declarations", () => {
 
         describe(".value()", () => {
           it("returns the default", () => {
-            expect(declaration.value()).toBe(-123456n);
+            expect(declaration.value()).toBe(-123.456);
           });
         });
       });
 
       describe("when there is no default value", () => {
         beforeEach(() => {
-          declaration = bigInteger("AUSTENITE_INTEGER", "<description>", {
+          declaration = number("AUSTENITE_NUMBER", "<description>", {
             default: undefined,
           });
 

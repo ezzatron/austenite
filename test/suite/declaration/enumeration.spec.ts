@@ -1,7 +1,7 @@
-import { Declaration } from "../../src/declaration";
-import { enumeration, Options } from "../../src/declaration/enumeration";
-import { initialize, reset } from "../../src/environment";
-import { hasType, noop } from "../helpers";
+import { Declaration } from "../../../src/declaration";
+import { enumeration, Options } from "../../../src/declaration/enumeration";
+import { initialize, reset } from "../../../src/environment";
+import { hasType, noop } from "../../helpers";
 
 describe("Enumeration declarations", () => {
   const members = {

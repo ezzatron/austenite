@@ -1,11 +1,11 @@
-import { Declaration } from "../../src/declaration";
+import { Declaration } from "../../../src/declaration";
 import {
   Address,
   kubernetesAddress,
   Options,
-} from "../../src/declaration/kubernetes-address";
-import { initialize, reset } from "../../src/environment";
-import { hasType, noop } from "../helpers";
+} from "../../../src/declaration/kubernetes-address";
+import { initialize, reset } from "../../../src/environment";
+import { hasType, noop } from "../../helpers";
 
 const invalidHostValueTable = [
   [
