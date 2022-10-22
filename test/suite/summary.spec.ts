@@ -282,8 +282,11 @@ describe("Validation summary", () => {
     process.env.AUSTENITE_INTEGER = "123.456";
     process.env.AUSTENITE_INTEGER_BIG = "1.23456e5";
     process.env.AUSTENITE_NUMBER = "1.2.3";
+    process.env.AUSTENITE_SVC_SERVICE_HOST = ".host.example.org";
+    process.env.AUSTENITE_SVC_SERVICE_PORT = "65536";
 
     string("AUSTENITE_XTRIGGER", "trigger failure");
+    kubernetesAddress("austenite-svc");
     // strings cannot really be "invalid" aside from being undefined
     string("AUSTENITE_STRING", "example string");
     number("AUSTENITE_NUMBER", "example number");
@@ -312,14 +315,16 @@ describe("Validation summary", () => {
       [
         `Environment Variables:`,
         ``,
-        `❯ AUSTENITE_BOOLEAN      example boolean        true | false           ✗ set to yes, expected true or false`,
-        "❯ AUSTENITE_DURATION     example duration       <ISO 8601 duration>    ✗ set to 10S, must be an ISO 8601 duration",
-        "❯ AUSTENITE_ENUMERATION  example enumeration    foo | bar | baz        ✗ set to qux, expected foo, bar, or baz",
-        "❯ AUSTENITE_INTEGER      example integer        <integer>              ✗ set to 123.456, must be an integer",
-        "❯ AUSTENITE_INTEGER_BIG  example big integer    <integer>              ✗ set to 1.23456e5, must be a big integer",
-        "❯ AUSTENITE_NUMBER       example number         <number>               ✗ set to 1.2.3, must be numeric",
-        `❯ AUSTENITE_STRING       example string         <string>               ✗ undefined`,
-        `❯ AUSTENITE_XTRIGGER     trigger failure        <string>               ✗ undefined`,
+        `❯ AUSTENITE_BOOLEAN           example boolean                            true | false           ✗ set to yes, expected true or false`,
+        "❯ AUSTENITE_DURATION          example duration                           <ISO 8601 duration>    ✗ set to 10S, must be an ISO 8601 duration",
+        "❯ AUSTENITE_ENUMERATION       example enumeration                        foo | bar | baz        ✗ set to qux, expected foo, bar, or baz",
+        "❯ AUSTENITE_INTEGER           example integer                            <integer>              ✗ set to 123.456, must be an integer",
+        "❯ AUSTENITE_INTEGER_BIG       example big integer                        <integer>              ✗ set to 1.23456e5, must be a big integer",
+        "❯ AUSTENITE_NUMBER            example number                             <number>               ✗ set to 1.2.3, must be numeric",
+        `❯ AUSTENITE_STRING            example string                             <string>               ✗ undefined`,
+        "❯ AUSTENITE_SVC_SERVICE_HOST  kubernetes `austenite-svc` service host    <hostname>             ✗ set to .host.example.org, must not begin or end with a dot",
+        "❯ AUSTENITE_SVC_SERVICE_PORT  kubernetes `austenite-svc` service port    <port number>          ✗ set to 65536, must be between 1 and 65535",
+        `❯ AUSTENITE_XTRIGGER          trigger failure                            <string>               ✗ undefined`,
         ``,
       ].join(EOL)
     );
