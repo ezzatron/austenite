@@ -425,6 +425,18 @@ describe("Specification documents", () => {
       );
       expect(exitCode).toBe(0);
     });
+
+    it("describes URLs with protocol requirements", async () => {
+      url("SOCKET_SERVER", "WebSocket server to use", {
+        protocols: ["ws:", "wss:"],
+      });
+      initialize();
+
+      expect(stripUsage(mockConsole.readStdout())).toBe(
+        await readFixture("url/protocols")
+      );
+      expect(exitCode).toBe(0);
+    });
   });
 
   describe("when there no declarations", () => {

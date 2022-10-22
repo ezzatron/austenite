@@ -22,7 +22,8 @@ export function url<O extends Options>(
   description: string,
   options: O = {} as O
 ): Declaration<URL, O> {
-  assertProtocols(name, options.protocols);
+  const { protocols } = options;
+  assertProtocols(name, protocols);
 
   const def = defaultFromOptions(options);
   const schema = createSchema();
@@ -32,8 +33,8 @@ export function url<O extends Options>(
     description,
     default: def,
     schema,
-    examples: buildExamples(schema, def),
-    constraint: createValidate(options),
+    examples: buildExamples(protocols, schema, def),
+    constraint: createValidate(protocols),
   });
 
   return {
@@ -80,7 +81,7 @@ function createSchema(): Scalar<URL> {
   return createScalar("URL", toString, unmarshal);
 }
 
-function createValidate({ protocols }: Options) {
+function createValidate(protocols: string[] | undefined) {
   if (protocols == null) return undefined;
 
   const listFormatter = new Intl.ListFormat("en", {
@@ -95,6 +96,7 @@ function createValidate({ protocols }: Options) {
 }
 
 function buildExamples(
+  protocols: string[] | undefined,
   schema: Scalar<URL>,
   def: Maybe<URL | undefined>
 ): Examples {
@@ -107,10 +109,20 @@ function buildExamples(
     };
   }
 
-  return createExamples(defExample, {
-    canonical: "https://host.example.org/path/to/resource",
-    description: "URL",
-  });
+  if (protocols == null) {
+    return createExamples(defExample, {
+      canonical: `https://host.example.org/path/to/resource`,
+      description: "URL",
+    });
+  }
+
+  return createExamples(
+    defExample,
+    ...protocols.map((protocol) => ({
+      canonical: `${protocol}//host.example.org/path/to/resource`,
+      description: `URL (${protocol})`,
+    }))
+  );
 }
 
 class EmptyProtocolsError extends SpecError {
