@@ -8,6 +8,7 @@ import {
   kubernetesAddress,
   number,
   string,
+  url,
 } from "../../src";
 import { Declaration, Options } from "../../src/declaration";
 import { Options as EnumerationOptions } from "../../src/declaration/enumeration";
@@ -46,6 +47,7 @@ const integerFactory = integer.bind(null, "AUSTENITE_VAR", "<description>");
 const k8sAddressFactory = kubernetesAddress.bind(null, "austenite-svc");
 const numberFactory = number.bind(null, "AUSTENITE_VAR", "<description>");
 const stringFactory = string.bind(null, "AUSTENITE_VAR", "<description>");
+const urlFactory = url.bind(null, "AUSTENITE_VAR", "<description>");
 
 describe("initialize()", () => {
   let exitCode: number | undefined;
@@ -71,9 +73,10 @@ describe("initialize()", () => {
         ${"duration"}           | ${durationFactory}
         ${"enumeration"}        | ${enumerationFactory}
         ${"integer"}            | ${integerFactory}
-        ${"kubernetes address"} | ${k8sAddressFactory}
+        ${"Kubernetes address"} | ${k8sAddressFactory}
         ${"number"}             | ${numberFactory}
         ${"string"}             | ${stringFactory}
+        ${"URL"}                | ${urlFactory}
       `(
         "prevents access to $type values",
         ({ factory }: { factory: DeclarationFactory }) => {
@@ -112,9 +115,10 @@ describe("initialize()", () => {
         ${"duration"}           | ${durationFactory}
         ${"enumeration"}        | ${enumerationFactory}
         ${"integer"}            | ${integerFactory}
-        ${"kubernetes address"} | ${k8sAddressFactory}
+        ${"Kubernetes address"} | ${k8sAddressFactory}
         ${"number"}             | ${numberFactory}
         ${"string"}             | ${stringFactory}
+        ${"URL"}                | ${urlFactory}
       `(
         "prevents additional $type declarations",
         ({ factory }: { factory: DeclarationFactory }) => {
@@ -157,9 +161,10 @@ describe("initialize()", () => {
         ${"duration"}           | ${durationFactory}
         ${"enumeration"}        | ${enumerationFactory}
         ${"integer"}            | ${integerFactory}
-        ${"kubernetes address"} | ${k8sAddressFactory}
+        ${"Kubernetes address"} | ${k8sAddressFactory}
         ${"number"}             | ${numberFactory}
         ${"string"}             | ${stringFactory}
+        ${"URL"}                | ${urlFactory}
       `(
         "prevents access to $type values",
         ({ factory }: { factory: DeclarationFactory }) => {

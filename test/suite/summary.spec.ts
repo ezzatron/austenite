@@ -10,6 +10,7 @@ import {
   kubernetesAddress,
   number,
   string,
+  url,
 } from "../../src";
 import { registerVariable } from "../../src/environment";
 import { undefinedValue } from "../../src/maybe";
@@ -44,8 +45,10 @@ describe("Validation summary", () => {
     process.env.AUSTENITE_STRING = "hello, world!";
     process.env.AUSTENITE_SVC_SERVICE_HOST = "host.example.org";
     process.env.AUSTENITE_SVC_SERVICE_PORT = "443";
+    process.env.AUSTENITE_URL = "https://host.example.org/path/to/resource";
 
     string("AUSTENITE_XTRIGGER", "trigger failure");
+    url("AUSTENITE_URL", "example URL");
     kubernetesAddress("austenite-svc");
     string("AUSTENITE_STRING", "example string");
     number("AUSTENITE_NUMBER", "example number");
@@ -90,6 +93,7 @@ describe("Validation summary", () => {
         "  AUSTENITE_STRING            example string                             <string>               ✓ set to 'hello, world!'",
         "  AUSTENITE_SVC_SERVICE_HOST  kubernetes `austenite-svc` service host    <hostname>             ✓ set to host.example.org",
         "  AUSTENITE_SVC_SERVICE_PORT  kubernetes `austenite-svc` service port    <port number>          ✓ set to 443",
+        "  AUSTENITE_URL               example URL                                <URL>                  ✓ set to https\\://host.example.org/path/to/resource",
         "❯ AUSTENITE_XTRIGGER          trigger failure                            <string>               ✗ undefined",
         "",
       ].join(EOL)
@@ -99,6 +103,9 @@ describe("Validation summary", () => {
 
   it("summarizes optional variables with no defaults", () => {
     string("AUSTENITE_XTRIGGER", "trigger failure");
+    url("AUSTENITE_URL", "example URL", {
+      default: undefined,
+    });
     kubernetesAddress("austenite-svc", {
       default: undefined,
     });
@@ -163,6 +170,7 @@ describe("Validation summary", () => {
         "  AUSTENITE_STRING            example string                           [ <string> ]             • undefined",
         "  AUSTENITE_SVC_SERVICE_HOST  kubernetes `austenite-svc` service host  [ <hostname> ]           • undefined",
         "  AUSTENITE_SVC_SERVICE_PORT  kubernetes `austenite-svc` service port  [ <port number> ]        • undefined",
+        "  AUSTENITE_URL               example URL                              [ <URL> ]                • undefined",
         "❯ AUSTENITE_XTRIGGER          trigger failure                            <string>               ✗ undefined",
         "",
       ].join(EOL)
@@ -172,6 +180,9 @@ describe("Validation summary", () => {
 
   it("summarizes variables with defaults", () => {
     string("AUSTENITE_XTRIGGER", "trigger failure");
+    url("AUSTENITE_URL", "example URL", {
+      default: new URL("https://default.example.org/path/to/resource"),
+    });
     kubernetesAddress("austenite-svc", {
       default: {
         host: "host.example.org",
@@ -230,16 +241,17 @@ describe("Validation summary", () => {
       [
         "Environment Variables:",
         "",
-        "  AUSTENITE_BOOLEAN           example boolean                          [ y | yes | n | no ] = y              ✓ using default value",
-        "  AUSTENITE_DURATION          example duration                         [ <ISO 8601 duration> ] = PT10S       ✓ using default value",
-        "  AUSTENITE_ENUMERATION       example enumeration                      [ foo | bar | baz ] = bar             ✓ using default value",
-        "  AUSTENITE_INTEGER           example integer                          [ <integer> ] = 123456                ✓ using default value",
-        "  AUSTENITE_INTEGER_BIG       example big integer                      [ <integer> ] = 12345678901234567890  ✓ using default value",
-        "  AUSTENITE_NUMBER            example number                           [ <number> ] = 123.456                ✓ using default value",
-        "  AUSTENITE_STRING            example string                           [ <string> ] = 'hello, world!'        ✓ using default value",
-        "  AUSTENITE_SVC_SERVICE_HOST  kubernetes `austenite-svc` service host  [ <hostname> ] = host.example.org     ✓ using default value",
-        "  AUSTENITE_SVC_SERVICE_PORT  kubernetes `austenite-svc` service port  [ <port number> ] = 443               ✓ using default value",
-        "❯ AUSTENITE_XTRIGGER          trigger failure                            <string>                            ✗ undefined",
+        "  AUSTENITE_BOOLEAN           example boolean                          [ y | yes | n | no ] = y                                   ✓ using default value",
+        "  AUSTENITE_DURATION          example duration                         [ <ISO 8601 duration> ] = PT10S                            ✓ using default value",
+        "  AUSTENITE_ENUMERATION       example enumeration                      [ foo | bar | baz ] = bar                                  ✓ using default value",
+        "  AUSTENITE_INTEGER           example integer                          [ <integer> ] = 123456                                     ✓ using default value",
+        "  AUSTENITE_INTEGER_BIG       example big integer                      [ <integer> ] = 12345678901234567890                       ✓ using default value",
+        "  AUSTENITE_NUMBER            example number                           [ <number> ] = 123.456                                     ✓ using default value",
+        "  AUSTENITE_STRING            example string                           [ <string> ] = 'hello, world!'                             ✓ using default value",
+        "  AUSTENITE_SVC_SERVICE_HOST  kubernetes `austenite-svc` service host  [ <hostname> ] = host.example.org                          ✓ using default value",
+        "  AUSTENITE_SVC_SERVICE_PORT  kubernetes `austenite-svc` service port  [ <port number> ] = 443                                    ✓ using default value",
+        "  AUSTENITE_URL               example URL                              [ <URL> ] = https\\://default.example.org/path/to/resource  ✓ using default value",
+        "❯ AUSTENITE_XTRIGGER          trigger failure                            <string>                                                 ✗ undefined",
         "",
       ].join(EOL)
     );
@@ -251,8 +263,10 @@ describe("Validation summary", () => {
     process.env.AUSTENITE_INTEGER = "1.23456e5";
     process.env.AUSTENITE_INTEGER_BIG = "0x1E240";
     process.env.AUSTENITE_NUMBER = "1.23456e2";
+    process.env.AUSTENITE_URL = "https://host.example.org";
 
     string("AUSTENITE_XTRIGGER", "trigger failure");
+    url("AUSTENITE_URL", "example URL");
     number("AUSTENITE_NUMBER", "example number");
     bigInteger("AUSTENITE_INTEGER_BIG", "example big integer");
     integer("AUSTENITE_INTEGER", "example integer");
@@ -268,6 +282,7 @@ describe("Validation summary", () => {
         "  AUSTENITE_INTEGER      example integer        <integer>              ✓ set to 123456 (specified non-canonically as 1.23456e5)",
         "  AUSTENITE_INTEGER_BIG  example big integer    <integer>              ✓ set to 123456 (specified non-canonically as 0x1E240)",
         "  AUSTENITE_NUMBER       example number         <number>               ✓ set to 123.456 (specified non-canonically as 1.23456e2)",
+        "  AUSTENITE_URL          example URL            <URL>                  ✓ set to https\\://host.example.org/ (specified non-canonically as https\\://host.example.org)",
         `❯ AUSTENITE_XTRIGGER     trigger failure        <string>               ✗ undefined`,
         ``,
       ].join(EOL)
@@ -284,8 +299,10 @@ describe("Validation summary", () => {
     process.env.AUSTENITE_NUMBER = "1.2.3";
     process.env.AUSTENITE_SVC_SERVICE_HOST = ".host.example.org";
     process.env.AUSTENITE_SVC_SERVICE_PORT = "65536";
+    process.env.AUSTENITE_URL = "host.example.org";
 
     string("AUSTENITE_XTRIGGER", "trigger failure");
+    url("AUSTENITE_URL", "example URL");
     kubernetesAddress("austenite-svc");
     // strings cannot really be "invalid" aside from being undefined
     string("AUSTENITE_STRING", "example string");
@@ -324,6 +341,7 @@ describe("Validation summary", () => {
         `❯ AUSTENITE_STRING            example string                             <string>               ✗ undefined`,
         "❯ AUSTENITE_SVC_SERVICE_HOST  kubernetes `austenite-svc` service host    <hostname>             ✗ set to .host.example.org, must not begin or end with a dot",
         "❯ AUSTENITE_SVC_SERVICE_PORT  kubernetes `austenite-svc` service port    <port number>          ✗ set to 65536, must be between 1 and 65535",
+        "❯ AUSTENITE_URL               example URL                                <URL>                  ✗ set to host.example.org, must be a URL",
         `❯ AUSTENITE_XTRIGGER          trigger failure                            <string>               ✗ undefined`,
         ``,
       ].join(EOL)

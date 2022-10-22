@@ -9,4 +9,5 @@ export {
 } from "./declaration/kubernetes-address";
 export { number } from "./declaration/number";
 export { string } from "./declaration/string";
+export { url } from "./declaration/url";
 export { initialize } from "./environment";

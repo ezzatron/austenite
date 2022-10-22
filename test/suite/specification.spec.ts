@@ -11,6 +11,7 @@ import {
   kubernetesAddress,
   number,
   string,
+  url,
 } from "../../src";
 import { createMockConsole, MockConsole } from "../helpers";
 
@@ -373,6 +374,42 @@ describe("Specification documents", () => {
 
       expect(stripUsage(mockConsole.readStdout())).toBe(
         await readFixture("string/default")
+      );
+      expect(exitCode).toBe(0);
+    });
+  });
+
+  describe("when there are URLs", () => {
+    it("describes required URLs", async () => {
+      url("CDN_URL", "CDN to use when serving static assets");
+      initialize();
+
+      expect(stripUsage(mockConsole.readStdout())).toBe(
+        await readFixture("url/required")
+      );
+      expect(exitCode).toBe(0);
+    });
+
+    it("describes optional URLs", async () => {
+      url("CDN_URL", "CDN to use when serving static assets", {
+        default: undefined,
+      });
+      initialize();
+
+      expect(stripUsage(mockConsole.readStdout())).toBe(
+        await readFixture("url/optional")
+      );
+      expect(exitCode).toBe(0);
+    });
+
+    it("describes optional URLs with defaults", async () => {
+      url("CDN_URL", "CDN to use when serving static assets", {
+        default: new URL("https://default.example.org/path/to/resource"),
+      });
+      initialize();
+
+      expect(stripUsage(mockConsole.readStdout())).toBe(
+        await readFixture("url/default")
       );
       expect(exitCode).toBe(0);
     });
