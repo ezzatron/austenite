@@ -229,4 +229,106 @@ describe("URL declarations", () => {
       });
     });
   });
+
+  describe("when protocols are specified", () => {
+    const protocols: string[] = ["ws:", "wss:"];
+
+    beforeEach(() => {
+      declaration = url("AUSTENITE_URL", "<description>", {
+        protocols,
+      });
+    });
+
+    describe.each`
+      protocol  | url
+      ${"ws:"}  | ${"ws://host.example.org/path/to/resource"}
+      ${"wss:"} | ${"wss://host.example.org/path/to/resource"}
+    `(
+      "when the value matches one of the protocols ($protocol)",
+      ({ url }: { url: string }) => {
+        beforeEach(() => {
+          process.env.AUSTENITE_URL = url;
+
+          initialize({ onInvalid: noop });
+        });
+
+        describe(".value()", () => {
+          it("returns the value", () => {
+            expect(declaration.value()).toEqual(new URL(url));
+          });
+        });
+      }
+    );
+
+    describe("when the value does not match any of the protocols", () => {
+      beforeEach(() => {
+        process.env.AUSTENITE_URL = "https://host.example.org/path/to/resource";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("throws", () => {
+          expect(() => {
+            declaration.value();
+          }).toThrow(
+            "value of AUSTENITE_URL (https://host.example.org/path/to/resource) is invalid: protocol must be ws: or wss:"
+          );
+        });
+      });
+    });
+
+    describe("when the list of protocols is empty", () => {
+      const protocols: string[] = [];
+
+      it("throws", () => {
+        expect(() => {
+          url("AUSTENITE_URL", "<description>", {
+            protocols,
+          });
+        }).toThrow(
+          "specification for AUSTENITE_URL is invalid: list of protocols can not be empty"
+        );
+      });
+    });
+
+    describe.each`
+      protocol   | expected
+      ${""}      | ${'specification for AUSTENITE_URL is invalid: protocol "": must end with a colon (:)'}
+      ${"ws"}    | ${'specification for AUSTENITE_URL is invalid: protocol "ws": must end with a colon (:)'}
+      ${"1a:"}   | ${'specification for AUSTENITE_URL is invalid: protocol "1a:": must be a valid protocol'}
+      ${":"}     | ${'specification for AUSTENITE_URL is invalid: protocol ":": must be a valid protocol'}
+      ${":a:"}   | ${'specification for AUSTENITE_URL is invalid: protocol ":a:": must be a valid protocol'}
+      ${"a:a:"}  | ${'specification for AUSTENITE_URL is invalid: protocol "a:a:": must be a valid protocol'}
+      ${":a:a:"} | ${'specification for AUSTENITE_URL is invalid: protocol ":a:a:": must be a valid protocol'}
+    `(
+      "when a protocol is invalid ($protocol)",
+      ({ protocol, expected }: { protocol: string; expected: string }) => {
+        const protocols: string[] = [protocol];
+
+        it("throws", () => {
+          expect(() => {
+            url("AUSTENITE_URL", "<description>", {
+              protocols,
+            });
+          }).toThrow(expected);
+        });
+      }
+    );
+
+    describe("when using a default that does not match any of the protocols", () => {
+      const def = new URL("https://host.example.org/path/to/resource");
+
+      it("throws", () => {
+        expect(() => {
+          url("AUSTENITE_URL", "<description>", {
+            protocols,
+            default: def,
+          });
+        }).toThrow(
+          "specification for AUSTENITE_URL is invalid: default value: protocol must be ws: or wss:"
+        );
+      });
+    });
+  });
 });
