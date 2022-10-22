@@ -11,7 +11,6 @@ import {
 } from "../../src";
 import { Declaration, Options } from "../../src/declaration";
 import { Options as EnumerationOptions } from "../../src/declaration/enumeration";
-import { reset } from "../../src/environment";
 import { Results } from "../../src/validation";
 import { UndefinedError } from "../../src/variable";
 import { createMockConsole, MockConsole } from "../helpers";
@@ -50,7 +49,6 @@ const stringFactory = string.bind(null, "AUSTENITE_VAR", "<description>");
 
 describe("initialize()", () => {
   let exitCode: number | undefined;
-  let env: typeof process.env;
   let mockConsole: MockConsole;
 
   beforeEach(() => {
@@ -61,15 +59,7 @@ describe("initialize()", () => {
       return undefined as never;
     });
 
-    env = process.env;
-    process.env = {};
-
     mockConsole = createMockConsole();
-  });
-
-  afterEach(() => {
-    process.env = env;
-    reset();
   });
 
   describe("when the environment is valid", () => {

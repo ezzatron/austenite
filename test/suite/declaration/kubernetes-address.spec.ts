@@ -1,7 +1,6 @@
 import { initialize, kubernetesAddress, KubernetesAddress } from "../../../src";
 import { Declaration } from "../../../src/declaration";
 import { Options } from "../../../src/declaration/kubernetes-address";
-import { reset } from "../../../src/environment";
 import { hasType, noop } from "../../helpers";
 
 const invalidHostValueTable = [
@@ -96,21 +95,6 @@ describe("Kubernetes address declarations", () => {
   };
 
   let declaration: Declaration<KubernetesAddress, Options>;
-  let env: typeof process.env;
-
-  beforeEach(() => {
-    jest.spyOn(process, "exit").mockImplementation(() => {
-      return undefined as never;
-    });
-
-    env = process.env;
-    process.env = {};
-  });
-
-  afterEach(() => {
-    process.env = env;
-    reset();
-  });
 
   describe("when no options are supplied", () => {
     beforeEach(() => {

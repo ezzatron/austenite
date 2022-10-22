@@ -1,26 +1,10 @@
 import { boolean, initialize } from "../../../src";
 import { Declaration } from "../../../src/declaration";
 import { Options } from "../../../src/declaration/boolean";
-import { reset } from "../../../src/environment";
 import { hasType, noop } from "../../helpers";
 
 describe("Boolean declarations", () => {
   let declaration: Declaration<boolean, Options>;
-  let env: typeof process.env;
-
-  beforeEach(() => {
-    jest.spyOn(process, "exit").mockImplementation(() => {
-      return undefined as never;
-    });
-
-    env = process.env;
-    process.env = {};
-  });
-
-  afterEach(() => {
-    process.env = env;
-    reset();
-  });
 
   describe("when no options are supplied", () => {
     beforeEach(() => {

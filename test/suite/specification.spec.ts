@@ -12,7 +12,6 @@ import {
   number,
   string,
 } from "../../src";
-import { reset } from "../../src/environment";
 import { createMockConsole, MockConsole } from "../helpers";
 
 const fixturesPath = join(__dirname, "../fixture/specification");
@@ -21,8 +20,6 @@ const { Duration } = Temporal;
 
 describe("Specification documents", () => {
   let exitCode: number | undefined;
-  let argv: typeof process.argv;
-  let env: typeof process.env;
   let mockConsole: MockConsole;
 
   beforeEach(() => {
@@ -33,20 +30,11 @@ describe("Specification documents", () => {
       return undefined as never;
     });
 
-    argv = process.argv;
-    process.argv = [process.argv0, "<app>"];
-    env = process.env;
     process.env = {
       AUSTENITE_SPEC: "true",
     };
 
     mockConsole = createMockConsole();
-  });
-
-  afterEach(() => {
-    process.argv = argv;
-    process.env = env;
-    reset();
   });
 
   describe("when there are big integers", () => {

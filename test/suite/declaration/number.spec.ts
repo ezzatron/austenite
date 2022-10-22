@@ -1,7 +1,6 @@
 import { initialize, number } from "../../../src";
 import { Declaration } from "../../../src/declaration";
 import { Options } from "../../../src/declaration/number";
-import { reset } from "../../../src/environment";
 import { hasType, noop } from "../../helpers";
 
 const validValueTable = [
@@ -37,21 +36,6 @@ const invalidValueTable = [
 
 describe("Number declarations", () => {
   let declaration: Declaration<number, Options>;
-  let env: typeof process.env;
-
-  beforeEach(() => {
-    jest.spyOn(process, "exit").mockImplementation(() => {
-      return undefined as never;
-    });
-
-    env = process.env;
-    process.env = {};
-  });
-
-  afterEach(() => {
-    process.env = env;
-    reset();
-  });
 
   describe("when no options are supplied", () => {
     beforeEach(() => {

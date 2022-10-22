@@ -2,7 +2,6 @@ import { Temporal } from "@js-temporal/polyfill";
 import { duration, initialize } from "../../../src";
 import { Declaration } from "../../../src/declaration";
 import { Options } from "../../../src/declaration/duration";
-import { reset } from "../../../src/environment";
 import { hasType, noop } from "../../helpers";
 
 const { Duration } = Temporal;
@@ -38,21 +37,6 @@ const invalidValueTable = [
 
 describe("Duration declarations", () => {
   let declaration: Declaration<Duration, Options>;
-  let env: typeof process.env;
-
-  beforeEach(() => {
-    jest.spyOn(process, "exit").mockImplementation(() => {
-      return undefined as never;
-    });
-
-    env = process.env;
-    process.env = {};
-  });
-
-  afterEach(() => {
-    process.env = env;
-    reset();
-  });
 
   describe("when no options are supplied", () => {
     beforeEach(() => {

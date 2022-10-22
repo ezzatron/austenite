@@ -1,7 +1,6 @@
 import { enumeration, initialize } from "../../../src";
 import { Declaration } from "../../../src/declaration";
 import { Options } from "../../../src/declaration/enumeration";
-import { reset } from "../../../src/environment";
 import { hasType, noop } from "../../helpers";
 
 describe("Enumeration declarations", () => {
@@ -21,21 +20,6 @@ describe("Enumeration declarations", () => {
   } as const;
 
   let declaration: Declaration<number, Options<number>>;
-  let env: typeof process.env;
-
-  beforeEach(() => {
-    jest.spyOn(process, "exit").mockImplementation(() => {
-      return undefined as never;
-    });
-
-    env = process.env;
-    process.env = {};
-  });
-
-  afterEach(() => {
-    process.env = env;
-    reset();
-  });
 
   describe("when no options are supplied", () => {
     beforeEach(() => {

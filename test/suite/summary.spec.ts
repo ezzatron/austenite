@@ -11,7 +11,7 @@ import {
   number,
   string,
 } from "../../src";
-import { registerVariable, reset } from "../../src/environment";
+import { registerVariable } from "../../src/environment";
 import { undefinedValue } from "../../src/maybe";
 import { createString } from "../../src/schema";
 import { VariableSpec } from "../../src/variable";
@@ -21,7 +21,6 @@ const { Duration } = Temporal;
 
 describe("Validation summary", () => {
   let exitCode: number | undefined;
-  let env: typeof process.env;
   let mockConsole: MockConsole;
 
   beforeEach(() => {
@@ -32,15 +31,7 @@ describe("Validation summary", () => {
       return undefined as never;
     });
 
-    env = process.env;
-    process.env = {};
-
     mockConsole = createMockConsole();
-  });
-
-  afterEach(() => {
-    process.env = env;
-    reset();
   });
 
   it("summarizes required variables", () => {
