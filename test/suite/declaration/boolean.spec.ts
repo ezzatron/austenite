@@ -291,16 +291,14 @@ describe("Boolean declarations", () => {
         no: false,
       };
 
-      describe(".value()", () => {
-        it("throws", () => {
-          expect(() => {
-            boolean("AUSTENITE_BOOLEAN", "<description>", {
-              literals,
-            });
-          }).toThrow(
-            "specification for AUSTENITE_BOOLEAN is invalid: literals can not be empty strings"
-          );
-        });
+      it("throws", () => {
+        expect(() => {
+          boolean("AUSTENITE_BOOLEAN", "<description>", {
+            literals,
+          });
+        }).toThrow(
+          "specification for AUSTENITE_BOOLEAN is invalid: literals can not be empty strings"
+        );
       });
     });
 
@@ -312,16 +310,14 @@ describe("Boolean declarations", () => {
         "": false,
       };
 
-      describe(".value()", () => {
-        it("throws", () => {
-          expect(() => {
-            boolean("AUSTENITE_BOOLEAN", "<description>", {
-              literals,
-            });
-          }).toThrow(
-            "specification for AUSTENITE_BOOLEAN is invalid: literals can not be empty strings"
-          );
-        });
+      it("throws", () => {
+        expect(() => {
+          boolean("AUSTENITE_BOOLEAN", "<description>", {
+            literals,
+          });
+        }).toThrow(
+          "specification for AUSTENITE_BOOLEAN is invalid: literals can not be empty strings"
+        );
       });
     });
 
@@ -331,16 +327,14 @@ describe("Boolean declarations", () => {
         no: false,
       };
 
-      describe(".value()", () => {
-        it("throws", () => {
-          expect(() => {
-            boolean("AUSTENITE_BOOLEAN", "<description>", {
-              literals,
-            });
-          }).toThrow(
-            "specification for AUSTENITE_BOOLEAN is invalid: a true literal must be defined"
-          );
-        });
+      it("throws", () => {
+        expect(() => {
+          boolean("AUSTENITE_BOOLEAN", "<description>", {
+            literals,
+          });
+        }).toThrow(
+          "specification for AUSTENITE_BOOLEAN is invalid: a true literal must be defined"
+        );
       });
     });
 
@@ -350,16 +344,14 @@ describe("Boolean declarations", () => {
         yes: true,
       };
 
-      describe(".value()", () => {
-        it("throws", () => {
-          expect(() => {
-            boolean("AUSTENITE_BOOLEAN", "<description>", {
-              literals,
-            });
-          }).toThrow(
-            "specification for AUSTENITE_BOOLEAN is invalid: a false literal must be defined"
-          );
-        });
+      it("throws", () => {
+        expect(() => {
+          boolean("AUSTENITE_BOOLEAN", "<description>", {
+            literals,
+          });
+        }).toThrow(
+          "specification for AUSTENITE_BOOLEAN is invalid: a false literal must be defined"
+        );
       });
     });
   });

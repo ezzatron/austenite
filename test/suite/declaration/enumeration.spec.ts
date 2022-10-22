@@ -280,14 +280,12 @@ describe("Enumeration declarations", () => {
       },
     } as const;
 
-    describe(".value()", () => {
-      it("throws", () => {
-        expect(() => {
-          enumeration("AUSTENITE_ENUMERATION", "<description>", members);
-        }).toThrow(
-          "specification for AUSTENITE_ENUMERATION is invalid: members can not be empty strings"
-        );
-      });
+    it("throws", () => {
+      expect(() => {
+        enumeration("AUSTENITE_ENUMERATION", "<description>", members);
+      }).toThrow(
+        "specification for AUSTENITE_ENUMERATION is invalid: members can not be empty strings"
+      );
     });
   });
 
@@ -299,14 +297,12 @@ describe("Enumeration declarations", () => {
       },
     } as const;
 
-    describe(".value()", () => {
-      it("throws", () => {
-        expect(() => {
-          enumeration("AUSTENITE_ENUMERATION", "<description>", members);
-        }).toThrow(
-          "specification for AUSTENITE_ENUMERATION is invalid: must have at least 2 members"
-        );
-      });
+    it("throws", () => {
+      expect(() => {
+        enumeration("AUSTENITE_ENUMERATION", "<description>", members);
+      }).toThrow(
+        "specification for AUSTENITE_ENUMERATION is invalid: must have at least 2 members"
+      );
     });
   });
 });
