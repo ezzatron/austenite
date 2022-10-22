@@ -377,6 +377,18 @@ describe("Specification documents", () => {
       );
       expect(exitCode).toBe(0);
     });
+
+    it("describes optional strings with defaults that need quoting", async () => {
+      string("MESSAGE", "message to output", {
+        default: "Season's greetings, world!",
+      });
+      initialize();
+
+      expect(stripUsage(mockConsole.readStdout())).toBe(
+        await readFixture("string/quoting")
+      );
+      expect(exitCode).toBe(0);
+    });
   });
 
   describe("when there are URLs", () => {

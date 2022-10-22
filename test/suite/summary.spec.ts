@@ -42,7 +42,7 @@ describe("Validation summary", () => {
     process.env.AUSTENITE_INTEGER = "-123456";
     process.env.AUSTENITE_INTEGER_BIG = "-12345678901234567890";
     process.env.AUSTENITE_NUMBER = "-123.456";
-    process.env.AUSTENITE_STRING = "hello, world!";
+    process.env.AUSTENITE_STRING = "Season's greetings, world!";
     process.env.AUSTENITE_SVC_SERVICE_HOST = "host.example.org";
     process.env.AUSTENITE_SVC_SERVICE_PORT = "443";
     process.env.AUSTENITE_URL = "https://host.example.org/path/to/resource";
@@ -90,7 +90,7 @@ describe("Validation summary", () => {
         "  AUSTENITE_INTEGER           example integer                            <integer>              ✓ set to -123456",
         "  AUSTENITE_INTEGER_BIG       example big integer                        <integer>              ✓ set to -12345678901234567890",
         "  AUSTENITE_NUMBER            example number                             <number>               ✓ set to -123.456",
-        "  AUSTENITE_STRING            example string                             <string>               ✓ set to 'hello, world!'",
+        `  AUSTENITE_STRING            example string                             <string>               ✓ set to 'Season'"'"'s greetings, world!'`,
         "  AUSTENITE_SVC_SERVICE_HOST  kubernetes `austenite-svc` service host    <hostname>             ✓ set to host.example.org",
         "  AUSTENITE_SVC_SERVICE_PORT  kubernetes `austenite-svc` service port    <port number>          ✓ set to 443",
         "  AUSTENITE_URL               example URL                                <URL>                  ✓ set to https://host.example.org/path/to/resource",
