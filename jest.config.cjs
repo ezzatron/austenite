@@ -1,4 +1,5 @@
-module.exports = {
+/** @type {import('jest').Config} */
+const config = {
   preset: "es-jest",
   transform: {
     "\\.tsx?$": "ts-jest",
@@ -8,3 +9,5 @@ module.exports = {
   coverageDirectory: "artifacts/coverage/jest",
   testMatch: ["<rootDir>/test/suite/**/*.spec.*"],
 };
+
+module.exports = config;

@@ -1,7 +1,6 @@
-/* istanbul ignore file */
-import { setProcessExit } from "./environment";
+import { setProcess } from "./environment";
 
-setProcessExit(process.exit.bind(process));
+setProcess(process);
 
 export { bigInteger } from "./declaration/big-integer";
 export { boolean } from "./declaration/boolean";

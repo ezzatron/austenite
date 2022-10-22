@@ -10,7 +10,7 @@ import { integer } from "../../src/declaration/integer";
 import { kubernetesAddress } from "../../src/declaration/kubernetes-address";
 import { number } from "../../src/declaration/number";
 import { string } from "../../src/declaration/string";
-import { initialize, reset, setProcessExit } from "../../src/environment";
+import { initialize, reset, setProcess } from "../../src/environment";
 import { Results } from "../../src/validation";
 import { UndefinedError } from "../../src/variable";
 import { createMockConsole, MockConsole } from "../helpers";
@@ -52,15 +52,17 @@ describe("initialize()", () => {
   let env: typeof process.env;
   let mockConsole: MockConsole;
 
-  function processExit(code: number): never {
-    exitCode = code;
+  const mockProcess = {
+    exit(code: number): never {
+      exitCode = code;
 
-    return undefined as never;
-  }
+      return undefined as never;
+    },
+  };
 
   beforeEach(() => {
     exitCode = undefined;
-    setProcessExit(processExit);
+    setProcess(mockProcess);
 
     env = process.env;
     process.env = { ...env };

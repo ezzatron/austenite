@@ -4,7 +4,11 @@ import { render as renderSummary } from "./summary";
 import { Results, validate } from "./validation";
 import { create as createVariable, Variable, VariableSpec } from "./variable";
 
-let processExit: typeof process.exit;
+interface Process {
+  exit: typeof process.exit;
+}
+
+let currentProcess: Process;
 let state: State = createInitialState();
 
 export interface InitializeOptions {
@@ -15,7 +19,7 @@ export function initialize(options: InitializeOptions = {}): void {
   if (process.env.AUSTENITE_SPEC === "true") {
     console.log(renderSpecification(variablesByName()));
 
-    processExit(0);
+    currentProcess.exit(0);
   } else {
     state.isInitialized = true;
 
@@ -48,8 +52,8 @@ export function readVariable<T>(spec: VariableSpec<T>): string {
   return process.env[spec.name] ?? "";
 }
 
-export function setProcessExit(exit: typeof process.exit) {
-  processExit = exit;
+export function setProcess(process: Process) {
+  currentProcess = process;
 }
 
 export function reset(): void {
@@ -75,7 +79,7 @@ function defaultOnInvalid({ results }: { results: Results }): never {
     ["Environment Variables:", "", renderSummary(results)].join(EOL)
   );
 
-  processExit(1);
+  currentProcess.exit(1);
 
   return undefined as never;
 }

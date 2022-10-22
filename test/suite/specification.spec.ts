@@ -9,7 +9,7 @@ import { integer } from "../../src/declaration/integer";
 import { kubernetesAddress } from "../../src/declaration/kubernetes-address";
 import { number } from "../../src/declaration/number";
 import { string } from "../../src/declaration/string";
-import { initialize, reset, setProcessExit } from "../../src/environment";
+import { initialize, reset, setProcess } from "../../src/environment";
 import { createMockConsole, MockConsole } from "../helpers";
 
 const fixturesPath = join(__dirname, "../fixture/specification");
@@ -22,15 +22,17 @@ describe("Specification documents", () => {
   let env: typeof process.env;
   let mockConsole: MockConsole;
 
-  function processExit(code: number): never {
-    exitCode = code;
+  const mockProcess = {
+    exit(code: number): never {
+      exitCode = code;
 
-    return undefined as never;
-  }
+      return undefined as never;
+    },
+  };
 
   beforeEach(() => {
     exitCode = undefined;
-    setProcessExit(processExit);
+    setProcess(mockProcess);
 
     argv = process.argv;
     process.argv = [process.argv0, "<app>"];

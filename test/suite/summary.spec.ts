@@ -12,7 +12,7 @@ import {
   initialize,
   registerVariable,
   reset,
-  setProcessExit,
+  setProcess,
 } from "../../src/environment";
 import { undefinedValue } from "../../src/maybe";
 import { createString } from "../../src/schema";
@@ -26,15 +26,17 @@ describe("Validation summary", () => {
   let env: typeof process.env;
   let mockConsole: MockConsole;
 
-  function processExit(code: number): never {
-    exitCode = code;
+  const mockProcess = {
+    exit(code: number): never {
+      exitCode = code;
 
-    return undefined as never;
-  }
+      return undefined as never;
+    },
+  };
 
   beforeEach(() => {
     exitCode = undefined;
-    setProcessExit(processExit);
+    setProcess(mockProcess);
 
     env = process.env;
     process.env = { ...env };
