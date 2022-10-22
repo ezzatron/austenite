@@ -426,6 +426,18 @@ describe("Specification documents", () => {
       expect(exitCode).toBe(0);
     });
 
+    it("describes URLs with base URLs", async () => {
+      url("LOGO", "Main logo image", {
+        base: new URL("https://base.example.org/path/to/resource"),
+      });
+      initialize();
+
+      expect(stripUsage(mockConsole.readStdout())).toBe(
+        await readFixture("url/base")
+      );
+      expect(exitCode).toBe(0);
+    });
+
     it("describes URLs with protocol requirements", async () => {
       url("SOCKET_SERVER", "WebSocket server to use", {
         protocols: ["ws:", "wss:"],

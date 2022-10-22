@@ -12,18 +12,19 @@ document only shows those variables defined using [Austenite].
 
 ## Index
 
--   [`CDN_URL`](#CDN_URL) — CDN to use when serving static assets
+-   [`LOGO`](#LOGO) — Main logo image
 
 ## Specification
 
-### `CDN_URL`
+### `LOGO`
 
-> CDN to use when serving static assets
+> Main logo image
 
 This variable **MUST** be set to a non-empty **URL**.
 If left undefined the application will print usage information to `STDERR` then
 exit with a non-zero exit code.
 
 ```sh
-export CDN_URL=https://host.example.org/path/to/resource # URL (absolute)
+export LOGO=https://host.example.org/path/to/resource # URL (absolute)
+export LOGO=path/to/resource                          # URL (relative)
 ```

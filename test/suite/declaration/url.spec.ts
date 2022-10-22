@@ -230,6 +230,55 @@ describe("URL declarations", () => {
     });
   });
 
+  describe("when a base URL is specified", () => {
+    beforeEach(() => {
+      declaration = url("AUSTENITE_URL", "<description>", {
+        base: new URL("https://base.example.org/path/to/base?x#y"),
+      });
+    });
+
+    describe.each`
+      description       | relative                 | expected
+      ${"fragment"}     | ${"#a"}                  | ${"https://base.example.org/path/to/base?x#a"}
+      ${"query"}        | ${"?a"}                  | ${"https://base.example.org/path/to/base?a"}
+      ${"child path"}   | ${"a/b"}                 | ${"https://base.example.org/path/to/a/b"}
+      ${"sibling path"} | ${"../a/b"}              | ${"https://base.example.org/path/a/b"}
+      ${"root path"}    | ${"/a/b"}                | ${"https://base.example.org/a/b"}
+      ${"schemeless"}   | ${"//other.example.org"} | ${"https://other.example.org/"}
+    `(
+      "when the value is a relative URL ($description)",
+      ({ relative, expected }: { relative: string; expected: string }) => {
+        beforeEach(() => {
+          process.env.AUSTENITE_URL = relative;
+
+          initialize({ onInvalid: noop });
+        });
+
+        describe(".value()", () => {
+          it("returns the resolved URL", () => {
+            expect(declaration.value()).toEqual(new URL(expected));
+          });
+        });
+      }
+    );
+
+    describe("when the value is an absolute URL", () => {
+      beforeEach(() => {
+        process.env.AUSTENITE_URL = "wss://other.example.org/path/to/resource";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("returns the specified URL", () => {
+          expect(declaration.value()).toEqual(
+            new URL("wss://other.example.org/path/to/resource")
+          );
+        });
+      });
+    });
+  });
+
   describe("when protocols are specified", () => {
     const protocols: string[] = ["ws:", "wss:"];
 
@@ -294,13 +343,13 @@ describe("URL declarations", () => {
 
     describe.each`
       protocol   | expected
-      ${""}      | ${'specification for AUSTENITE_URL is invalid: protocol "": must end with a colon (:)'}
-      ${"ws"}    | ${'specification for AUSTENITE_URL is invalid: protocol "ws": must end with a colon (:)'}
-      ${"1a:"}   | ${'specification for AUSTENITE_URL is invalid: protocol "1a:": must be a valid protocol'}
-      ${":"}     | ${'specification for AUSTENITE_URL is invalid: protocol ":": must be a valid protocol'}
-      ${":a:"}   | ${'specification for AUSTENITE_URL is invalid: protocol ":a:": must be a valid protocol'}
-      ${"a:a:"}  | ${'specification for AUSTENITE_URL is invalid: protocol "a:a:": must be a valid protocol'}
-      ${":a:a:"} | ${'specification for AUSTENITE_URL is invalid: protocol ":a:a:": must be a valid protocol'}
+      ${""}      | ${'specification for AUSTENITE_URL is invalid: protocol (""): must end with a colon (:)'}
+      ${"ws"}    | ${'specification for AUSTENITE_URL is invalid: protocol ("ws"): must end with a colon (:)'}
+      ${"1a:"}   | ${'specification for AUSTENITE_URL is invalid: protocol ("1a:"): must be a valid protocol'}
+      ${":"}     | ${'specification for AUSTENITE_URL is invalid: protocol (":"): must be a valid protocol'}
+      ${":a:"}   | ${'specification for AUSTENITE_URL is invalid: protocol (":a:"): must be a valid protocol'}
+      ${"a:a:"}  | ${'specification for AUSTENITE_URL is invalid: protocol ("a:a:"): must be a valid protocol'}
+      ${":a:a:"} | ${'specification for AUSTENITE_URL is invalid: protocol (":a:a:"): must be a valid protocol'}
     `(
       "when a protocol is invalid ($protocol)",
       ({ protocol, expected }: { protocol: string; expected: string }) => {
@@ -327,6 +376,21 @@ describe("URL declarations", () => {
           });
         }).toThrow(
           "specification for AUSTENITE_URL is invalid: default value: protocol must be ws: or wss:"
+        );
+      });
+    });
+
+    describe("when using a base URL that does not match any of the protocols", () => {
+      const base = new URL("https://host.example.org/path/to/resource");
+
+      it("throws", () => {
+        expect(() => {
+          url("AUSTENITE_URL", "<description>", {
+            base,
+            protocols,
+          });
+        }).toThrow(
+          "specification for AUSTENITE_URL is invalid: base URL (https://host.example.org/path/to/resource): protocol must be ws: or wss:"
         );
       });
     });
