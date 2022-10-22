@@ -88,7 +88,7 @@ function compareVariableNames(a: Variable<unknown>, b: Variable<unknown>) {
 type OnInvalid = (args: OnInvalidArgs) => void;
 
 interface OnInvalidArgs {
-  results: Results;
+  readonly results: Results;
   defaultHandler: () => never;
 }
 

@@ -13,8 +13,8 @@ import { SpecError } from "../variable";
 export type Members<T> = Record<string, Member<T>>;
 
 export interface Member<T> {
-  value: T;
-  description: string;
+  readonly value: T;
+  readonly description: string;
 }
 
 export type Options<T> = DeclarationOptions<T>;

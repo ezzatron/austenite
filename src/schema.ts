@@ -14,7 +14,7 @@ export interface Scalar<T> extends Schema<T> {
 }
 
 export interface Enum<T> extends Schema<T> {
-  members: Record<string, T>;
+  readonly members: Record<string, T>;
 }
 
 export function createString(description: string): Scalar<string> {

@@ -25,16 +25,16 @@ export type Result = ErrorResult | ValueResult;
 export type Results = VariableWithResult[];
 
 export interface VariableWithResult {
-  variable: Variable<unknown>;
-  result: Result;
+  readonly variable: Variable<unknown>;
+  readonly result: Result;
 }
 
 export interface ErrorResult {
-  error: Error;
-  maybe?: never;
+  readonly error: Error;
+  readonly maybe?: never;
 }
 
 export interface ValueResult {
-  error?: never;
-  maybe: Maybe<Value<unknown>>;
+  readonly error?: never;
+  readonly maybe: Maybe<Value<unknown>>;
 }
