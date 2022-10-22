@@ -14,7 +14,7 @@ export interface VariableSpec<T> {
   readonly constraint?: Constraint<T>;
 }
 
-export type Constraint<T> = (spec: VariableSpec<T>, value: T) => void;
+export type Constraint<T> = (value: T) => void;
 
 export interface Variable<T> {
   readonly spec: VariableSpec<T>;
@@ -123,7 +123,7 @@ export function create<T>(spec: VariableSpec<T>): Variable<T> {
   }
 
   function marshal(value: T): string {
-    spec.constraint?.(spec, value);
+    spec.constraint?.(value);
 
     return schema.marshal(value);
   }
@@ -131,7 +131,7 @@ export function create<T>(spec: VariableSpec<T>): Variable<T> {
   function unmarshal(value: string): T {
     try {
       const native = schema.unmarshal(value);
-      spec.constraint?.(spec, native);
+      spec.constraint?.(native);
 
       return native;
     } catch (error) {

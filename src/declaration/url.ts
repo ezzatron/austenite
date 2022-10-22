@@ -8,7 +8,7 @@ import { registerVariable } from "../environment";
 import { create as createExamples, Example, Examples } from "../example";
 import { Maybe, resolve } from "../maybe";
 import { createScalar, Scalar, toString } from "../schema";
-import { SpecError, VariableSpec } from "../variable";
+import { SpecError } from "../variable";
 
 // as per https://www.rfc-editor.org/rfc/rfc3986#section-3.1
 const VALID_PROTOCOL_PATTERN = /^[a-zA-Z][a-zA-Z0-9.+-]*:$/;
@@ -89,7 +89,7 @@ function createValidate({ protocols }: Options) {
   });
   const protocolMessage = `protocol must be ${listFormatter.format(protocols)}`;
 
-  return (_: VariableSpec<URL>, url: URL) => {
+  return (url: URL) => {
     if (!protocols.includes(url.protocol)) throw new Error(protocolMessage);
   };
 }

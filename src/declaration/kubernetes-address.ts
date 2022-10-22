@@ -10,7 +10,7 @@ import { normalize } from "../error";
 import { create as createExamples, Example } from "../example";
 import { map, Maybe, resolve } from "../maybe";
 import { createScalar, createString, Scalar, toString } from "../schema";
-import { Variable, VariableSpec } from "../variable";
+import { Variable } from "../variable";
 
 const IP_PATTERN = createIpPattern({ exact: true });
 
@@ -93,7 +93,7 @@ function registerHost(
   });
 }
 
-function validateHost(_: VariableSpec<string>, host: string): void {
+function validateHost(host: string): void {
   if (host === "") throw new Error("must not be empty");
 
   if (IP_PATTERN.test(host)) return;
@@ -172,7 +172,7 @@ function createPortSchema(): Scalar<number> {
   return createScalar("port number", toString, unmarshal);
 }
 
-function validatePort(_: VariableSpec<number>, port: number): void {
+function validatePort(port: number): void {
   if (!Number.isInteger(port) || port < 0) {
     throw new Error("must be an unsigned integer");
   }
