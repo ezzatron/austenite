@@ -9,7 +9,7 @@ import { integer } from "../../src/declaration/integer";
 import { kubernetesAddress } from "../../src/declaration/kubernetes-address";
 import { number } from "../../src/declaration/number";
 import { string } from "../../src/declaration/string";
-import { initialize, reset, setProcess } from "../../src/environment";
+import { initialize, reset } from "../../src/environment";
 import { createMockConsole, MockConsole } from "../helpers";
 
 const fixturesPath = join(__dirname, "../fixture/specification");
@@ -22,28 +22,25 @@ describe("Specification documents", () => {
   let env: typeof process.env;
   let mockConsole: MockConsole;
 
-  const mockProcess = {
-    exit(code: number): never {
-      exitCode = code;
-
-      return undefined as never;
-    },
-  };
-
   beforeEach(() => {
     exitCode = undefined;
-    setProcess(mockProcess);
+    jest.spyOn(process, "exit").mockImplementation((code) => {
+      exitCode = code ?? 0;
+
+      return undefined as never;
+    });
 
     argv = process.argv;
     process.argv = [process.argv0, "<app>"];
     env = process.env;
-    process.env = { ...env };
+    process.env = {
+      AUSTENITE_SPEC: "true",
+    };
 
     mockConsole = createMockConsole();
   });
 
   afterEach(() => {
-    jest.resetAllMocks();
     process.argv = argv;
     process.env = env;
     reset();
@@ -51,7 +48,6 @@ describe("Specification documents", () => {
 
   describe("when there are big integers", () => {
     it("describes required big integers", async () => {
-      process.env.AUSTENITE_SPEC = "true";
       bigInteger("WEIGHT", "weighting for this node");
       initialize();
 
@@ -62,7 +58,6 @@ describe("Specification documents", () => {
     });
 
     it("describes optional big integers", async () => {
-      process.env.AUSTENITE_SPEC = "true";
       bigInteger("WEIGHT", "weighting for this node", {
         default: undefined,
       });
@@ -75,7 +70,6 @@ describe("Specification documents", () => {
     });
 
     it("describes optional big integers with defaults", async () => {
-      process.env.AUSTENITE_SPEC = "true";
       bigInteger("WEIGHT", "weighting for this node", {
         default: 10000000000000001n,
       });
@@ -90,7 +84,6 @@ describe("Specification documents", () => {
 
   describe("when there are booleans", () => {
     it("describes required booleans", async () => {
-      process.env.AUSTENITE_SPEC = "true";
       boolean("DEBUG", "enable or disable debugging features");
       initialize();
 
@@ -101,7 +94,6 @@ describe("Specification documents", () => {
     });
 
     it("describes optional booleans", async () => {
-      process.env.AUSTENITE_SPEC = "true";
       boolean("DEBUG", "enable or disable debugging features", {
         default: undefined,
       });
@@ -114,7 +106,6 @@ describe("Specification documents", () => {
     });
 
     it("describes optional booleans with defaults", async () => {
-      process.env.AUSTENITE_SPEC = "true";
       boolean("DEBUG", "enable or disable debugging features", {
         default: false,
       });
@@ -130,7 +121,6 @@ describe("Specification documents", () => {
     });
 
     it("describes booleans with custom literals", async () => {
-      process.env.AUSTENITE_SPEC = "true";
       boolean("DEBUG", "enable or disable debugging features", {
         default: false,
         literals: {
@@ -151,7 +141,6 @@ describe("Specification documents", () => {
 
   describe("when there are durations", () => {
     it("describes required durations", async () => {
-      process.env.AUSTENITE_SPEC = "true";
       duration("GRPC_TIMEOUT", "gRPC request timeout");
       initialize();
 
@@ -162,7 +151,6 @@ describe("Specification documents", () => {
     });
 
     it("describes optional durations", async () => {
-      process.env.AUSTENITE_SPEC = "true";
       duration("GRPC_TIMEOUT", "gRPC request timeout", {
         default: undefined,
       });
@@ -175,7 +163,6 @@ describe("Specification documents", () => {
     });
 
     it("describes optional durations with defaults", async () => {
-      process.env.AUSTENITE_SPEC = "true";
       duration("GRPC_TIMEOUT", "gRPC request timeout", {
         default: Duration.from("PT0.01S"),
       });
@@ -204,7 +191,6 @@ describe("Specification documents", () => {
     } as const;
 
     it("describes required enumerations", async () => {
-      process.env.AUSTENITE_SPEC = "true";
       enumeration("LOG_LEVEL", "the minimum log level to record", members);
       initialize();
 
@@ -215,7 +201,6 @@ describe("Specification documents", () => {
     });
 
     it("describes optional enumerations", async () => {
-      process.env.AUSTENITE_SPEC = "true";
       enumeration("LOG_LEVEL", "the minimum log level to record", members, {
         default: undefined,
       });
@@ -228,7 +213,6 @@ describe("Specification documents", () => {
     });
 
     it("describes optional enumerations with defaults", async () => {
-      process.env.AUSTENITE_SPEC = "true";
       enumeration("LOG_LEVEL", "the minimum log level to record", members, {
         default: "error",
       });
@@ -243,7 +227,6 @@ describe("Specification documents", () => {
 
   describe("when there are integers", () => {
     it("describes required integers", async () => {
-      process.env.AUSTENITE_SPEC = "true";
       integer("WEIGHT", "weighting for this node");
       initialize();
 
@@ -254,7 +237,6 @@ describe("Specification documents", () => {
     });
 
     it("describes optional integers", async () => {
-      process.env.AUSTENITE_SPEC = "true";
       integer("WEIGHT", "weighting for this node", {
         default: undefined,
       });
@@ -267,7 +249,6 @@ describe("Specification documents", () => {
     });
 
     it("describes optional integers with defaults", async () => {
-      process.env.AUSTENITE_SPEC = "true";
       integer("WEIGHT", "weighting for this node", {
         default: 101,
       });
@@ -282,7 +263,6 @@ describe("Specification documents", () => {
 
   describe("when there are kubernetes addresses", () => {
     it("describes required addresses", async () => {
-      process.env.AUSTENITE_SPEC = "true";
       kubernetesAddress("redis-primary");
       initialize();
 
@@ -293,7 +273,6 @@ describe("Specification documents", () => {
     });
 
     it("describes optional addresses", async () => {
-      process.env.AUSTENITE_SPEC = "true";
       kubernetesAddress("redis-primary", {
         default: undefined,
       });
@@ -306,7 +285,6 @@ describe("Specification documents", () => {
     });
 
     it("describes optional addresses with defaults", async () => {
-      process.env.AUSTENITE_SPEC = "true";
       kubernetesAddress("redis-primary", {
         default: {
           host: "redis.example.org",
@@ -322,7 +300,6 @@ describe("Specification documents", () => {
     });
 
     it("describes addresses with named ports", async () => {
-      process.env.AUSTENITE_SPEC = "true";
       kubernetesAddress("redis-primary", {
         portName: "db",
       });
@@ -340,7 +317,6 @@ describe("Specification documents", () => {
 
   describe("when there are numbers", () => {
     it("describes required numbers", async () => {
-      process.env.AUSTENITE_SPEC = "true";
       number("WEIGHT", "weighting for this node");
       initialize();
 
@@ -351,7 +327,6 @@ describe("Specification documents", () => {
     });
 
     it("describes optional numbers", async () => {
-      process.env.AUSTENITE_SPEC = "true";
       number("WEIGHT", "weighting for this node", {
         default: undefined,
       });
@@ -364,7 +339,6 @@ describe("Specification documents", () => {
     });
 
     it("describes optional numbers with defaults", async () => {
-      process.env.AUSTENITE_SPEC = "true";
       number("WEIGHT", "weighting for this node", {
         default: 100.001,
       });
@@ -379,7 +353,6 @@ describe("Specification documents", () => {
 
   describe("when there are strings", () => {
     it("describes required strings", async () => {
-      process.env.AUSTENITE_SPEC = "true";
       string("READ_DSN", "database connection string for read-models");
       initialize();
 
@@ -390,7 +363,6 @@ describe("Specification documents", () => {
     });
 
     it("describes optional strings", async () => {
-      process.env.AUSTENITE_SPEC = "true";
       string("READ_DSN", "database connection string for read-models", {
         default: undefined,
       });
@@ -403,7 +375,6 @@ describe("Specification documents", () => {
     });
 
     it("describes optional strings with defaults", async () => {
-      process.env.AUSTENITE_SPEC = "true";
       string("READ_DSN", "database connection string for read-models", {
         default: "host=localhost dbname=readmodels user=projector",
       });
@@ -418,7 +389,6 @@ describe("Specification documents", () => {
 
   describe("when there no declarations", () => {
     it("describes an empty environment", async () => {
-      process.env.AUSTENITE_SPEC = "true";
       initialize();
 
       expect(mockConsole.readStdout()).toBe(await readFixture("empty"));
@@ -427,7 +397,6 @@ describe("Specification documents", () => {
   });
 
   it("provides usage instructions", async () => {
-    process.env.AUSTENITE_SPEC = "true";
     boolean("DEBUG", "enable or disable debugging features", {
       default: undefined,
     });

@@ -10,7 +10,7 @@ import { integer } from "../../src/declaration/integer";
 import { kubernetesAddress } from "../../src/declaration/kubernetes-address";
 import { number } from "../../src/declaration/number";
 import { string } from "../../src/declaration/string";
-import { initialize, reset, setProcess } from "../../src/environment";
+import { initialize, reset } from "../../src/environment";
 import { Results } from "../../src/validation";
 import { UndefinedError } from "../../src/variable";
 import { createMockConsole, MockConsole } from "../helpers";
@@ -52,26 +52,21 @@ describe("initialize()", () => {
   let env: typeof process.env;
   let mockConsole: MockConsole;
 
-  const mockProcess = {
-    exit(code: number): never {
-      exitCode = code;
-
-      return undefined as never;
-    },
-  };
-
   beforeEach(() => {
     exitCode = undefined;
-    setProcess(mockProcess);
+    jest.spyOn(process, "exit").mockImplementation((code) => {
+      exitCode = code ?? 0;
+
+      return undefined as never;
+    });
 
     env = process.env;
-    process.env = { ...env };
+    process.env = {};
 
     mockConsole = createMockConsole();
   });
 
   afterEach(() => {
-    jest.resetAllMocks();
     process.env = env;
     reset();
   });

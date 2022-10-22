@@ -1,7 +1,3 @@
-import { setProcess } from "./environment";
-
-setProcess(process);
-
 export { bigInteger } from "./declaration/big-integer";
 export { boolean } from "./declaration/boolean";
 export { duration } from "./declaration/duration";

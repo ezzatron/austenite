@@ -44,8 +44,12 @@ describe("Integer declarations", () => {
   let env: typeof process.env;
 
   beforeEach(() => {
+    jest.spyOn(process, "exit").mockImplementation(() => {
+      return undefined as never;
+    });
+
     env = process.env;
-    process.env = { ...env };
+    process.env = {};
   });
 
   afterEach(() => {

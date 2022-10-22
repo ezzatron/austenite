@@ -12,19 +12,24 @@ import { createMockConsole } from "../helpers";
 
 describe("Module index", () => {
   let exitCode: number | undefined;
+  let env: typeof process.env;
 
   beforeEach(() => {
+    exitCode = undefined;
     jest.spyOn(process, "exit").mockImplementation((code) => {
       exitCode = code ?? 0;
 
       return undefined as never;
     });
 
+    env = process.env;
+    process.env = {};
+
     createMockConsole();
   });
 
   afterEach(() => {
-    jest.resetAllMocks();
+    process.env = env;
     reset();
   });
 

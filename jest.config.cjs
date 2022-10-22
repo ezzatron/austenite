@@ -8,6 +8,7 @@ const config = {
   collectCoverageFrom: ["src/**/*"],
   coverageDirectory: "artifacts/coverage/jest",
   testMatch: ["<rootDir>/test/suite/**/*.spec.*"],
+  resetMocks: true,
 };
 
 module.exports = config;

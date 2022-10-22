@@ -10,7 +10,7 @@ const config = {
     fileName: "artifacts/stryker/report.html",
   },
   jest: {
-    configFile: "jest.stryker.config.cjs",
+    configFile: "jest.config.cjs",
   },
 };
 
