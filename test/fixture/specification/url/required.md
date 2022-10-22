@@ -25,5 +25,5 @@ If left undefined the application will print usage information to `STDERR` then
 exit with a non-zero exit code.
 
 ```sh
-export CDN_URL=https\://host.example.org/path/to/resource # URL
+export CDN_URL=https://host.example.org/path/to/resource # URL
 ```

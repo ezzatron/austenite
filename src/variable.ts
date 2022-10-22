@@ -1,9 +1,9 @@
-import { quote } from "shell-quote";
 import { readVariable } from "./environment";
 import { normalize } from "./error";
 import { Examples } from "./example";
 import { definedValue, map, Maybe, undefinedValue } from "./maybe";
 import { Schema } from "./schema";
+import { quote } from "./shell";
 
 export interface VariableSpec<T> {
   readonly name: string;
@@ -152,7 +152,7 @@ export class ValueError extends Error {
     public readonly value: string,
     public readonly cause: Error
   ) {
-    super(`value of ${name} (${quote([value])}) is invalid: ${cause.message}`);
+    super(`value of ${name} (${quote(value)}) is invalid: ${cause.message}`);
   }
 }
 

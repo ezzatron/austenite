@@ -23,5 +23,5 @@ document only shows those variables defined using [Austenite].
 This variable **MAY** be set to a non-empty **URL** or left undefined.
 
 ```sh
-export CDN_URL=https\://host.example.org/path/to/resource # URL
+export CDN_URL=https://host.example.org/path/to/resource # URL
 ```

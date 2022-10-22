@@ -127,7 +127,7 @@ describe("Enumeration declarations", () => {
           expect(() => {
             declaration.value();
           }).toThrow(
-            "value of AUSTENITE_ENUMERATION (\\<non-member\\>) is invalid: expected \\<member-0\\>, \\<member-1\\>, or \\<member-2\\>"
+            "value of AUSTENITE_ENUMERATION ('<non-member>') is invalid: expected '<member-0>', '<member-1>', or '<member-2>'"
           );
         });
       });
@@ -217,7 +217,7 @@ describe("Enumeration declarations", () => {
           expect(() => {
             declaration.value();
           }).toThrow(
-            "value of AUSTENITE_ENUMERATION (\\<non-member\\>) is invalid: expected \\<member-0\\>, \\<member-1\\>, or \\<member-2\\>"
+            "value of AUSTENITE_ENUMERATION ('<non-member>') is invalid: expected '<member-0>', '<member-1>', or '<member-2>'"
           );
         });
       });

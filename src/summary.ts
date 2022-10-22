@@ -1,5 +1,5 @@
-import { quote } from "shell-quote";
 import { Visitor } from "./schema";
+import { quote } from "./shell";
 import { create as createTable } from "./table";
 import { Result, Results } from "./validation";
 import { ValueError, Variable } from "./variable";
@@ -37,7 +37,7 @@ function renderSchema({
   const optionality = def.isDefined ? "[]" : "  ";
   const schemaDefault =
     def.isDefined && typeof def.value !== "undefined"
-      ? ` = ${quote([marshal(def.value)])}`
+      ? ` = ${quote(marshal(def.value))}`
       : "";
 
   return `${optionality[0]} ${rendered} ${optionality[1]}${schemaDefault}`;
@@ -62,10 +62,10 @@ function renderResult({ error, maybe }: Result) {
 
   const { value } = maybe;
   const { canonical, verbatim } = value;
-  const result = `${VALID} set to ${quote([canonical])}`;
+  const result = `${VALID} set to ${quote(canonical)}`;
 
   if (verbatim !== canonical) {
-    return `${result} (specified non-canonically as ${quote([verbatim])})`;
+    return `${result} (specified non-canonically as ${quote(verbatim)})`;
   }
 
   return result;
@@ -74,5 +74,5 @@ function renderResult({ error, maybe }: Result) {
 function describeError(error: Error) {
   if (!(error instanceof ValueError)) return "undefined";
 
-  return `set to ${quote([error.value])}, ${error.cause.message}`;
+  return `set to ${quote(error.value)}, ${error.cause.message}`;
 }

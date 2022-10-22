@@ -24,6 +24,6 @@ This variable **MAY** be set to a non-empty **URL**.
 If left undefined the default value is used (see below).
 
 ```sh
-export CDN_URL=https\://default.example.org/path/to/resource # (default)
-export CDN_URL=https\://host.example.org/path/to/resource    # URL
+export CDN_URL=https://default.example.org/path/to/resource # (default)
+export CDN_URL=https://host.example.org/path/to/resource    # URL
 ```

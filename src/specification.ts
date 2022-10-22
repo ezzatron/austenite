@@ -2,9 +2,9 @@ import type { ListItem, PhrasingContent } from "mdast-util-from-markdown/lib";
 import { toMarkdown } from "mdast-util-to-markdown";
 import { Content } from "mdast-util-to-markdown/lib/types";
 import { basename } from "path";
-import { quote } from "shell-quote";
 import { toContent, toContentArray } from "./markdown";
 import { Visitor } from "./schema";
+import { quote } from "./shell";
 import { create as createTable } from "./table";
 import { usage } from "./usage";
 import { Variable } from "./variable";
@@ -326,7 +326,7 @@ function examples({ spec: { name, examples } }: Variable<unknown>): Content {
   const table = createTable(1);
 
   for (const { canonical, description } of examples) {
-    table.addRow([`export ${name}=${quote([canonical])}`, `# ${description}`]);
+    table.addRow([`export ${name}=${quote(canonical)}`, `# ${description}`]);
   }
 
   return {

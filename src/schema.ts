@@ -1,4 +1,4 @@
-import { quote } from "shell-quote";
+import { quote } from "./shell";
 
 export interface Schema<T> {
   marshal(value: T): string;
@@ -60,7 +60,7 @@ export interface Visitor<T> {
 
 export class InvalidEnumError<T> extends Error {
   constructor(members: Record<string, T>) {
-    const quotedMembers = Object.keys(members).map((member) => quote([member]));
+    const quotedMembers = Object.keys(members).map(quote);
     const listFormatter = new Intl.ListFormat("en", {
       style: "short",
       type: "disjunction",

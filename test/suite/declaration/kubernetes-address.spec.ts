@@ -22,7 +22,7 @@ const invalidHostValueTable = [
   [
     "full address",
     "host.example.org:12345",
-    `value of AUSTENITE_SVC_SERVICE_HOST (host.example.org\\:12345) is invalid: must not contain a colon (:) unless part of an IPv6 address`,
+    `value of AUSTENITE_SVC_SERVICE_HOST (host.example.org:12345) is invalid: must not contain a colon (:) unless part of an IPv6 address`,
   ],
 ];
 
