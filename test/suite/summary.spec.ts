@@ -1,6 +1,7 @@
 import { Temporal } from "@js-temporal/polyfill";
 import { EOL } from "os";
 import { duration, enumeration } from "../../src";
+import { bigInteger } from "../../src/big-integer";
 import { boolean } from "../../src/boolean";
 import {
   initialize,
@@ -8,7 +9,7 @@ import {
   reset,
   setProcessExit,
 } from "../../src/environment";
-import { bigInteger, integer } from "../../src/integer";
+import { integer } from "../../src/integer";
 import { kubernetesAddress } from "../../src/kubernetes-address";
 import { undefinedValue } from "../../src/maybe";
 import { number } from "../../src/number";

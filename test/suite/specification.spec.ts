@@ -1,11 +1,12 @@
 import { Temporal } from "@js-temporal/polyfill";
 import { readFile } from "fs/promises";
 import { join } from "path";
+import { bigInteger } from "../../src/big-integer";
 import { boolean } from "../../src/boolean";
 import { duration } from "../../src/duration";
 import { enumeration } from "../../src/enumeration";
 import { initialize, reset, setProcessExit } from "../../src/environment";
-import { bigInteger, integer } from "../../src/integer";
+import { integer } from "../../src/integer";
 import { kubernetesAddress } from "../../src/kubernetes-address";
 import { number } from "../../src/number";
 import { string } from "../../src/string";
@@ -44,6 +45,45 @@ describe("Specification documents", () => {
     process.argv = argv;
     process.env = env;
     reset();
+  });
+
+  describe("when there are big integers", () => {
+    it("describes required big integers", async () => {
+      process.env.AUSTENITE_SPEC = "true";
+      bigInteger("WEIGHT", "weighting for this node");
+      initialize();
+
+      expect(stripUsage(mockConsole.readStdout())).toBe(
+        await readFixture("big-integer/required")
+      );
+      expect(exitCode).toBe(0);
+    });
+
+    it("describes optional big integers", async () => {
+      process.env.AUSTENITE_SPEC = "true";
+      bigInteger("WEIGHT", "weighting for this node", {
+        default: undefined,
+      });
+      initialize();
+
+      expect(stripUsage(mockConsole.readStdout())).toBe(
+        await readFixture("big-integer/optional")
+      );
+      expect(exitCode).toBe(0);
+    });
+
+    it("describes optional big integers with defaults", async () => {
+      process.env.AUSTENITE_SPEC = "true";
+      bigInteger("WEIGHT", "weighting for this node", {
+        default: 10000000000000001n,
+      });
+      initialize();
+
+      expect(stripUsage(mockConsole.readStdout())).toBe(
+        await readFixture("big-integer/default")
+      );
+      expect(exitCode).toBe(0);
+    });
   });
 
   describe("when there are booleans", () => {
@@ -200,82 +240,41 @@ describe("Specification documents", () => {
   });
 
   describe("when there are integers", () => {
-    describe("when the integers are represented as a bigint", () => {
-      it("describes required integers", async () => {
-        process.env.AUSTENITE_SPEC = "true";
-        bigInteger("WEIGHT", "weighting for this node");
-        initialize();
+    it("describes required integers", async () => {
+      process.env.AUSTENITE_SPEC = "true";
+      integer("WEIGHT", "weighting for this node");
+      initialize();
 
-        expect(stripUsage(mockConsole.readStdout())).toBe(
-          await readFixture("integer/bigint/required")
-        );
-        expect(exitCode).toBe(0);
-      });
-
-      it("describes optional integers", async () => {
-        process.env.AUSTENITE_SPEC = "true";
-        bigInteger("WEIGHT", "weighting for this node", {
-          default: undefined,
-        });
-        initialize();
-
-        expect(stripUsage(mockConsole.readStdout())).toBe(
-          await readFixture("integer/bigint/optional")
-        );
-        expect(exitCode).toBe(0);
-      });
-
-      it("describes optional integers with defaults", async () => {
-        process.env.AUSTENITE_SPEC = "true";
-        bigInteger("WEIGHT", "weighting for this node", {
-          default: 10000000000000001n,
-        });
-        initialize();
-
-        expect(stripUsage(mockConsole.readStdout())).toBe(
-          await readFixture("integer/bigint/default")
-        );
-        expect(exitCode).toBe(0);
-      });
+      expect(stripUsage(mockConsole.readStdout())).toBe(
+        await readFixture("integer/required")
+      );
+      expect(exitCode).toBe(0);
     });
 
-    describe("when the integers are represented as a number", () => {
-      it("describes required integers", async () => {
-        process.env.AUSTENITE_SPEC = "true";
-        integer("WEIGHT", "weighting for this node");
-        initialize();
-
-        expect(stripUsage(mockConsole.readStdout())).toBe(
-          await readFixture("integer/number/required")
-        );
-        expect(exitCode).toBe(0);
+    it("describes optional integers", async () => {
+      process.env.AUSTENITE_SPEC = "true";
+      integer("WEIGHT", "weighting for this node", {
+        default: undefined,
       });
+      initialize();
 
-      it("describes optional integers", async () => {
-        process.env.AUSTENITE_SPEC = "true";
-        integer("WEIGHT", "weighting for this node", {
-          default: undefined,
-        });
-        initialize();
+      expect(stripUsage(mockConsole.readStdout())).toBe(
+        await readFixture("integer/optional")
+      );
+      expect(exitCode).toBe(0);
+    });
 
-        expect(stripUsage(mockConsole.readStdout())).toBe(
-          await readFixture("integer/number/optional")
-        );
-        expect(exitCode).toBe(0);
+    it("describes optional integers with defaults", async () => {
+      process.env.AUSTENITE_SPEC = "true";
+      integer("WEIGHT", "weighting for this node", {
+        default: 101,
       });
+      initialize();
 
-      it("describes optional integers with defaults", async () => {
-        process.env.AUSTENITE_SPEC = "true";
-        integer("WEIGHT", "weighting for this node", {
-          default: 101,
-        });
-        initialize();
-
-        expect(stripUsage(mockConsole.readStdout())).toBe(
-          await readFixture("integer/number/default")
-        );
-        expect(exitCode).toBe(0);
-      });
+      expect(stripUsage(mockConsole.readStdout())).toBe(
+        await readFixture("integer/default")
+      );
+      expect(exitCode).toBe(0);
     });
   });
 
