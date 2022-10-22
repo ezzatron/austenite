@@ -1,3 +1,4 @@
+import { bigInteger } from "../../src/big-integer";
 import { boolean } from "../../src/boolean";
 import { Declaration, Options } from "../../src/declaration";
 import { duration } from "../../src/duration";
@@ -6,6 +7,7 @@ import {
   Options as EnumerationOptions,
 } from "../../src/enumeration";
 import { initialize, reset, setProcessExit } from "../../src/environment";
+import { integer } from "../../src/integer";
 import { kubernetesAddress } from "../../src/kubernetes-address";
 import { number } from "../../src/number";
 import { string } from "../../src/string";
@@ -17,6 +19,11 @@ type DeclarationFactory = (
   options?: Options<unknown>
 ) => Declaration<unknown, Options<unknown>>;
 
+const bigIntegerFactory = bigInteger.bind(
+  null,
+  "AUSTENITE_VAR",
+  "<description>"
+);
 const booleanFactory = boolean.bind(null, "AUSTENITE_VAR", "<description>");
 const durationFactory = duration.bind(null, "AUSTENITE_VAR", "<description>");
 const enumerationFactory = (options: EnumerationOptions<0 | 1>) =>
@@ -35,6 +42,7 @@ const enumerationFactory = (options: EnumerationOptions<0 | 1>) =>
     } as const,
     options
   );
+const integerFactory = integer.bind(null, "AUSTENITE_VAR", "<description>");
 const k8sAddressFactory = kubernetesAddress.bind(null, "austenite-svc");
 const numberFactory = number.bind(null, "AUSTENITE_VAR", "<description>");
 const stringFactory = string.bind(null, "AUSTENITE_VAR", "<description>");
@@ -70,9 +78,11 @@ describe("initialize()", () => {
     describe("before being called", () => {
       it.each`
         type                    | factory
+        ${"big integer"}        | ${bigIntegerFactory}
         ${"boolean"}            | ${booleanFactory}
         ${"duration"}           | ${durationFactory}
         ${"enumeration"}        | ${enumerationFactory}
+        ${"integer"}            | ${integerFactory}
         ${"kubernetes address"} | ${k8sAddressFactory}
         ${"number"}             | ${numberFactory}
         ${"string"}             | ${stringFactory}
@@ -109,9 +119,11 @@ describe("initialize()", () => {
 
       it.each`
         type                    | factory
+        ${"big integer"}        | ${bigIntegerFactory}
         ${"boolean"}            | ${booleanFactory}
         ${"duration"}           | ${durationFactory}
         ${"enumeration"}        | ${enumerationFactory}
+        ${"integer"}            | ${integerFactory}
         ${"kubernetes address"} | ${k8sAddressFactory}
         ${"number"}             | ${numberFactory}
         ${"string"}             | ${stringFactory}
@@ -152,9 +164,11 @@ describe("initialize()", () => {
     describe("before being called", () => {
       it.each`
         type                    | factory
+        ${"big integer"}        | ${bigIntegerFactory}
         ${"boolean"}            | ${booleanFactory}
         ${"duration"}           | ${durationFactory}
         ${"enumeration"}        | ${enumerationFactory}
+        ${"integer"}            | ${integerFactory}
         ${"kubernetes address"} | ${k8sAddressFactory}
         ${"number"}             | ${numberFactory}
         ${"string"}             | ${stringFactory}
