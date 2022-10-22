@@ -16,14 +16,30 @@ type TypeFromConstructor<T extends Constructor> = T extends BigIntConstructor
 
 export type Options<T> = DeclarationOptions<T>;
 
-export function integer<
+export function bigInteger<O extends Options<bigint>>(
+  name: string,
+  description: string,
+  options: O = {} as O
+): Declaration<bigint, O> {
+  return create(BigInt, name, description, options);
+}
+
+export function integer<O extends Options<number>>(
+  name: string,
+  description: string,
+  options: O = {} as O
+): Declaration<number, O> {
+  return create(Number, name, description, options);
+}
+
+function create<
   T extends Constructor,
   O extends Options<TypeFromConstructor<T>>
 >(
   type: T,
   name: string,
   description: string,
-  options: O = {} as O
+  options: O
 ): Declaration<TypeFromConstructor<T>, O> {
   const def = defaultFromOptions(options);
   const schema = (
@@ -50,7 +66,7 @@ function createBigIntSchema(): Scalar<bigint> {
     try {
       return BigInt(v);
     } catch {
-      throw new Error("must be a bigint");
+      throw new Error("must be a big integer");
     }
   }
 
@@ -61,7 +77,7 @@ function createNumberSchema(): Scalar<number> {
   function unmarshal(v: string): number {
     const n = Number(v);
 
-    if (!Number.isInteger(n)) throw new Error("must be an integer number");
+    if (!Number.isInteger(n)) throw new Error("must be an integer");
 
     return n;
   }

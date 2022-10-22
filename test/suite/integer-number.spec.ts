@@ -20,26 +20,26 @@ const invalidValueTable = [
   [
     "non-numeric",
     "a",
-    "value of AUSTENITE_INTEGER (a) is invalid: must be an integer number",
+    "value of AUSTENITE_INTEGER (a) is invalid: must be an integer",
   ],
   [
     "too many decimal places",
     "1.2.3",
-    "value of AUSTENITE_INTEGER (1.2.3) is invalid: must be an integer number",
+    "value of AUSTENITE_INTEGER (1.2.3) is invalid: must be an integer",
   ],
   [
     "non-integer",
     "1.2",
-    "value of AUSTENITE_INTEGER (1.2) is invalid: must be an integer number",
+    "value of AUSTENITE_INTEGER (1.2) is invalid: must be an integer",
   ],
   [
     "contains whitespace",
     "1 .2",
-    "value of AUSTENITE_INTEGER ('1 .2') is invalid: must be an integer number",
+    "value of AUSTENITE_INTEGER ('1 .2') is invalid: must be an integer",
   ],
 ];
 
-describe("Integer declarations (number)", () => {
+describe("Integer declarations", () => {
   let declaration: Declaration<number, Options<number>>;
   let env: typeof process.env;
 
@@ -55,7 +55,7 @@ describe("Integer declarations (number)", () => {
 
   describe("when no options are supplied", () => {
     beforeEach(() => {
-      declaration = integer(Number, "AUSTENITE_INTEGER", "<description>");
+      declaration = integer("AUSTENITE_INTEGER", "<description>");
 
       initialize({ onInvalid: noop });
     });
@@ -71,7 +71,7 @@ describe("Integer declarations (number)", () => {
 
   describe("when empty options are supplied", () => {
     beforeEach(() => {
-      declaration = integer(Number, "AUSTENITE_INTEGER", "<description>", {});
+      declaration = integer("AUSTENITE_INTEGER", "<description>", {});
 
       initialize({ onInvalid: noop });
     });
@@ -87,17 +87,13 @@ describe("Integer declarations (number)", () => {
 
   describe("when the declaration is required", () => {
     beforeEach(() => {
-      declaration = integer(Number, "AUSTENITE_INTEGER", "<description>");
+      declaration = integer("AUSTENITE_INTEGER", "<description>");
     });
 
     describe(".value()", () => {
       it("returns a number value", () => {
         // this test is weird because it tests type inference
-        const declaration = integer(
-          Number,
-          "AUSTENITE_INTEGER",
-          "<description>"
-        );
+        const declaration = integer("AUSTENITE_INTEGER", "<description>");
 
         process.env.AUSTENITE_INTEGER = "123456";
         initialize({ onInvalid: noop });
@@ -167,7 +163,7 @@ describe("Integer declarations (number)", () => {
 
   describe("when the declaration is optional", () => {
     beforeEach(() => {
-      declaration = integer(Number, "AUSTENITE_INTEGER", "<description>", {
+      declaration = integer("AUSTENITE_INTEGER", "<description>", {
         default: undefined,
       });
     });
@@ -175,14 +171,9 @@ describe("Integer declarations (number)", () => {
     describe(".value()", () => {
       it("returns an optional number value", () => {
         // this test is weird because it tests type inference
-        const declaration = integer(
-          Number,
-          "AUSTENITE_INTEGER",
-          "<description>",
-          {
-            default: undefined,
-          }
-        );
+        const declaration = integer("AUSTENITE_INTEGER", "<description>", {
+          default: undefined,
+        });
 
         initialize({ onInvalid: noop });
         const actual = declaration.value();
@@ -230,7 +221,7 @@ describe("Integer declarations (number)", () => {
     describe("when the value is empty", () => {
       describe("when there is a default value", () => {
         beforeEach(() => {
-          declaration = integer(Number, "AUSTENITE_INTEGER", "<description>", {
+          declaration = integer("AUSTENITE_INTEGER", "<description>", {
             default: -123456,
           });
 
@@ -246,7 +237,7 @@ describe("Integer declarations (number)", () => {
 
       describe("when there is no default value", () => {
         beforeEach(() => {
-          declaration = integer(Number, "AUSTENITE_INTEGER", "<description>", {
+          declaration = integer("AUSTENITE_INTEGER", "<description>", {
             default: undefined,
           });
 

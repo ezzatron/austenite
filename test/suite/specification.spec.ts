@@ -5,7 +5,7 @@ import { boolean } from "../../src/boolean";
 import { duration } from "../../src/duration";
 import { enumeration } from "../../src/enumeration";
 import { initialize, reset, setProcessExit } from "../../src/environment";
-import { integer } from "../../src/integer";
+import { bigInteger, integer } from "../../src/integer";
 import { kubernetesAddress } from "../../src/kubernetes-address";
 import { number } from "../../src/number";
 import { string } from "../../src/string";
@@ -203,7 +203,7 @@ describe("Specification documents", () => {
     describe("when the integers are represented as a bigint", () => {
       it("describes required integers", async () => {
         process.env.AUSTENITE_SPEC = "true";
-        integer(BigInt, "WEIGHT", "weighting for this node");
+        bigInteger("WEIGHT", "weighting for this node");
         initialize();
 
         expect(stripUsage(mockConsole.readStdout())).toBe(
@@ -214,7 +214,7 @@ describe("Specification documents", () => {
 
       it("describes optional integers", async () => {
         process.env.AUSTENITE_SPEC = "true";
-        integer(BigInt, "WEIGHT", "weighting for this node", {
+        bigInteger("WEIGHT", "weighting for this node", {
           default: undefined,
         });
         initialize();
@@ -227,7 +227,7 @@ describe("Specification documents", () => {
 
       it("describes optional integers with defaults", async () => {
         process.env.AUSTENITE_SPEC = "true";
-        integer(BigInt, "WEIGHT", "weighting for this node", {
+        bigInteger("WEIGHT", "weighting for this node", {
           default: 10000000000000001n,
         });
         initialize();
@@ -242,7 +242,7 @@ describe("Specification documents", () => {
     describe("when the integers are represented as a number", () => {
       it("describes required integers", async () => {
         process.env.AUSTENITE_SPEC = "true";
-        integer(Number, "WEIGHT", "weighting for this node");
+        integer("WEIGHT", "weighting for this node");
         initialize();
 
         expect(stripUsage(mockConsole.readStdout())).toBe(
@@ -253,7 +253,7 @@ describe("Specification documents", () => {
 
       it("describes optional integers", async () => {
         process.env.AUSTENITE_SPEC = "true";
-        integer(Number, "WEIGHT", "weighting for this node", {
+        integer("WEIGHT", "weighting for this node", {
           default: undefined,
         });
         initialize();
@@ -266,7 +266,7 @@ describe("Specification documents", () => {
 
       it("describes optional integers with defaults", async () => {
         process.env.AUSTENITE_SPEC = "true";
-        integer(Number, "WEIGHT", "weighting for this node", {
+        integer("WEIGHT", "weighting for this node", {
           default: 101,
         });
         initialize();

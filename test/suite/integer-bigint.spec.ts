@@ -1,6 +1,6 @@
 import { Declaration } from "../../src/declaration";
 import { initialize, reset } from "../../src/environment";
-import { integer, Options } from "../../src/integer";
+import { bigInteger, Options } from "../../src/integer";
 import { hasType, noop } from "../helpers";
 
 const validValueTable = [
@@ -19,31 +19,31 @@ const invalidValueTable = [
   [
     "non-numeric",
     "a",
-    "value of AUSTENITE_INTEGER (a) is invalid: must be a bigint",
+    "value of AUSTENITE_INTEGER (a) is invalid: must be a big integer",
   ],
   [
     "too many decimal places",
     "1.2.3",
-    "value of AUSTENITE_INTEGER (1.2.3) is invalid: must be a bigint",
+    "value of AUSTENITE_INTEGER (1.2.3) is invalid: must be a big integer",
   ],
   [
     "non-integer",
     "1.2",
-    "value of AUSTENITE_INTEGER (1.2) is invalid: must be a bigint",
+    "value of AUSTENITE_INTEGER (1.2) is invalid: must be a big integer",
   ],
   [
     "contains whitespace",
     "1 .2",
-    "value of AUSTENITE_INTEGER ('1 .2') is invalid: must be a bigint",
+    "value of AUSTENITE_INTEGER ('1 .2') is invalid: must be a big integer",
   ],
   [
     "exponential",
     "1.23456e+5",
-    "value of AUSTENITE_INTEGER (1.23456e+5) is invalid: must be a bigint",
+    "value of AUSTENITE_INTEGER (1.23456e+5) is invalid: must be a big integer",
   ],
 ];
 
-describe("Integer declarations (bigint)", () => {
+describe("Big integer declarations", () => {
   let declaration: Declaration<bigint, Options<bigint>>;
   let env: typeof process.env;
 
@@ -59,7 +59,7 @@ describe("Integer declarations (bigint)", () => {
 
   describe("when no options are supplied", () => {
     beforeEach(() => {
-      declaration = integer(BigInt, "AUSTENITE_INTEGER", "<description>");
+      declaration = bigInteger("AUSTENITE_INTEGER", "<description>");
 
       initialize({ onInvalid: noop });
     });
@@ -75,7 +75,7 @@ describe("Integer declarations (bigint)", () => {
 
   describe("when empty options are supplied", () => {
     beforeEach(() => {
-      declaration = integer(BigInt, "AUSTENITE_INTEGER", "<description>", {});
+      declaration = bigInteger("AUSTENITE_INTEGER", "<description>", {});
 
       initialize({ onInvalid: noop });
     });
@@ -91,17 +91,13 @@ describe("Integer declarations (bigint)", () => {
 
   describe("when the declaration is required", () => {
     beforeEach(() => {
-      declaration = integer(BigInt, "AUSTENITE_INTEGER", "<description>");
+      declaration = bigInteger("AUSTENITE_INTEGER", "<description>");
     });
 
     describe(".value()", () => {
       it("returns a bigint value", () => {
         // this test is weird because it tests type inference
-        const declaration = integer(
-          BigInt,
-          "AUSTENITE_INTEGER",
-          "<description>"
-        );
+        const declaration = bigInteger("AUSTENITE_INTEGER", "<description>");
 
         process.env.AUSTENITE_INTEGER = "123456";
         initialize({ onInvalid: noop });
@@ -171,7 +167,7 @@ describe("Integer declarations (bigint)", () => {
 
   describe("when the declaration is optional", () => {
     beforeEach(() => {
-      declaration = integer(BigInt, "AUSTENITE_INTEGER", "<description>", {
+      declaration = bigInteger("AUSTENITE_INTEGER", "<description>", {
         default: undefined,
       });
     });
@@ -179,14 +175,9 @@ describe("Integer declarations (bigint)", () => {
     describe(".value()", () => {
       it("returns an optional bigint value", () => {
         // this test is weird because it tests type inference
-        const declaration = integer(
-          BigInt,
-          "AUSTENITE_INTEGER",
-          "<description>",
-          {
-            default: undefined,
-          }
-        );
+        const declaration = bigInteger("AUSTENITE_INTEGER", "<description>", {
+          default: undefined,
+        });
 
         initialize({ onInvalid: noop });
         const actual = declaration.value();
@@ -234,7 +225,7 @@ describe("Integer declarations (bigint)", () => {
     describe("when the value is empty", () => {
       describe("when there is a default value", () => {
         beforeEach(() => {
-          declaration = integer(BigInt, "AUSTENITE_INTEGER", "<description>", {
+          declaration = bigInteger("AUSTENITE_INTEGER", "<description>", {
             default: -123456n,
           });
 
@@ -250,7 +241,7 @@ describe("Integer declarations (bigint)", () => {
 
       describe("when there is no default value", () => {
         beforeEach(() => {
-          declaration = integer(BigInt, "AUSTENITE_INTEGER", "<description>", {
+          declaration = bigInteger("AUSTENITE_INTEGER", "<description>", {
             default: undefined,
           });
 
