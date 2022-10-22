@@ -1,15 +1,15 @@
 import { Temporal } from "@js-temporal/polyfill";
 import { readFile } from "fs/promises";
 import { join } from "path";
-import { bigInteger } from "../../src/big-integer";
-import { boolean } from "../../src/boolean";
-import { duration } from "../../src/duration";
-import { enumeration } from "../../src/enumeration";
+import { bigInteger } from "../../src/declaration/big-integer";
+import { boolean } from "../../src/declaration/boolean";
+import { duration } from "../../src/declaration/duration";
+import { enumeration } from "../../src/declaration/enumeration";
+import { integer } from "../../src/declaration/integer";
+import { kubernetesAddress } from "../../src/declaration/kubernetes-address";
+import { number } from "../../src/declaration/number";
+import { string } from "../../src/declaration/string";
 import { initialize, reset, setProcessExit } from "../../src/environment";
-import { integer } from "../../src/integer";
-import { kubernetesAddress } from "../../src/kubernetes-address";
-import { number } from "../../src/number";
-import { string } from "../../src/string";
 import { createMockConsole, MockConsole } from "../helpers";
 
 const fixturesPath = join(__dirname, "../fixture/specification");

@@ -1,16 +1,16 @@
-import { bigInteger } from "../../src/big-integer";
-import { boolean } from "../../src/boolean";
 import { Declaration, Options } from "../../src/declaration";
-import { duration } from "../../src/duration";
+import { bigInteger } from "../../src/declaration/big-integer";
+import { boolean } from "../../src/declaration/boolean";
+import { duration } from "../../src/declaration/duration";
 import {
   enumeration,
   Options as EnumerationOptions,
-} from "../../src/enumeration";
+} from "../../src/declaration/enumeration";
+import { integer } from "../../src/declaration/integer";
+import { kubernetesAddress } from "../../src/declaration/kubernetes-address";
+import { number } from "../../src/declaration/number";
+import { string } from "../../src/declaration/string";
 import { initialize, reset, setProcessExit } from "../../src/environment";
-import { integer } from "../../src/integer";
-import { kubernetesAddress } from "../../src/kubernetes-address";
-import { number } from "../../src/number";
-import { string } from "../../src/string";
 import { Results } from "../../src/validation";
 import { UndefinedError } from "../../src/variable";
 import { createMockConsole, MockConsole } from "../helpers";

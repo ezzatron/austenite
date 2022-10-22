@@ -1,5 +1,5 @@
-import { bigInteger, Options } from "../../src/big-integer";
 import { Declaration } from "../../src/declaration";
+import { bigInteger, Options } from "../../src/declaration/big-integer";
 import { initialize, reset } from "../../src/environment";
 import { hasType, noop } from "../helpers";
 

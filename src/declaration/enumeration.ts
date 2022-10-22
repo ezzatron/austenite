@@ -3,12 +3,12 @@ import {
   defaultFromOptions,
   Options as DeclarationOptions,
   Value,
-} from "./declaration";
-import { registerVariable } from "./environment";
-import { create as createExamples, Examples } from "./example";
-import { Maybe, resolve } from "./maybe";
-import { createEnum, Enum, InvalidEnumError } from "./schema";
-import { SpecError } from "./variable";
+} from "../declaration";
+import { registerVariable } from "../environment";
+import { create as createExamples, Examples } from "../example";
+import { Maybe, resolve } from "../maybe";
+import { createEnum, Enum, InvalidEnumError } from "../schema";
+import { SpecError } from "../variable";
 
 export type Members<T> = Record<string, Member<T>>;
 

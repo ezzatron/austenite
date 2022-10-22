@@ -1,5 +1,5 @@
 import { Declaration } from "../../src/declaration";
-import { enumeration, Options } from "../../src/enumeration";
+import { enumeration, Options } from "../../src/declaration/enumeration";
 import { initialize, reset } from "../../src/environment";
 import { hasType, noop } from "../helpers";
 

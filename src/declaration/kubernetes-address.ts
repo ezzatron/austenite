@@ -4,13 +4,13 @@ import {
   defaultFromOptions,
   Options as DeclarationOptions,
   Value,
-} from "./declaration";
-import { registerVariable } from "./environment";
-import { normalize } from "./error";
-import { create as createExamples, Example } from "./example";
-import { map, Maybe, resolve } from "./maybe";
-import { createScalar, createString, Scalar, toString } from "./schema";
-import { Variable, VariableSpec } from "./variable";
+} from "../declaration";
+import { registerVariable } from "../environment";
+import { normalize } from "../error";
+import { create as createExamples, Example } from "../example";
+import { map, Maybe, resolve } from "../maybe";
+import { createScalar, createString, Scalar, toString } from "../schema";
+import { Variable, VariableSpec } from "../variable";
 
 const IP_PATTERN = createIpPattern({ exact: true });
 

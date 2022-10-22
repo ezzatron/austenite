@@ -1,6 +1,6 @@
 import { Declaration } from "../../src/declaration";
+import { number, Options } from "../../src/declaration/number";
 import { initialize, reset } from "../../src/environment";
-import { number, Options } from "../../src/number";
 import { hasType, noop } from "../helpers";
 
 const validValueTable = [

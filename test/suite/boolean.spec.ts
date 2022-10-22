@@ -1,5 +1,5 @@
-import { boolean, Options } from "../../src/boolean";
 import { Declaration } from "../../src/declaration";
+import { boolean, Options } from "../../src/declaration/boolean";
 import { initialize, reset } from "../../src/environment";
 import { hasType, noop } from "../helpers";
 

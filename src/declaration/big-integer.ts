@@ -3,19 +3,19 @@ import {
   defaultFromOptions,
   Options as DeclarationOptions,
   Value,
-} from "./declaration";
-import { registerVariable } from "./environment";
-import { create as createExamples, Example, Examples } from "./example";
-import { Maybe, resolve } from "./maybe";
-import { createScalar, Scalar, toString } from "./schema";
+} from "../declaration";
+import { registerVariable } from "../environment";
+import { create as createExamples, Example, Examples } from "../example";
+import { Maybe, resolve } from "../maybe";
+import { createScalar, Scalar, toString } from "../schema";
 
 export type Options<T> = DeclarationOptions<T>;
 
-export function integer<O extends Options<number>>(
+export function bigInteger<O extends Options<bigint>>(
   name: string,
   description: string,
   options: O = {} as O
-): Declaration<number, O> {
+): Declaration<bigint, O> {
   const def = defaultFromOptions(options);
   const schema = createSchema();
 
@@ -29,26 +29,26 @@ export function integer<O extends Options<number>>(
 
   return {
     value() {
-      return resolve(v.nativeValue()) as Value<number, O>;
+      return resolve(v.nativeValue()) as Value<bigint, O>;
     },
   };
 }
 
-function createSchema(): Scalar<number> {
-  function unmarshal(v: string): number {
-    const n = Number(v);
-
-    if (!Number.isInteger(n)) throw new Error("must be an integer");
-
-    return n;
+function createSchema(): Scalar<bigint> {
+  function unmarshal(v: string): bigint {
+    try {
+      return BigInt(v);
+    } catch {
+      throw new Error("must be a big integer");
+    }
   }
 
   return createScalar("integer", toString, unmarshal);
 }
 
 function buildExamples(
-  schema: Scalar<number>,
-  def: Maybe<number | undefined>
+  schema: Scalar<bigint>,
+  def: Maybe<bigint | undefined>
 ): Examples {
   let defExample: Example | undefined;
 
@@ -68,10 +68,6 @@ function buildExamples(
     {
       canonical: "-123456",
       description: "negative",
-    },
-    {
-      canonical: "1.23456e+5",
-      description: "exponential",
     },
     {
       canonical: "0x1E240",

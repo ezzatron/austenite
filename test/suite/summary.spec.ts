@@ -1,20 +1,21 @@
 import { Temporal } from "@js-temporal/polyfill";
 import { EOL } from "os";
-import { duration, enumeration } from "../../src";
-import { bigInteger } from "../../src/big-integer";
-import { boolean } from "../../src/boolean";
+import { bigInteger } from "../../src/declaration/big-integer";
+import { boolean } from "../../src/declaration/boolean";
+import { duration } from "../../src/declaration/duration";
+import { enumeration } from "../../src/declaration/enumeration";
+import { integer } from "../../src/declaration/integer";
+import { kubernetesAddress } from "../../src/declaration/kubernetes-address";
+import { number } from "../../src/declaration/number";
+import { string } from "../../src/declaration/string";
 import {
   initialize,
   registerVariable,
   reset,
   setProcessExit,
 } from "../../src/environment";
-import { integer } from "../../src/integer";
-import { kubernetesAddress } from "../../src/kubernetes-address";
 import { undefinedValue } from "../../src/maybe";
-import { number } from "../../src/number";
 import { createString } from "../../src/schema";
-import { string } from "../../src/string";
 import { VariableSpec } from "../../src/variable";
 import { createMockConsole, MockConsole } from "../helpers";
 
