@@ -54,7 +54,7 @@ export DEBUG=false # false
 
 > number of atoms on earth
 
-This variable **MUST** be set to a non-empty **integer**.
+This variable **MUST** be set to a non-empty **big integer**.
 If left undefined the application will print usage information to `STDERR` then
 exit with a non-zero exit code.
 

@@ -23,5 +23,5 @@ artifacts/dist: tsconfig.build.json tsconfig.json artifacts/link-dependencies.to
 	$(JS_EXEC) tsc -p "$<"
 	@touch "$@"
 
-ENVIRONMENT.md: artifacts/link-dependencies.touch $(JS_SOURCE_FILES)  $(JS_TEST_FILES)
+ENVIRONMENT.md: artifacts/dist $(JS_TEST_FILES)
 	AUSTENITE_SPEC=true npx --package=ts-node ts-node-esm test/fixture/example/run.ts > "$@"
