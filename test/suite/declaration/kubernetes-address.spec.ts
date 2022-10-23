@@ -1,7 +1,11 @@
-import { initialize, kubernetesAddress, KubernetesAddress } from "../../../src";
-import { Declaration } from "../../../src/declaration";
-import { Options } from "../../../src/declaration/kubernetes-address";
-import { hasType, noop } from "../../helpers";
+import { Declaration } from "../../../src/declaration.js";
+import { Options } from "../../../src/declaration/kubernetes-address.js";
+import {
+  initialize,
+  kubernetesAddress,
+  KubernetesAddress,
+} from "../../../src/index.js";
+import { hasType, noop } from "../../helpers.js";
 
 const invalidHostValueTable = [
   [

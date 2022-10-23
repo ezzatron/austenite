@@ -1,7 +1,7 @@
-import { initialize, integer } from "../../../src";
-import { Declaration } from "../../../src/declaration";
-import { Options } from "../../../src/declaration/integer";
-import { hasType, noop } from "../../helpers";
+import { Declaration } from "../../../src/declaration.js";
+import { Options } from "../../../src/declaration/integer.js";
+import { initialize, integer } from "../../../src/index.js";
+import { hasType, noop } from "../../helpers.js";
 
 const validValueTable = [
   ["zero", "0", 0],

@@ -3,11 +3,11 @@ import {
   defaultFromOptions,
   Options as DeclarationOptions,
   Value,
-} from "../declaration";
-import { registerVariable } from "../environment";
-import { create as createExamples, Example, Examples } from "../example";
-import { Maybe, resolve } from "../maybe";
-import { createString, Scalar } from "../schema";
+} from "../declaration.js";
+import { registerVariable } from "../environment.js";
+import { create as createExamples, Example, Examples } from "../example.js";
+import { Maybe, resolve } from "../maybe.js";
+import { createString, Scalar } from "../schema.js";
 
 export type Options = DeclarationOptions<string>;
 

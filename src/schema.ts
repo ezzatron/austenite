@@ -1,4 +1,4 @@
-import { quote } from "./shell";
+import { quote } from "./shell.js";
 
 export interface Schema<T> {
   marshal(value: T): string;

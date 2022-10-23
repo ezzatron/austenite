@@ -1,13 +1,12 @@
-import type { ListItem, PhrasingContent } from "mdast-util-from-markdown/lib";
+import type { Content, ListItem, PhrasingContent } from "mdast";
 import { toMarkdown } from "mdast-util-to-markdown";
-import { Content } from "mdast-util-to-markdown/lib/types";
 import { basename } from "path";
-import { toContent, toContentArray } from "./markdown";
-import { Visitor } from "./schema";
-import { quote } from "./shell";
-import { create as createTable } from "./table";
-import { usage } from "./usage";
-import { Variable } from "./variable";
+import { toContent, toContentArray } from "./markdown.js";
+import { Visitor } from "./schema.js";
+import { quote } from "./shell.js";
+import { create as createTable } from "./table.js";
+import { usage } from "./usage.js";
+import { Variable } from "./variable.js";
 
 export function render(variables: Variable<unknown>[]): string {
   const app = basename(process.argv[1]);

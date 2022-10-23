@@ -1,7 +1,7 @@
-import { initialize, string } from "../../../src";
-import { Declaration } from "../../../src/declaration";
-import { Options } from "../../../src/declaration/string";
-import { hasType, noop } from "../../helpers";
+import { Declaration } from "../../../src/declaration.js";
+import { Options } from "../../../src/declaration/string.js";
+import { initialize, string } from "../../../src/index.js";
+import { hasType, noop } from "../../helpers.js";
 
 describe("String declarations", () => {
   let declaration: Declaration<string, Options>;

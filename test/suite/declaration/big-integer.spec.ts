@@ -1,7 +1,7 @@
-import { bigInteger, initialize } from "../../../src";
-import { Declaration } from "../../../src/declaration";
-import { Options } from "../../../src/declaration/big-integer";
-import { hasType, noop } from "../../helpers";
+import { Declaration } from "../../../src/declaration.js";
+import { Options } from "../../../src/declaration/big-integer.js";
+import { bigInteger, initialize } from "../../../src/index.js";
+import { hasType, noop } from "../../helpers.js";
 
 const validValueTable = [
   ["zero", "0", 0n],

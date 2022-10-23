@@ -1,5 +1,7 @@
+import { jest } from "@jest/globals";
 import { Temporal } from "@js-temporal/polyfill";
 import { EOL } from "os";
+import { registerVariable } from "../../src/environment.js";
 import {
   bigInteger,
   boolean,
@@ -11,12 +13,11 @@ import {
   number,
   string,
   url,
-} from "../../src";
-import { registerVariable } from "../../src/environment";
-import { undefinedValue } from "../../src/maybe";
-import { createString } from "../../src/schema";
-import { VariableSpec } from "../../src/variable";
-import { createMockConsole, MockConsole } from "../helpers";
+} from "../../src/index.js";
+import { undefinedValue } from "../../src/maybe.js";
+import { createString } from "../../src/schema.js";
+import { VariableSpec } from "../../src/variable.js";
+import { createMockConsole, MockConsole } from "../helpers.js";
 
 const { Duration } = Temporal;
 

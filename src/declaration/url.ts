@@ -3,13 +3,13 @@ import {
   defaultFromOptions,
   Options as DeclarationOptions,
   Value,
-} from "../declaration";
-import { registerVariable } from "../environment";
-import { normalize } from "../error";
-import { create as createExamples, Example, Examples } from "../example";
-import { Maybe, resolve } from "../maybe";
-import { createScalar, Scalar, toString } from "../schema";
-import { Constraint, SpecError } from "../variable";
+} from "../declaration.js";
+import { registerVariable } from "../environment.js";
+import { normalize } from "../error.js";
+import { create as createExamples, Example, Examples } from "../example.js";
+import { Maybe, resolve } from "../maybe.js";
+import { createScalar, Scalar, toString } from "../schema.js";
+import { Constraint, SpecError } from "../variable.js";
 
 // as per https://www.rfc-editor.org/rfc/rfc3986#section-3.1
 const VALID_PROTOCOL_PATTERN = /^[a-zA-Z][a-zA-Z0-9.+-]*:$/;

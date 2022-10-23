@@ -1,4 +1,4 @@
-import { definedValue, Maybe, undefinedValue } from "./maybe";
+import { definedValue, Maybe, undefinedValue } from "./maybe.js";
 
 export interface Declaration<T, O extends Options<unknown>> {
   value(): Value<T, O>;

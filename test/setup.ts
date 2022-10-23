@@ -1,4 +1,5 @@
-import { reset } from "../src/environment";
+import { jest } from "@jest/globals";
+import { reset } from "../src/environment.js";
 
 let argv: typeof process.argv;
 let env: typeof process.env;

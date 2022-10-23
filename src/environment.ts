@@ -1,8 +1,12 @@
 import { EOL } from "os";
-import { render as renderSpecification } from "./specification";
-import { render as renderSummary } from "./summary";
-import { Results, validate } from "./validation";
-import { create as createVariable, Variable, VariableSpec } from "./variable";
+import { render as renderSpecification } from "./specification.js";
+import { render as renderSummary } from "./summary.js";
+import { Results, validate } from "./validation.js";
+import {
+  create as createVariable,
+  Variable,
+  VariableSpec,
+} from "./variable.js";
 
 let state: State = createInitialState();
 

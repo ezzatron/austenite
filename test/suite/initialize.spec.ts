@@ -1,3 +1,6 @@
+import { jest } from "@jest/globals";
+import { Declaration, Options } from "../../src/declaration.js";
+import { Options as EnumerationOptions } from "../../src/declaration/enumeration.js";
 import {
   bigInteger,
   boolean,
@@ -9,12 +12,10 @@ import {
   number,
   string,
   url,
-} from "../../src";
-import { Declaration, Options } from "../../src/declaration";
-import { Options as EnumerationOptions } from "../../src/declaration/enumeration";
-import { Results } from "../../src/validation";
-import { UndefinedError } from "../../src/variable";
-import { createMockConsole, MockConsole } from "../helpers";
+} from "../../src/index.js";
+import { Results } from "../../src/validation.js";
+import { UndefinedError } from "../../src/variable.js";
+import { createMockConsole, MockConsole } from "../helpers.js";
 
 type DeclarationFactory = (
   options?: Options<unknown>

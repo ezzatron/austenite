@@ -1,13 +1,11 @@
-export { bigInteger } from "./declaration/big-integer";
-export { boolean } from "./declaration/boolean";
-export { duration } from "./declaration/duration";
-export { enumeration } from "./declaration/enumeration";
-export { integer } from "./declaration/integer";
-export {
-  kubernetesAddress,
-  KubernetesAddress,
-} from "./declaration/kubernetes-address";
-export { number } from "./declaration/number";
-export { string } from "./declaration/string";
-export { url } from "./declaration/url";
-export { initialize } from "./environment";
+export { bigInteger } from "./declaration/big-integer.js";
+export { boolean } from "./declaration/boolean.js";
+export { duration } from "./declaration/duration.js";
+export { enumeration } from "./declaration/enumeration.js";
+export { integer } from "./declaration/integer.js";
+export { kubernetesAddress } from "./declaration/kubernetes-address.js";
+export type { KubernetesAddress } from "./declaration/kubernetes-address.js";
+export { number } from "./declaration/number.js";
+export { string } from "./declaration/string.js";
+export { url } from "./declaration/url.js";
+export { initialize } from "./environment.js";

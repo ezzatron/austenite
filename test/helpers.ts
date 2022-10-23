@@ -1,3 +1,4 @@
+import { jest } from "@jest/globals";
 import { Console } from "node:console";
 import { Transform } from "node:stream";
 

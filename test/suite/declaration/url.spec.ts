@@ -1,7 +1,7 @@
-import { initialize, url } from "../../../src";
-import { Declaration } from "../../../src/declaration";
-import { Options } from "../../../src/declaration/url";
-import { hasType, noop } from "../../helpers";
+import { Declaration } from "../../../src/declaration.js";
+import { Options } from "../../../src/declaration/url.js";
+import { initialize, url } from "../../../src/index.js";
+import { hasType, noop } from "../../helpers.js";
 
 const validValueTable = [
   [

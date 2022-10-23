@@ -1,3 +1,5 @@
+export NODE_OPTIONS := --experimental-vm-modules --redirect-warnings=artifacts/node-warnings
+
 -include .makefiles/Makefile
 -include .makefiles/pkg/js/v1/Makefile
 -include .makefiles/pkg/js/v1/with-yarn.mk

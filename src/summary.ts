@@ -1,8 +1,8 @@
-import { Visitor } from "./schema";
-import { quote } from "./shell";
-import { create as createTable } from "./table";
-import { Result, Results } from "./validation";
-import { ValueError, Variable } from "./variable";
+import { Visitor } from "./schema.js";
+import { quote } from "./shell.js";
+import { create as createTable } from "./table.js";
+import { Result, Results } from "./validation.js";
+import { ValueError, Variable } from "./variable.js";
 
 const ATTENTION = "❯";
 const INVALID = "✗";

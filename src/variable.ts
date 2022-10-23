@@ -1,9 +1,9 @@
-import { readVariable } from "./environment";
-import { normalize } from "./error";
-import { Examples } from "./example";
-import { definedValue, map, Maybe, undefinedValue } from "./maybe";
-import { Schema } from "./schema";
-import { quote } from "./shell";
+import { readVariable } from "./environment.js";
+import { normalize } from "./error.js";
+import { Examples } from "./example.js";
+import { definedValue, map, Maybe, undefinedValue } from "./maybe.js";
+import { Schema } from "./schema.js";
+import { quote } from "./shell.js";
 
 export interface VariableSpec<T> {
   readonly name: string;

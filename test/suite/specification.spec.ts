@@ -1,6 +1,8 @@
+import { jest } from "@jest/globals";
 import { Temporal } from "@js-temporal/polyfill";
 import { readFile } from "fs/promises";
 import { join } from "path";
+import { fileURLToPath } from "url";
 import {
   bigInteger,
   boolean,
@@ -12,10 +14,12 @@ import {
   number,
   string,
   url,
-} from "../../src";
-import { createMockConsole, MockConsole } from "../helpers";
+} from "../../src/index.js";
+import { createMockConsole, MockConsole } from "../helpers.js";
 
-const fixturesPath = join(__dirname, "../fixture/specification");
+const fixturesPath = fileURLToPath(
+  new URL("../fixture/specification", import.meta.url)
+);
 
 const { Duration } = Temporal;
 

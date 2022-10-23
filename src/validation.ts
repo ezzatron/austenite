@@ -1,6 +1,6 @@
-import { normalize } from "./error";
-import { Maybe } from "./maybe";
-import { Value, Variable } from "./variable";
+import { normalize } from "./error.js";
+import { Maybe } from "./maybe.js";
+import { Value, Variable } from "./variable.js";
 
 export function validate(variables: Variable<unknown>[]): [boolean, Results] {
   const results: Results = [];

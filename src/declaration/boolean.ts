@@ -3,12 +3,12 @@ import {
   defaultFromOptions,
   Options as DeclarationOptions,
   Value,
-} from "../declaration";
-import { registerVariable } from "../environment";
-import { create as createExamples, Examples } from "../example";
-import { Maybe, resolve } from "../maybe";
-import { createEnum, Enum, InvalidEnumError } from "../schema";
-import { SpecError } from "../variable";
+} from "../declaration.js";
+import { registerVariable } from "../environment.js";
+import { create as createExamples, Examples } from "../example.js";
+import { Maybe, resolve } from "../maybe.js";
+import { createEnum, Enum, InvalidEnumError } from "../schema.js";
+import { SpecError } from "../variable.js";
 
 export interface Options extends DeclarationOptions<boolean> {
   readonly literals?: Literals;

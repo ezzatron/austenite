@@ -1,7 +1,6 @@
-import type { Definition, LinkReference } from "mdast-util-from-markdown/lib";
-import { Content } from "mdast-util-to-markdown/lib/types";
-import { toContentArray } from "./markdown";
-import { Variable } from "./variable";
+import type { Content, Definition, LinkReference } from "mdast";
+import { toContentArray } from "./markdown.js";
+import { Variable } from "./variable.js";
 
 export function usage(app: string, variables: Variable<unknown>[]): Content[] {
   if (variables.length < 1) return [];

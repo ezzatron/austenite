@@ -2,7 +2,8 @@
   "compilerOptions": {
     "declaration": true,
     "esModuleInterop": true,
-    "moduleResolution": "node",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "noEmitOnError": true,
     "sourceMap": true,
     "strict": true,

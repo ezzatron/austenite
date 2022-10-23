@@ -4,11 +4,11 @@ import {
   defaultFromOptions,
   Options as DeclarationOptions,
   Value,
-} from "../declaration";
-import { registerVariable } from "../environment";
-import { create as createExamples, Example, Examples } from "../example";
-import { Maybe, resolve } from "../maybe";
-import { createScalar, Scalar, toString } from "../schema";
+} from "../declaration.js";
+import { registerVariable } from "../environment.js";
+import { create as createExamples, Example, Examples } from "../example.js";
+import { Maybe, resolve } from "../maybe.js";
+import { createScalar, Scalar, toString } from "../schema.js";
 
 const { Duration } = Temporal;
 type Duration = Temporal.Duration;

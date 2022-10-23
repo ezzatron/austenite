@@ -1,13 +1,21 @@
 /** @type {import('jest').Config} */
 const config = {
-  preset: "es-jest",
-  transform: {
-    "\\.tsx?$": "ts-jest",
+  preset: "ts-jest/presets/default-esm",
+  moduleNameMapper: {
+    "^(\\.{1,2}/.*)\\.js$": "$1",
   },
-  transformIgnorePatterns: [],
+  transform: {
+    "^.+\\.tsx?$": [
+      "ts-jest",
+      {
+        useESM: true,
+        isolatedModules: true,
+      },
+    ],
+  },
   collectCoverageFrom: ["src/**/*"],
   coverageDirectory: "artifacts/coverage/jest",
-  testMatch: ["<rootDir>/test/suite/**/*.spec.*"],
+  testMatch: ["<rootDir>/test/suite/**/*.spec.ts"],
   setupFilesAfterEnv: ["<rootDir>/test/setup.ts"],
   resetMocks: true,
 };

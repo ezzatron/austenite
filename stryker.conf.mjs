@@ -3,6 +3,7 @@
 const config = {
   packageManager: "yarn",
   testRunner: "jest",
+  testRunnerNodeArgs: ["--experimental-vm-modules"],
   checkers: ["typescript"],
   reporters: ["html", "clear-text", "progress"],
   tempDirName: "artifacts/stryker/temp",

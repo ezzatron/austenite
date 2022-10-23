@@ -4,13 +4,13 @@ import {
   defaultFromOptions,
   Options as DeclarationOptions,
   Value,
-} from "../declaration";
-import { registerVariable } from "../environment";
-import { normalize } from "../error";
-import { create as createExamples, Example } from "../example";
-import { map, Maybe, resolve } from "../maybe";
-import { createScalar, createString, Scalar, toString } from "../schema";
-import { Variable } from "../variable";
+} from "../declaration.js";
+import { registerVariable } from "../environment.js";
+import { normalize } from "../error.js";
+import { create as createExamples, Example } from "../example.js";
+import { map, Maybe, resolve } from "../maybe.js";
+import { createScalar, createString, Scalar, toString } from "../schema.js";
+import { Variable } from "../variable.js";
 
 const IP_PATTERN = createIpPattern({ exact: true });
 
