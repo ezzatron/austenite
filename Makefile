@@ -1,5 +1,7 @@
 export NODE_OPTIONS := --experimental-vm-modules --redirect-warnings=artifacts/node-warnings
 
+GENERATED_FILES += ENVIRONMENT.md
+
 -include .makefiles/Makefile
 -include .makefiles/pkg/js/v1/Makefile
 -include .makefiles/pkg/js/v1/with-yarn.mk
@@ -10,7 +12,16 @@ export NODE_OPTIONS := --experimental-vm-modules --redirect-warnings=artifacts/n
 
 ################################################################################
 
+.PHONY: run-example
+run-example:
+	npx --package=ts-node ts-node-esm test/fixture/example/run.ts
+
+################################################################################
+
 artifacts/dist: tsconfig.build.json tsconfig.json artifacts/link-dependencies.touch $(JS_SOURCE_FILES)
 	@rm -rf "$@"
 	$(JS_EXEC) tsc -p "$<"
 	@touch "$@"
+
+ENVIRONMENT.md: artifacts/link-dependencies.touch $(JS_SOURCE_FILES)  $(JS_TEST_FILES)
+	AUSTENITE_SPEC=true npx --package=ts-node ts-node-esm test/fixture/example/run.ts > "$@"

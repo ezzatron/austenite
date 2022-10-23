@@ -1,0 +1,10 @@
+export CDN_URL=host.example.org
+export DEBUG=yes
+export EARTH_ATOM_COUNT=5.9722e24
+export GRPC_TIMEOUT=10S
+export LOG_LEVEL=silly
+export READ_DSN=
+export REDIS_PRIMARY_SERVICE_HOST=.redis.example.org
+export REDIS_PRIMARY_SERVICE_PORT=65536
+export SAMPLE_RATIO=1/100
+export WEIGHT=123.456

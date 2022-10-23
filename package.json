@@ -37,6 +37,7 @@
     "mdast-util-to-markdown": "^1.3.0"
   },
   "devDependencies": {
+    "@eloquent/austenite": "link:.",
     "@jest/globals": "^29.2.1",
     "@stryker-mutator/core": "^6.2.3",
     "@stryker-mutator/jest-runner": "^6.2.3",
