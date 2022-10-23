@@ -1,11 +1,11 @@
 {
-  "name": "@env-iron/austenite",
+  "name": "@eloquent/austenite",
   "version": "0.0.0",
   "description": "Declarative environment variables for Node.js.",
   "keywords": [],
-  "repository": "env-iron/austenite",
-  "bugs": "https://github.com/env-iron/austenite/issues",
-  "homepage": "https://github.com/env-iron/austenite",
+  "repository": "eloquent/austenite",
+  "bugs": "https://github.com/eloquent/austenite/issues",
+  "homepage": "https://github.com/eloquent/austenite",
   "author": "Erin Millard <contact@erin.id.au>",
   "license": "MIT",
   "publishConfig": {
