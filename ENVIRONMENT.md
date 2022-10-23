@@ -171,7 +171,7 @@ export WEIGHT=0b11110001001000000 # binary
 ## Usage Examples
 
 <details>
-<summary>Kubernetes</summary>
+<summary><strong>Kubernetes</strong></summary><br>
 
 This example shows how to define the environment variables needed by `run.ts`
 on a [Kubernetes container] within a Kubenetes deployment manifest.
@@ -250,7 +250,7 @@ spec:
 </details>
 
 <details>
-<summary>Docker</summary>
+<summary><strong>Docker</strong></summary><br>
 
 This example shows how to define the environment variables needed by `run.ts`
 when running as a [Docker service] defined in a Docker compose file.

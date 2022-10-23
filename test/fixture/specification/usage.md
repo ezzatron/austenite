@@ -30,7 +30,7 @@ export DEBUG=false # false
 ## Usage Examples
 
 <details>
-<summary>Kubernetes</summary>
+<summary><strong>Kubernetes</strong></summary><br>
 
 This example shows how to define the environment variables needed by `<app>`
 on a [Kubernetes container] within a Kubenetes deployment manifest.
@@ -82,7 +82,7 @@ spec:
 </details>
 
 <details>
-<summary>Docker</summary>
+<summary><strong>Docker</strong></summary><br>
 
 This example shows how to define the environment variables needed by `<app>`
 when running as a [Docker service] defined in a Docker compose file.

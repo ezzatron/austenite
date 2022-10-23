@@ -29,7 +29,7 @@ function kubernetesUsage(
   return [
     {
       type: "html",
-      value: "<details>\n<summary>Kubernetes</summary>",
+      value: "<details>\n<summary><strong>Kubernetes</strong></summary><br>",
     },
     {
       type: "paragraph",
@@ -151,7 +151,7 @@ function dockerUsage(app: string, variables: Variable<unknown>[]): Content[] {
   return [
     {
       type: "html",
-      value: "<details>\n<summary>Docker</summary>",
+      value: "<details>\n<summary><strong>Docker</strong></summary><br>",
     },
     {
       type: "paragraph",
