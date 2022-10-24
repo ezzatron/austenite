@@ -13,7 +13,7 @@ const config = {
       },
     ],
   },
-  collectCoverageFrom: ["src/**/*"],
+  collectCoverageFrom: ["<rootDir>/src/**/*"],
   coverageDirectory: "artifacts/coverage/jest",
   testMatch: ["<rootDir>/test/suite/**/*.spec.ts"],
   setupFilesAfterEnv: ["<rootDir>/test/setup.ts"],

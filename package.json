@@ -12,10 +12,15 @@
     "access": "public"
   },
   "type": "module",
-  "main": "artifacts/dist/index.js",
-  "types": "artifacts/dist/index.d.ts",
+  "main": "artifacts/dist/esm/index.js",
+  "types": "artifacts/dist/types/index.d.ts",
   "exports": {
-    ".": "./artifacts/dist/index.js"
+    ".": {
+      "types": "./artifacts/dist/types/index.d.ts",
+      "import": "./artifacts/dist/esm/index.js",
+      "require": "./artifacts/dist/cjs/index.js",
+      "default": "./artifacts/dist/esm/index.js"
+    }
   },
   "sideEffects": false,
   "files": [
@@ -25,9 +30,7 @@
     "node": ">=14"
   },
   "scripts": {
-    "prepublishOnly": "tsc -p tsconfig.build.json",
-    "size-limit-build": "tsc -p tsconfig.build.json",
-    "size-limit-clean": "rm -rf artifacts/dist"
+    "prepublishOnly": "tsc -p tsconfig.build.json"
   },
   "dependencies": {
     "@js-temporal/polyfill": "^0.4.2",
@@ -37,7 +40,6 @@
     "mdast-util-to-markdown": "^1.3.0"
   },
   "devDependencies": {
-    "@eloquent/austenite": "link:.",
     "@jest/globals": "^29.2.1",
     "@stryker-mutator/core": "^6.2.3",
     "@stryker-mutator/jest-runner": "^6.2.3",

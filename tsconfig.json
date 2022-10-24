@@ -1,12 +1,13 @@
 {
   "compilerOptions": {
     "declaration": true,
+    "declarationDir": "artifacts/dist/types",
     "esModuleInterop": true,
-    "module": "nodenext",
-    "moduleResolution": "nodenext",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "noEmitOnError": true,
     "sourceMap": true,
     "strict": true,
-    "target": "esnext"
+    "target": "ESNext"
   }
 }

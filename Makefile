@@ -18,10 +18,18 @@ run-example:
 
 ################################################################################
 
-artifacts/dist: tsconfig.build.json tsconfig.json artifacts/link-dependencies.touch $(JS_SOURCE_FILES)
+artifacts/dist: artifacts/dist/cjs artifacts/dist/esm
+	@touch "$@"
+
+artifacts/dist/cjs: tsconfig.build.cjs.json tsconfig.json artifacts/link-dependencies.touch $(JS_SOURCE_FILES)
 	@rm -rf "$@"
 	$(JS_EXEC) tsc -p "$<"
 	@touch "$@"
 
-ENVIRONMENT.md: artifacts/dist $(JS_TEST_FILES)
+artifacts/dist/esm: tsconfig.build.esm.json tsconfig.json artifacts/link-dependencies.touch $(JS_SOURCE_FILES)
+	@rm -rf "$@"
+	$(JS_EXEC) tsc -p "$<"
+	@touch "$@"
+
+ENVIRONMENT.md: artifacts/link-dependencies.touch $(JS_SOURCE_FILES) $(JS_TEST_FILES)
 	AUSTENITE_SPEC=true npx --package=ts-node ts-node-esm test/fixture/example/run.ts > "$@"

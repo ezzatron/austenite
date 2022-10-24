@@ -9,7 +9,7 @@ import {
   number,
   string,
   url,
-} from "@eloquent/austenite";
+} from "../../../src/index.js";
 
 export const cdnUrl = url("CDN_URL", "CDN to use when serving static assets");
 
