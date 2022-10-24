@@ -12,7 +12,7 @@ document only shows those variables defined using [Austenite].
 
 ## Index
 
--   [`WEIGHT`](#WEIGHT) — weighting for this node
+- [`WEIGHT`](#WEIGHT) — weighting for this node
 
 ## Specification
 

@@ -12,7 +12,7 @@ document only shows those variables defined using [Austenite].
 
 ## Index
 
--   [`DEBUG`](#DEBUG) — enable or disable debugging features
+- [`DEBUG`](#DEBUG) — enable or disable debugging features
 
 ## Specification
 

@@ -12,7 +12,7 @@ document only shows those variables defined using [Austenite].
 
 ## Index
 
--   [`DEBUG`](#DEBUG) — enable or disable debugging features
+- [`DEBUG`](#DEBUG) — enable or disable debugging features
 
 ## Specification
 
@@ -29,8 +29,7 @@ export DEBUG=false # false
 
 ## Usage Examples
 
-<details>
-<summary><strong>Kubernetes</strong></summary><br>
+<details><summary><strong>Kubernetes</strong></summary><br>
 
 This example shows how to define the environment variables needed by `<app>`
 on a [Kubernetes container] within a Kubenetes deployment manifest.
@@ -81,8 +80,7 @@ spec:
 
 </details>
 
-<details>
-<summary><strong>Docker</strong></summary><br>
+<details><summary><strong>Docker</strong></summary><br>
 
 This example shows how to define the environment variables needed by `<app>`
 when running as a [Docker service] defined in a Docker compose file.

@@ -12,16 +12,16 @@ document only shows those variables defined using [Austenite].
 
 ## Index
 
--   [`CDN_URL`](#CDN_URL) — CDN to use when serving static assets
--   [`DEBUG`](#DEBUG) — enable or disable debugging features
--   [`EARTH_ATOM_COUNT`](#EARTH_ATOM_COUNT) — number of atoms on earth
--   [`GRPC_TIMEOUT`](#GRPC_TIMEOUT) — gRPC request timeout
--   [`LOG_LEVEL`](#LOG_LEVEL) — the minimum log level to record
--   [`READ_DSN`](#READ_DSN) — database connection string for read-models
--   [`REDIS_PRIMARY_SERVICE_HOST`](#REDIS_PRIMARY_SERVICE_HOST) — kubernetes `redis-primary` service host
--   [`REDIS_PRIMARY_SERVICE_PORT`](#REDIS_PRIMARY_SERVICE_PORT) — kubernetes `redis-primary` service port
--   [`SAMPLE_RATIO`](#SAMPLE_RATIO) — ratio of requests to sample
--   [`WEIGHT`](#WEIGHT) — weighting for this node
+- [`CDN_URL`](#CDN_URL) — CDN to use when serving static assets
+- [`DEBUG`](#DEBUG) — enable or disable debugging features
+- [`EARTH_ATOM_COUNT`](#EARTH_ATOM_COUNT) — number of atoms on earth
+- [`GRPC_TIMEOUT`](#GRPC_TIMEOUT) — gRPC request timeout
+- [`LOG_LEVEL`](#LOG_LEVEL) — the minimum log level to record
+- [`READ_DSN`](#READ_DSN) — database connection string for read-models
+- [`REDIS_PRIMARY_SERVICE_HOST`](#REDIS_PRIMARY_SERVICE_HOST) — kubernetes `redis-primary` service host
+- [`REDIS_PRIMARY_SERVICE_PORT`](#REDIS_PRIMARY_SERVICE_PORT) — kubernetes `redis-primary` service port
+- [`SAMPLE_RATIO`](#SAMPLE_RATIO) — ratio of requests to sample
+- [`WEIGHT`](#WEIGHT) — weighting for this node
 
 ## Specification
 
@@ -170,8 +170,7 @@ export WEIGHT=0b11110001001000000 # binary
 
 ## Usage Examples
 
-<details>
-<summary><strong>Kubernetes</strong></summary><br>
+<details><summary><strong>Kubernetes</strong></summary><br>
 
 This example shows how to define the environment variables needed by `run.ts`
 on a [Kubernetes container] within a Kubenetes deployment manifest.
@@ -249,8 +248,7 @@ spec:
 
 </details>
 
-<details>
-<summary><strong>Docker</strong></summary><br>
+<details><summary><strong>Docker</strong></summary><br>
 
 This example shows how to define the environment variables needed by `run.ts`
 when running as a [Docker service] defined in a Docker compose file.

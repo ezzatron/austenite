@@ -12,7 +12,7 @@ document only shows those variables defined using [Austenite].
 
 ## Index
 
--   [`LOGO`](#LOGO) — Main logo image
+- [`LOGO`](#LOGO) — Main logo image
 
 ## Specification
 

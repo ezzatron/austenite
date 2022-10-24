@@ -1,11 +1,13 @@
-import { fromMarkdown } from "mdast-util-from-markdown";
-
-export function toContentArray<T>(markdown: string): T[] {
-  return fromMarkdown(markdown).children as T[];
+export function code(language: string, content: string): string {
+  return `\`\`\`${language}
+${content}
+\`\`\``;
 }
 
-export function toContent<T>(markdown: string): T {
-  const content = toContentArray<T>(markdown);
+export function inlineCode(content: string): string {
+  return `\`${content.replaceAll("`", "``")}\``;
+}
 
-  return content[0];
+export function strong(content: string): string {
+  return `**${content.replaceAll("*", "\\*")}**`;
 }

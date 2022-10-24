@@ -12,7 +12,7 @@ document only shows those variables defined using [Austenite].
 
 ## Index
 
--   [`SOCKET_SERVER`](#SOCKET_SERVER) — WebSocket server to use
+- [`SOCKET_SERVER`](#SOCKET_SERVER) — WebSocket server to use
 
 ## Specification
 

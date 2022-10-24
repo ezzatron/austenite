@@ -12,7 +12,7 @@ document only shows those variables defined using [Austenite].
 
 ## Index
 
--   [`LOG_LEVEL`](#LOG_LEVEL) — the minimum log level to record
+- [`LOG_LEVEL`](#LOG_LEVEL) — the minimum log level to record
 
 ## Specification
 

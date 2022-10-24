@@ -12,7 +12,7 @@ document only shows those variables defined using [Austenite].
 
 ## Index
 
--   [`MESSAGE`](#MESSAGE) — message to output
+- [`MESSAGE`](#MESSAGE) — message to output
 
 ## Specification
 

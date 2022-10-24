@@ -12,7 +12,7 @@ document only shows those variables defined using [Austenite].
 
 ## Index
 
--   [`GRPC_TIMEOUT`](#GRPC_TIMEOUT) — gRPC request timeout
+- [`GRPC_TIMEOUT`](#GRPC_TIMEOUT) — gRPC request timeout
 
 ## Specification
 

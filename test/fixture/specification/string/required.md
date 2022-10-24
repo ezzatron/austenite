@@ -12,7 +12,7 @@ document only shows those variables defined using [Austenite].
 
 ## Index
 
--   [`READ_DSN`](#READ_DSN) — database connection string for read-models
+- [`READ_DSN`](#READ_DSN) — database connection string for read-models
 
 ## Specification
 

@@ -1,97 +1,34 @@
-import type { Content, Definition, LinkReference } from "mdast";
-import { toContentArray } from "./markdown.js";
+import { code, inlineCode } from "./markdown.js";
 import { Variable } from "./variable.js";
 
-export function usage(app: string, variables: Variable<unknown>[]): Content[] {
-  if (variables.length < 1) return [];
+export function usage(app: string, variables: Variable<unknown>[]): string {
+  return `## Usage Examples
 
-  return [
-    {
-      type: "heading",
-      depth: 2,
-      children: [
-        {
-          type: "text",
-          value: "Usage Examples",
-        },
-      ],
-    },
+${kubernetesUsage(app, variables)}
 
-    ...kubernetesUsage(app, variables),
-    ...dockerUsage(app, variables),
-  ];
+${dockerUsage(app, variables)}`;
 }
 
-function kubernetesUsage(
-  app: string,
-  variables: Variable<unknown>[]
-): Content[] {
-  return [
-    {
-      type: "html",
-      value: "<details>\n<summary><strong>Kubernetes</strong></summary><br>",
-    },
-    {
-      type: "paragraph",
-      children: [
-        {
-          type: "text",
-          value:
-            "This example shows how to define the environment variables needed by ",
-        },
-        {
-          type: "inlineCode",
-          value: app,
-        },
-        {
-          type: "text",
-          value: "\non a ",
-        },
-        {
-          type: "linkReference",
-          label: "Kubernetes container",
-          referenceType: "shortcut",
-          children: [
-            {
-              type: "text",
-              value: "Kubernetes container",
-            },
-          ],
-        } as LinkReference,
-        {
-          type: "text",
-          value: " within a Kubenetes deployment manifest.",
-        },
-      ],
-    },
-    {
-      type: "definition",
-      label: "kubernetes container",
-      url: "https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/#define-an-environment-variable-for-a-container",
-    } as Definition,
-    {
-      type: "code",
-      lang: "yaml",
-      value: k8sDeploymentYaml(variables),
-    },
-    ...toContentArray<Content>(
-      [
-        "Alternatively, the environment variables can be defined within a [config map]",
-        "then referenced a deployment manifest using `configMapRef`.",
-        "",
-        "[config map]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables",
-      ].join("\n")
-    ),
-    {
-      type: "code",
-      lang: "yaml",
-      value: k8sConfigMapYaml(variables),
-    },
-    {
-      type: "html",
-      value: "</details>",
-    },
-  ];
+function kubernetesUsage(app: string, variables: Variable<unknown>[]): string {
+  const appCode = inlineCode(app);
+
+  return `<details><summary><strong>Kubernetes</strong></summary><br>
+
+This example shows how to define the environment variables needed by ${appCode}
+on a [Kubernetes container] within a Kubenetes deployment manifest.
+
+[kubernetes container]: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/#define-an-environment-variable-for-a-container
+
+${code("yaml", k8sDeploymentYaml(variables))}
+
+Alternatively, the environment variables can be defined within a [config map]
+then referenced a deployment manifest using \`configMapRef\`.
+
+[config map]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables
+
+${code("yaml", k8sConfigMapYaml(variables))}
+
+</details>`;
 }
 
 function k8sDeploymentYaml(variables: Variable<unknown>[]): string {
@@ -147,60 +84,19 @@ function k8sConfigMapYaml(variables: Variable<unknown>[]): string {
   ].join("\n");
 }
 
-function dockerUsage(app: string, variables: Variable<unknown>[]): Content[] {
-  return [
-    {
-      type: "html",
-      value: "<details>\n<summary><strong>Docker</strong></summary><br>",
-    },
-    {
-      type: "paragraph",
-      children: [
-        {
-          type: "text",
-          value:
-            "This example shows how to define the environment variables needed by ",
-        },
-        {
-          type: "inlineCode",
-          value: app,
-        },
-        {
-          type: "text",
-          value: "\nwhen running as a ",
-        },
-        {
-          type: "linkReference",
-          label: "Docker service",
-          referenceType: "shortcut",
-          children: [
-            {
-              type: "text",
-              value: "Docker service",
-            },
-          ],
-        } as LinkReference,
-        {
-          type: "text",
-          value: " defined in a Docker compose file.",
-        },
-      ],
-    },
-    {
-      type: "definition",
-      label: "docker service",
-      url: "https://docs.docker.com/compose/environment-variables/#set-environment-variables-in-containers",
-    } as Definition,
-    {
-      type: "code",
-      lang: "yaml",
-      value: dockerComposeYaml(variables),
-    },
-    {
-      type: "html",
-      value: "</details>",
-    },
-  ];
+function dockerUsage(app: string, variables: Variable<unknown>[]): string {
+  const appCode = inlineCode(app);
+
+  return `<details><summary><strong>Docker</strong></summary><br>
+
+This example shows how to define the environment variables needed by ${appCode}
+when running as a [Docker service] defined in a Docker compose file.
+
+[docker service]: https://docs.docker.com/compose/environment-variables/#set-environment-variables-in-containers
+
+${code("yaml", dockerComposeYaml(variables))}
+
+</details>`;
 }
 
 function dockerComposeYaml(variables: Variable<unknown>[]): string {

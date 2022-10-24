@@ -12,7 +12,7 @@ document only shows those variables defined using [Austenite].
 
 ## Index
 
--   [`CDN_URL`](#CDN_URL) — CDN to use when serving static assets
+- [`CDN_URL`](#CDN_URL) — CDN to use when serving static assets
 
 ## Specification
 

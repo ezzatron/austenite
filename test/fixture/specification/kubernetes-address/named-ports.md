@@ -12,9 +12,9 @@ document only shows those variables defined using [Austenite].
 
 ## Index
 
--   [`REDIS_PRIMARY_SERVICE_HOST`](#REDIS_PRIMARY_SERVICE_HOST) — kubernetes `redis-primary` service host
--   [`REDIS_PRIMARY_SERVICE_PORT_DB`](#REDIS_PRIMARY_SERVICE_PORT_DB) — kubernetes `redis-primary` service `db` port
--   [`REDIS_PRIMARY_SERVICE_PORT_OBSERVABILITY`](#REDIS_PRIMARY_SERVICE_PORT_OBSERVABILITY) — kubernetes `redis-primary` service `observability` port
+- [`REDIS_PRIMARY_SERVICE_HOST`](#REDIS_PRIMARY_SERVICE_HOST) — kubernetes `redis-primary` service host
+- [`REDIS_PRIMARY_SERVICE_PORT_DB`](#REDIS_PRIMARY_SERVICE_PORT_DB) — kubernetes `redis-primary` service `db` port
+- [`REDIS_PRIMARY_SERVICE_PORT_OBSERVABILITY`](#REDIS_PRIMARY_SERVICE_PORT_OBSERVABILITY) — kubernetes `redis-primary` service `observability` port
 
 ## Specification
 
