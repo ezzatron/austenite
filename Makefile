@@ -24,11 +24,13 @@ artifacts/dist: artifacts/dist/cjs artifacts/dist/esm
 artifacts/dist/cjs: tsconfig.build.cjs.json tsconfig.json artifacts/link-dependencies.touch $(JS_SOURCE_FILES)
 	@rm -rf "$@"
 	$(JS_EXEC) tsc -p "$<"
+	echo '{"type":"commonjs"}' > "$@/package.json"
 	@touch "$@"
 
 artifacts/dist/esm: tsconfig.build.esm.json tsconfig.json artifacts/link-dependencies.touch $(JS_SOURCE_FILES)
 	@rm -rf "$@"
 	$(JS_EXEC) tsc -p "$<"
+	echo '{"type":"module"}' > "$@/package.json"
 	@touch "$@"
 
 ENVIRONMENT.md: artifacts/link-dependencies.touch $(JS_SOURCE_FILES) $(JS_TEST_FILES)

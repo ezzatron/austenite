@@ -8,6 +8,15 @@ The format is based on [Keep a Changelog], and this project adheres to
 [keep a changelog]: https://keepachangelog.com/en/1.0.0/
 [semantic versioning]: https://semver.org/spec/v2.0.0.html
 
+## [v0.2.2] - 2022-10-25
+
+[v0.2.2]: https://github.com/eloquent/austenite/releases/tag/v0.2.2
+
+### Fixed
+
+- Made CommonJS module actually load as CommonJS. It's unlikely to help, because
+  some dependencies are ESM-only.
+
 ## [v0.2.1] - 2022-10-24
 
 [v0.2.1]: https://github.com/eloquent/austenite/releases/tag/v0.2.1
