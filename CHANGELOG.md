@@ -8,11 +8,16 @@ The format is based on [Keep a Changelog], and this project adheres to
 [keep a changelog]: https://keepachangelog.com/en/1.0.0/
 [semantic versioning]: https://semver.org/spec/v2.0.0.html
 
-## Unreleased
+## [v0.2.4] - 2022-10-26
+
+[v0.2.4]: https://github.com/eloquent/austenite/releases/tag/v0.2.4
 
 ### Changed
 
-- Remove dependency on all `mdast` packages.
+- The package should now actually support CommonJS.
+- Removed dependency on all `mdast` packages.
+- Removed dependency on `ip-regex` package, as it is ESM-only.
+- Added dependency on `ipaddr.js` package, as it supports CJS.
 
 ## [v0.2.3] - 2022-10-25
 
@@ -20,7 +25,7 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ### Fixed
 
-- Remove dependency on renamed `mdast` package.
+- Removed dependency on renamed `mdast` package.
 
 ## [v0.2.2] - 2022-10-25
 
