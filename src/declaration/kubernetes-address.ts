@@ -1,4 +1,4 @@
-import createIpPattern from "ip-regex";
+import ipaddr from "ipaddr.js";
 import {
   Declaration,
   defaultFromOptions,
@@ -11,8 +11,6 @@ import { create as createExamples, Example } from "../example.js";
 import { map, Maybe, resolve } from "../maybe.js";
 import { createScalar, createString, Scalar, toString } from "../schema.js";
 import { Variable } from "../variable.js";
-
-const IP_PATTERN = createIpPattern({ exact: true });
 
 export interface KubernetesAddress {
   readonly host: string;
@@ -96,7 +94,7 @@ function registerHost(
 function validateHost(host: string): void {
   if (host === "") throw new Error("must not be empty");
 
-  if (IP_PATTERN.test(host)) return;
+  if (ipaddr.isValid(host)) return;
 
   if (host.includes(" ")) {
     throw new Error("must not contain whitespace");
