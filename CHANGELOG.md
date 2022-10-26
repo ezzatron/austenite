@@ -8,6 +8,15 @@ The format is based on [Keep a Changelog], and this project adheres to
 [keep a changelog]: https://keepachangelog.com/en/1.0.0/
 [semantic versioning]: https://semver.org/spec/v2.0.0.html
 
+## [v0.3.0] - 2022-10-26
+
+[v0.3.0]: https://github.com/eloquent/austenite/releases/tag/v0.3.0
+
+### Added
+
+- The app name can now be set explicitly with the `AUSTENITE_APP` environment
+  variable.
+
 ## [v0.2.5] - 2022-10-26
 
 [v0.2.5]: https://github.com/eloquent/austenite/releases/tag/v0.2.5

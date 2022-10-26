@@ -7,7 +7,7 @@ import { usage } from "./usage.js";
 import { Variable } from "./variable.js";
 
 export function render(variables: Variable<unknown>[]): string {
-  const app = basename(process.argv[1]);
+  const app = appName();
   const parts = [header(app, variables)];
 
   if (variables.length > 0) {
@@ -19,6 +19,12 @@ export function render(variables: Variable<unknown>[]): string {
   }
 
   return parts.join("\n\n");
+}
+
+function appName(): string {
+  const envName = process.env.AUSTENITE_APP ?? "";
+
+  return envName === "" ? basename(process.argv[1]) : envName;
 }
 
 function header(app: string, variables: Variable<unknown>[]): string {

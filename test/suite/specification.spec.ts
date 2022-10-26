@@ -473,6 +473,19 @@ describe("Specification documents", () => {
     expect(mockConsole.readStdout()).toBe(await readFixture("usage"));
     expect(exitCode).toBe(0);
   });
+
+  describe("when the AUSTENITE_APP environment variable is set", () => {
+    beforeEach(() => {
+      process.env.AUSTENITE_APP = "<custom app name>";
+    });
+
+    it("uses the value as the app name", async () => {
+      initialize();
+
+      expect(mockConsole.readStdout()).toBe(await readFixture("app-env-var"));
+      expect(exitCode).toBe(0);
+    });
+  });
 });
 
 async function readFixture(name: string): Promise<string> {
