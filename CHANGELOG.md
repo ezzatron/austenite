@@ -8,6 +8,14 @@ The format is based on [Keep a Changelog], and this project adheres to
 [keep a changelog]: https://keepachangelog.com/en/1.0.0/
 [semantic versioning]: https://semver.org/spec/v2.0.0.html
 
+## [v0.2.5] - 2022-10-26
+
+[v0.2.5]: https://github.com/eloquent/austenite/releases/tag/v0.2.5
+
+### Fixed
+
+- Fixed pre-publish `package.json` script.
+
 ## [v0.2.4] - 2022-10-26
 
 [v0.2.4]: https://github.com/eloquent/austenite/releases/tag/v0.2.4

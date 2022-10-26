@@ -30,7 +30,7 @@
     "node": ">=14"
   },
   "scripts": {
-    "prepublishOnly": "tsc -p tsconfig.build.cjs.json && tsc -p tsconfig.build.esm.json"
+    "prepublishOnly": "make artifacts/dist"
   },
   "dependencies": {
     "@js-temporal/polyfill": "^0.4.2",
