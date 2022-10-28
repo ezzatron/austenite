@@ -2,7 +2,16 @@
   "name": "@eloquent/austenite",
   "version": "0.0.0",
   "description": "Declarative environment variables for Node.js.",
-  "keywords": [],
+  "keywords": [
+    "environment",
+    "env",
+    "variable",
+    "var",
+    "validation",
+    "declarative",
+    "strict",
+    "static"
+  ],
   "repository": "eloquent/austenite",
   "bugs": "https://github.com/eloquent/austenite/issues",
   "homepage": "https://github.com/eloquent/austenite",
