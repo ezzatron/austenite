@@ -38,8 +38,6 @@ export function initialize(options: InitializeOptions = {}): void {
 }
 
 export function registerVariable<T>(spec: VariableSpec<T>): Variable<T> {
-  if (state.isInitialized) throw new FinalizedError(spec.name);
-
   const variable = createVariable(spec);
   state.variables[variable.spec.name] = variable;
 
@@ -99,11 +97,5 @@ interface OnInvalidArgs {
 class UninitializedError extends Error {
   constructor(name: string) {
     super(`${name} can not be read until the environment is initialized.`);
-  }
-}
-
-class FinalizedError extends Error {
-  constructor(name: string) {
-    super(`${name} can not be defined after the environment is initialized.`);
   }
 }

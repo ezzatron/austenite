@@ -8,6 +8,16 @@ The format is based on [Keep a Changelog], and this project adheres to
 [keep a changelog]: https://keepachangelog.com/en/1.0.0/
 [semantic versioning]: https://semver.org/spec/v2.0.0.html
 
+## Unreleased
+
+### Changed
+
+- Variables declared after `initalize()` is called will no longer cause an
+  exception to be thrown. It is up to the end user to ensure all declarations
+  are made before `initalize()` is called. This change is designed to facilitate
+  cases where declarations are made multiple times in different execution
+  contexts (e.g. both outside and inside "bundled" code).
+
 ## [v0.3.0] - 2022-10-26
 
 [v0.3.0]: https://github.com/eloquent/austenite/releases/tag/v0.3.0

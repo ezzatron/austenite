@@ -109,26 +109,6 @@ describe("initialize()", () => {
         }).not.toThrow();
       });
 
-      it.each`
-        type                    | factory
-        ${"big integer"}        | ${bigIntegerFactory}
-        ${"boolean"}            | ${booleanFactory}
-        ${"duration"}           | ${durationFactory}
-        ${"enumeration"}        | ${enumerationFactory}
-        ${"integer"}            | ${integerFactory}
-        ${"Kubernetes address"} | ${k8sAddressFactory}
-        ${"number"}             | ${numberFactory}
-        ${"string"}             | ${stringFactory}
-        ${"URL"}                | ${urlFactory}
-      `(
-        "prevents additional $type declarations",
-        ({ factory }: { factory: DeclarationFactory }) => {
-          expect(() => {
-            factory();
-          }).toThrow("can not be defined after the environment is initialized");
-        }
-      );
-
       describe("when called again", () => {
         it("does nothing", () => {
           expect(() => {
