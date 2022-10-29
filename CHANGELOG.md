@@ -12,11 +12,15 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ### Changed
 
-- Variables declared after `initalize()` is called will no longer cause an
+- Declarations made after `initalize()` is called will no longer cause an
   exception to be thrown. It is up to the end user to ensure all declarations
-  are made before `initalize()` is called. This change is designed to facilitate
-  cases where declarations are made multiple times in different execution
-  contexts (e.g. both outside and inside "bundled" code).
+  are made before `initalize()` is called.
+- Declaration values can now be accessed before `initialize()` is called without
+  an exception being thrown.
+
+These changes are designed to facilitate cases where declarations are made
+multiple times in different execution contexts (e.g. both outside and inside
+"bundled" code).
 
 ## [v0.3.0] - 2022-10-26
 

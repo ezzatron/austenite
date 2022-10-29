@@ -21,8 +21,6 @@ export function initialize(options: InitializeOptions = {}): void {
     // eslint-disable-next-line n/no-process-exit
     process.exit(0);
   } else {
-    state.isInitialized = true;
-
     const { onInvalid = defaultOnInvalid } = options;
     const [isValid, results] = validate(variablesByName());
 
@@ -45,8 +43,6 @@ export function registerVariable<T>(spec: VariableSpec<T>): Variable<T> {
 }
 
 export function readVariable<T>(spec: VariableSpec<T>): string {
-  if (!state.isInitialized) throw new UninitializedError(spec.name);
-
   return process.env[spec.name] ?? "";
 }
 
@@ -58,13 +54,11 @@ interface State {
   // TODO: WTF TypeScript? Why can't I use unknown here?
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   readonly variables: Record<string, Variable<any>>;
-  isInitialized: boolean;
 }
 
 function createInitialState(): State {
   return {
     variables: {},
-    isInitialized: false,
   };
 }
 
@@ -92,10 +86,4 @@ type OnInvalid = (args: OnInvalidArgs) => void;
 interface OnInvalidArgs {
   readonly results: Results;
   defaultHandler: () => never;
-}
-
-class UninitializedError extends Error {
-  constructor(name: string) {
-    super(`${name} can not be read until the environment is initialized.`);
-  }
 }
