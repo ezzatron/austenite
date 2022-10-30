@@ -1,3 +1,4 @@
+import { initialize } from "../../../src/index.js";
 import {
   cdnUrl,
   earthAtomCount,
@@ -9,6 +10,8 @@ import {
   sampleRatio,
   weight,
 } from "./env.js";
+
+initialize();
 
 console.log("");
 console.log("Environment is valid 🎉");

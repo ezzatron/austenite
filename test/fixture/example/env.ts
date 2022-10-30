@@ -3,7 +3,6 @@ import {
   boolean,
   duration,
   enumeration,
-  initialize,
   integer,
   kubernetesAddress,
   number,
@@ -52,5 +51,3 @@ export const sampleRatio = number(
 );
 
 export const weight = integer("WEIGHT", "weighting for this node");
-
-initialize();
