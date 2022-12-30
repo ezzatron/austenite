@@ -10,6 +10,7 @@ import {
   initialize,
   integer,
   kubernetesAddress,
+  networkPortNumber,
   number,
   string,
   url,
@@ -43,6 +44,7 @@ describe("Validation summary", () => {
     process.env.AUSTENITE_INTEGER = "-123456";
     process.env.AUSTENITE_INTEGER_BIG = "-12345678901234567890";
     process.env.AUSTENITE_NUMBER = "-123.456";
+    process.env.AUSTENITE_PORT_NUMBER = "443";
     process.env.AUSTENITE_STRING = "Season's greetings, world!";
     process.env.AUSTENITE_SVC_SERVICE_HOST = "host.example.org";
     process.env.AUSTENITE_SVC_SERVICE_PORT = "443";
@@ -52,6 +54,7 @@ describe("Validation summary", () => {
     url("AUSTENITE_URL", "example URL");
     kubernetesAddress("austenite-svc");
     string("AUSTENITE_STRING", "example string");
+    networkPortNumber("AUSTENITE_PORT_NUMBER", "example port number");
     number("AUSTENITE_NUMBER", "example number");
     bigInteger("AUSTENITE_INTEGER_BIG", "example big integer");
     integer("AUSTENITE_INTEGER", "example integer");
@@ -91,6 +94,7 @@ describe("Validation summary", () => {
         "  AUSTENITE_INTEGER           example integer                            <integer>              ✓ set to -123456",
         "  AUSTENITE_INTEGER_BIG       example big integer                        <big integer>          ✓ set to -12345678901234567890",
         "  AUSTENITE_NUMBER            example number                             <number>               ✓ set to -123.456",
+        "  AUSTENITE_PORT_NUMBER       example port number                        <port number>          ✓ set to 443",
         `  AUSTENITE_STRING            example string                             <string>               ✓ set to 'Season'"'"'s greetings, world!'`,
         "  AUSTENITE_SVC_SERVICE_HOST  kubernetes `austenite-svc` service host    <hostname>             ✓ set to host.example.org",
         "  AUSTENITE_SVC_SERVICE_PORT  kubernetes `austenite-svc` service port    <port number>          ✓ set to 443",
@@ -111,6 +115,9 @@ describe("Validation summary", () => {
       default: undefined,
     });
     string("AUSTENITE_STRING", "example string", {
+      default: undefined,
+    });
+    networkPortNumber("AUSTENITE_PORT_NUMBER", "example port number", {
       default: undefined,
     });
     number("AUSTENITE_NUMBER", "example number", {
@@ -168,6 +175,7 @@ describe("Validation summary", () => {
         "  AUSTENITE_INTEGER           example integer                          [ <integer> ]            • undefined",
         "  AUSTENITE_INTEGER_BIG       example big integer                      [ <big integer> ]        • undefined",
         "  AUSTENITE_NUMBER            example number                           [ <number> ]             • undefined",
+        "  AUSTENITE_PORT_NUMBER       example port number                      [ <port number> ]        • undefined",
         "  AUSTENITE_STRING            example string                           [ <string> ]             • undefined",
         "  AUSTENITE_SVC_SERVICE_HOST  kubernetes `austenite-svc` service host  [ <hostname> ]           • undefined",
         "  AUSTENITE_SVC_SERVICE_PORT  kubernetes `austenite-svc` service port  [ <port number> ]        • undefined",
@@ -192,6 +200,9 @@ describe("Validation summary", () => {
     });
     string("AUSTENITE_STRING", "example string", {
       default: "hello, world!",
+    });
+    networkPortNumber("AUSTENITE_PORT_NUMBER", "example port number", {
+      default: 443,
     });
     number("AUSTENITE_NUMBER", "example number", {
       default: 123.456,
@@ -248,6 +259,7 @@ describe("Validation summary", () => {
         "  AUSTENITE_INTEGER           example integer                          [ <integer> ] = 123456                                    ✓ using default value",
         "  AUSTENITE_INTEGER_BIG       example big integer                      [ <big integer> ] = 12345678901234567890                  ✓ using default value",
         "  AUSTENITE_NUMBER            example number                           [ <number> ] = 123.456                                    ✓ using default value",
+        "  AUSTENITE_PORT_NUMBER       example port number                      [ <port number> ] = 443                                   ✓ using default value",
         "  AUSTENITE_STRING            example string                           [ <string> ] = 'hello, world!'                            ✓ using default value",
         "  AUSTENITE_SVC_SERVICE_HOST  kubernetes `austenite-svc` service host  [ <hostname> ] = host.example.org                         ✓ using default value",
         "  AUSTENITE_SVC_SERVICE_PORT  kubernetes `austenite-svc` service port  [ <port number> ] = 443                                   ✓ using default value",
@@ -298,6 +310,7 @@ describe("Validation summary", () => {
     process.env.AUSTENITE_INTEGER = "123.456";
     process.env.AUSTENITE_INTEGER_BIG = "1.23456e5";
     process.env.AUSTENITE_NUMBER = "1.2.3";
+    process.env.AUSTENITE_PORT_NUMBER = "65536";
     process.env.AUSTENITE_SVC_SERVICE_HOST = ".host.example.org";
     process.env.AUSTENITE_SVC_SERVICE_PORT = "65536";
     process.env.AUSTENITE_URL = "host.example.org";
@@ -307,6 +320,7 @@ describe("Validation summary", () => {
     kubernetesAddress("austenite-svc");
     // strings cannot really be "invalid" aside from being undefined
     string("AUSTENITE_STRING", "example string");
+    networkPortNumber("AUSTENITE_PORT_NUMBER", "example port number");
     number("AUSTENITE_NUMBER", "example number");
     bigInteger("AUSTENITE_INTEGER_BIG", "example big integer");
     integer("AUSTENITE_INTEGER", "example integer");
@@ -339,6 +353,7 @@ describe("Validation summary", () => {
         "❯ AUSTENITE_INTEGER           example integer                            <integer>              ✗ set to 123.456, must be an integer",
         "❯ AUSTENITE_INTEGER_BIG       example big integer                        <big integer>          ✗ set to 1.23456e5, must be a big integer",
         "❯ AUSTENITE_NUMBER            example number                             <number>               ✗ set to 1.2.3, must be numeric",
+        "❯ AUSTENITE_PORT_NUMBER       example port number                        <port number>          ✗ set to 65536, must be between 1 and 65535",
         `❯ AUSTENITE_STRING            example string                             <string>               ✗ undefined`,
         "❯ AUSTENITE_SVC_SERVICE_HOST  kubernetes `austenite-svc` service host    <hostname>             ✗ set to .host.example.org, must not begin or end with a dot",
         "❯ AUSTENITE_SVC_SERVICE_PORT  kubernetes `austenite-svc` service port    <port number>          ✗ set to 65536, must be between 1 and 65535",

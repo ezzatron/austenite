@@ -17,6 +17,7 @@ document only shows those variables defined using [Austenite].
 - [`EARTH_ATOM_COUNT`](#EARTH_ATOM_COUNT) — number of atoms on earth
 - [`GRPC_TIMEOUT`](#GRPC_TIMEOUT) — gRPC request timeout
 - [`LOG_LEVEL`](#LOG_LEVEL) — the minimum log level to record
+- [`PORT`](#PORT) — listen port for the HTTP server
 - [`READ_DSN`](#READ_DSN) — database connection string for read-models
 - [`REDIS_PRIMARY_SERVICE_HOST`](#REDIS_PRIMARY_SERVICE_HOST) — kubernetes `redis-primary` service host
 - [`REDIS_PRIMARY_SERVICE_PORT`](#REDIS_PRIMARY_SERVICE_PORT) — kubernetes `redis-primary` service port
@@ -93,6 +94,18 @@ export LOG_LEVEL=info  # standard log messages
 export LOG_LEVEL=warn  # important, but don't need individual human review
 export LOG_LEVEL=error # a healthy application shouldn't produce any errors
 export LOG_LEVEL=fatal # the application cannot proceed
+```
+
+### `PORT`
+
+> listen port for the HTTP server
+
+This variable **MUST** be set to a non-empty **port number**.
+If left undefined the application will print usage information to `STDERR` then
+exit with a non-zero exit code.
+
+```sh
+export PORT=12345 # a port number
 ```
 
 ### `READ_DSN`
@@ -198,6 +211,8 @@ spec:
               value: "PT1M30S"
             - name: LOG_LEVEL # the minimum log level to record
               value: "debug"
+            - name: PORT # listen port for the HTTP server
+              value: "12345"
             - name: READ_DSN # database connection string for read-models
               value: "conquistador"
             - name: REDIS_PRIMARY_SERVICE_HOST # kubernetes `redis-primary` service host
@@ -226,6 +241,7 @@ data:
   EARTH_ATOM_COUNT: "123456" # number of atoms on earth
   GRPC_TIMEOUT: "PT1M30S" # gRPC request timeout
   LOG_LEVEL: "debug" # the minimum log level to record
+  PORT: "12345" # listen port for the HTTP server
   READ_DSN: "conquistador" # database connection string for read-models
   REDIS_PRIMARY_SERVICE_HOST: "service.example.org" # kubernetes `redis-primary` service host
   REDIS_PRIMARY_SERVICE_PORT: "12345" # kubernetes `redis-primary` service port
@@ -264,6 +280,7 @@ service:
       EARTH_ATOM_COUNT: "123456" # number of atoms on earth
       GRPC_TIMEOUT: "PT1M30S" # gRPC request timeout
       LOG_LEVEL: "debug" # the minimum log level to record
+      PORT: "12345" # listen port for the HTTP server
       READ_DSN: "conquistador" # database connection string for read-models
       REDIS_PRIMARY_SERVICE_HOST: "service.example.org" # kubernetes `redis-primary` service host
       REDIS_PRIMARY_SERVICE_PORT: "12345" # kubernetes `redis-primary` service port

@@ -5,6 +5,7 @@ import {
   enumeration,
   integer,
   kubernetesAddress,
+  networkPortNumber,
   number,
   string,
   url,
@@ -36,6 +37,11 @@ export const logLevel = enumeration(
     },
     fatal: { value: "fatal", description: "the application cannot proceed" },
   }
+);
+
+export const port = networkPortNumber(
+  "PORT",
+  "listen port for the HTTP server"
 );
 
 export const readDsn = string(

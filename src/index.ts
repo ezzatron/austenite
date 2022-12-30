@@ -5,6 +5,7 @@ export { enumeration } from "./declaration/enumeration.js";
 export { integer } from "./declaration/integer.js";
 export { kubernetesAddress } from "./declaration/kubernetes-address.js";
 export type { KubernetesAddress } from "./declaration/kubernetes-address.js";
+export { networkPortNumber } from "./declaration/network-port-number.js";
 export { number } from "./declaration/number.js";
 export { string } from "./declaration/string.js";
 export { url } from "./declaration/url.js";

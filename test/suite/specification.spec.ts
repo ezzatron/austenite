@@ -11,6 +11,7 @@ import {
   initialize,
   integer,
   kubernetesAddress,
+  networkPortNumber,
   number,
   string,
   url,
@@ -306,6 +307,42 @@ describe("Specification documents", () => {
 
       expect(stripUsage(mockConsole.readStdout())).toBe(
         await readFixture("kubernetes-address/named-ports")
+      );
+      expect(exitCode).toBe(0);
+    });
+  });
+
+  describe("when there are network port numbers", () => {
+    it("describes required port numbers", async () => {
+      networkPortNumber("PORT", "listen port for the HTTP server");
+      initialize();
+
+      expect(stripUsage(mockConsole.readStdout())).toBe(
+        await readFixture("network-port-number/required")
+      );
+      expect(exitCode).toBe(0);
+    });
+
+    it("describes optional port numbers", async () => {
+      networkPortNumber("PORT", "listen port for the HTTP server", {
+        default: undefined,
+      });
+      initialize();
+
+      expect(stripUsage(mockConsole.readStdout())).toBe(
+        await readFixture("network-port-number/optional")
+      );
+      expect(exitCode).toBe(0);
+    });
+
+    it("describes optional port numbers with defaults", async () => {
+      networkPortNumber("PORT", "listen port for the HTTP server", {
+        default: 8080,
+      });
+      initialize();
+
+      expect(stripUsage(mockConsole.readStdout())).toBe(
+        await readFixture("network-port-number/default")
       );
       expect(exitCode).toBe(0);
     });

@@ -8,6 +8,12 @@ The format is based on [Keep a Changelog], and this project adheres to
 [keep a changelog]: https://keepachangelog.com/en/1.0.0/
 [semantic versioning]: https://semver.org/spec/v2.0.0.html
 
+## Unreleased
+
+### Added
+
+- Added `networkPortNumber` declarations.
+
 ## [v0.4.0] - 2022-10-29
 
 [v0.4.0]: https://github.com/eloquent/austenite/releases/tag/v0.4.0

@@ -239,6 +239,36 @@ export const redisPrimary = kubernetesAddress("redis-primary", {
 });
 ```
 
+### `networkPortNumber`
+
+```ts
+import { networkPortNumber } from "@eloquent/austenite";
+
+// required
+export const port = networkPortNumber(
+  "PORT",
+  "listen port for the HTTP server"
+);
+
+// optional
+export const port = networkPortNumber(
+  "PORT",
+  "listen port for the HTTP server",
+  {
+    default: undefined,
+  }
+);
+
+// default
+export const port = networkPortNumber(
+  "PORT",
+  "listen port for the HTTP server",
+  {
+    default: 8080,
+  }
+);
+```
+
 ### `number`
 
 ```ts
