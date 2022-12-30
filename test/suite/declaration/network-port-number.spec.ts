@@ -255,4 +255,42 @@ describe("Network port number declarations", () => {
       });
     });
   });
+
+  describe.each`
+    description | port
+    ${"min"}    | ${1}
+    ${"max"}    | ${65535}
+  `(
+    "when using a valid default value ($description)",
+    ({ port }: { port: number }) => {
+      it("does not throw", () => {
+        expect(() => {
+          networkPortNumber("AUSTENITE_PORT", "<description>", {
+            default: port,
+          });
+        }).not.toThrow();
+      });
+    }
+  );
+
+  describe.each`
+    description      | port       | expected
+    ${"non-integer"} | ${123.456} | ${"must be an unsigned integer"}
+    ${"negative"}    | ${-1}      | ${"must be an unsigned integer"}
+    ${"zero"}        | ${0}       | ${"must be between 1 and 65535"}
+    ${"above max"}   | ${65536}   | ${"must be between 1 and 65535"}
+  `(
+    "when using an invalid default value ($description)",
+    ({ port, expected }: { port: number; expected: string }) => {
+      it("throws", () => {
+        expect(() => {
+          networkPortNumber("AUSTENITE_PORT", "<description>", {
+            default: port,
+          });
+        }).toThrow(
+          `specification for AUSTENITE_PORT is invalid: default value: ${expected}`
+        );
+      });
+    }
+  );
 });
