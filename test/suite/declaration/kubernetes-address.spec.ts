@@ -300,7 +300,7 @@ describe("Kubernetes address declarations", () => {
     });
 
     describe(".value()", () => {
-      it("returns an optional boolean value", () => {
+      it("returns an optional kubernetes address", () => {
         // this test is weird because it tests type inference
         const declaration = kubernetesAddress("austenite-svc", {
           default: undefined,
