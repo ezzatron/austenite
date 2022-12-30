@@ -14,7 +14,7 @@ GENERATED_FILES += ENVIRONMENT.md
 
 .PHONY: run-example
 run-example:
-	npx --package=ts-node ts-node-esm test/fixture/example/run.ts
+	npx --yes --package=ts-node ts-node-esm test/fixture/example/run.ts
 
 ################################################################################
 
@@ -34,4 +34,4 @@ artifacts/dist/esm: tsconfig.build.esm.json tsconfig.json artifacts/link-depende
 	@touch "$@"
 
 ENVIRONMENT.md: artifacts/link-dependencies.touch $(JS_SOURCE_FILES) $(JS_TEST_FILES)
-	AUSTENITE_SPEC=true npx --package=ts-node ts-node-esm test/fixture/example/run.ts > "$@"
+	AUSTENITE_SPEC=true npx --yes --package=ts-node ts-node-esm test/fixture/example/run.ts > "$@"
