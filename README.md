@@ -6,7 +6,7 @@ _Declarative environment variables for Node.js._
 [![Build status][badge-build-image]][badge-build-link]
 [![Test coverage][badge-coverage-image]][badge-coverage-link]
 
-[badge-build-image]: https://img.shields.io/github/workflow/status/eloquent/austenite/CI?style=for-the-badge
+[badge-build-image]: https://img.shields.io/github/actions/workflow/status/eloquent/austenite/ci.yml?branch=main&style=for-the-badge
 [badge-build-link]: https://github.com/eloquent/austenite/actions/workflows/ci.yml
 [badge-coverage-image]: https://img.shields.io/codecov/c/gh/eloquent/austenite?style=for-the-badge
 [badge-coverage-link]: https://codecov.io/gh/eloquent/austenite
