@@ -16,7 +16,7 @@ import {
   string,
   url,
 } from "../../src/index.js";
-import { createMockConsole, MockConsole } from "../helpers.js";
+import { MockConsole, createMockConsole } from "../helpers.js";
 
 const fixturesPath = fileURLToPath(
   new URL("../fixture/specification", import.meta.url)

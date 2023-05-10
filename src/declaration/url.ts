@@ -1,14 +1,14 @@
 import {
   Declaration,
-  defaultFromOptions,
   Options as DeclarationOptions,
   Value,
+  defaultFromOptions,
 } from "../declaration.js";
 import { registerVariable } from "../environment.js";
 import { normalize } from "../error.js";
-import { create as createExamples, Example, Examples } from "../example.js";
+import { Example, Examples, create as createExamples } from "../example.js";
 import { Maybe, resolve } from "../maybe.js";
-import { createScalar, Scalar, toString } from "../schema.js";
+import { Scalar, createScalar, toString } from "../schema.js";
 import { Constraint, SpecError } from "../variable.js";
 
 // as per https://www.rfc-editor.org/rfc/rfc3986#section-3.1

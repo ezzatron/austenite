@@ -1,14 +1,14 @@
 import { Temporal } from "@js-temporal/polyfill";
 import {
   Declaration,
-  defaultFromOptions,
   Options as DeclarationOptions,
   Value,
+  defaultFromOptions,
 } from "../declaration.js";
 import { registerVariable } from "../environment.js";
-import { create as createExamples, Example, Examples } from "../example.js";
+import { Example, Examples, create as createExamples } from "../example.js";
 import { Maybe, resolve } from "../maybe.js";
-import { createScalar, Scalar, toString } from "../schema.js";
+import { Scalar, createScalar, toString } from "../schema.js";
 
 const { Duration } = Temporal;
 type Duration = Temporal.Duration;

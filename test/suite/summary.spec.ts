@@ -18,7 +18,7 @@ import {
 import { undefinedValue } from "../../src/maybe.js";
 import { createString } from "../../src/schema.js";
 import { VariableSpec } from "../../src/variable.js";
-import { createMockConsole, MockConsole } from "../helpers.js";
+import { MockConsole, createMockConsole } from "../helpers.js";
 
 const { Duration } = Temporal;
 

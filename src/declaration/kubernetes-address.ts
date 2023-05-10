@@ -1,15 +1,15 @@
 import ipaddr from "ipaddr.js";
 import {
   Declaration,
-  defaultFromOptions,
   Options as DeclarationOptions,
   Value,
+  defaultFromOptions,
 } from "../declaration.js";
 import { registerVariable } from "../environment.js";
 import { normalize } from "../error.js";
-import { create as createExamples, Example } from "../example.js";
-import { map, Maybe, resolve } from "../maybe.js";
-import { createScalar, createString, Scalar, toString } from "../schema.js";
+import { Example, create as createExamples } from "../example.js";
+import { Maybe, map, resolve } from "../maybe.js";
+import { Scalar, createScalar, createString, toString } from "../schema.js";
 import { Variable } from "../variable.js";
 
 export interface KubernetesAddress {

@@ -3,7 +3,7 @@ import { Declaration, Options } from "../../src/declaration.js";
 import { boolean, initialize, string } from "../../src/index.js";
 import { Results } from "../../src/validation.js";
 import { UndefinedError } from "../../src/variable.js";
-import { createMockConsole, MockConsole } from "../helpers.js";
+import { MockConsole, createMockConsole } from "../helpers.js";
 
 describe("initialize()", () => {
   let exitCode: number | undefined;

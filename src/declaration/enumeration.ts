@@ -1,13 +1,13 @@
 import {
   Declaration,
-  defaultFromOptions,
   Options as DeclarationOptions,
   Value,
+  defaultFromOptions,
 } from "../declaration.js";
 import { registerVariable } from "../environment.js";
-import { create as createExamples, Examples } from "../example.js";
+import { Examples, create as createExamples } from "../example.js";
 import { Maybe, resolve } from "../maybe.js";
-import { createEnum, Enum, InvalidEnumError } from "../schema.js";
+import { Enum, InvalidEnumError, createEnum } from "../schema.js";
 import { SpecError } from "../variable.js";
 
 export type Members<T> = Record<string, Member<T>>;

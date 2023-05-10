@@ -3,9 +3,9 @@ import { render as renderSpecification } from "./specification.js";
 import { render as renderSummary } from "./summary.js";
 import { Results, validate } from "./validation.js";
 import {
-  create as createVariable,
   Variable,
   VariableSpec,
+  create as createVariable,
 } from "./variable.js";
 
 let state: State = createInitialState();
