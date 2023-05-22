@@ -11,6 +11,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Publish release
-        uses: eloquent/github-release-action@v3
+        uses: ghalactic/github-release-from-tag@v4
         with:
           reactions: hooray,heart,rocket
