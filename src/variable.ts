@@ -141,7 +141,10 @@ export function create<T>(spec: VariableSpec<T>): Variable<T> {
 }
 
 export class SpecError extends Error {
-  constructor(public readonly name: string, public readonly cause: Error) {
+  constructor(
+    public readonly name: string,
+    public readonly cause: Error,
+  ) {
     super(`specification for ${name} is invalid: ${cause.message}`);
   }
 }
@@ -150,7 +153,7 @@ export class ValueError extends Error {
   constructor(
     public readonly name: string,
     public readonly value: string,
-    public readonly cause: Error
+    public readonly cause: Error,
   ) {
     super(`value of ${name} (${quote(value)}) is invalid: ${cause.message}`);
   }

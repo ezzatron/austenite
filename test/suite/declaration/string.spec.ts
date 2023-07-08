@@ -17,7 +17,7 @@ describe("String declarations", () => {
       expect(() => {
         declaration.value();
       }).toThrow(
-        "AUSTENITE_STRING is undefined and does not have a default value"
+        "AUSTENITE_STRING is undefined and does not have a default value",
       );
     });
   });
@@ -33,7 +33,7 @@ describe("String declarations", () => {
       expect(() => {
         declaration.value();
       }).toThrow(
-        "AUSTENITE_STRING is undefined and does not have a default value"
+        "AUSTENITE_STRING is undefined and does not have a default value",
       );
     });
   });
@@ -85,7 +85,7 @@ describe("String declarations", () => {
           expect(() => {
             declaration.value();
           }).toThrow(
-            "AUSTENITE_STRING is undefined and does not have a default value"
+            "AUSTENITE_STRING is undefined and does not have a default value",
           );
         });
       });

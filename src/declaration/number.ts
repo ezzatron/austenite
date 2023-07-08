@@ -14,7 +14,7 @@ export type Options = DeclarationOptions<number>;
 export function number<O extends Options>(
   name: string,
   description: string,
-  options: O = {} as O
+  options: O = {} as O,
 ): Declaration<number, O> {
   const def = defaultFromOptions(options);
   const schema = createSchema();
@@ -48,7 +48,7 @@ function createSchema(): Scalar<number> {
 
 function buildExamples(
   schema: Scalar<number>,
-  def: Maybe<number | undefined>
+  def: Maybe<number | undefined>,
 ): Examples {
   let defExample: Example | undefined;
 
@@ -88,6 +88,6 @@ function buildExamples(
     {
       canonical: "0b11110001001000000",
       description: "binary",
-    }
+    },
   );
 }

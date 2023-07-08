@@ -60,7 +60,7 @@ describe("Network port number declarations", () => {
       expect(() => {
         declaration.value();
       }).toThrow(
-        "AUSTENITE_PORT is undefined and does not have a default value"
+        "AUSTENITE_PORT is undefined and does not have a default value",
       );
     });
   });
@@ -76,7 +76,7 @@ describe("Network port number declarations", () => {
       expect(() => {
         declaration.value();
       }).toThrow(
-        "AUSTENITE_PORT is undefined and does not have a default value"
+        "AUSTENITE_PORT is undefined and does not have a default value",
       );
     });
   });
@@ -91,7 +91,7 @@ describe("Network port number declarations", () => {
         // this test is weird because it tests type inference
         const declaration = networkPortNumber(
           "AUSTENITE_PORT",
-          "<description>"
+          "<description>",
         );
 
         process.env.AUSTENITE_PORT = "12345";
@@ -121,7 +121,7 @@ describe("Network port number declarations", () => {
             expect(declaration.value()).toEqual(expected);
           });
         });
-      }
+      },
     );
 
     describe.each(invalidValueTable)(
@@ -140,7 +140,7 @@ describe("Network port number declarations", () => {
             }).toThrow(expected);
           });
         });
-      }
+      },
     );
 
     describe("when the value is empty", () => {
@@ -153,7 +153,7 @@ describe("Network port number declarations", () => {
           expect(() => {
             declaration.value();
           }).toThrow(
-            "AUSTENITE_PORT is undefined and does not have a default value"
+            "AUSTENITE_PORT is undefined and does not have a default value",
           );
         });
       });
@@ -175,7 +175,7 @@ describe("Network port number declarations", () => {
           "<description>",
           {
             default: undefined,
-          }
+          },
         );
 
         initialize({ onInvalid: noop });
@@ -199,7 +199,7 @@ describe("Network port number declarations", () => {
             expect(declaration.value()).toEqual(expected);
           });
         });
-      }
+      },
     );
 
     describe.each(invalidValueTable)(
@@ -218,7 +218,7 @@ describe("Network port number declarations", () => {
             }).toThrow(expected);
           });
         });
-      }
+      },
     );
 
     describe("when the value is empty", () => {
@@ -270,7 +270,7 @@ describe("Network port number declarations", () => {
           });
         }).not.toThrow();
       });
-    }
+    },
   );
 
   describe.each`
@@ -288,9 +288,9 @@ describe("Network port number declarations", () => {
             default: port,
           });
         }).toThrow(
-          `specification for AUSTENITE_PORT is invalid: default value: ${expected}`
+          `specification for AUSTENITE_PORT is invalid: default value: ${expected}`,
         );
       });
-    }
+    },
   );
 });

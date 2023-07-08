@@ -23,7 +23,7 @@ export const cdnUrl = url("CDN_URL", "CDN to use when serving static assets");
 export const isDebug = boolean(
   "DEBUG",
   "enable or disable debugging features",
-  { default: false }
+  { default: false },
 );
 ```
 
@@ -80,21 +80,21 @@ import { bigInteger } from "@eloquent/austenite";
 // required
 export const earthAtomCount = bigInteger(
   "EARTH_ATOM_COUNT",
-  "number of atoms on earth"
+  "number of atoms on earth",
 );
 
 // optional
 export const earthAtomCount = bigInteger(
   "EARTH_ATOM_COUNT",
   "number of atoms on earth",
-  { default: undefined }
+  { default: undefined },
 );
 
 // default
 export const earthAtomCount = bigInteger(
   "EARTH_ATOM_COUNT",
   "number of atoms on earth",
-  { default: 5972200000000000000000000n }
+  { default: 5972200000000000000000000n },
 );
 ```
 
@@ -110,14 +110,14 @@ export const isDebug = boolean("DEBUG", "enable or disable debugging features");
 export const isDebug = boolean(
   "DEBUG",
   "enable or disable debugging features",
-  { default: undefined }
+  { default: undefined },
 );
 
 // default
 export const isDebug = boolean(
   "DEBUG",
   "enable or disable debugging features",
-  { default: false }
+  { default: false },
 );
 
 // custom literals
@@ -131,7 +131,7 @@ export const isDebug = boolean(
       n: false,
       no: false,
     },
-  }
+  },
 );
 ```
 
@@ -178,7 +178,7 @@ const members = {
 export const logLevel = enumeration(
   "LOG_LEVEL",
   "the minimum log level to record",
-  members
+  members,
 );
 
 // optional
@@ -186,7 +186,7 @@ export const logLevel = enumeration(
   "LOG_LEVEL",
   "the minimum log level to record",
   members,
-  { default: undefined }
+  { default: undefined },
 );
 
 // default
@@ -194,7 +194,7 @@ export const logLevel = enumeration(
   "LOG_LEVEL",
   "the minimum log level to record",
   members,
-  { default: "error" }
+  { default: "error" },
 );
 ```
 
@@ -247,7 +247,7 @@ import { networkPortNumber } from "@eloquent/austenite";
 // required
 export const port = networkPortNumber(
   "PORT",
-  "listen port for the HTTP server"
+  "listen port for the HTTP server",
 );
 
 // optional
@@ -256,7 +256,7 @@ export const port = networkPortNumber(
   "listen port for the HTTP server",
   {
     default: undefined,
-  }
+  },
 );
 
 // default
@@ -265,7 +265,7 @@ export const port = networkPortNumber(
   "listen port for the HTTP server",
   {
     default: 8080,
-  }
+  },
 );
 ```
 
@@ -277,21 +277,21 @@ import { number } from "@eloquent/austenite";
 // required
 export const sampleRatio = number(
   "SAMPLE_RATIO",
-  "ratio of requests to sample"
+  "ratio of requests to sample",
 );
 
 // optional
 export const sampleRatio = number(
   "SAMPLE_RATIO",
   "ratio of requests to sample",
-  { default: undefined }
+  { default: undefined },
 );
 
 // default
 export const sampleRatio = number(
   "SAMPLE_RATIO",
   "ratio of requests to sample",
-  { default: 0.01 }
+  { default: 0.01 },
 );
 ```
 
@@ -303,21 +303,21 @@ import { string } from "@eloquent/austenite";
 // required
 export const readDsn = string(
   "READ_DSN",
-  "database connection string for read-models"
+  "database connection string for read-models",
 );
 
 // optional
 export const readDsn = string(
   "READ_DSN",
   "database connection string for read-models",
-  { default: undefined }
+  { default: undefined },
 );
 
 // default
 export const readDsn = string(
   "READ_DSN",
   "database connection string for read-models",
-  { default: "host=localhost dbname=readmodels user=projector" }
+  { default: "host=localhost dbname=readmodels user=projector" },
 );
 ```
 

@@ -24,7 +24,7 @@ const defaultLiterals = {
 export function boolean<O extends Options>(
   name: string,
   description: string,
-  options: O = {} as O
+  options: O = {} as O,
 ): Declaration<boolean, O> {
   const { literals = defaultLiterals } = options;
   const schema = createSchema(name, literals);
@@ -71,7 +71,7 @@ function createSchema(name: string, literals: Literals): Enum<boolean> {
 function findLiteral(
   name: string,
   literals: Literals,
-  native: boolean
+  native: boolean,
 ): string {
   for (const [literal, n] of Object.entries(literals)) {
     if (n === native) return literal;
@@ -82,7 +82,7 @@ function findLiteral(
 
 function buildExamples(
   literals: Literals,
-  def: Maybe<boolean | undefined>
+  def: Maybe<boolean | undefined>,
 ): Examples {
   const defValue = def.isDefined ? def.value : undefined;
 
@@ -91,7 +91,7 @@ function buildExamples(
       canonical: literal,
       description:
         defValue === native ? `${String(native)} (default)` : String(native),
-    }))
+    })),
   );
 }
 

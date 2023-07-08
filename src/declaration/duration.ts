@@ -18,7 +18,7 @@ export type Options = DeclarationOptions<Duration>;
 export function duration<O extends Options>(
   name: string,
   description: string,
-  options: O = {} as O
+  options: O = {} as O,
 ): Declaration<Duration, O> {
   const def = defaultFromOptions(options);
   const schema = createSchema();
@@ -52,7 +52,7 @@ function createSchema(): Scalar<Duration> {
 
 function buildExamples(
   schema: Scalar<Duration>,
-  def: Maybe<Duration | undefined>
+  def: Maybe<Duration | undefined>,
 ): Examples {
   let defExample: Example | undefined;
 
@@ -72,6 +72,6 @@ function buildExamples(
     {
       canonical: Duration.from({ months: 1, days: 15, hours: 12 }).toString(),
       description: "ISO 8601 duration",
-    }
+    },
   );
 }

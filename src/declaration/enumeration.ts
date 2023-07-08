@@ -23,7 +23,7 @@ export function enumeration<T, O extends Options<T>>(
   name: string,
   description: string,
   members: Members<T>,
-  options: O = {} as O
+  options: O = {} as O,
 ): Declaration<T, O> {
   const def = defaultFromOptions(options);
   const schema = createSchema(name, members);
@@ -74,7 +74,7 @@ function createSchema<T>(name: string, members: Members<T>): Enum<T> {
 function buildExamples<T>(
   members: Members<T>,
   schema: Enum<T>,
-  def: Maybe<T | undefined>
+  def: Maybe<T | undefined>,
 ): Examples {
   const defValue = def.isDefined ? def.value : undefined;
 
@@ -83,7 +83,7 @@ function buildExamples<T>(
       canonical: literal,
       description:
         defValue === value ? `${description} (default)` : description,
-    }))
+    })),
   );
 }
 

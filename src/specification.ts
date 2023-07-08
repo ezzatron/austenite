@@ -14,7 +14,7 @@ export function render(variables: Variable<unknown>[]): string {
     parts.push(
       index(variables),
       specification(variables),
-      usage(app, variables)
+      usage(app, variables),
     );
   }
 
@@ -49,7 +49,7 @@ document only shows those variables defined using [Austenite].
 function index(variables: Variable<unknown>[]): string {
   const items = variables.map(
     ({ spec: { name, description } }) =>
-      `- [${inlineCode(name)}](#${name}) — ${description}`
+      `- [${inlineCode(name)}](#${name}) — ${description}`,
   );
 
   return `## Index

@@ -23,7 +23,7 @@ export interface Options extends DeclarationOptions<KubernetesAddress> {
 
 export function kubernetesAddress<O extends Options>(
   name: string,
-  options: O = {} as O
+  options: O = {} as O,
 ): Declaration<KubernetesAddress, O> {
   const { portName } = options;
   const def = defaultFromOptions(options);
@@ -50,7 +50,7 @@ export function kubernetesAddress<O extends Options>(
 
 function registerHost(
   name: string,
-  def: Maybe<KubernetesAddress | undefined>
+  def: Maybe<KubernetesAddress | undefined>,
 ): Variable<string> {
   const hostDef = map(def, (address) => address?.host);
   const schema = createString("hostname");
@@ -85,7 +85,7 @@ function registerHost(
       {
         canonical: "10.0.0.11",
         description: "an IP address",
-      }
+      },
     ),
     constraint: validateHost,
   });
@@ -101,7 +101,7 @@ function validateHost(host: string): void {
   }
   if (host.includes(":")) {
     throw new Error(
-      "must not contain a colon (:) unless part of an IPv6 address"
+      "must not contain a colon (:) unless part of an IPv6 address",
     );
   }
   if (host.startsWith(".") || host.endsWith(".")) {
@@ -112,7 +112,7 @@ function validateHost(host: string): void {
 function registerPort(
   name: string,
   def: Maybe<KubernetesAddress | undefined>,
-  portName?: string
+  portName?: string,
 ): Variable<number> {
   const envName = nameToEnv(name);
   let varName: string, description: string;
@@ -184,7 +184,7 @@ function nameToEnv(name: string): string {
   }
   if (!/^[a-z0-9-]+$/.test(name)) {
     throw new Error(
-      "must contain only lowercase ASCII letters, digits and hyphen"
+      "must contain only lowercase ASCII letters, digits and hyphen",
     );
   }
 
@@ -196,7 +196,7 @@ class InvalidServiceNameError extends Error {
     const quotedName = JSON.stringify(name);
 
     super(
-      `specification for Kubernetes service address is invalid: service name (${quotedName}): ${cause.message}`
+      `specification for Kubernetes service address is invalid: service name (${quotedName}): ${cause.message}`,
     );
   }
 }
@@ -206,7 +206,7 @@ class InvalidPortNameError extends Error {
     const quotedName = JSON.stringify(portName);
 
     super(
-      `specification for Kubernetes ${name} service address is invalid: port name (${quotedName}): ${cause.message}`
+      `specification for Kubernetes ${name} service address is invalid: port name (${quotedName}): ${cause.message}`,
     );
   }
 }

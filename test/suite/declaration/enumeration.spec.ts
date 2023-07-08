@@ -26,7 +26,7 @@ describe("Enumeration declarations", () => {
       declaration = enumeration(
         "AUSTENITE_ENUMERATION",
         "<description>",
-        members
+        members,
       );
 
       initialize({ onInvalid: noop });
@@ -36,7 +36,7 @@ describe("Enumeration declarations", () => {
       expect(() => {
         declaration.value();
       }).toThrow(
-        "AUSTENITE_ENUMERATION is undefined and does not have a default value"
+        "AUSTENITE_ENUMERATION is undefined and does not have a default value",
       );
     });
   });
@@ -47,7 +47,7 @@ describe("Enumeration declarations", () => {
         "AUSTENITE_ENUMERATION",
         "<description>",
         members,
-        {}
+        {},
       );
 
       initialize({ onInvalid: noop });
@@ -57,7 +57,7 @@ describe("Enumeration declarations", () => {
       expect(() => {
         declaration.value();
       }).toThrow(
-        "AUSTENITE_ENUMERATION is undefined and does not have a default value"
+        "AUSTENITE_ENUMERATION is undefined and does not have a default value",
       );
     });
   });
@@ -67,7 +67,7 @@ describe("Enumeration declarations", () => {
       declaration = enumeration(
         "AUSTENITE_ENUMERATION",
         "<description>",
-        members
+        members,
       );
     });
 
@@ -77,7 +77,7 @@ describe("Enumeration declarations", () => {
         const declaration = enumeration(
           "AUSTENITE_ENUMERATION",
           "<description>",
-          members
+          members,
         );
 
         process.env.AUSTENITE_ENUMERATION = "<member-1>";
@@ -112,7 +112,7 @@ describe("Enumeration declarations", () => {
             expect(declaration.value()).toBe(expected);
           });
         });
-      }
+      },
     );
 
     describe("when the value is invalid", () => {
@@ -127,7 +127,7 @@ describe("Enumeration declarations", () => {
           expect(() => {
             declaration.value();
           }).toThrow(
-            "value of AUSTENITE_ENUMERATION ('<non-member>') is invalid: expected '<member-0>', '<member-1>', or '<member-2>'"
+            "value of AUSTENITE_ENUMERATION ('<non-member>') is invalid: expected '<member-0>', '<member-1>', or '<member-2>'",
           );
         });
       });
@@ -143,7 +143,7 @@ describe("Enumeration declarations", () => {
           expect(() => {
             declaration.value();
           }).toThrow(
-            "AUSTENITE_ENUMERATION is undefined and does not have a default value"
+            "AUSTENITE_ENUMERATION is undefined and does not have a default value",
           );
         });
       });
@@ -158,7 +158,7 @@ describe("Enumeration declarations", () => {
         members,
         {
           default: undefined,
-        }
+        },
       );
     });
 
@@ -171,14 +171,14 @@ describe("Enumeration declarations", () => {
           members,
           {
             default: undefined,
-          }
+          },
         );
 
         initialize({ onInvalid: noop });
         const actual = declaration.value();
 
         expect(
-          hasType<0 | 1 | 2 | undefined, typeof actual>(actual)
+          hasType<0 | 1 | 2 | undefined, typeof actual>(actual),
         ).toBeNull();
       });
     });
@@ -202,7 +202,7 @@ describe("Enumeration declarations", () => {
             expect(declaration.value()).toBe(expected);
           });
         });
-      }
+      },
     );
 
     describe("when the value is invalid", () => {
@@ -217,7 +217,7 @@ describe("Enumeration declarations", () => {
           expect(() => {
             declaration.value();
           }).toThrow(
-            "value of AUSTENITE_ENUMERATION ('<non-member>') is invalid: expected '<member-0>', '<member-1>', or '<member-2>'"
+            "value of AUSTENITE_ENUMERATION ('<non-member>') is invalid: expected '<member-0>', '<member-1>', or '<member-2>'",
           );
         });
       });
@@ -232,7 +232,7 @@ describe("Enumeration declarations", () => {
             members,
             {
               default: 1,
-            }
+            },
           );
 
           initialize({ onInvalid: noop });
@@ -253,7 +253,7 @@ describe("Enumeration declarations", () => {
             members,
             {
               default: undefined,
-            }
+            },
           );
 
           initialize({ onInvalid: noop });
@@ -284,7 +284,7 @@ describe("Enumeration declarations", () => {
       expect(() => {
         enumeration("AUSTENITE_ENUMERATION", "<description>", members);
       }).toThrow(
-        "specification for AUSTENITE_ENUMERATION is invalid: members can not be empty strings"
+        "specification for AUSTENITE_ENUMERATION is invalid: members can not be empty strings",
       );
     });
   });
@@ -301,7 +301,7 @@ describe("Enumeration declarations", () => {
       expect(() => {
         enumeration("AUSTENITE_ENUMERATION", "<description>", members);
       }).toThrow(
-        "specification for AUSTENITE_ENUMERATION is invalid: must have at least 2 members"
+        "specification for AUSTENITE_ENUMERATION is invalid: must have at least 2 members",
       );
     });
   });

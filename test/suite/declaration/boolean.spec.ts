@@ -17,7 +17,7 @@ describe("Boolean declarations", () => {
       expect(() => {
         declaration.value();
       }).toThrow(
-        "AUSTENITE_BOOLEAN is undefined and does not have a default value"
+        "AUSTENITE_BOOLEAN is undefined and does not have a default value",
       );
     });
   });
@@ -33,7 +33,7 @@ describe("Boolean declarations", () => {
       expect(() => {
         declaration.value();
       }).toThrow(
-        "AUSTENITE_BOOLEAN is undefined and does not have a default value"
+        "AUSTENITE_BOOLEAN is undefined and does not have a default value",
       );
     });
   });
@@ -79,7 +79,7 @@ describe("Boolean declarations", () => {
             expect(declaration.value()).toBe(expected);
           });
         });
-      }
+      },
     );
 
     describe.each`
@@ -102,7 +102,7 @@ describe("Boolean declarations", () => {
             }).toThrow(expected);
           });
         });
-      }
+      },
     );
 
     describe("when the value is empty", () => {
@@ -115,7 +115,7 @@ describe("Boolean declarations", () => {
           expect(() => {
             declaration.value();
           }).toThrow(
-            "AUSTENITE_BOOLEAN is undefined and does not have a default value"
+            "AUSTENITE_BOOLEAN is undefined and does not have a default value",
           );
         });
       });
@@ -161,7 +161,7 @@ describe("Boolean declarations", () => {
             expect(declaration.value()).toBe(expected);
           });
         });
-      }
+      },
     );
 
     describe.each`
@@ -184,7 +184,7 @@ describe("Boolean declarations", () => {
             }).toThrow(expected);
           });
         });
-      }
+      },
     );
 
     describe("when the value is empty", () => {
@@ -204,7 +204,7 @@ describe("Boolean declarations", () => {
               expect(declaration.value()).toBe(def);
             });
           });
-        }
+        },
       );
 
       describe("when there is no default value", () => {
@@ -257,7 +257,7 @@ describe("Boolean declarations", () => {
             expect(declaration.value()).toBe(expected);
           });
         });
-      }
+      },
     );
 
     describe.each`
@@ -280,7 +280,7 @@ describe("Boolean declarations", () => {
             }).toThrow(expected);
           });
         });
-      }
+      },
     );
 
     describe("when a true literal is empty", () => {
@@ -297,7 +297,7 @@ describe("Boolean declarations", () => {
             literals,
           });
         }).toThrow(
-          "specification for AUSTENITE_BOOLEAN is invalid: literals can not be empty strings"
+          "specification for AUSTENITE_BOOLEAN is invalid: literals can not be empty strings",
         );
       });
     });
@@ -316,7 +316,7 @@ describe("Boolean declarations", () => {
             literals,
           });
         }).toThrow(
-          "specification for AUSTENITE_BOOLEAN is invalid: literals can not be empty strings"
+          "specification for AUSTENITE_BOOLEAN is invalid: literals can not be empty strings",
         );
       });
     });
@@ -333,7 +333,7 @@ describe("Boolean declarations", () => {
             literals,
           });
         }).toThrow(
-          "specification for AUSTENITE_BOOLEAN is invalid: a true literal must be defined"
+          "specification for AUSTENITE_BOOLEAN is invalid: a true literal must be defined",
         );
       });
     });
@@ -350,7 +350,7 @@ describe("Boolean declarations", () => {
             literals,
           });
         }).toThrow(
-          "specification for AUSTENITE_BOOLEAN is invalid: a false literal must be defined"
+          "specification for AUSTENITE_BOOLEAN is invalid: a false literal must be defined",
         );
       });
     });

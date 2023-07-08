@@ -14,7 +14,7 @@ export type Options = DeclarationOptions<string>;
 export function string<O extends Options>(
   name: string,
   description: string,
-  options: O = {} as O
+  options: O = {} as O,
 ): Declaration<string, O> {
   const def = defaultFromOptions(options);
   const schema = createString("string");
@@ -36,7 +36,7 @@ export function string<O extends Options>(
 
 function buildExamples(
   schema: Scalar<string>,
-  def: Maybe<string | undefined>
+  def: Maybe<string | undefined>,
 ): Examples {
   let defExample: Example | undefined;
 
@@ -56,6 +56,6 @@ function buildExamples(
     {
       canonical: "alabaster parakeet",
       description: "some values may need escaping",
-    }
+    },
   );
 }

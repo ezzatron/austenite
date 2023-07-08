@@ -39,7 +39,7 @@ describe("URL declarations", () => {
       expect(() => {
         declaration.value();
       }).toThrow(
-        "AUSTENITE_URL is undefined and does not have a default value"
+        "AUSTENITE_URL is undefined and does not have a default value",
       );
     });
   });
@@ -55,7 +55,7 @@ describe("URL declarations", () => {
       expect(() => {
         declaration.value();
       }).toThrow(
-        "AUSTENITE_URL is undefined and does not have a default value"
+        "AUSTENITE_URL is undefined and does not have a default value",
       );
     });
   });
@@ -97,7 +97,7 @@ describe("URL declarations", () => {
             expect(declaration.value()).toEqual(expected);
           });
         });
-      }
+      },
     );
 
     describe.each(invalidValueTable)(
@@ -116,7 +116,7 @@ describe("URL declarations", () => {
             }).toThrow(expected);
           });
         });
-      }
+      },
     );
 
     describe("when the value is empty", () => {
@@ -129,7 +129,7 @@ describe("URL declarations", () => {
           expect(() => {
             declaration.value();
           }).toThrow(
-            "AUSTENITE_URL is undefined and does not have a default value"
+            "AUSTENITE_URL is undefined and does not have a default value",
           );
         });
       });
@@ -171,7 +171,7 @@ describe("URL declarations", () => {
             expect(declaration.value()).toEqual(expected);
           });
         });
-      }
+      },
     );
 
     describe.each(invalidValueTable)(
@@ -190,7 +190,7 @@ describe("URL declarations", () => {
             }).toThrow(expected);
           });
         });
-      }
+      },
     );
 
     describe("when the value is empty", () => {
@@ -206,7 +206,7 @@ describe("URL declarations", () => {
         describe(".value()", () => {
           it("returns the default", () => {
             expect(declaration.value()).toEqual(
-              new URL("https://default.example.org/path/to/resource")
+              new URL("https://default.example.org/path/to/resource"),
             );
           });
         });
@@ -259,7 +259,7 @@ describe("URL declarations", () => {
             expect(declaration.value()).toEqual(new URL(expected));
           });
         });
-      }
+      },
     );
 
     describe("when the value is an absolute URL", () => {
@@ -272,7 +272,7 @@ describe("URL declarations", () => {
       describe(".value()", () => {
         it("returns the specified URL", () => {
           expect(declaration.value()).toEqual(
-            new URL("wss://other.example.org/path/to/resource")
+            new URL("wss://other.example.org/path/to/resource"),
           );
         });
       });
@@ -306,7 +306,7 @@ describe("URL declarations", () => {
             expect(declaration.value()).toEqual(new URL(url));
           });
         });
-      }
+      },
     );
 
     describe("when the value does not match any of the protocols", () => {
@@ -321,7 +321,7 @@ describe("URL declarations", () => {
           expect(() => {
             declaration.value();
           }).toThrow(
-            "value of AUSTENITE_URL (https://host.example.org/path/to/resource) is invalid: protocol must be ws: or wss:"
+            "value of AUSTENITE_URL (https://host.example.org/path/to/resource) is invalid: protocol must be ws: or wss:",
           );
         });
       });
@@ -336,7 +336,7 @@ describe("URL declarations", () => {
             protocols,
           });
         }).toThrow(
-          "specification for AUSTENITE_URL is invalid: list of protocols can not be empty"
+          "specification for AUSTENITE_URL is invalid: list of protocols can not be empty",
         );
       });
     });
@@ -362,7 +362,7 @@ describe("URL declarations", () => {
             });
           }).toThrow(expected);
         });
-      }
+      },
     );
 
     describe("when using a default that does not match any of the protocols", () => {
@@ -375,7 +375,7 @@ describe("URL declarations", () => {
             default: def,
           });
         }).toThrow(
-          "specification for AUSTENITE_URL is invalid: default value: protocol must be ws: or wss:"
+          "specification for AUSTENITE_URL is invalid: default value: protocol must be ws: or wss:",
         );
       });
     });
@@ -390,7 +390,7 @@ describe("URL declarations", () => {
             protocols,
           });
         }).toThrow(
-          "specification for AUSTENITE_URL is invalid: base URL (https://host.example.org/path/to/resource): protocol must be ws: or wss:"
+          "specification for AUSTENITE_URL is invalid: base URL (https://host.example.org/path/to/resource): protocol must be ws: or wss:",
         );
       });
     });

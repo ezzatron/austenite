@@ -111,7 +111,7 @@ describe("Kubernetes address declarations", () => {
       expect(() => {
         declaration.value();
       }).toThrow(
-        "AUSTENITE_SVC_SERVICE_HOST is undefined and does not have a default value"
+        "AUSTENITE_SVC_SERVICE_HOST is undefined and does not have a default value",
       );
     });
   });
@@ -127,7 +127,7 @@ describe("Kubernetes address declarations", () => {
       expect(() => {
         declaration.value();
       }).toThrow(
-        "AUSTENITE_SVC_SERVICE_HOST is undefined and does not have a default value"
+        "AUSTENITE_SVC_SERVICE_HOST is undefined and does not have a default value",
       );
     });
   });
@@ -139,10 +139,10 @@ describe("Kubernetes address declarations", () => {
         expect(() => {
           kubernetesAddress(name);
         }).toThrow(
-          `specification for Kubernetes service address is invalid: service name ${expected}`
+          `specification for Kubernetes service address is invalid: service name ${expected}`,
         );
       });
-    }
+    },
   );
 
   describe("when the declaration is required", () => {
@@ -196,7 +196,7 @@ describe("Kubernetes address declarations", () => {
             expect(declaration.value()).toEqual(expected);
           });
         });
-      }
+      },
     );
 
     describe.each(invalidHostValueTable)(
@@ -216,7 +216,7 @@ describe("Kubernetes address declarations", () => {
             }).toThrow(expected);
           });
         });
-      }
+      },
     );
 
     describe.each(invalidPortValueTable)(
@@ -236,7 +236,7 @@ describe("Kubernetes address declarations", () => {
             }).toThrow(expected);
           });
         });
-      }
+      },
     );
 
     describe("when the host is empty", () => {
@@ -251,7 +251,7 @@ describe("Kubernetes address declarations", () => {
           expect(() => {
             declaration.value();
           }).toThrow(
-            "AUSTENITE_SVC_SERVICE_HOST is undefined and does not have a default value"
+            "AUSTENITE_SVC_SERVICE_HOST is undefined and does not have a default value",
           );
         });
       });
@@ -269,7 +269,7 @@ describe("Kubernetes address declarations", () => {
           expect(() => {
             declaration.value();
           }).toThrow(
-            "AUSTENITE_SVC_SERVICE_PORT is undefined and does not have a default value"
+            "AUSTENITE_SVC_SERVICE_PORT is undefined and does not have a default value",
           );
         });
       });
@@ -285,7 +285,7 @@ describe("Kubernetes address declarations", () => {
           expect(() => {
             declaration.value();
           }).toThrow(
-            "AUSTENITE_SVC_SERVICE_HOST is undefined and does not have a default value"
+            "AUSTENITE_SVC_SERVICE_HOST is undefined and does not have a default value",
           );
         });
       });
@@ -310,7 +310,7 @@ describe("Kubernetes address declarations", () => {
         const actual = declaration.value();
 
         expect(
-          hasType<KubernetesAddress | undefined, typeof actual>(actual)
+          hasType<KubernetesAddress | undefined, typeof actual>(actual),
         ).toBeNull();
       });
     });
@@ -337,7 +337,7 @@ describe("Kubernetes address declarations", () => {
             });
           });
         });
-      }
+      },
     );
 
     describe.each(invalidHostValueTable)(
@@ -357,7 +357,7 @@ describe("Kubernetes address declarations", () => {
             }).toThrow(expected);
           });
         });
-      }
+      },
     );
 
     describe.each(invalidPortValueTable)(
@@ -377,7 +377,7 @@ describe("Kubernetes address declarations", () => {
             }).toThrow(expected);
           });
         });
-      }
+      },
     );
 
     describe("when the host is empty", () => {
@@ -416,7 +416,7 @@ describe("Kubernetes address declarations", () => {
         describe(".value()", () => {
           it("throws", () => {
             expect(() => declaration.value()).toThrow(
-              "AUSTENITE_SVC_SERVICE_PORT is defined but AUSTENITE_SVC_SERVICE_HOST is not, define both or neither"
+              "AUSTENITE_SVC_SERVICE_PORT is defined but AUSTENITE_SVC_SERVICE_HOST is not, define both or neither",
             );
           });
         });
@@ -459,7 +459,7 @@ describe("Kubernetes address declarations", () => {
         describe(".value()", () => {
           it("throws", () => {
             expect(() => declaration.value()).toThrow(
-              "AUSTENITE_SVC_SERVICE_HOST is defined but AUSTENITE_SVC_SERVICE_PORT is not, define both or neither"
+              "AUSTENITE_SVC_SERVICE_HOST is defined but AUSTENITE_SVC_SERVICE_PORT is not, define both or neither",
             );
           });
         });
@@ -517,10 +517,10 @@ describe("Kubernetes address declarations", () => {
               portName,
             });
           }).toThrow(
-            `specification for Kubernetes austenite-svc service address is invalid: port name ${expected}`
+            `specification for Kubernetes austenite-svc service address is invalid: port name ${expected}`,
           );
         });
-      }
+      },
     );
 
     describe("when the host and port are valid", () => {
@@ -561,7 +561,7 @@ describe("Kubernetes address declarations", () => {
           });
         }).not.toThrow();
       });
-    }
+    },
   );
 
   describe.each`
@@ -583,10 +583,10 @@ describe("Kubernetes address declarations", () => {
             },
           });
         }).toThrow(
-          `specification for AUSTENITE_SVC_SERVICE_HOST is invalid: default value: ${expected}`
+          `specification for AUSTENITE_SVC_SERVICE_HOST is invalid: default value: ${expected}`,
         );
       });
-    }
+    },
   );
 
   describe.each`
@@ -606,7 +606,7 @@ describe("Kubernetes address declarations", () => {
           });
         }).not.toThrow();
       });
-    }
+    },
   );
 
   describe.each`
@@ -627,9 +627,9 @@ describe("Kubernetes address declarations", () => {
             },
           });
         }).toThrow(
-          `specification for AUSTENITE_SVC_SERVICE_PORT is invalid: default value: ${expected}`
+          `specification for AUSTENITE_SVC_SERVICE_PORT is invalid: default value: ${expected}`,
         );
       });
-    }
+    },
   );
 });

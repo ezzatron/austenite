@@ -48,7 +48,7 @@ describe("Number declarations", () => {
       expect(() => {
         declaration.value();
       }).toThrow(
-        "AUSTENITE_NUMBER is undefined and does not have a default value"
+        "AUSTENITE_NUMBER is undefined and does not have a default value",
       );
     });
   });
@@ -64,7 +64,7 @@ describe("Number declarations", () => {
       expect(() => {
         declaration.value();
       }).toThrow(
-        "AUSTENITE_NUMBER is undefined and does not have a default value"
+        "AUSTENITE_NUMBER is undefined and does not have a default value",
       );
     });
   });
@@ -106,7 +106,7 @@ describe("Number declarations", () => {
             expect(declaration.value()).toEqual(expected);
           });
         });
-      }
+      },
     );
 
     describe.each(invalidValueTable)(
@@ -125,7 +125,7 @@ describe("Number declarations", () => {
             }).toThrow(expected);
           });
         });
-      }
+      },
     );
 
     describe("when the value is empty", () => {
@@ -138,7 +138,7 @@ describe("Number declarations", () => {
           expect(() => {
             declaration.value();
           }).toThrow(
-            "AUSTENITE_NUMBER is undefined and does not have a default value"
+            "AUSTENITE_NUMBER is undefined and does not have a default value",
           );
         });
       });
@@ -180,7 +180,7 @@ describe("Number declarations", () => {
             expect(declaration.value()).toEqual(expected);
           });
         });
-      }
+      },
     );
 
     describe.each(invalidValueTable)(
@@ -199,7 +199,7 @@ describe("Number declarations", () => {
             }).toThrow(expected);
           });
         });
-      }
+      },
     );
 
     describe("when the value is empty", () => {

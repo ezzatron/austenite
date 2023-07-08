@@ -14,7 +14,7 @@ export type Options<T> = DeclarationOptions<T>;
 export function networkPortNumber<O extends Options<number>>(
   name: string,
   description: string,
-  options: O = {} as O
+  options: O = {} as O,
 ): Declaration<number, O> {
   const def = defaultFromOptions(options);
   const schema = createSchema();
@@ -57,7 +57,7 @@ function validate(port: number): void {
 
 function buildExamples(
   schema: Scalar<number>,
-  def: Maybe<number | undefined>
+  def: Maybe<number | undefined>,
 ): Examples {
   let defExample: Example | undefined;
 

@@ -19,7 +19,7 @@ import {
 import { MockConsole, createMockConsole } from "../helpers.js";
 
 const fixturesPath = fileURLToPath(
-  new URL("../fixture/specification", import.meta.url)
+  new URL("../fixture/specification", import.meta.url),
 );
 
 const { Duration } = Temporal;
@@ -49,7 +49,7 @@ describe("Specification documents", () => {
       initialize();
 
       expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("big-integer/required")
+        await readFixture("big-integer/required"),
       );
       expect(exitCode).toBe(0);
     });
@@ -61,7 +61,7 @@ describe("Specification documents", () => {
       initialize();
 
       expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("big-integer/optional")
+        await readFixture("big-integer/optional"),
       );
       expect(exitCode).toBe(0);
     });
@@ -73,7 +73,7 @@ describe("Specification documents", () => {
       initialize();
 
       expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("big-integer/default")
+        await readFixture("big-integer/default"),
       );
       expect(exitCode).toBe(0);
     });
@@ -85,7 +85,7 @@ describe("Specification documents", () => {
       initialize();
 
       expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("boolean/required")
+        await readFixture("boolean/required"),
       );
       expect(exitCode).toBe(0);
     });
@@ -97,7 +97,7 @@ describe("Specification documents", () => {
       initialize();
 
       expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("boolean/optional")
+        await readFixture("boolean/optional"),
       );
       expect(exitCode).toBe(0);
     });
@@ -112,7 +112,7 @@ describe("Specification documents", () => {
       initialize();
 
       expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("boolean/default")
+        await readFixture("boolean/default"),
       );
       expect(exitCode).toBe(0);
     });
@@ -130,7 +130,7 @@ describe("Specification documents", () => {
       initialize();
 
       expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("boolean/custom-literals")
+        await readFixture("boolean/custom-literals"),
       );
       expect(exitCode).toBe(0);
     });
@@ -142,7 +142,7 @@ describe("Specification documents", () => {
       initialize();
 
       expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("duration/required")
+        await readFixture("duration/required"),
       );
       expect(exitCode).toBe(0);
     });
@@ -154,7 +154,7 @@ describe("Specification documents", () => {
       initialize();
 
       expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("duration/optional")
+        await readFixture("duration/optional"),
       );
       expect(exitCode).toBe(0);
     });
@@ -166,7 +166,7 @@ describe("Specification documents", () => {
       initialize();
 
       expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("duration/default")
+        await readFixture("duration/default"),
       );
       expect(exitCode).toBe(0);
     });
@@ -192,7 +192,7 @@ describe("Specification documents", () => {
       initialize();
 
       expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("enumeration/required")
+        await readFixture("enumeration/required"),
       );
       expect(exitCode).toBe(0);
     });
@@ -204,7 +204,7 @@ describe("Specification documents", () => {
       initialize();
 
       expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("enumeration/optional")
+        await readFixture("enumeration/optional"),
       );
       expect(exitCode).toBe(0);
     });
@@ -216,7 +216,7 @@ describe("Specification documents", () => {
       initialize();
 
       expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("enumeration/default")
+        await readFixture("enumeration/default"),
       );
       expect(exitCode).toBe(0);
     });
@@ -228,7 +228,7 @@ describe("Specification documents", () => {
       initialize();
 
       expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("integer/required")
+        await readFixture("integer/required"),
       );
       expect(exitCode).toBe(0);
     });
@@ -240,7 +240,7 @@ describe("Specification documents", () => {
       initialize();
 
       expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("integer/optional")
+        await readFixture("integer/optional"),
       );
       expect(exitCode).toBe(0);
     });
@@ -252,7 +252,7 @@ describe("Specification documents", () => {
       initialize();
 
       expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("integer/default")
+        await readFixture("integer/default"),
       );
       expect(exitCode).toBe(0);
     });
@@ -264,7 +264,7 @@ describe("Specification documents", () => {
       initialize();
 
       expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("kubernetes-address/required")
+        await readFixture("kubernetes-address/required"),
       );
       expect(exitCode).toBe(0);
     });
@@ -276,7 +276,7 @@ describe("Specification documents", () => {
       initialize();
 
       expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("kubernetes-address/optional")
+        await readFixture("kubernetes-address/optional"),
       );
       expect(exitCode).toBe(0);
     });
@@ -291,7 +291,7 @@ describe("Specification documents", () => {
       initialize();
 
       expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("kubernetes-address/default")
+        await readFixture("kubernetes-address/default"),
       );
       expect(exitCode).toBe(0);
     });
@@ -306,7 +306,7 @@ describe("Specification documents", () => {
       initialize();
 
       expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("kubernetes-address/named-ports")
+        await readFixture("kubernetes-address/named-ports"),
       );
       expect(exitCode).toBe(0);
     });
@@ -318,7 +318,7 @@ describe("Specification documents", () => {
       initialize();
 
       expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("network-port-number/required")
+        await readFixture("network-port-number/required"),
       );
       expect(exitCode).toBe(0);
     });
@@ -330,7 +330,7 @@ describe("Specification documents", () => {
       initialize();
 
       expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("network-port-number/optional")
+        await readFixture("network-port-number/optional"),
       );
       expect(exitCode).toBe(0);
     });
@@ -342,7 +342,7 @@ describe("Specification documents", () => {
       initialize();
 
       expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("network-port-number/default")
+        await readFixture("network-port-number/default"),
       );
       expect(exitCode).toBe(0);
     });
@@ -354,7 +354,7 @@ describe("Specification documents", () => {
       initialize();
 
       expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("number/required")
+        await readFixture("number/required"),
       );
       expect(exitCode).toBe(0);
     });
@@ -366,7 +366,7 @@ describe("Specification documents", () => {
       initialize();
 
       expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("number/optional")
+        await readFixture("number/optional"),
       );
       expect(exitCode).toBe(0);
     });
@@ -378,7 +378,7 @@ describe("Specification documents", () => {
       initialize();
 
       expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("number/default")
+        await readFixture("number/default"),
       );
       expect(exitCode).toBe(0);
     });
@@ -390,7 +390,7 @@ describe("Specification documents", () => {
       initialize();
 
       expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("string/required")
+        await readFixture("string/required"),
       );
       expect(exitCode).toBe(0);
     });
@@ -402,7 +402,7 @@ describe("Specification documents", () => {
       initialize();
 
       expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("string/optional")
+        await readFixture("string/optional"),
       );
       expect(exitCode).toBe(0);
     });
@@ -414,7 +414,7 @@ describe("Specification documents", () => {
       initialize();
 
       expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("string/default")
+        await readFixture("string/default"),
       );
       expect(exitCode).toBe(0);
     });
@@ -426,7 +426,7 @@ describe("Specification documents", () => {
       initialize();
 
       expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("string/quoting")
+        await readFixture("string/quoting"),
       );
       expect(exitCode).toBe(0);
     });
@@ -438,7 +438,7 @@ describe("Specification documents", () => {
       initialize();
 
       expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("url/required")
+        await readFixture("url/required"),
       );
       expect(exitCode).toBe(0);
     });
@@ -450,7 +450,7 @@ describe("Specification documents", () => {
       initialize();
 
       expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("url/optional")
+        await readFixture("url/optional"),
       );
       expect(exitCode).toBe(0);
     });
@@ -462,7 +462,7 @@ describe("Specification documents", () => {
       initialize();
 
       expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("url/default")
+        await readFixture("url/default"),
       );
       expect(exitCode).toBe(0);
     });
@@ -474,7 +474,7 @@ describe("Specification documents", () => {
       initialize();
 
       expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("url/base")
+        await readFixture("url/base"),
       );
       expect(exitCode).toBe(0);
     });
@@ -486,7 +486,7 @@ describe("Specification documents", () => {
       initialize();
 
       expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("url/protocols")
+        await readFixture("url/protocols"),
       );
       expect(exitCode).toBe(0);
     });

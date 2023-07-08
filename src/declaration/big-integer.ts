@@ -14,7 +14,7 @@ export type Options<T> = DeclarationOptions<T>;
 export function bigInteger<O extends Options<bigint>>(
   name: string,
   description: string,
-  options: O = {} as O
+  options: O = {} as O,
 ): Declaration<bigint, O> {
   const def = defaultFromOptions(options);
   const schema = createSchema();
@@ -48,7 +48,7 @@ function createSchema(): Scalar<bigint> {
 
 function buildExamples(
   schema: Scalar<bigint>,
-  def: Maybe<bigint | undefined>
+  def: Maybe<bigint | undefined>,
 ): Examples {
   let defExample: Example | undefined;
 
@@ -80,6 +80,6 @@ function buildExamples(
     {
       canonical: "0b11110001001000000",
       description: "binary",
-    }
+    },
   );
 }

@@ -22,7 +22,7 @@ export interface Options extends DeclarationOptions<URL> {
 export function url<O extends Options>(
   name: string,
   description: string,
-  options: O = {} as O
+  options: O = {} as O,
 ): Declaration<URL, O> {
   const { base, protocols } = options;
   assertProtocols(name, protocols);
@@ -58,7 +58,7 @@ function assertProtocols(name: string, protocols: string[] | undefined): void {
       throw new InvalidProtocolError(
         name,
         protocol,
-        "must end with a colon (:)"
+        "must end with a colon (:)",
       );
     }
 
@@ -66,7 +66,7 @@ function assertProtocols(name: string, protocols: string[] | undefined): void {
       throw new InvalidProtocolError(
         name,
         protocol,
-        "must be a valid protocol"
+        "must be a valid protocol",
       );
     }
   }
@@ -75,7 +75,7 @@ function assertProtocols(name: string, protocols: string[] | undefined): void {
 function assertBase(
   name: string,
   validate: Constraint<URL> | undefined,
-  base: URL | undefined
+  base: URL | undefined,
 ): void {
   if (base == null || validate == null) return;
 
@@ -101,7 +101,7 @@ function createSchema(base: URL | undefined): Scalar<URL> {
 }
 
 function createValidate(
-  protocols: string[] | undefined
+  protocols: string[] | undefined,
 ): Constraint<URL> | undefined {
   if (protocols == null) return undefined;
 
@@ -120,7 +120,7 @@ function buildExamples(
   base: URL | undefined,
   protocols: string[] | undefined,
   schema: Scalar<URL>,
-  def: Maybe<URL | undefined>
+  def: Maybe<URL | undefined>,
 ): Examples {
   let defExample: Example | undefined;
   let protocolExamples: Example[];
@@ -173,7 +173,7 @@ class InvalidProtocolError extends SpecError {
   constructor(name: string, protocol: string, message: string) {
     super(
       name,
-      new Error(`protocol (${JSON.stringify(protocol)}): ${message}`)
+      new Error(`protocol (${JSON.stringify(protocol)}): ${message}`),
     );
   }
 }

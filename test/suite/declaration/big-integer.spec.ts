@@ -57,7 +57,7 @@ describe("Big integer declarations", () => {
       expect(() => {
         declaration.value();
       }).toThrow(
-        "AUSTENITE_INTEGER is undefined and does not have a default value"
+        "AUSTENITE_INTEGER is undefined and does not have a default value",
       );
     });
   });
@@ -73,7 +73,7 @@ describe("Big integer declarations", () => {
       expect(() => {
         declaration.value();
       }).toThrow(
-        "AUSTENITE_INTEGER is undefined and does not have a default value"
+        "AUSTENITE_INTEGER is undefined and does not have a default value",
       );
     });
   });
@@ -115,7 +115,7 @@ describe("Big integer declarations", () => {
             expect(declaration.value()).toEqual(expected);
           });
         });
-      }
+      },
     );
 
     describe.each(invalidValueTable)(
@@ -134,7 +134,7 @@ describe("Big integer declarations", () => {
             }).toThrow(expected);
           });
         });
-      }
+      },
     );
 
     describe("when the value is empty", () => {
@@ -147,7 +147,7 @@ describe("Big integer declarations", () => {
           expect(() => {
             declaration.value();
           }).toThrow(
-            "AUSTENITE_INTEGER is undefined and does not have a default value"
+            "AUSTENITE_INTEGER is undefined and does not have a default value",
           );
         });
       });
@@ -189,7 +189,7 @@ describe("Big integer declarations", () => {
             expect(declaration.value()).toEqual(expected);
           });
         });
-      }
+      },
     );
 
     describe.each(invalidValueTable)(
@@ -208,7 +208,7 @@ describe("Big integer declarations", () => {
             }).toThrow(expected);
           });
         });
-      }
+      },
     );
 
     describe("when the value is empty", () => {

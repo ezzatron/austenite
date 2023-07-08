@@ -15,7 +15,7 @@ export const cdnUrl = url("CDN_URL", "CDN to use when serving static assets");
 
 export const earthAtomCount = bigInteger(
   "EARTH_ATOM_COUNT",
-  "number of atoms on earth"
+  "number of atoms on earth",
 );
 
 export const grpcTimeout = duration("GRPC_TIMEOUT", "gRPC request timeout");
@@ -36,24 +36,24 @@ export const logLevel = enumeration(
       description: "a healthy application shouldn't produce any errors",
     },
     fatal: { value: "fatal", description: "the application cannot proceed" },
-  }
+  },
 );
 
 export const port = networkPortNumber(
   "PORT",
-  "listen port for the HTTP server"
+  "listen port for the HTTP server",
 );
 
 export const readDsn = string(
   "READ_DSN",
-  "database connection string for read-models"
+  "database connection string for read-models",
 );
 
 export const redisPrimary = kubernetesAddress("redis-primary");
 
 export const sampleRatio = number(
   "SAMPLE_RATIO",
-  "ratio of requests to sample"
+  "ratio of requests to sample",
 );
 
 export const weight = integer("WEIGHT", "weighting for this node");

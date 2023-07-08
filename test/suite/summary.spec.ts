@@ -101,7 +101,7 @@ describe("Validation summary", () => {
         "  AUSTENITE_URL               example URL                                <URL>                  ✓ set to https://host.example.org/path/to/resource",
         "❯ AUSTENITE_XTRIGGER          trigger failure                            <string>               ✗ undefined",
         "",
-      ].join(EOL)
+      ].join(EOL),
     );
     expect(exitCode).toBeGreaterThan(0);
   });
@@ -148,7 +148,7 @@ describe("Validation summary", () => {
       },
       {
         default: undefined,
-      }
+      },
     );
     duration("AUSTENITE_DURATION", "example duration", {
       default: undefined,
@@ -182,7 +182,7 @@ describe("Validation summary", () => {
         "  AUSTENITE_URL               example URL                              [ <URL> ]                • undefined",
         "❯ AUSTENITE_XTRIGGER          trigger failure                            <string>               ✗ undefined",
         "",
-      ].join(EOL)
+      ].join(EOL),
     );
     expect(exitCode).toBeGreaterThan(0);
   });
@@ -232,7 +232,7 @@ describe("Validation summary", () => {
       } as const,
       {
         default: "bar",
-      }
+      },
     );
     duration("AUSTENITE_DURATION", "example duration", {
       default: Duration.from("PT10S"),
@@ -266,7 +266,7 @@ describe("Validation summary", () => {
         "  AUSTENITE_URL               example URL                              [ <URL> ] = https://default.example.org/path/to/resource  ✓ using default value",
         "❯ AUSTENITE_XTRIGGER          trigger failure                            <string>                                                ✗ undefined",
         "",
-      ].join(EOL)
+      ].join(EOL),
     );
     expect(exitCode).toBeGreaterThan(0);
   });
@@ -298,7 +298,7 @@ describe("Validation summary", () => {
         "  AUSTENITE_URL          example URL            <URL>                  ✓ set to https://host.example.org/ (specified non-canonically as https://host.example.org)",
         `❯ AUSTENITE_XTRIGGER     trigger failure        <string>               ✗ undefined`,
         ``,
-      ].join(EOL)
+      ].join(EOL),
     );
     expect(exitCode).toBeGreaterThan(0);
   });
@@ -360,7 +360,7 @@ describe("Validation summary", () => {
         "❯ AUSTENITE_URL               example URL                                <URL>                  ✗ set to host.example.org, must be a URL",
         `❯ AUSTENITE_XTRIGGER          trigger failure                            <string>               ✗ undefined`,
         ``,
-      ].join(EOL)
+      ].join(EOL),
     );
     expect(exitCode).toBeGreaterThan(0);
   });
@@ -396,7 +396,7 @@ describe("Validation summary", () => {
         "❯ AUSTENITE_CUSTOM  custom variable    <string>    ✗ set to 'custom value', not really an error",
         "  AUSTENITE_STRING  example string     <string>    ✓ set to 'hello, world!'",
         "",
-      ].join(EOL)
+      ].join(EOL),
     );
     expect(exitCode).toBeGreaterThan(0);
   });

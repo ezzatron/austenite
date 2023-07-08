@@ -24,7 +24,7 @@ export function createString(description: string): Scalar<string> {
 export function createEnum<T>(
   members: Record<string, T>,
   marshal: MarshalFn<T>,
-  unmarshal: UnmarshalFn<T>
+  unmarshal: UnmarshalFn<T>,
 ): Enum<T> {
   return {
     members,
@@ -40,7 +40,7 @@ export function createEnum<T>(
 export function createScalar<T>(
   description: string,
   marshal: MarshalFn<T>,
-  unmarshal: UnmarshalFn<T>
+  unmarshal: UnmarshalFn<T>,
 ): Scalar<T> {
   return {
     description,
