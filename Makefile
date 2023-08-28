@@ -4,7 +4,7 @@ GENERATED_FILES += ENVIRONMENT.md
 
 -include .makefiles/Makefile
 -include .makefiles/pkg/js/v1/Makefile
--include .makefiles/pkg/js/v1/with-yarn.mk
+-include .makefiles/pkg/js/v1/with-npm.mk
 -include .makefiles/pkg/js/v1/with-tsc.mk
 
 .makefiles/%:

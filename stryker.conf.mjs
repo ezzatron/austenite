@@ -1,7 +1,7 @@
 // @ts-check
 /** @type {import('@stryker-mutator/api/core').PartialStrykerOptions} */
 const config = {
-  packageManager: "yarn",
+  packageManager: "npm",
   testRunner: "jest",
   testRunnerNodeArgs: ["--experimental-vm-modules"],
   checkers: ["typescript"],
