@@ -8,6 +8,16 @@ The format is based on [Keep a Changelog], and this project adheres to
 [keep a changelog]: https://keepachangelog.com/en/1.0.0/
 [semantic versioning]: https://semver.org/spec/v2.0.0.html
 
+## Unreleased
+
+## [v0.6.0] - 2023-10-15
+
+[v0.6.0]: https://github.com/ezzatron/austenite/releases/tag/v0.6.0
+
+### Changed
+
+- Renamed the NPM package from `@eloquent/austenite` to `austenite`.
+
 ## [v0.5.0] - 2022-12-30
 
 [v0.5.0]: https://github.com/ezzatron/austenite/releases/tag/v0.5.0
