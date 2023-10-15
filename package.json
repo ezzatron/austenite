@@ -1,5 +1,5 @@
 {
-  "name": "@eloquent/austenite",
+  "name": "austenite",
   "version": "0.0.0",
   "description": "Declarative environment variables for Node.js.",
   "keywords": [
@@ -12,9 +12,9 @@
     "strict",
     "static"
   ],
-  "repository": "eloquent/austenite",
-  "bugs": "https://github.com/eloquent/austenite/issues",
-  "homepage": "https://github.com/eloquent/austenite",
+  "repository": "ezzatron/austenite",
+  "bugs": "https://github.com/ezzatron/austenite/issues",
+  "homepage": "https://github.com/ezzatron/austenite",
   "author": "Erin Millard <contact@erin.id.au>",
   "license": "MIT",
   "publishConfig": {

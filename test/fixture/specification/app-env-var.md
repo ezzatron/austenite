@@ -7,4 +7,4 @@ This document describes the environment variables used by `<custom app name>`.
 The application may consume other undocumented environment variables; this
 document only shows those variables defined using [Austenite].
 
-[austenite]: https://github.com/eloquent/austenite
+[austenite]: https://github.com/ezzatron/austenite

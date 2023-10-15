@@ -10,7 +10,7 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ## [v0.5.0] - 2022-12-30
 
-[v0.5.0]: https://github.com/eloquent/austenite/releases/tag/v0.5.0
+[v0.5.0]: https://github.com/ezzatron/austenite/releases/tag/v0.5.0
 
 ### Added
 
@@ -18,7 +18,7 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ## [v0.4.0] - 2022-10-29
 
-[v0.4.0]: https://github.com/eloquent/austenite/releases/tag/v0.4.0
+[v0.4.0]: https://github.com/ezzatron/austenite/releases/tag/v0.4.0
 
 ### Changed
 
@@ -34,7 +34,7 @@ multiple times in different execution contexts (e.g. both outside and inside
 
 ## [v0.3.0] - 2022-10-26
 
-[v0.3.0]: https://github.com/eloquent/austenite/releases/tag/v0.3.0
+[v0.3.0]: https://github.com/ezzatron/austenite/releases/tag/v0.3.0
 
 ### Added
 
@@ -43,7 +43,7 @@ multiple times in different execution contexts (e.g. both outside and inside
 
 ## [v0.2.5] - 2022-10-26
 
-[v0.2.5]: https://github.com/eloquent/austenite/releases/tag/v0.2.5
+[v0.2.5]: https://github.com/ezzatron/austenite/releases/tag/v0.2.5
 
 ### Fixed
 
@@ -51,7 +51,7 @@ multiple times in different execution contexts (e.g. both outside and inside
 
 ## [v0.2.4] - 2022-10-26
 
-[v0.2.4]: https://github.com/eloquent/austenite/releases/tag/v0.2.4
+[v0.2.4]: https://github.com/ezzatron/austenite/releases/tag/v0.2.4
 
 ### Changed
 
@@ -62,7 +62,7 @@ multiple times in different execution contexts (e.g. both outside and inside
 
 ## [v0.2.3] - 2022-10-25
 
-[v0.2.3]: https://github.com/eloquent/austenite/releases/tag/v0.2.3
+[v0.2.3]: https://github.com/ezzatron/austenite/releases/tag/v0.2.3
 
 ### Fixed
 
@@ -70,7 +70,7 @@ multiple times in different execution contexts (e.g. both outside and inside
 
 ## [v0.2.2] - 2022-10-25
 
-[v0.2.2]: https://github.com/eloquent/austenite/releases/tag/v0.2.2
+[v0.2.2]: https://github.com/ezzatron/austenite/releases/tag/v0.2.2
 
 ### Fixed
 
@@ -79,7 +79,7 @@ multiple times in different execution contexts (e.g. both outside and inside
 
 ## [v0.2.1] - 2022-10-24
 
-[v0.2.1]: https://github.com/eloquent/austenite/releases/tag/v0.2.1
+[v0.2.1]: https://github.com/ezzatron/austenite/releases/tag/v0.2.1
 
 ### Fixed
 
@@ -87,7 +87,7 @@ multiple times in different execution contexts (e.g. both outside and inside
 
 ## [v0.2.0] - 2022-10-24
 
-[v0.2.0]: https://github.com/eloquent/austenite/releases/tag/v0.2.0
+[v0.2.0]: https://github.com/ezzatron/austenite/releases/tag/v0.2.0
 
 ### Added
 
@@ -95,7 +95,7 @@ multiple times in different execution contexts (e.g. both outside and inside
 
 ## [v0.1.0] - 2022-10-24
 
-[v0.1.0]: https://github.com/eloquent/austenite/releases/tag/v0.1.0
+[v0.1.0]: https://github.com/ezzatron/austenite/releases/tag/v0.1.0
 
 ### Added
 

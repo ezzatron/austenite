@@ -6,18 +6,18 @@ _Declarative environment variables for Node.js._
 [![Build status][badge-build-image]][badge-build-link]
 [![Test coverage][badge-coverage-image]][badge-coverage-link]
 
-[badge-build-image]: https://img.shields.io/github/actions/workflow/status/eloquent/austenite/ci.yml?branch=main&style=for-the-badge
-[badge-build-link]: https://github.com/eloquent/austenite/actions/workflows/ci.yml
-[badge-coverage-image]: https://img.shields.io/codecov/c/gh/eloquent/austenite?style=for-the-badge
-[badge-coverage-link]: https://codecov.io/gh/eloquent/austenite
-[badge-version-image]: https://img.shields.io/npm/v/@eloquent/austenite?label=%40eloquent%2Faustenite&logo=npm&style=for-the-badge
-[badge-version-link]: https://npmjs.com/package/@eloquent/austenite
+[badge-build-image]: https://img.shields.io/github/actions/workflow/status/ezzatron/austenite/ci.yml?branch=main&style=for-the-badge
+[badge-build-link]: https://github.com/ezzatron/austenite/actions/workflows/ci.yml
+[badge-coverage-image]: https://img.shields.io/codecov/c/gh/austenite?style=for-the-badge
+[badge-coverage-link]: https://codecov.io/gh/ezzatron/austenite
+[badge-version-image]: https://img.shields.io/npm/v/austenite?label=austenite&logo=npm&style=for-the-badge
+[badge-version-link]: https://npmjs.com/package/austenite
 
 ## Usage
 
 ```ts
 // env.ts - declares everything needed from the environment
-import { boolean, url } from "@eloquent/austenite";
+import { boolean, url } from "austenite";
 
 export const cdnUrl = url("CDN_URL", "CDN to use when serving static assets");
 export const isDebug = boolean(
@@ -29,7 +29,7 @@ export const isDebug = boolean(
 
 ```ts
 // run.ts - starts the service/app, uses declarations from above
-import { initialize } from "@eloquent/austenite";
+import { initialize } from "austenite";
 import { cdnUrl, isDebug } from "./env.ts";
 
 initialize(); // validates the environment
@@ -75,7 +75,7 @@ consumed by each declaration.
 ### `bigInteger`
 
 ```ts
-import { bigInteger } from "@eloquent/austenite";
+import { bigInteger } from "austenite";
 
 // required
 export const earthAtomCount = bigInteger(
@@ -101,7 +101,7 @@ export const earthAtomCount = bigInteger(
 ### `boolean`
 
 ```ts
-import { boolean } from "@eloquent/austenite";
+import { boolean } from "austenite";
 
 // required
 export const isDebug = boolean("DEBUG", "enable or disable debugging features");
@@ -138,8 +138,8 @@ export const isDebug = boolean(
 ### `duration`
 
 ```ts
-import { duration } from "@eloquent/austenite";
 import { Temporal } from "@js-temporal/polyfill";
+import { duration } from "austenite";
 
 // required
 export const grpcTimeout = duration("GRPC_TIMEOUT", "gRPC request timeout");
@@ -158,7 +158,7 @@ export const grpcTimeout = duration("GRPC_TIMEOUT", "gRPC request timeout", {
 ### `enumeration`
 
 ```ts
-import { enumeration } from "@eloquent/austenite";
+import { enumeration } from "austenite";
 
 const members = {
   debug: { value: "debug", description: "show information for developers" },
@@ -201,7 +201,7 @@ export const logLevel = enumeration(
 ### `integer`
 
 ```ts
-import { integer } from "@eloquent/austenite";
+import { integer } from "austenite";
 
 // required
 export const weight = integer("WEIGHT", "weighting for this node");
@@ -220,7 +220,7 @@ export const weight = integer("WEIGHT", "weighting for this node", {
 ### `kubernetesAddress`
 
 ```ts
-import { kubernetesAddress } from "@eloquent/austenite";
+import { kubernetesAddress } from "austenite";
 
 // required
 export const redisPrimary = kubernetesAddress("redis-primary");
@@ -242,7 +242,7 @@ export const redisPrimary = kubernetesAddress("redis-primary", {
 ### `networkPortNumber`
 
 ```ts
-import { networkPortNumber } from "@eloquent/austenite";
+import { networkPortNumber } from "austenite";
 
 // required
 export const port = networkPortNumber(
@@ -272,7 +272,7 @@ export const port = networkPortNumber(
 ### `number`
 
 ```ts
-import { number } from "@eloquent/austenite";
+import { number } from "austenite";
 
 // required
 export const sampleRatio = number(
@@ -298,7 +298,7 @@ export const sampleRatio = number(
 ### `string`
 
 ```ts
-import { string } from "@eloquent/austenite";
+import { string } from "austenite";
 
 // required
 export const readDsn = string(
@@ -324,7 +324,7 @@ export const readDsn = string(
 ### `url`
 
 ```ts
-import { url } from "@eloquent/austenite";
+import { url } from "austenite";
 
 // required
 export const cdnUrl = url("CDN_URL", "CDN to use when serving static assets");
