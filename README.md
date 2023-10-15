@@ -10,7 +10,7 @@ _Declarative environment variables for Node.js._
 [badge-build-link]: https://github.com/ezzatron/austenite/actions/workflows/ci.yml
 [badge-coverage-image]: https://img.shields.io/codecov/c/gh/austenite?style=for-the-badge
 [badge-coverage-link]: https://codecov.io/gh/ezzatron/austenite
-[badge-version-image]: https://img.shields.io/npm/v/austenite?label=austenite&logo=npm&style=for-the-badge
+[badge-version-image]: https://img.shields.io/npm/v/austenite?label=austenite&logo=npm&style=for-the-badge&nonce=iuhsdfiuhsdfiuhsdf
 [badge-version-link]: https://npmjs.com/package/austenite
 
 ## Usage
