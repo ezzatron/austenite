@@ -7,6 +7,6 @@ on:
 
 jobs:
   ci:
-    name: ezzatron
+    name: Ezzatron
     uses: ezzatron/repos/.github/workflows/shared-ci-node-library.yml@main
     secrets: inherit
