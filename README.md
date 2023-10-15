@@ -8,9 +8,9 @@ _Declarative environment variables for Node.js._
 
 [badge-build-image]: https://img.shields.io/github/actions/workflow/status/ezzatron/austenite/ci.yml?branch=main&style=for-the-badge
 [badge-build-link]: https://github.com/ezzatron/austenite/actions/workflows/ci.yml
-[badge-coverage-image]: https://img.shields.io/codecov/c/gh/austenite?style=for-the-badge
+[badge-coverage-image]: https://img.shields.io/codecov/c/gh/ezzatron/austenite?style=for-the-badge
 [badge-coverage-link]: https://codecov.io/gh/ezzatron/austenite
-[badge-version-image]: https://img.shields.io/npm/v/austenite?label=austenite&logo=npm&style=for-the-badge&nonce=iuhsdfiuhsdfiuhsdf
+[badge-version-image]: https://img.shields.io/npm/v/austenite?label=austenite&logo=npm&style=for-the-badge
 [badge-version-link]: https://npmjs.com/package/austenite
 
 ## Usage
