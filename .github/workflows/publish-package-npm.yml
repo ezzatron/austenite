@@ -1,5 +1,5 @@
 # DO NOT EDIT - This file is managed by ezzatron/repos.
-name: CI
+name: Publish package
 
 on:
   push:
@@ -8,6 +8,6 @@ on:
 
 jobs:
   ci:
-    name: ezzatron
+    name: Ezzatron
     uses: ezzatron/repos/.github/workflows/shared-publish-package-npm.yml@main
     secrets: inherit
