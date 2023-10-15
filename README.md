@@ -6,8 +6,8 @@ _Declarative environment variables for Node.js._
 [![Build status][badge-build-image]][badge-build-link]
 [![Test coverage][badge-coverage-image]][badge-coverage-link]
 
-[badge-build-image]: https://img.shields.io/github/actions/workflow/status/ezzatron/austenite/ci.yml?branch=main&style=for-the-badge
-[badge-build-link]: https://github.com/ezzatron/austenite/actions/workflows/ci.yml
+[badge-build-image]: https://img.shields.io/github/actions/workflow/status/ezzatron/austenite/ci-node-library.yml?branch=main&style=for-the-badge
+[badge-build-link]: https://github.com/ezzatron/austenite/actions/workflows/ci-node-library.yml
 [badge-coverage-image]: https://img.shields.io/codecov/c/gh/ezzatron/austenite?style=for-the-badge
 [badge-coverage-link]: https://codecov.io/gh/ezzatron/austenite
 [badge-version-image]: https://img.shields.io/npm/v/austenite?label=austenite&logo=npm&style=for-the-badge
