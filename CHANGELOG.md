@@ -10,6 +10,14 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ## Unreleased
 
+## [v0.6.2] - 2023-10-15
+
+[v0.6.2]: https://github.com/ezzatron/austenite/releases/tag/v0.6.2
+
+### Fixed
+
+- Fixed badge images and links in the README.
+
 ## [v0.6.1] - 2023-10-15
 
 [v0.6.1]: https://github.com/ezzatron/austenite/releases/tag/v0.6.1
