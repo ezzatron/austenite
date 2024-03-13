@@ -81,7 +81,7 @@ function compareVariableNames(a: Variable<unknown>, b: Variable<unknown>) {
   return a.spec.name.localeCompare(b.spec.name);
 }
 
-type OnInvalid = (args: OnInvalidArgs) => void;
+export type OnInvalid = (args: OnInvalidArgs) => void;
 
 interface OnInvalidArgs {
   readonly results: Results;

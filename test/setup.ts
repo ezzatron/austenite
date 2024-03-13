@@ -1,11 +1,11 @@
-import { jest } from "@jest/globals";
+import { afterEach, beforeEach, vi } from "vitest";
 import { reset } from "../src/environment.js";
 
 let argv: typeof process.argv;
 let env: typeof process.env;
 
 beforeEach(() => {
-  jest.spyOn(process, "exit").mockImplementation(() => {
+  vi.spyOn(process, "exit").mockImplementation(() => {
     return undefined as never;
   });
 

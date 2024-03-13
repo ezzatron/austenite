@@ -1,4 +1,5 @@
 import { Temporal } from "@js-temporal/polyfill";
+import { beforeEach, describe, expect, it } from "vitest";
 import { Declaration } from "../../../src/declaration.js";
 import { Options } from "../../../src/declaration/duration.js";
 import { duration, initialize } from "../../../src/index.js";

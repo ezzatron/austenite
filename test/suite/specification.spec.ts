@@ -1,8 +1,8 @@
-import { jest } from "@jest/globals";
 import { Temporal } from "@js-temporal/polyfill";
 import { readFile } from "fs/promises";
 import { join } from "path";
 import { fileURLToPath } from "url";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
   bigInteger,
   boolean,
@@ -30,7 +30,7 @@ describe("Specification documents", () => {
 
   beforeEach(() => {
     exitCode = undefined;
-    jest.spyOn(process, "exit").mockImplementation((code) => {
+    vi.spyOn(process, "exit").mockImplementation((code) => {
       exitCode = code ?? 0;
 
       return undefined as never;

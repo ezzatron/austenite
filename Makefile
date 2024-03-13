@@ -1,5 +1,3 @@
-export NODE_OPTIONS := --experimental-vm-modules --redirect-warnings=artifacts/node-warnings
-
 CHANGELOG_TAG_URL_PREFIX := https://github.com/ezzatron/austenite/releases/tag/
 GENERATED_FILES += ENVIRONMENT.md
 
@@ -17,6 +15,15 @@ GENERATED_FILES += ENVIRONMENT.md
 .PHONY: run-example
 run-example:
 	npx --yes --package=ts-node ts-node-esm test/fixture/example/run.ts
+
+.PHONY: stryker
+stryker: artifacts/link-dependencies.touch
+	$(JS_EXEC) stryker run
+
+.PHONY: stryker-open
+stryker-open: artifacts/link-dependencies.touch
+	$(JS_EXEC) stryker run
+	$(MF_BROWSER) "artifacts/stryker/report.html"
 
 ################################################################################
 

@@ -1,9 +1,9 @@
-import { jest } from "@jest/globals";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { Declaration, Options } from "../../src/declaration.js";
-import { boolean, initialize, string } from "../../src/index.js";
+import { OnInvalid, boolean, initialize, string } from "../../src/index.js";
 import { Results } from "../../src/validation.js";
 import { UndefinedError } from "../../src/variable.js";
-import { MockConsole, createMockConsole } from "../helpers.js";
+import { MockConsole, Mocked, createMockConsole, mockFn } from "../helpers.js";
 
 describe("initialize()", () => {
   let exitCode: number | undefined;
@@ -11,7 +11,7 @@ describe("initialize()", () => {
 
   beforeEach(() => {
     exitCode = undefined;
-    jest.spyOn(process, "exit").mockImplementation((code) => {
+    vi.spyOn(process, "exit").mockImplementation((code) => {
       exitCode = code ?? 0;
 
       return undefined as never;
@@ -48,10 +48,10 @@ describe("initialize()", () => {
     });
 
     describe("when a custom invalid environment handler is specified", () => {
-      let onInvalid: jest.Mock;
+      let onInvalid: Mocked<OnInvalid>;
 
       beforeEach(() => {
-        onInvalid = jest.fn();
+        onInvalid = mockFn();
       });
 
       it("does not call the handler", () => {

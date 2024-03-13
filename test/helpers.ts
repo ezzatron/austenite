@@ -1,6 +1,6 @@
-import { jest } from "@jest/globals";
 import { Console } from "node:console";
 import { Transform } from "node:stream";
+import { Mock, vi } from "vitest";
 
 export type HasType<Expected, Actual> = [Expected] extends [Actual]
   ? [Actual] extends [Expected]
@@ -35,12 +35,28 @@ export function createMockConsole() {
 
   const mockConsole = new Console({ stdout, stderr });
 
-  jest
-    .spyOn(console, "log")
-    .mockImplementation(mockConsole.log.bind(mockConsole));
-  jest
-    .spyOn(console, "error")
-    .mockImplementation(mockConsole.error.bind(mockConsole));
+  vi.spyOn(console, "log").mockImplementation(
+    mockConsole.log.bind(mockConsole),
+  );
+  vi.spyOn(console, "error").mockImplementation(
+    mockConsole.error.bind(mockConsole),
+  );
 
   return { readStdout, readStderr };
+}
+
+type Procedure = (...args: never[]) => void;
+export type Mocked<T extends Procedure = Procedure> = Mock<
+  Parameters<T>,
+  ReturnType<T>
+>;
+
+export function mockFn<T extends Procedure = Procedure>(): Mocked<T>;
+export function mockFn<T extends Procedure = Procedure>(
+  implementation: T,
+): Mocked<T>;
+export function mockFn<T extends Procedure = Procedure>(
+  implementation?: T,
+): Mocked<T> {
+  return vi.fn(implementation as T) as unknown as Mocked<T>;
 }

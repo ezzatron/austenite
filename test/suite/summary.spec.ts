@@ -1,6 +1,6 @@
-import { jest } from "@jest/globals";
 import { Temporal } from "@js-temporal/polyfill";
 import { EOL } from "os";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { registerVariable } from "../../src/environment.js";
 import {
   bigInteger,
@@ -28,7 +28,7 @@ describe("Validation summary", () => {
 
   beforeEach(() => {
     exitCode = undefined;
-    jest.spyOn(process, "exit").mockImplementation((code) => {
+    vi.spyOn(process, "exit").mockImplementation((code) => {
       exitCode = code ?? 0;
 
       return undefined as never;
