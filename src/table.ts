@@ -1,6 +1,6 @@
 import { EOL } from "os";
 
-const segmenter = new Intl.Segmenter("en");
+const segmenter = new Intl.Segmenter();
 
 export function create(padding: number) {
   const pad = " ".repeat(padding);
