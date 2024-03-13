@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { Declaration } from "../../../src/declaration.js";
 import { Options } from "../../../src/declaration/big-integer.js";
 import { bigInteger, initialize } from "../../../src/index.js";
-import { hasType, noop } from "../../helpers.js";
+import { noop } from "../../helpers.js";
 
 const validValueTable = [
   ["zero", "0", 0n],
@@ -84,19 +84,6 @@ describe("Big integer declarations", () => {
       declaration = bigInteger("AUSTENITE_INTEGER", "<description>");
     });
 
-    describe(".value()", () => {
-      it("returns a bigint value", () => {
-        // this test is weird because it tests type inference
-        const declaration = bigInteger("AUSTENITE_INTEGER", "<description>");
-
-        process.env.AUSTENITE_INTEGER = "123456";
-        initialize({ onInvalid: noop });
-        const actual = declaration.value();
-
-        expect(hasType<bigint, typeof actual>(actual)).toBeNull();
-      });
-    });
-
     describe.each(validValueTable)(
       "when the value is valid (%s)",
       (_, integer: string, expected: bigint) => {
@@ -159,20 +146,6 @@ describe("Big integer declarations", () => {
     beforeEach(() => {
       declaration = bigInteger("AUSTENITE_INTEGER", "<description>", {
         default: undefined,
-      });
-    });
-
-    describe(".value()", () => {
-      it("returns an optional bigint value", () => {
-        // this test is weird because it tests type inference
-        const declaration = bigInteger("AUSTENITE_INTEGER", "<description>", {
-          default: undefined,
-        });
-
-        initialize({ onInvalid: noop });
-        const actual = declaration.value();
-
-        expect(hasType<bigint | undefined, typeof actual>(actual)).toBeNull();
       });
     });
 

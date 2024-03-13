@@ -2,16 +2,6 @@ import { Console } from "node:console";
 import { Transform } from "node:stream";
 import { Mock, vi } from "vitest";
 
-export type HasType<Expected, Actual> = [Expected] extends [Actual]
-  ? [Actual] extends [Expected]
-    ? Expected
-    : never
-  : never;
-
-export function hasType<Expected, Actual>(_: HasType<Expected, Actual>): null {
-  return null;
-}
-
 export function noop() {
   return;
 }

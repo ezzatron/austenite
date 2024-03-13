@@ -6,7 +6,7 @@ import {
   initialize,
   kubernetesAddress,
 } from "../../../src/index.js";
-import { hasType, noop } from "../../helpers.js";
+import { noop } from "../../helpers.js";
 
 const invalidHostValueTable = [
   [
@@ -151,20 +151,6 @@ describe("Kubernetes address declarations", () => {
       declaration = kubernetesAddress("austenite-svc");
     });
 
-    describe(".value()", () => {
-      it("returns a kubernetes address", () => {
-        // this test is weird because it tests type inference
-        const declaration = kubernetesAddress("austenite-svc");
-
-        process.env.AUSTENITE_SVC_SERVICE_HOST = "host.example.org";
-        process.env.AUSTENITE_SVC_SERVICE_PORT = "12345";
-        initialize({ onInvalid: noop });
-        const actual = declaration.value();
-
-        expect(hasType<KubernetesAddress, typeof actual>(actual)).toBeNull();
-      });
-    });
-
     describe.each`
       host                  | port
       ${"host.example.org"} | ${"1"}
@@ -297,22 +283,6 @@ describe("Kubernetes address declarations", () => {
     beforeEach(() => {
       declaration = kubernetesAddress("austenite-svc", {
         default: undefined,
-      });
-    });
-
-    describe(".value()", () => {
-      it("returns an optional kubernetes address", () => {
-        // this test is weird because it tests type inference
-        const declaration = kubernetesAddress("austenite-svc", {
-          default: undefined,
-        });
-
-        initialize({ onInvalid: noop });
-        const actual = declaration.value();
-
-        expect(
-          hasType<KubernetesAddress | undefined, typeof actual>(actual),
-        ).toBeNull();
       });
     });
 

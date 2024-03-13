@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { Declaration } from "../../../src/declaration.js";
 import { Options } from "../../../src/declaration/duration.js";
 import { duration, initialize } from "../../../src/index.js";
-import { hasType, noop } from "../../helpers.js";
+import { noop } from "../../helpers.js";
 
 const { Duration } = Temporal;
 type Duration = Temporal.Duration;
@@ -76,19 +76,6 @@ describe("Duration declarations", () => {
       declaration = duration("AUSTENITE_DURATION", "<description>");
     });
 
-    describe(".value()", () => {
-      it("returns a Duration value", () => {
-        // this test is weird because it tests type inference
-        const declaration = duration("AUSTENITE_DURATION", "<description>");
-
-        process.env.AUSTENITE_DURATION = "P1Y";
-        initialize({ onInvalid: noop });
-        const actual = declaration.value();
-
-        expect(hasType<Duration, typeof actual>(actual)).toBeNull();
-      });
-    });
-
     describe("when the value is a valid duration", () => {
       beforeEach(() => {
         process.env.AUSTENITE_DURATION = "P1Y";
@@ -148,20 +135,6 @@ describe("Duration declarations", () => {
     beforeEach(() => {
       declaration = duration("AUSTENITE_DURATION", "<description>", {
         default: undefined,
-      });
-    });
-
-    describe(".value()", () => {
-      it("returns an optional Duration value", () => {
-        // this test is weird because it tests type inference
-        const declaration = duration("AUSTENITE_DURATION", "<description>", {
-          default: undefined,
-        });
-
-        initialize({ onInvalid: noop });
-        const actual = declaration.value();
-
-        expect(hasType<Duration | undefined, typeof actual>(actual)).toBeNull();
       });
     });
 

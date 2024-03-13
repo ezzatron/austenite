@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { Declaration } from "../../../src/declaration.js";
 import { Options } from "../../../src/declaration/enumeration.js";
 import { enumeration, initialize } from "../../../src/index.js";
-import { hasType, noop } from "../../helpers.js";
+import { noop } from "../../helpers.js";
 
 describe("Enumeration declarations", () => {
   const members = {
@@ -70,23 +70,6 @@ describe("Enumeration declarations", () => {
         "<description>",
         members,
       );
-    });
-
-    describe(".value()", () => {
-      it("returns a value that has a union type of all member types", () => {
-        // this test is weird because it tests type inference
-        const declaration = enumeration(
-          "AUSTENITE_ENUMERATION",
-          "<description>",
-          members,
-        );
-
-        process.env.AUSTENITE_ENUMERATION = "<member-1>";
-        initialize({ onInvalid: noop });
-        const actual = declaration.value();
-
-        expect(hasType<0 | 1 | 2, typeof actual>(actual)).toBeNull();
-      });
     });
 
     describe.each`
@@ -161,27 +144,6 @@ describe("Enumeration declarations", () => {
           default: undefined,
         },
       );
-    });
-
-    describe(".value()", () => {
-      it("returns a value that has a union type of all member types plus undefined", () => {
-        // this test is weird because it tests type inference
-        const declaration = enumeration(
-          "AUSTENITE_ENUMERATION",
-          "<description>",
-          members,
-          {
-            default: undefined,
-          },
-        );
-
-        initialize({ onInvalid: noop });
-        const actual = declaration.value();
-
-        expect(
-          hasType<0 | 1 | 2 | undefined, typeof actual>(actual),
-        ).toBeNull();
-      });
     });
 
     describe.each`

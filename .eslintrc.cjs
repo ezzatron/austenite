@@ -68,6 +68,11 @@ module.exports = {
       ],
       extends: ["plugin:vitest/recommended"],
       plugins: ["vitest"],
+      settings: {
+        vitest: {
+          typecheck: true,
+        },
+      },
     },
   ],
 };

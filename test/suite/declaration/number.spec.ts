@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { Declaration } from "../../../src/declaration.js";
 import { Options } from "../../../src/declaration/number.js";
 import { initialize, number } from "../../../src/index.js";
-import { hasType, noop } from "../../helpers.js";
+import { noop } from "../../helpers.js";
 
 const validValueTable = [
   ["zero", "0.0", 0],
@@ -75,19 +75,6 @@ describe("Number declarations", () => {
       declaration = number("AUSTENITE_NUMBER", "<description>");
     });
 
-    describe(".value()", () => {
-      it("returns a number value", () => {
-        // this test is weird because it tests type inference
-        const declaration = number("AUSTENITE_NUMBER", "<description>");
-
-        process.env.AUSTENITE_NUMBER = "123.456";
-        initialize({ onInvalid: noop });
-        const actual = declaration.value();
-
-        expect(hasType<number, typeof actual>(actual)).toBeNull();
-      });
-    });
-
     describe.each(validValueTable)(
       "when the value is valid (%s)",
       (_, number: string, expected: number) => {
@@ -150,20 +137,6 @@ describe("Number declarations", () => {
     beforeEach(() => {
       declaration = number("AUSTENITE_NUMBER", "<description>", {
         default: undefined,
-      });
-    });
-
-    describe(".value()", () => {
-      it("returns an optional number value", () => {
-        // this test is weird because it tests type inference
-        const declaration = number("AUSTENITE_NUMBER", "<description>", {
-          default: undefined,
-        });
-
-        initialize({ onInvalid: noop });
-        const actual = declaration.value();
-
-        expect(hasType<number | undefined, typeof actual>(actual)).toBeNull();
       });
     });
 

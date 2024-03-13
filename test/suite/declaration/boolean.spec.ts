@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { Declaration } from "../../../src/declaration.js";
 import { Options } from "../../../src/declaration/boolean.js";
 import { boolean, initialize } from "../../../src/index.js";
-import { hasType, noop } from "../../helpers.js";
+import { noop } from "../../helpers.js";
 
 describe("Boolean declarations", () => {
   let declaration: Declaration<boolean, Options>;
@@ -42,19 +42,6 @@ describe("Boolean declarations", () => {
   describe("when the declaration is required", () => {
     beforeEach(() => {
       declaration = boolean("AUSTENITE_BOOLEAN", "<description>");
-    });
-
-    describe(".value()", () => {
-      it("returns a boolean value", () => {
-        // this test is weird because it tests type inference
-        const declaration = boolean("AUSTENITE_BOOLEAN", "<description>");
-
-        process.env.AUSTENITE_BOOLEAN = "false";
-        initialize({ onInvalid: noop });
-        const actual = declaration.value();
-
-        expect(hasType<boolean, typeof actual>(actual)).toBeNull();
-      });
     });
 
     describe.each`
@@ -127,20 +114,6 @@ describe("Boolean declarations", () => {
     beforeEach(() => {
       declaration = boolean("AUSTENITE_BOOLEAN", "<description>", {
         default: undefined,
-      });
-    });
-
-    describe(".value()", () => {
-      it("returns an optional boolean value", () => {
-        // this test is weird because it tests type inference
-        const declaration = boolean("AUSTENITE_BOOLEAN", "<description>", {
-          default: undefined,
-        });
-
-        initialize({ onInvalid: noop });
-        const actual = declaration.value();
-
-        expect(hasType<boolean | undefined, typeof actual>(actual)).toBeNull();
       });
     });
 

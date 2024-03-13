@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { Declaration } from "../../../src/declaration.js";
 import { Options } from "../../../src/declaration/url.js";
 import { initialize, url } from "../../../src/index.js";
-import { hasType, noop } from "../../helpers.js";
+import { noop } from "../../helpers.js";
 
 const validValueTable = [
   [
@@ -64,19 +64,6 @@ describe("URL declarations", () => {
   describe("when the declaration is required", () => {
     beforeEach(() => {
       declaration = url("AUSTENITE_URL", "<description>");
-    });
-
-    describe(".value()", () => {
-      it("returns a URL value", () => {
-        // this test is weird because it tests type inference
-        const declaration = url("AUSTENITE_URL", "<description>");
-
-        process.env.AUSTENITE_URL = "https://host.example.org/path/to/resource";
-        initialize({ onInvalid: noop });
-        const actual = declaration.value();
-
-        expect(hasType<URL, typeof actual>(actual)).toBeNull();
-      });
     });
 
     describe.each(validValueTable)(
@@ -141,20 +128,6 @@ describe("URL declarations", () => {
     beforeEach(() => {
       declaration = url("AUSTENITE_URL", "<description>", {
         default: undefined,
-      });
-    });
-
-    describe(".value()", () => {
-      it("returns an optional URL value", () => {
-        // this test is weird because it tests type inference
-        const declaration = url("AUSTENITE_URL", "<description>", {
-          default: undefined,
-        });
-
-        initialize({ onInvalid: noop });
-        const actual = declaration.value();
-
-        expect(hasType<URL | undefined, typeof actual>(actual)).toBeNull();
       });
     });
 

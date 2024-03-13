@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { Declaration } from "../../../src/declaration.js";
 import { Options } from "../../../src/declaration/string.js";
 import { initialize, string } from "../../../src/index.js";
-import { hasType, noop } from "../../helpers.js";
+import { noop } from "../../helpers.js";
 
 describe("String declarations", () => {
   let declaration: Declaration<string, Options>;
@@ -42,19 +42,6 @@ describe("String declarations", () => {
   describe("when the declaration is required", () => {
     beforeEach(() => {
       declaration = string("AUSTENITE_STRING", "<description>");
-    });
-
-    describe(".value()", () => {
-      it("returns a string value", () => {
-        // this test is weird because it tests type inference
-        const declaration = string("AUSTENITE_STRING", "<description>");
-
-        process.env.AUSTENITE_STRING = "<value>";
-        initialize({ onInvalid: noop });
-        const actual = declaration.value();
-
-        expect(hasType<string, typeof actual>(actual)).toBeNull();
-      });
     });
 
     describe("when the value is not empty", () => {
@@ -97,20 +84,6 @@ describe("String declarations", () => {
     beforeEach(() => {
       declaration = string("AUSTENITE_STRING", "<description>", {
         default: undefined,
-      });
-    });
-
-    describe(".value()", () => {
-      it("returns an optional string value", () => {
-        // this test is weird because it tests type inference
-        const declaration = string("AUSTENITE_STRING", "<description>", {
-          default: undefined,
-        });
-
-        initialize({ onInvalid: noop });
-        const actual = declaration.value();
-
-        expect(hasType<string | undefined, typeof actual>(actual)).toBeNull();
       });
     });
 
