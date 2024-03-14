@@ -22,6 +22,7 @@ document only shows those variables defined using [Austenite].
 - [`REDIS_PRIMARY_SERVICE_HOST`](#REDIS_PRIMARY_SERVICE_HOST) — kubernetes `redis-primary` service host
 - [`REDIS_PRIMARY_SERVICE_PORT`](#REDIS_PRIMARY_SERVICE_PORT) — kubernetes `redis-primary` service port
 - [`SAMPLE_RATIO`](#SAMPLE_RATIO) — ratio of requests to sample
+- [`SESSION_KEY`](#SESSION_KEY) — session token signing key
 - [`WEIGHT`](#WEIGHT) — weighting for this node
 
 ## Specification
@@ -30,7 +31,7 @@ document only shows those variables defined using [Austenite].
 
 > CDN to use when serving static assets
 
-This variable **MUST** be set to a non-empty **URL**.
+This variable **MUST** be set to a non-empty **URL** value.
 If left undefined the application will print usage information to `STDERR` then
 exit with a non-zero exit code.
 
@@ -55,7 +56,7 @@ export DEBUG=false # false
 
 > number of atoms on earth
 
-This variable **MUST** be set to a non-empty **big integer**.
+This variable **MUST** be set to a non-empty **big integer** value.
 If left undefined the application will print usage information to `STDERR` then
 exit with a non-zero exit code.
 
@@ -71,7 +72,7 @@ export EARTH_ATOM_COUNT=0b11110001001000000 # binary
 
 > gRPC request timeout
 
-This variable **MUST** be set to a non-empty **ISO 8601 duration**.
+This variable **MUST** be set to a non-empty **ISO 8601 duration** value.
 If left undefined the application will print usage information to `STDERR` then
 exit with a non-zero exit code.
 
@@ -100,7 +101,7 @@ export LOG_LEVEL=fatal # the application cannot proceed
 
 > listen port for the HTTP server
 
-This variable **MUST** be set to a non-empty **port number**.
+This variable **MUST** be set to a non-empty **port number** value.
 If left undefined the application will print usage information to `STDERR` then
 exit with a non-zero exit code.
 
@@ -112,7 +113,7 @@ export PORT=12345 # a port number
 
 > database connection string for read-models
 
-This variable **MUST** be set to a non-empty **string**.
+This variable **MUST** be set to a non-empty **string** value.
 If left undefined the application will print usage information to `STDERR` then
 exit with a non-zero exit code.
 
@@ -125,7 +126,7 @@ export READ_DSN='alabaster parakeet' # some values may need escaping
 
 > kubernetes `redis-primary` service host
 
-This variable **MUST** be set to a non-empty **hostname**.
+This variable **MUST** be set to a non-empty **hostname** value.
 If left undefined the application will print usage information to `STDERR` then
 exit with a non-zero exit code.
 
@@ -138,7 +139,7 @@ export REDIS_PRIMARY_SERVICE_HOST=10.0.0.11           # an IP address
 
 > kubernetes `redis-primary` service port
 
-This variable **MUST** be set to a non-empty **port number**.
+This variable **MUST** be set to a non-empty **port number** value.
 If left undefined the application will print usage information to `STDERR` then
 exit with a non-zero exit code.
 
@@ -150,7 +151,7 @@ export REDIS_PRIMARY_SERVICE_PORT=12345 # a port number
 
 > ratio of requests to sample
 
-This variable **MUST** be set to a non-empty **number**.
+This variable **MUST** be set to a non-empty **number** value.
 If left undefined the application will print usage information to `STDERR` then
 exit with a non-zero exit code.
 
@@ -164,11 +165,23 @@ export SAMPLE_RATIO=0o361100            # octal
 export SAMPLE_RATIO=0b11110001001000000 # binary
 ```
 
+### `SESSION_KEY`
+
+> session token signing key
+
+This variable **MUST** be set to a non-empty **base64** value.
+If left undefined the application will print usage information to `STDERR` then
+exit with a non-zero exit code.
+
+```sh
+export SESSION_KEY=Y29ucXVpc3RhZG9y # base64 encoded string
+```
+
 ### `WEIGHT`
 
 > weighting for this node
 
-This variable **MUST** be set to a non-empty **integer**.
+This variable **MUST** be set to a non-empty **integer** value.
 If left undefined the application will print usage information to `STDERR` then
 exit with a non-zero exit code.
 
@@ -221,6 +234,8 @@ spec:
               value: "12345"
             - name: SAMPLE_RATIO # ratio of requests to sample
               value: "123456"
+            - name: SESSION_KEY # session token signing key
+              value: "Y29ucXVpc3RhZG9y"
             - name: WEIGHT # weighting for this node
               value: "123456"
 ```
@@ -246,6 +261,7 @@ data:
   REDIS_PRIMARY_SERVICE_HOST: "service.example.org" # kubernetes `redis-primary` service host
   REDIS_PRIMARY_SERVICE_PORT: "12345" # kubernetes `redis-primary` service port
   SAMPLE_RATIO: "123456" # ratio of requests to sample
+  SESSION_KEY: "Y29ucXVpc3RhZG9y" # session token signing key
   WEIGHT: "123456" # weighting for this node
 ---
 apiVersion: apps/v1
@@ -285,6 +301,7 @@ service:
       REDIS_PRIMARY_SERVICE_HOST: "service.example.org" # kubernetes `redis-primary` service host
       REDIS_PRIMARY_SERVICE_PORT: "12345" # kubernetes `redis-primary` service port
       SAMPLE_RATIO: "123456" # ratio of requests to sample
+      SESSION_KEY: "Y29ucXVpc3RhZG9y" # session token signing key
       WEIGHT: "123456" # weighting for this node
 ```
 

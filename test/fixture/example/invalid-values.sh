@@ -8,4 +8,5 @@ export READ_DSN=
 export REDIS_PRIMARY_SERVICE_HOST=.redis.example.org
 export REDIS_PRIMARY_SERVICE_PORT=65536
 export SAMPLE_RATIO=1/100
+export SESSION_KEY=???
 export WEIGHT=123.456

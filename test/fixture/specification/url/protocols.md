@@ -20,7 +20,7 @@ document only shows those variables defined using [Austenite].
 
 > WebSocket server to use
 
-This variable **MUST** be set to a non-empty **URL**.
+This variable **MUST** be set to a non-empty **URL** value.
 If left undefined the application will print usage information to `STDERR` then
 exit with a non-zero exit code.
 

@@ -9,6 +9,7 @@ import {
   readDsn,
   redisPrimary,
   sampleRatio,
+  sessionKey,
   weight,
 } from "./env.js";
 
@@ -28,5 +29,6 @@ console.table({
   readDsn: readDsn.value(),
   redisPrimary: `${redisPrimary.value().host}:${redisPrimary.value().port}`,
   sampleRatio: sampleRatio.value(),
+  sessionKey: sessionKey.value().toString("base64"),
   weight: weight.value(),
 });

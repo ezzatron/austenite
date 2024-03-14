@@ -4,6 +4,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { registerVariable } from "../../src/environment.js";
 import {
   bigInteger,
+  binary,
   boolean,
   duration,
   enumeration,
@@ -39,6 +40,7 @@ describe("Validation summary", () => {
 
   it("summarizes required variables", () => {
     process.env.AUSTENITE_BOOLEAN = "y";
+    process.env.AUSTENITE_BINARY = "QmVlcCBib29wIQ==";
     process.env.AUSTENITE_DURATION = "PT3H20M";
     process.env.AUSTENITE_ENUMERATION = "foo";
     process.env.AUSTENITE_INTEGER = "-123456";
@@ -81,6 +83,7 @@ describe("Validation summary", () => {
         no: false,
       },
     });
+    binary("AUSTENITE_BINARY", "example binary");
 
     initialize();
 
@@ -88,6 +91,7 @@ describe("Validation summary", () => {
       [
         "Environment Variables:",
         "",
+        "  AUSTENITE_BINARY            example binary                             <base64>               ✓ set to QmVlcCBib29wIQ==",
         "  AUSTENITE_BOOLEAN           example boolean                            y | yes | n | no       ✓ set to y",
         "  AUSTENITE_DURATION          example duration                           <ISO 8601 duration>    ✓ set to PT3H20M",
         "  AUSTENITE_ENUMERATION       example enumeration                        foo | bar | baz        ✓ set to foo",
@@ -162,6 +166,9 @@ describe("Validation summary", () => {
         no: false,
       },
     });
+    binary("AUSTENITE_BINARY", "example binary", {
+      default: undefined,
+    });
 
     initialize();
 
@@ -169,6 +176,7 @@ describe("Validation summary", () => {
       [
         "Environment Variables:",
         "",
+        "  AUSTENITE_BINARY            example binary                           [ <base64> ]             • undefined",
         "  AUSTENITE_BOOLEAN           example boolean                          [ y | yes | n | no ]     • undefined",
         "  AUSTENITE_DURATION          example duration                         [ <ISO 8601 duration> ]  • undefined",
         "  AUSTENITE_ENUMERATION       example enumeration                      [ foo | bar | baz ]      • undefined",
@@ -246,6 +254,9 @@ describe("Validation summary", () => {
         no: false,
       },
     });
+    binary("AUSTENITE_BINARY", "example binary", {
+      default: Buffer.from("Beep boop!", "utf-8"),
+    });
 
     initialize();
 
@@ -253,6 +264,7 @@ describe("Validation summary", () => {
       [
         "Environment Variables:",
         "",
+        "  AUSTENITE_BINARY            example binary                           [ <base64> ] = QmVlcCBib29wIQ==                           ✓ using default value",
         "  AUSTENITE_BOOLEAN           example boolean                          [ y | yes | n | no ] = y                                  ✓ using default value",
         "  AUSTENITE_DURATION          example duration                         [ <ISO 8601 duration> ] = PT10S                           ✓ using default value",
         "  AUSTENITE_ENUMERATION       example enumeration                      [ foo | bar | baz ] = bar                                 ✓ using default value",
@@ -272,6 +284,7 @@ describe("Validation summary", () => {
   });
 
   it("summarizes non-canonical values", () => {
+    process.env.AUSTENITE_BINARY = "QmVlcCBib29wIQ";
     process.env.AUSTENITE_DURATION = "PT3H10M0S";
     process.env.AUSTENITE_INTEGER = "1.23456e5";
     process.env.AUSTENITE_INTEGER_BIG = "0x1E240";
@@ -284,6 +297,7 @@ describe("Validation summary", () => {
     bigInteger("AUSTENITE_INTEGER_BIG", "example big integer");
     integer("AUSTENITE_INTEGER", "example integer");
     duration("AUSTENITE_DURATION", "example duration");
+    binary("AUSTENITE_BINARY", "example binary");
 
     initialize();
 
@@ -291,6 +305,7 @@ describe("Validation summary", () => {
       [
         `Environment Variables:`,
         ``,
+        "  AUSTENITE_BINARY       example binary         <base64>               ✓ set to QmVlcCBib29wIQ== (specified non-canonically as QmVlcCBib29wIQ)",
         "  AUSTENITE_DURATION     example duration       <ISO 8601 duration>    ✓ set to PT3H10M (specified non-canonically as PT3H10M0S)",
         "  AUSTENITE_INTEGER      example integer        <integer>              ✓ set to 123456 (specified non-canonically as 1.23456e5)",
         "  AUSTENITE_INTEGER_BIG  example big integer    <big integer>          ✓ set to 123456 (specified non-canonically as 0x1E240)",
@@ -304,6 +319,7 @@ describe("Validation summary", () => {
   });
 
   it("summarizes invalid values", () => {
+    process.env.AUSTENITE_BINARY = "???";
     process.env.AUSTENITE_BOOLEAN = "yes";
     process.env.AUSTENITE_DURATION = "10S";
     process.env.AUSTENITE_ENUMERATION = "qux";
@@ -340,6 +356,7 @@ describe("Validation summary", () => {
     });
     duration("AUSTENITE_DURATION", "example duration");
     boolean("AUSTENITE_BOOLEAN", "example boolean");
+    binary("AUSTENITE_BINARY", "example binary");
 
     initialize();
 
@@ -347,6 +364,7 @@ describe("Validation summary", () => {
       [
         `Environment Variables:`,
         ``,
+        `❯ AUSTENITE_BINARY            example binary                             <base64>               ✗ set to '???', must be base64 encoded`,
         `❯ AUSTENITE_BOOLEAN           example boolean                            true | false           ✗ set to yes, expected true or false`,
         "❯ AUSTENITE_DURATION          example duration                           <ISO 8601 duration>    ✗ set to 10S, must be an ISO 8601 duration",
         "❯ AUSTENITE_ENUMERATION       example enumeration                        foo | bar | baz        ✗ set to qux, expected foo, bar, or baz",

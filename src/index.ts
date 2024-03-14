@@ -1,4 +1,5 @@
 export { bigInteger } from "./declaration/big-integer.js";
+export { binary } from "./declaration/binary.js";
 export { boolean } from "./declaration/boolean.js";
 export { duration } from "./declaration/duration.js";
 export { enumeration } from "./declaration/enumeration.js";

@@ -20,7 +20,7 @@ document only shows those variables defined using [Austenite].
 
 > listen port for the HTTP server
 
-This variable **MAY** be set to a non-empty **port number**.
+This variable **MAY** be set to a non-empty **port number** value.
 If left undefined the default value is used (see below).
 
 ```sh

@@ -99,7 +99,7 @@ If left undefined the default value is used (see below).`;
     },
 
     visitScalar({ description }): string {
-      const beSetTo = `be set to a non-empty ${strong(description)}`;
+      const beSetTo = `be set to a non-empty ${strong(description)} value`;
 
       if (!def.isDefined) {
         return `This variable **MUST** ${beSetTo}.

@@ -1,5 +1,6 @@
 import {
   bigInteger,
+  binary,
   boolean,
   duration,
   enumeration,
@@ -55,5 +56,7 @@ export const sampleRatio = number(
   "SAMPLE_RATIO",
   "ratio of requests to sample",
 );
+
+export const sessionKey = binary("SESSION_KEY", "session token signing key");
 
 export const weight = integer("WEIGHT", "weighting for this node");

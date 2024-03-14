@@ -5,6 +5,7 @@ import { fileURLToPath } from "url";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
   bigInteger,
+  binary,
   boolean,
   duration,
   enumeration,
@@ -74,6 +75,45 @@ describe("Specification documents", () => {
 
       expect(stripUsage(mockConsole.readStdout())).toBe(
         await readFixture("big-integer/default"),
+      );
+      expect(exitCode).toBe(0);
+    });
+  });
+
+  describe("when there are binaries", () => {
+    it("describes required binaries", async () => {
+      binary("SESSION_KEY", "session token signing key");
+      initialize();
+
+      expect(stripUsage(mockConsole.readStdout())).toBe(
+        await readFixture("binary/required"),
+      );
+      expect(exitCode).toBe(0);
+    });
+
+    it("describes optional binaries", async () => {
+      binary("SESSION_KEY", "session token signing key", {
+        default: undefined,
+      });
+      initialize();
+
+      expect(stripUsage(mockConsole.readStdout())).toBe(
+        await readFixture("binary/optional"),
+      );
+      expect(exitCode).toBe(0);
+    });
+
+    it("describes optional binaries with defaults", async () => {
+      binary("SESSION_KEY", "session token signing key", {
+        default: Buffer.from(
+          "XY7l3m0bmuzX5IAu6/KUyPRQXKc8H1LjAl2Q897vbYw=",
+          "base64",
+        ),
+      });
+      initialize();
+
+      expect(stripUsage(mockConsole.readStdout())).toBe(
+        await readFixture("binary/default"),
       );
       expect(exitCode).toBe(0);
     });

@@ -13,8 +13,8 @@ GENERATED_FILES += ENVIRONMENT.md
 ################################################################################
 
 .PHONY: run-example
-run-example:
-	npx --yes --package=ts-node ts-node-esm test/fixture/example/run.ts
+run-example: artifacts/link-dependencies.touch
+	node --loader ts-node/esm test/fixture/example/run.ts
 
 .PHONY: stryker
 stryker: artifacts/link-dependencies.touch

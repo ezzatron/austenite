@@ -20,7 +20,7 @@ document only shows those variables defined using [Austenite].
 
 > CDN to use when serving static assets
 
-This variable **MAY** be set to a non-empty **URL** or left undefined.
+This variable **MAY** be set to a non-empty **URL** value or left undefined.
 
 ```sh
 export CDN_URL=https://host.example.org/path/to/resource # URL (absolute)

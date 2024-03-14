@@ -8,4 +8,5 @@ export READ_DSN="host=localhost dbname=readmodels user=projector"
 export REDIS_PRIMARY_SERVICE_HOST=redis.example.org
 export REDIS_PRIMARY_SERVICE_PORT=6379
 export SAMPLE_RATIO=0.01
+export SESSION_KEY=XY7l3m0bmuzX5IAu6/KUyPRQXKc8H1LjAl2Q897vbYw=
 export WEIGHT=123

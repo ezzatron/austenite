@@ -20,7 +20,7 @@ document only shows those variables defined using [Austenite].
 
 > weighting for this node
 
-This variable **MAY** be set to a non-empty **integer** or left undefined.
+This variable **MAY** be set to a non-empty **integer** value or left undefined.
 
 ```sh
 export WEIGHT=123456              # positive
