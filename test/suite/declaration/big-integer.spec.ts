@@ -45,7 +45,7 @@ const invalidValueTable = [
 ];
 
 describe("Big integer declarations", () => {
-  let declaration: Declaration<bigint, Options<bigint>>;
+  let declaration: Declaration<bigint, Options>;
 
   describe("when no options are supplied", () => {
     beforeEach(() => {

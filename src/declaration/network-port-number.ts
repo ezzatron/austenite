@@ -9,9 +9,9 @@ import { Example, Examples, create as createExamples } from "../example.js";
 import { Maybe, resolve } from "../maybe.js";
 import { Scalar, createScalar, toString } from "../schema.js";
 
-export type Options<T> = DeclarationOptions<T>;
+export type Options = DeclarationOptions<number>;
 
-export function networkPortNumber<O extends Options<number>>(
+export function networkPortNumber<O extends Options>(
   name: string,
   description: string,
   options: O = {} as O,

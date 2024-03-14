@@ -41,7 +41,7 @@ const invalidValueTable = [
 ];
 
 describe("Integer declarations", () => {
-  let declaration: Declaration<number, Options<number>>;
+  let declaration: Declaration<number, Options>;
 
   describe("when no options are supplied", () => {
     beforeEach(() => {

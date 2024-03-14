@@ -48,7 +48,7 @@ const invalidValueTable = [
 ];
 
 describe("Network port number declarations", () => {
-  let declaration: Declaration<number, Options<number>>;
+  let declaration: Declaration<number, Options>;
 
   describe("when no options are supplied", () => {
     beforeEach(() => {
