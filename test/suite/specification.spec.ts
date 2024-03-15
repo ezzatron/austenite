@@ -1,7 +1,4 @@
 import { Temporal } from "@js-temporal/polyfill";
-import { readFile } from "fs/promises";
-import { join } from "path";
-import { fileURLToPath } from "url";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
   bigInteger,
@@ -18,10 +15,6 @@ import {
   url,
 } from "../../src/index.js";
 import { MockConsole, createMockConsole } from "../helpers.js";
-
-const fixturesPath = fileURLToPath(
-  new URL("../fixture/specification", import.meta.url),
-);
 
 const { Duration } = Temporal;
 
@@ -45,65 +38,55 @@ describe("Specification documents", () => {
   });
 
   describe("when there are big integers", () => {
-    it("describes required big integers", async () => {
+    it("describes required big integers", () => {
       bigInteger("WEIGHT", "weighting for this node");
       initialize();
 
-      expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("big-integer/required"),
-      );
+      expect(mockConsole.readStdout()).toMatchSnapshot();
       expect(exitCode).toBe(0);
     });
 
-    it("describes optional big integers", async () => {
+    it("describes optional big integers", () => {
       bigInteger("WEIGHT", "weighting for this node", {
         default: undefined,
       });
       initialize();
 
-      expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("big-integer/optional"),
-      );
+      expect(mockConsole.readStdout()).toMatchSnapshot();
       expect(exitCode).toBe(0);
     });
 
-    it("describes optional big integers with defaults", async () => {
+    it("describes optional big integers with defaults", () => {
       bigInteger("WEIGHT", "weighting for this node", {
         default: 10000000000000001n,
       });
       initialize();
 
-      expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("big-integer/default"),
-      );
+      expect(mockConsole.readStdout()).toMatchSnapshot();
       expect(exitCode).toBe(0);
     });
   });
 
   describe("when there are binaries", () => {
-    it("describes required binaries", async () => {
+    it("describes required binaries", () => {
       binary("SESSION_KEY", "session token signing key");
       initialize();
 
-      expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("binary/required"),
-      );
+      expect(mockConsole.readStdout()).toMatchSnapshot();
       expect(exitCode).toBe(0);
     });
 
-    it("describes optional binaries", async () => {
+    it("describes optional binaries", () => {
       binary("SESSION_KEY", "session token signing key", {
         default: undefined,
       });
       initialize();
 
-      expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("binary/optional"),
-      );
+      expect(mockConsole.readStdout()).toMatchSnapshot();
       expect(exitCode).toBe(0);
     });
 
-    it("describes optional binaries with defaults", async () => {
+    it("describes optional binaries with defaults", () => {
       binary("SESSION_KEY", "session token signing key", {
         default: Buffer.from(
           "XY7l3m0bmuzX5IAu6/KUyPRQXKc8H1LjAl2Q897vbYw=",
@@ -112,37 +95,31 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("binary/default"),
-      );
+      expect(mockConsole.readStdout()).toMatchSnapshot();
       expect(exitCode).toBe(0);
     });
   });
 
   describe("when there are booleans", () => {
-    it("describes required booleans", async () => {
+    it("describes required booleans", () => {
       boolean("DEBUG", "enable or disable debugging features");
       initialize();
 
-      expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("boolean/required"),
-      );
+      expect(mockConsole.readStdout()).toMatchSnapshot();
       expect(exitCode).toBe(0);
     });
 
-    it("describes optional booleans", async () => {
+    it("describes optional booleans", () => {
       boolean("DEBUG", "enable or disable debugging features", {
         default: undefined,
       });
       initialize();
 
-      expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("boolean/optional"),
-      );
+      expect(mockConsole.readStdout()).toMatchSnapshot();
       expect(exitCode).toBe(0);
     });
 
-    it("describes optional booleans with defaults", async () => {
+    it("describes optional booleans with defaults", () => {
       boolean("DEBUG", "enable or disable debugging features", {
         default: false,
       });
@@ -151,13 +128,11 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("boolean/default"),
-      );
+      expect(mockConsole.readStdout()).toMatchSnapshot();
       expect(exitCode).toBe(0);
     });
 
-    it("describes booleans with custom literals", async () => {
+    it("describes booleans with custom literals", () => {
       boolean("DEBUG", "enable or disable debugging features", {
         default: false,
         literals: {
@@ -169,45 +144,37 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("boolean/custom-literals"),
-      );
+      expect(mockConsole.readStdout()).toMatchSnapshot();
       expect(exitCode).toBe(0);
     });
   });
 
   describe("when there are durations", () => {
-    it("describes required durations", async () => {
+    it("describes required durations", () => {
       duration("GRPC_TIMEOUT", "gRPC request timeout");
       initialize();
 
-      expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("duration/required"),
-      );
+      expect(mockConsole.readStdout()).toMatchSnapshot();
       expect(exitCode).toBe(0);
     });
 
-    it("describes optional durations", async () => {
+    it("describes optional durations", () => {
       duration("GRPC_TIMEOUT", "gRPC request timeout", {
         default: undefined,
       });
       initialize();
 
-      expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("duration/optional"),
-      );
+      expect(mockConsole.readStdout()).toMatchSnapshot();
       expect(exitCode).toBe(0);
     });
 
-    it("describes optional durations with defaults", async () => {
+    it("describes optional durations with defaults", () => {
       duration("GRPC_TIMEOUT", "gRPC request timeout", {
         default: Duration.from("PT0.01S"),
       });
       initialize();
 
-      expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("duration/default"),
-      );
+      expect(mockConsole.readStdout()).toMatchSnapshot();
       expect(exitCode).toBe(0);
     });
   });
@@ -227,101 +194,85 @@ describe("Specification documents", () => {
       fatal: { value: "fatal", description: "the application cannot proceed" },
     } as const;
 
-    it("describes required enumerations", async () => {
+    it("describes required enumerations", () => {
       enumeration("LOG_LEVEL", "the minimum log level to record", members);
       initialize();
 
-      expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("enumeration/required"),
-      );
+      expect(mockConsole.readStdout()).toMatchSnapshot();
       expect(exitCode).toBe(0);
     });
 
-    it("describes optional enumerations", async () => {
+    it("describes optional enumerations", () => {
       enumeration("LOG_LEVEL", "the minimum log level to record", members, {
         default: undefined,
       });
       initialize();
 
-      expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("enumeration/optional"),
-      );
+      expect(mockConsole.readStdout()).toMatchSnapshot();
       expect(exitCode).toBe(0);
     });
 
-    it("describes optional enumerations with defaults", async () => {
+    it("describes optional enumerations with defaults", () => {
       enumeration("LOG_LEVEL", "the minimum log level to record", members, {
         default: "error",
       });
       initialize();
 
-      expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("enumeration/default"),
-      );
+      expect(mockConsole.readStdout()).toMatchSnapshot();
       expect(exitCode).toBe(0);
     });
   });
 
   describe("when there are integers", () => {
-    it("describes required integers", async () => {
+    it("describes required integers", () => {
       integer("WEIGHT", "weighting for this node");
       initialize();
 
-      expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("integer/required"),
-      );
+      expect(mockConsole.readStdout()).toMatchSnapshot();
       expect(exitCode).toBe(0);
     });
 
-    it("describes optional integers", async () => {
+    it("describes optional integers", () => {
       integer("WEIGHT", "weighting for this node", {
         default: undefined,
       });
       initialize();
 
-      expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("integer/optional"),
-      );
+      expect(mockConsole.readStdout()).toMatchSnapshot();
       expect(exitCode).toBe(0);
     });
 
-    it("describes optional integers with defaults", async () => {
+    it("describes optional integers with defaults", () => {
       integer("WEIGHT", "weighting for this node", {
         default: 101,
       });
       initialize();
 
-      expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("integer/default"),
-      );
+      expect(mockConsole.readStdout()).toMatchSnapshot();
       expect(exitCode).toBe(0);
     });
   });
 
   describe("when there are kubernetes addresses", () => {
-    it("describes required addresses", async () => {
+    it("describes required addresses", () => {
       kubernetesAddress("redis-primary");
       initialize();
 
-      expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("kubernetes-address/required"),
-      );
+      expect(mockConsole.readStdout()).toMatchSnapshot();
       expect(exitCode).toBe(0);
     });
 
-    it("describes optional addresses", async () => {
+    it("describes optional addresses", () => {
       kubernetesAddress("redis-primary", {
         default: undefined,
       });
       initialize();
 
-      expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("kubernetes-address/optional"),
-      );
+      expect(mockConsole.readStdout()).toMatchSnapshot();
       expect(exitCode).toBe(0);
     });
 
-    it("describes optional addresses with defaults", async () => {
+    it("describes optional addresses with defaults", () => {
       kubernetesAddress("redis-primary", {
         default: {
           host: "redis.example.org",
@@ -330,13 +281,11 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("kubernetes-address/default"),
-      );
+      expect(mockConsole.readStdout()).toMatchSnapshot();
       expect(exitCode).toBe(0);
     });
 
-    it("describes addresses with named ports", async () => {
+    it("describes addresses with named ports", () => {
       kubernetesAddress("redis-primary", {
         portName: "db",
       });
@@ -345,209 +294,177 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("kubernetes-address/named-ports"),
-      );
+      expect(mockConsole.readStdout()).toMatchSnapshot();
       expect(exitCode).toBe(0);
     });
   });
 
   describe("when there are network port numbers", () => {
-    it("describes required port numbers", async () => {
+    it("describes required port numbers", () => {
       networkPortNumber("PORT", "listen port for the HTTP server");
       initialize();
 
-      expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("network-port-number/required"),
-      );
+      expect(mockConsole.readStdout()).toMatchSnapshot();
       expect(exitCode).toBe(0);
     });
 
-    it("describes optional port numbers", async () => {
+    it("describes optional port numbers", () => {
       networkPortNumber("PORT", "listen port for the HTTP server", {
         default: undefined,
       });
       initialize();
 
-      expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("network-port-number/optional"),
-      );
+      expect(mockConsole.readStdout()).toMatchSnapshot();
       expect(exitCode).toBe(0);
     });
 
-    it("describes optional port numbers with defaults", async () => {
+    it("describes optional port numbers with defaults", () => {
       networkPortNumber("PORT", "listen port for the HTTP server", {
         default: 8080,
       });
       initialize();
 
-      expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("network-port-number/default"),
-      );
+      expect(mockConsole.readStdout()).toMatchSnapshot();
       expect(exitCode).toBe(0);
     });
   });
 
   describe("when there are numbers", () => {
-    it("describes required numbers", async () => {
+    it("describes required numbers", () => {
       number("WEIGHT", "weighting for this node");
       initialize();
 
-      expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("number/required"),
-      );
+      expect(mockConsole.readStdout()).toMatchSnapshot();
       expect(exitCode).toBe(0);
     });
 
-    it("describes optional numbers", async () => {
+    it("describes optional numbers", () => {
       number("WEIGHT", "weighting for this node", {
         default: undefined,
       });
       initialize();
 
-      expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("number/optional"),
-      );
+      expect(mockConsole.readStdout()).toMatchSnapshot();
       expect(exitCode).toBe(0);
     });
 
-    it("describes optional numbers with defaults", async () => {
+    it("describes optional numbers with defaults", () => {
       number("WEIGHT", "weighting for this node", {
         default: 100.001,
       });
       initialize();
 
-      expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("number/default"),
-      );
+      expect(mockConsole.readStdout()).toMatchSnapshot();
       expect(exitCode).toBe(0);
     });
   });
 
   describe("when there are strings", () => {
-    it("describes required strings", async () => {
+    it("describes required strings", () => {
       string("READ_DSN", "database connection string for read-models");
       initialize();
 
-      expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("string/required"),
-      );
+      expect(mockConsole.readStdout()).toMatchSnapshot();
       expect(exitCode).toBe(0);
     });
 
-    it("describes optional strings", async () => {
+    it("describes optional strings", () => {
       string("READ_DSN", "database connection string for read-models", {
         default: undefined,
       });
       initialize();
 
-      expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("string/optional"),
-      );
+      expect(mockConsole.readStdout()).toMatchSnapshot();
       expect(exitCode).toBe(0);
     });
 
-    it("describes optional strings with defaults", async () => {
+    it("describes optional strings with defaults", () => {
       string("READ_DSN", "database connection string for read-models", {
         default: "host=localhost dbname=readmodels user=projector",
       });
       initialize();
 
-      expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("string/default"),
-      );
+      expect(mockConsole.readStdout()).toMatchSnapshot();
       expect(exitCode).toBe(0);
     });
 
-    it("describes optional strings with defaults that need quoting", async () => {
+    it("describes optional strings with defaults that need quoting", () => {
       string("MESSAGE", "message to output", {
         default: "Season's greetings, world!",
       });
       initialize();
 
-      expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("string/quoting"),
-      );
+      expect(mockConsole.readStdout()).toMatchSnapshot();
       expect(exitCode).toBe(0);
     });
   });
 
   describe("when there are URLs", () => {
-    it("describes required URLs", async () => {
+    it("describes required URLs", () => {
       url("CDN_URL", "CDN to use when serving static assets");
       initialize();
 
-      expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("url/required"),
-      );
+      expect(mockConsole.readStdout()).toMatchSnapshot();
       expect(exitCode).toBe(0);
     });
 
-    it("describes optional URLs", async () => {
+    it("describes optional URLs", () => {
       url("CDN_URL", "CDN to use when serving static assets", {
         default: undefined,
       });
       initialize();
 
-      expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("url/optional"),
-      );
+      expect(mockConsole.readStdout()).toMatchSnapshot();
       expect(exitCode).toBe(0);
     });
 
-    it("describes optional URLs with defaults", async () => {
+    it("describes optional URLs with defaults", () => {
       url("CDN_URL", "CDN to use when serving static assets", {
         default: new URL("https://default.example.org/path/to/resource"),
       });
       initialize();
 
-      expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("url/default"),
-      );
+      expect(mockConsole.readStdout()).toMatchSnapshot();
       expect(exitCode).toBe(0);
     });
 
-    it("describes URLs with base URLs", async () => {
+    it("describes URLs with base URLs", () => {
       url("LOGO", "Main logo image", {
         base: new URL("https://base.example.org/path/to/resource"),
       });
       initialize();
 
-      expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("url/base"),
-      );
+      expect(mockConsole.readStdout()).toMatchSnapshot();
       expect(exitCode).toBe(0);
     });
 
-    it("describes URLs with protocol requirements", async () => {
+    it("describes URLs with protocol requirements", () => {
       url("SOCKET_SERVER", "WebSocket server to use", {
         protocols: ["ws:", "wss:"],
       });
       initialize();
 
-      expect(stripUsage(mockConsole.readStdout())).toBe(
-        await readFixture("url/protocols"),
-      );
+      expect(mockConsole.readStdout()).toMatchSnapshot();
       expect(exitCode).toBe(0);
     });
   });
 
   describe("when there no declarations", () => {
-    it("describes an empty environment", async () => {
+    it("describes an empty environment", () => {
       initialize();
 
-      expect(mockConsole.readStdout()).toBe(await readFixture("empty"));
+      expect(mockConsole.readStdout()).toMatchSnapshot();
       expect(exitCode).toBe(0);
     });
   });
 
-  it("provides usage instructions", async () => {
+  it("provides usage instructions", () => {
     boolean("DEBUG", "enable or disable debugging features", {
       default: undefined,
     });
     initialize();
 
-    expect(mockConsole.readStdout()).toBe(await readFixture("usage"));
+    expect(mockConsole.readStdout()).toMatchSnapshot();
     expect(exitCode).toBe(0);
   });
 
@@ -556,21 +473,11 @@ describe("Specification documents", () => {
       process.env.AUSTENITE_APP = "<custom app name>";
     });
 
-    it("uses the value as the app name", async () => {
+    it("uses the value as the app name", () => {
       initialize();
 
-      expect(mockConsole.readStdout()).toBe(await readFixture("app-env-var"));
+      expect(mockConsole.readStdout()).toMatchSnapshot();
       expect(exitCode).toBe(0);
     });
   });
 });
-
-async function readFixture(name: string): Promise<string> {
-  const fixturePath = join(fixturesPath, `${name}.md`);
-
-  return (await readFile(fixturePath)).toString();
-}
-
-function stripUsage(output: string): string {
-  return output.split("\n## Usage Examples")[0];
-}

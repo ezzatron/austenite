@@ -1,0 +1,4157 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Specification documents > provides usage instructions 1`] = `
+"# Environment Variables
+
+This document describes the environment variables used by \`<app>\`.
+
+Please note that **undefined** variables and **empty strings** are considered
+equivalent.
+
+The application may consume other undocumented environment variables; this
+document only shows those variables defined using [Austenite].
+
+[austenite]: https://github.com/ezzatron/austenite
+
+## Index
+
+- [\`DEBUG\`](#DEBUG) — enable or disable debugging features
+
+## Specification
+
+### \`DEBUG\`
+
+> enable or disable debugging features
+
+This variable **MAY** be set to one of the values below or left undefined.
+
+\`\`\`sh
+export DEBUG=true  # true
+export DEBUG=false # false
+\`\`\`
+
+## Usage Examples
+
+<details><summary><strong>Kubernetes</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+on a [Kubernetes container] within a Kubenetes deployment manifest.
+
+[kubernetes container]: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/#define-an-environment-variable-for-a-container
+
+\`\`\`yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          env:
+            - name: DEBUG # enable or disable debugging features
+              value: "true"
+\`\`\`
+
+Alternatively, the environment variables can be defined within a [config map]
+then referenced a deployment manifest using \`configMapRef\`.
+
+[config map]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables
+
+\`\`\`yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-config-map
+data:
+  DEBUG: "true" # enable or disable debugging features
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          envFrom:
+            - configMapRef:
+                name: example-config-map
+\`\`\`
+
+</details>
+
+<details><summary><strong>Docker</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+when running as a [Docker service] defined in a Docker compose file.
+
+[docker service]: https://docs.docker.com/compose/environment-variables/#set-environment-variables-in-containers
+
+\`\`\`yaml
+service:
+  example-service:
+    environment:
+      DEBUG: "true" # enable or disable debugging features
+\`\`\`
+
+</details>
+"
+`;
+
+exports[`Specification documents > when the AUSTENITE_APP environment variable is set > uses the value as the app name 1`] = `
+"# Environment Variables
+
+This document describes the environment variables used by \`<custom app name>\`.
+
+**There do not appear to be any environment variables.**
+
+The application may consume other undocumented environment variables; this
+document only shows those variables defined using [Austenite].
+
+[austenite]: https://github.com/ezzatron/austenite
+"
+`;
+
+exports[`Specification documents > when there are URLs > describes URLs with base URLs 1`] = `
+"# Environment Variables
+
+This document describes the environment variables used by \`<app>\`.
+
+Please note that **undefined** variables and **empty strings** are considered
+equivalent.
+
+The application may consume other undocumented environment variables; this
+document only shows those variables defined using [Austenite].
+
+[austenite]: https://github.com/ezzatron/austenite
+
+## Index
+
+- [\`LOGO\`](#LOGO) — Main logo image
+
+## Specification
+
+### \`LOGO\`
+
+> Main logo image
+
+This variable **MUST** be set to a non-empty **URL** value.
+If left undefined the application will print usage information to \`STDERR\` then
+exit with a non-zero exit code.
+
+\`\`\`sh
+export LOGO=https://host.example.org/path/to/resource # URL (absolute)
+export LOGO=path/to/resource                          # URL (relative)
+\`\`\`
+
+## Usage Examples
+
+<details><summary><strong>Kubernetes</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+on a [Kubernetes container] within a Kubenetes deployment manifest.
+
+[kubernetes container]: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/#define-an-environment-variable-for-a-container
+
+\`\`\`yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          env:
+            - name: LOGO # Main logo image
+              value: "https://host.example.org/path/to/resource"
+\`\`\`
+
+Alternatively, the environment variables can be defined within a [config map]
+then referenced a deployment manifest using \`configMapRef\`.
+
+[config map]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables
+
+\`\`\`yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-config-map
+data:
+  LOGO: "https://host.example.org/path/to/resource" # Main logo image
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          envFrom:
+            - configMapRef:
+                name: example-config-map
+\`\`\`
+
+</details>
+
+<details><summary><strong>Docker</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+when running as a [Docker service] defined in a Docker compose file.
+
+[docker service]: https://docs.docker.com/compose/environment-variables/#set-environment-variables-in-containers
+
+\`\`\`yaml
+service:
+  example-service:
+    environment:
+      LOGO: "https://host.example.org/path/to/resource" # Main logo image
+\`\`\`
+
+</details>
+"
+`;
+
+exports[`Specification documents > when there are URLs > describes URLs with protocol requirements 1`] = `
+"# Environment Variables
+
+This document describes the environment variables used by \`<app>\`.
+
+Please note that **undefined** variables and **empty strings** are considered
+equivalent.
+
+The application may consume other undocumented environment variables; this
+document only shows those variables defined using [Austenite].
+
+[austenite]: https://github.com/ezzatron/austenite
+
+## Index
+
+- [\`SOCKET_SERVER\`](#SOCKET_SERVER) — WebSocket server to use
+
+## Specification
+
+### \`SOCKET_SERVER\`
+
+> WebSocket server to use
+
+This variable **MUST** be set to a non-empty **URL** value.
+If left undefined the application will print usage information to \`STDERR\` then
+exit with a non-zero exit code.
+
+\`\`\`sh
+export SOCKET_SERVER=ws://host.example.org/path/to/resource  # URL (ws:)
+export SOCKET_SERVER=wss://host.example.org/path/to/resource # URL (wss:)
+\`\`\`
+
+## Usage Examples
+
+<details><summary><strong>Kubernetes</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+on a [Kubernetes container] within a Kubenetes deployment manifest.
+
+[kubernetes container]: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/#define-an-environment-variable-for-a-container
+
+\`\`\`yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          env:
+            - name: SOCKET_SERVER # WebSocket server to use
+              value: "ws://host.example.org/path/to/resource"
+\`\`\`
+
+Alternatively, the environment variables can be defined within a [config map]
+then referenced a deployment manifest using \`configMapRef\`.
+
+[config map]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables
+
+\`\`\`yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-config-map
+data:
+  SOCKET_SERVER: "ws://host.example.org/path/to/resource" # WebSocket server to use
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          envFrom:
+            - configMapRef:
+                name: example-config-map
+\`\`\`
+
+</details>
+
+<details><summary><strong>Docker</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+when running as a [Docker service] defined in a Docker compose file.
+
+[docker service]: https://docs.docker.com/compose/environment-variables/#set-environment-variables-in-containers
+
+\`\`\`yaml
+service:
+  example-service:
+    environment:
+      SOCKET_SERVER: "ws://host.example.org/path/to/resource" # WebSocket server to use
+\`\`\`
+
+</details>
+"
+`;
+
+exports[`Specification documents > when there are URLs > describes optional URLs 1`] = `
+"# Environment Variables
+
+This document describes the environment variables used by \`<app>\`.
+
+Please note that **undefined** variables and **empty strings** are considered
+equivalent.
+
+The application may consume other undocumented environment variables; this
+document only shows those variables defined using [Austenite].
+
+[austenite]: https://github.com/ezzatron/austenite
+
+## Index
+
+- [\`CDN_URL\`](#CDN_URL) — CDN to use when serving static assets
+
+## Specification
+
+### \`CDN_URL\`
+
+> CDN to use when serving static assets
+
+This variable **MAY** be set to a non-empty **URL** value or left undefined.
+
+\`\`\`sh
+export CDN_URL=https://host.example.org/path/to/resource # URL (absolute)
+\`\`\`
+
+## Usage Examples
+
+<details><summary><strong>Kubernetes</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+on a [Kubernetes container] within a Kubenetes deployment manifest.
+
+[kubernetes container]: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/#define-an-environment-variable-for-a-container
+
+\`\`\`yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          env:
+            - name: CDN_URL # CDN to use when serving static assets
+              value: "https://host.example.org/path/to/resource"
+\`\`\`
+
+Alternatively, the environment variables can be defined within a [config map]
+then referenced a deployment manifest using \`configMapRef\`.
+
+[config map]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables
+
+\`\`\`yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-config-map
+data:
+  CDN_URL: "https://host.example.org/path/to/resource" # CDN to use when serving static assets
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          envFrom:
+            - configMapRef:
+                name: example-config-map
+\`\`\`
+
+</details>
+
+<details><summary><strong>Docker</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+when running as a [Docker service] defined in a Docker compose file.
+
+[docker service]: https://docs.docker.com/compose/environment-variables/#set-environment-variables-in-containers
+
+\`\`\`yaml
+service:
+  example-service:
+    environment:
+      CDN_URL: "https://host.example.org/path/to/resource" # CDN to use when serving static assets
+\`\`\`
+
+</details>
+"
+`;
+
+exports[`Specification documents > when there are URLs > describes optional URLs with defaults 1`] = `
+"# Environment Variables
+
+This document describes the environment variables used by \`<app>\`.
+
+Please note that **undefined** variables and **empty strings** are considered
+equivalent.
+
+The application may consume other undocumented environment variables; this
+document only shows those variables defined using [Austenite].
+
+[austenite]: https://github.com/ezzatron/austenite
+
+## Index
+
+- [\`CDN_URL\`](#CDN_URL) — CDN to use when serving static assets
+
+## Specification
+
+### \`CDN_URL\`
+
+> CDN to use when serving static assets
+
+This variable **MAY** be set to a non-empty **URL** value.
+If left undefined the default value is used (see below).
+
+\`\`\`sh
+export CDN_URL=https://default.example.org/path/to/resource # (default)
+export CDN_URL=https://host.example.org/path/to/resource    # URL (absolute)
+\`\`\`
+
+## Usage Examples
+
+<details><summary><strong>Kubernetes</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+on a [Kubernetes container] within a Kubenetes deployment manifest.
+
+[kubernetes container]: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/#define-an-environment-variable-for-a-container
+
+\`\`\`yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          env:
+            - name: CDN_URL # CDN to use when serving static assets
+              value: "https://default.example.org/path/to/resource"
+\`\`\`
+
+Alternatively, the environment variables can be defined within a [config map]
+then referenced a deployment manifest using \`configMapRef\`.
+
+[config map]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables
+
+\`\`\`yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-config-map
+data:
+  CDN_URL: "https://default.example.org/path/to/resource" # CDN to use when serving static assets
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          envFrom:
+            - configMapRef:
+                name: example-config-map
+\`\`\`
+
+</details>
+
+<details><summary><strong>Docker</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+when running as a [Docker service] defined in a Docker compose file.
+
+[docker service]: https://docs.docker.com/compose/environment-variables/#set-environment-variables-in-containers
+
+\`\`\`yaml
+service:
+  example-service:
+    environment:
+      CDN_URL: "https://default.example.org/path/to/resource" # CDN to use when serving static assets
+\`\`\`
+
+</details>
+"
+`;
+
+exports[`Specification documents > when there are URLs > describes required URLs 1`] = `
+"# Environment Variables
+
+This document describes the environment variables used by \`<app>\`.
+
+Please note that **undefined** variables and **empty strings** are considered
+equivalent.
+
+The application may consume other undocumented environment variables; this
+document only shows those variables defined using [Austenite].
+
+[austenite]: https://github.com/ezzatron/austenite
+
+## Index
+
+- [\`CDN_URL\`](#CDN_URL) — CDN to use when serving static assets
+
+## Specification
+
+### \`CDN_URL\`
+
+> CDN to use when serving static assets
+
+This variable **MUST** be set to a non-empty **URL** value.
+If left undefined the application will print usage information to \`STDERR\` then
+exit with a non-zero exit code.
+
+\`\`\`sh
+export CDN_URL=https://host.example.org/path/to/resource # URL (absolute)
+\`\`\`
+
+## Usage Examples
+
+<details><summary><strong>Kubernetes</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+on a [Kubernetes container] within a Kubenetes deployment manifest.
+
+[kubernetes container]: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/#define-an-environment-variable-for-a-container
+
+\`\`\`yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          env:
+            - name: CDN_URL # CDN to use when serving static assets
+              value: "https://host.example.org/path/to/resource"
+\`\`\`
+
+Alternatively, the environment variables can be defined within a [config map]
+then referenced a deployment manifest using \`configMapRef\`.
+
+[config map]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables
+
+\`\`\`yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-config-map
+data:
+  CDN_URL: "https://host.example.org/path/to/resource" # CDN to use when serving static assets
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          envFrom:
+            - configMapRef:
+                name: example-config-map
+\`\`\`
+
+</details>
+
+<details><summary><strong>Docker</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+when running as a [Docker service] defined in a Docker compose file.
+
+[docker service]: https://docs.docker.com/compose/environment-variables/#set-environment-variables-in-containers
+
+\`\`\`yaml
+service:
+  example-service:
+    environment:
+      CDN_URL: "https://host.example.org/path/to/resource" # CDN to use when serving static assets
+\`\`\`
+
+</details>
+"
+`;
+
+exports[`Specification documents > when there are big integers > describes optional big integers 1`] = `
+"# Environment Variables
+
+This document describes the environment variables used by \`<app>\`.
+
+Please note that **undefined** variables and **empty strings** are considered
+equivalent.
+
+The application may consume other undocumented environment variables; this
+document only shows those variables defined using [Austenite].
+
+[austenite]: https://github.com/ezzatron/austenite
+
+## Index
+
+- [\`WEIGHT\`](#WEIGHT) — weighting for this node
+
+## Specification
+
+### \`WEIGHT\`
+
+> weighting for this node
+
+This variable **MAY** be set to a non-empty **big integer** value or left undefined.
+
+\`\`\`sh
+export WEIGHT=123456              # positive
+export WEIGHT=-123456             # negative
+export WEIGHT=0x1E240             # hexadecimal
+export WEIGHT=0o361100            # octal
+export WEIGHT=0b11110001001000000 # binary
+\`\`\`
+
+## Usage Examples
+
+<details><summary><strong>Kubernetes</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+on a [Kubernetes container] within a Kubenetes deployment manifest.
+
+[kubernetes container]: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/#define-an-environment-variable-for-a-container
+
+\`\`\`yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          env:
+            - name: WEIGHT # weighting for this node
+              value: "123456"
+\`\`\`
+
+Alternatively, the environment variables can be defined within a [config map]
+then referenced a deployment manifest using \`configMapRef\`.
+
+[config map]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables
+
+\`\`\`yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-config-map
+data:
+  WEIGHT: "123456" # weighting for this node
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          envFrom:
+            - configMapRef:
+                name: example-config-map
+\`\`\`
+
+</details>
+
+<details><summary><strong>Docker</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+when running as a [Docker service] defined in a Docker compose file.
+
+[docker service]: https://docs.docker.com/compose/environment-variables/#set-environment-variables-in-containers
+
+\`\`\`yaml
+service:
+  example-service:
+    environment:
+      WEIGHT: "123456" # weighting for this node
+\`\`\`
+
+</details>
+"
+`;
+
+exports[`Specification documents > when there are big integers > describes optional big integers with defaults 1`] = `
+"# Environment Variables
+
+This document describes the environment variables used by \`<app>\`.
+
+Please note that **undefined** variables and **empty strings** are considered
+equivalent.
+
+The application may consume other undocumented environment variables; this
+document only shows those variables defined using [Austenite].
+
+[austenite]: https://github.com/ezzatron/austenite
+
+## Index
+
+- [\`WEIGHT\`](#WEIGHT) — weighting for this node
+
+## Specification
+
+### \`WEIGHT\`
+
+> weighting for this node
+
+This variable **MAY** be set to a non-empty **big integer** value.
+If left undefined the default value is used (see below).
+
+\`\`\`sh
+export WEIGHT=10000000000000001   # (default)
+export WEIGHT=123456              # positive
+export WEIGHT=-123456             # negative
+export WEIGHT=0x1E240             # hexadecimal
+export WEIGHT=0o361100            # octal
+export WEIGHT=0b11110001001000000 # binary
+\`\`\`
+
+## Usage Examples
+
+<details><summary><strong>Kubernetes</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+on a [Kubernetes container] within a Kubenetes deployment manifest.
+
+[kubernetes container]: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/#define-an-environment-variable-for-a-container
+
+\`\`\`yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          env:
+            - name: WEIGHT # weighting for this node
+              value: "10000000000000001"
+\`\`\`
+
+Alternatively, the environment variables can be defined within a [config map]
+then referenced a deployment manifest using \`configMapRef\`.
+
+[config map]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables
+
+\`\`\`yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-config-map
+data:
+  WEIGHT: "10000000000000001" # weighting for this node
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          envFrom:
+            - configMapRef:
+                name: example-config-map
+\`\`\`
+
+</details>
+
+<details><summary><strong>Docker</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+when running as a [Docker service] defined in a Docker compose file.
+
+[docker service]: https://docs.docker.com/compose/environment-variables/#set-environment-variables-in-containers
+
+\`\`\`yaml
+service:
+  example-service:
+    environment:
+      WEIGHT: "10000000000000001" # weighting for this node
+\`\`\`
+
+</details>
+"
+`;
+
+exports[`Specification documents > when there are big integers > describes required big integers 1`] = `
+"# Environment Variables
+
+This document describes the environment variables used by \`<app>\`.
+
+Please note that **undefined** variables and **empty strings** are considered
+equivalent.
+
+The application may consume other undocumented environment variables; this
+document only shows those variables defined using [Austenite].
+
+[austenite]: https://github.com/ezzatron/austenite
+
+## Index
+
+- [\`WEIGHT\`](#WEIGHT) — weighting for this node
+
+## Specification
+
+### \`WEIGHT\`
+
+> weighting for this node
+
+This variable **MUST** be set to a non-empty **big integer** value.
+If left undefined the application will print usage information to \`STDERR\` then
+exit with a non-zero exit code.
+
+\`\`\`sh
+export WEIGHT=123456              # positive
+export WEIGHT=-123456             # negative
+export WEIGHT=0x1E240             # hexadecimal
+export WEIGHT=0o361100            # octal
+export WEIGHT=0b11110001001000000 # binary
+\`\`\`
+
+## Usage Examples
+
+<details><summary><strong>Kubernetes</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+on a [Kubernetes container] within a Kubenetes deployment manifest.
+
+[kubernetes container]: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/#define-an-environment-variable-for-a-container
+
+\`\`\`yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          env:
+            - name: WEIGHT # weighting for this node
+              value: "123456"
+\`\`\`
+
+Alternatively, the environment variables can be defined within a [config map]
+then referenced a deployment manifest using \`configMapRef\`.
+
+[config map]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables
+
+\`\`\`yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-config-map
+data:
+  WEIGHT: "123456" # weighting for this node
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          envFrom:
+            - configMapRef:
+                name: example-config-map
+\`\`\`
+
+</details>
+
+<details><summary><strong>Docker</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+when running as a [Docker service] defined in a Docker compose file.
+
+[docker service]: https://docs.docker.com/compose/environment-variables/#set-environment-variables-in-containers
+
+\`\`\`yaml
+service:
+  example-service:
+    environment:
+      WEIGHT: "123456" # weighting for this node
+\`\`\`
+
+</details>
+"
+`;
+
+exports[`Specification documents > when there are binaries > describes optional binaries 1`] = `
+"# Environment Variables
+
+This document describes the environment variables used by \`<app>\`.
+
+Please note that **undefined** variables and **empty strings** are considered
+equivalent.
+
+The application may consume other undocumented environment variables; this
+document only shows those variables defined using [Austenite].
+
+[austenite]: https://github.com/ezzatron/austenite
+
+## Index
+
+- [\`SESSION_KEY\`](#SESSION_KEY) — session token signing key
+
+## Specification
+
+### \`SESSION_KEY\`
+
+> session token signing key
+
+This variable **MAY** be set to a non-empty **base64** value or left undefined.
+
+\`\`\`sh
+export SESSION_KEY=Y29ucXVpc3RhZG9y # base64 encoded string
+\`\`\`
+
+## Usage Examples
+
+<details><summary><strong>Kubernetes</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+on a [Kubernetes container] within a Kubenetes deployment manifest.
+
+[kubernetes container]: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/#define-an-environment-variable-for-a-container
+
+\`\`\`yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          env:
+            - name: SESSION_KEY # session token signing key
+              value: "Y29ucXVpc3RhZG9y"
+\`\`\`
+
+Alternatively, the environment variables can be defined within a [config map]
+then referenced a deployment manifest using \`configMapRef\`.
+
+[config map]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables
+
+\`\`\`yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-config-map
+data:
+  SESSION_KEY: "Y29ucXVpc3RhZG9y" # session token signing key
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          envFrom:
+            - configMapRef:
+                name: example-config-map
+\`\`\`
+
+</details>
+
+<details><summary><strong>Docker</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+when running as a [Docker service] defined in a Docker compose file.
+
+[docker service]: https://docs.docker.com/compose/environment-variables/#set-environment-variables-in-containers
+
+\`\`\`yaml
+service:
+  example-service:
+    environment:
+      SESSION_KEY: "Y29ucXVpc3RhZG9y" # session token signing key
+\`\`\`
+
+</details>
+"
+`;
+
+exports[`Specification documents > when there are binaries > describes optional binaries with defaults 1`] = `
+"# Environment Variables
+
+This document describes the environment variables used by \`<app>\`.
+
+Please note that **undefined** variables and **empty strings** are considered
+equivalent.
+
+The application may consume other undocumented environment variables; this
+document only shows those variables defined using [Austenite].
+
+[austenite]: https://github.com/ezzatron/austenite
+
+## Index
+
+- [\`SESSION_KEY\`](#SESSION_KEY) — session token signing key
+
+## Specification
+
+### \`SESSION_KEY\`
+
+> session token signing key
+
+This variable **MAY** be set to a non-empty **base64** value.
+If left undefined the default value is used (see below).
+
+\`\`\`sh
+export SESSION_KEY=XY7l3m0bmuzX5IAu6/KUyPRQXKc8H1LjAl2Q897vbYw= # (default)
+export SESSION_KEY=Y29ucXVpc3RhZG9y                             # base64 encoded string
+\`\`\`
+
+## Usage Examples
+
+<details><summary><strong>Kubernetes</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+on a [Kubernetes container] within a Kubenetes deployment manifest.
+
+[kubernetes container]: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/#define-an-environment-variable-for-a-container
+
+\`\`\`yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          env:
+            - name: SESSION_KEY # session token signing key
+              value: "XY7l3m0bmuzX5IAu6/KUyPRQXKc8H1LjAl2Q897vbYw="
+\`\`\`
+
+Alternatively, the environment variables can be defined within a [config map]
+then referenced a deployment manifest using \`configMapRef\`.
+
+[config map]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables
+
+\`\`\`yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-config-map
+data:
+  SESSION_KEY: "XY7l3m0bmuzX5IAu6/KUyPRQXKc8H1LjAl2Q897vbYw=" # session token signing key
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          envFrom:
+            - configMapRef:
+                name: example-config-map
+\`\`\`
+
+</details>
+
+<details><summary><strong>Docker</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+when running as a [Docker service] defined in a Docker compose file.
+
+[docker service]: https://docs.docker.com/compose/environment-variables/#set-environment-variables-in-containers
+
+\`\`\`yaml
+service:
+  example-service:
+    environment:
+      SESSION_KEY: "XY7l3m0bmuzX5IAu6/KUyPRQXKc8H1LjAl2Q897vbYw=" # session token signing key
+\`\`\`
+
+</details>
+"
+`;
+
+exports[`Specification documents > when there are binaries > describes required binaries 1`] = `
+"# Environment Variables
+
+This document describes the environment variables used by \`<app>\`.
+
+Please note that **undefined** variables and **empty strings** are considered
+equivalent.
+
+The application may consume other undocumented environment variables; this
+document only shows those variables defined using [Austenite].
+
+[austenite]: https://github.com/ezzatron/austenite
+
+## Index
+
+- [\`SESSION_KEY\`](#SESSION_KEY) — session token signing key
+
+## Specification
+
+### \`SESSION_KEY\`
+
+> session token signing key
+
+This variable **MUST** be set to a non-empty **base64** value.
+If left undefined the application will print usage information to \`STDERR\` then
+exit with a non-zero exit code.
+
+\`\`\`sh
+export SESSION_KEY=Y29ucXVpc3RhZG9y # base64 encoded string
+\`\`\`
+
+## Usage Examples
+
+<details><summary><strong>Kubernetes</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+on a [Kubernetes container] within a Kubenetes deployment manifest.
+
+[kubernetes container]: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/#define-an-environment-variable-for-a-container
+
+\`\`\`yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          env:
+            - name: SESSION_KEY # session token signing key
+              value: "Y29ucXVpc3RhZG9y"
+\`\`\`
+
+Alternatively, the environment variables can be defined within a [config map]
+then referenced a deployment manifest using \`configMapRef\`.
+
+[config map]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables
+
+\`\`\`yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-config-map
+data:
+  SESSION_KEY: "Y29ucXVpc3RhZG9y" # session token signing key
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          envFrom:
+            - configMapRef:
+                name: example-config-map
+\`\`\`
+
+</details>
+
+<details><summary><strong>Docker</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+when running as a [Docker service] defined in a Docker compose file.
+
+[docker service]: https://docs.docker.com/compose/environment-variables/#set-environment-variables-in-containers
+
+\`\`\`yaml
+service:
+  example-service:
+    environment:
+      SESSION_KEY: "Y29ucXVpc3RhZG9y" # session token signing key
+\`\`\`
+
+</details>
+"
+`;
+
+exports[`Specification documents > when there are booleans > describes booleans with custom literals 1`] = `
+"# Environment Variables
+
+This document describes the environment variables used by \`<app>\`.
+
+Please note that **undefined** variables and **empty strings** are considered
+equivalent.
+
+The application may consume other undocumented environment variables; this
+document only shows those variables defined using [Austenite].
+
+[austenite]: https://github.com/ezzatron/austenite
+
+## Index
+
+- [\`DEBUG\`](#DEBUG) — enable or disable debugging features
+
+## Specification
+
+### \`DEBUG\`
+
+> enable or disable debugging features
+
+This variable **MAY** be set to one of the values below.
+If left undefined the default value is used (see below).
+
+\`\`\`sh
+export DEBUG=y   # true
+export DEBUG=yes # true
+export DEBUG=n   # false (default)
+export DEBUG=no  # false (default)
+\`\`\`
+
+## Usage Examples
+
+<details><summary><strong>Kubernetes</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+on a [Kubernetes container] within a Kubenetes deployment manifest.
+
+[kubernetes container]: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/#define-an-environment-variable-for-a-container
+
+\`\`\`yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          env:
+            - name: DEBUG # enable or disable debugging features
+              value: "y"
+\`\`\`
+
+Alternatively, the environment variables can be defined within a [config map]
+then referenced a deployment manifest using \`configMapRef\`.
+
+[config map]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables
+
+\`\`\`yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-config-map
+data:
+  DEBUG: "y" # enable or disable debugging features
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          envFrom:
+            - configMapRef:
+                name: example-config-map
+\`\`\`
+
+</details>
+
+<details><summary><strong>Docker</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+when running as a [Docker service] defined in a Docker compose file.
+
+[docker service]: https://docs.docker.com/compose/environment-variables/#set-environment-variables-in-containers
+
+\`\`\`yaml
+service:
+  example-service:
+    environment:
+      DEBUG: "y" # enable or disable debugging features
+\`\`\`
+
+</details>
+"
+`;
+
+exports[`Specification documents > when there are booleans > describes optional booleans 1`] = `
+"# Environment Variables
+
+This document describes the environment variables used by \`<app>\`.
+
+Please note that **undefined** variables and **empty strings** are considered
+equivalent.
+
+The application may consume other undocumented environment variables; this
+document only shows those variables defined using [Austenite].
+
+[austenite]: https://github.com/ezzatron/austenite
+
+## Index
+
+- [\`DEBUG\`](#DEBUG) — enable or disable debugging features
+
+## Specification
+
+### \`DEBUG\`
+
+> enable or disable debugging features
+
+This variable **MAY** be set to one of the values below or left undefined.
+
+\`\`\`sh
+export DEBUG=true  # true
+export DEBUG=false # false
+\`\`\`
+
+## Usage Examples
+
+<details><summary><strong>Kubernetes</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+on a [Kubernetes container] within a Kubenetes deployment manifest.
+
+[kubernetes container]: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/#define-an-environment-variable-for-a-container
+
+\`\`\`yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          env:
+            - name: DEBUG # enable or disable debugging features
+              value: "true"
+\`\`\`
+
+Alternatively, the environment variables can be defined within a [config map]
+then referenced a deployment manifest using \`configMapRef\`.
+
+[config map]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables
+
+\`\`\`yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-config-map
+data:
+  DEBUG: "true" # enable or disable debugging features
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          envFrom:
+            - configMapRef:
+                name: example-config-map
+\`\`\`
+
+</details>
+
+<details><summary><strong>Docker</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+when running as a [Docker service] defined in a Docker compose file.
+
+[docker service]: https://docs.docker.com/compose/environment-variables/#set-environment-variables-in-containers
+
+\`\`\`yaml
+service:
+  example-service:
+    environment:
+      DEBUG: "true" # enable or disable debugging features
+\`\`\`
+
+</details>
+"
+`;
+
+exports[`Specification documents > when there are booleans > describes optional booleans with defaults 1`] = `
+"# Environment Variables
+
+This document describes the environment variables used by \`<app>\`.
+
+Please note that **undefined** variables and **empty strings** are considered
+equivalent.
+
+The application may consume other undocumented environment variables; this
+document only shows those variables defined using [Austenite].
+
+[austenite]: https://github.com/ezzatron/austenite
+
+## Index
+
+- [\`DEBUG\`](#DEBUG) — enable or disable debugging features
+- [\`PRODUCTION\`](#PRODUCTION) — enable or disable production mode
+
+## Specification
+
+### \`DEBUG\`
+
+> enable or disable debugging features
+
+This variable **MAY** be set to one of the values below.
+If left undefined the default value is used (see below).
+
+\`\`\`sh
+export DEBUG=true  # true
+export DEBUG=false # false (default)
+\`\`\`
+
+### \`PRODUCTION\`
+
+> enable or disable production mode
+
+This variable **MAY** be set to one of the values below.
+If left undefined the default value is used (see below).
+
+\`\`\`sh
+export PRODUCTION=true  # true (default)
+export PRODUCTION=false # false
+\`\`\`
+
+## Usage Examples
+
+<details><summary><strong>Kubernetes</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+on a [Kubernetes container] within a Kubenetes deployment manifest.
+
+[kubernetes container]: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/#define-an-environment-variable-for-a-container
+
+\`\`\`yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          env:
+            - name: DEBUG # enable or disable debugging features
+              value: "true"
+            - name: PRODUCTION # enable or disable production mode
+              value: "true"
+\`\`\`
+
+Alternatively, the environment variables can be defined within a [config map]
+then referenced a deployment manifest using \`configMapRef\`.
+
+[config map]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables
+
+\`\`\`yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-config-map
+data:
+  DEBUG: "true" # enable or disable debugging features
+  PRODUCTION: "true" # enable or disable production mode
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          envFrom:
+            - configMapRef:
+                name: example-config-map
+\`\`\`
+
+</details>
+
+<details><summary><strong>Docker</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+when running as a [Docker service] defined in a Docker compose file.
+
+[docker service]: https://docs.docker.com/compose/environment-variables/#set-environment-variables-in-containers
+
+\`\`\`yaml
+service:
+  example-service:
+    environment:
+      DEBUG: "true" # enable or disable debugging features
+      PRODUCTION: "true" # enable or disable production mode
+\`\`\`
+
+</details>
+"
+`;
+
+exports[`Specification documents > when there are booleans > describes required booleans 1`] = `
+"# Environment Variables
+
+This document describes the environment variables used by \`<app>\`.
+
+Please note that **undefined** variables and **empty strings** are considered
+equivalent.
+
+The application may consume other undocumented environment variables; this
+document only shows those variables defined using [Austenite].
+
+[austenite]: https://github.com/ezzatron/austenite
+
+## Index
+
+- [\`DEBUG\`](#DEBUG) — enable or disable debugging features
+
+## Specification
+
+### \`DEBUG\`
+
+> enable or disable debugging features
+
+This variable **MUST** be set to one of the values below.
+If left undefined the application will print usage information to \`STDERR\` then
+exit with a non-zero exit code.
+
+\`\`\`sh
+export DEBUG=true  # true
+export DEBUG=false # false
+\`\`\`
+
+## Usage Examples
+
+<details><summary><strong>Kubernetes</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+on a [Kubernetes container] within a Kubenetes deployment manifest.
+
+[kubernetes container]: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/#define-an-environment-variable-for-a-container
+
+\`\`\`yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          env:
+            - name: DEBUG # enable or disable debugging features
+              value: "true"
+\`\`\`
+
+Alternatively, the environment variables can be defined within a [config map]
+then referenced a deployment manifest using \`configMapRef\`.
+
+[config map]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables
+
+\`\`\`yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-config-map
+data:
+  DEBUG: "true" # enable or disable debugging features
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          envFrom:
+            - configMapRef:
+                name: example-config-map
+\`\`\`
+
+</details>
+
+<details><summary><strong>Docker</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+when running as a [Docker service] defined in a Docker compose file.
+
+[docker service]: https://docs.docker.com/compose/environment-variables/#set-environment-variables-in-containers
+
+\`\`\`yaml
+service:
+  example-service:
+    environment:
+      DEBUG: "true" # enable or disable debugging features
+\`\`\`
+
+</details>
+"
+`;
+
+exports[`Specification documents > when there are durations > describes optional durations 1`] = `
+"# Environment Variables
+
+This document describes the environment variables used by \`<app>\`.
+
+Please note that **undefined** variables and **empty strings** are considered
+equivalent.
+
+The application may consume other undocumented environment variables; this
+document only shows those variables defined using [Austenite].
+
+[austenite]: https://github.com/ezzatron/austenite
+
+## Index
+
+- [\`GRPC_TIMEOUT\`](#GRPC_TIMEOUT) — gRPC request timeout
+
+## Specification
+
+### \`GRPC_TIMEOUT\`
+
+> gRPC request timeout
+
+This variable **MAY** be set to a non-empty **ISO 8601 duration** value or left undefined.
+
+\`\`\`sh
+export GRPC_TIMEOUT=PT1M30S    # ISO 8601 duration
+export GRPC_TIMEOUT=P1M15DT12H # ISO 8601 duration
+\`\`\`
+
+## Usage Examples
+
+<details><summary><strong>Kubernetes</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+on a [Kubernetes container] within a Kubenetes deployment manifest.
+
+[kubernetes container]: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/#define-an-environment-variable-for-a-container
+
+\`\`\`yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          env:
+            - name: GRPC_TIMEOUT # gRPC request timeout
+              value: "PT1M30S"
+\`\`\`
+
+Alternatively, the environment variables can be defined within a [config map]
+then referenced a deployment manifest using \`configMapRef\`.
+
+[config map]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables
+
+\`\`\`yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-config-map
+data:
+  GRPC_TIMEOUT: "PT1M30S" # gRPC request timeout
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          envFrom:
+            - configMapRef:
+                name: example-config-map
+\`\`\`
+
+</details>
+
+<details><summary><strong>Docker</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+when running as a [Docker service] defined in a Docker compose file.
+
+[docker service]: https://docs.docker.com/compose/environment-variables/#set-environment-variables-in-containers
+
+\`\`\`yaml
+service:
+  example-service:
+    environment:
+      GRPC_TIMEOUT: "PT1M30S" # gRPC request timeout
+\`\`\`
+
+</details>
+"
+`;
+
+exports[`Specification documents > when there are durations > describes optional durations with defaults 1`] = `
+"# Environment Variables
+
+This document describes the environment variables used by \`<app>\`.
+
+Please note that **undefined** variables and **empty strings** are considered
+equivalent.
+
+The application may consume other undocumented environment variables; this
+document only shows those variables defined using [Austenite].
+
+[austenite]: https://github.com/ezzatron/austenite
+
+## Index
+
+- [\`GRPC_TIMEOUT\`](#GRPC_TIMEOUT) — gRPC request timeout
+
+## Specification
+
+### \`GRPC_TIMEOUT\`
+
+> gRPC request timeout
+
+This variable **MAY** be set to a non-empty **ISO 8601 duration** value.
+If left undefined the default value is used (see below).
+
+\`\`\`sh
+export GRPC_TIMEOUT=PT0.01S    # (default)
+export GRPC_TIMEOUT=PT1M30S    # ISO 8601 duration
+export GRPC_TIMEOUT=P1M15DT12H # ISO 8601 duration
+\`\`\`
+
+## Usage Examples
+
+<details><summary><strong>Kubernetes</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+on a [Kubernetes container] within a Kubenetes deployment manifest.
+
+[kubernetes container]: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/#define-an-environment-variable-for-a-container
+
+\`\`\`yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          env:
+            - name: GRPC_TIMEOUT # gRPC request timeout
+              value: "PT0.01S"
+\`\`\`
+
+Alternatively, the environment variables can be defined within a [config map]
+then referenced a deployment manifest using \`configMapRef\`.
+
+[config map]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables
+
+\`\`\`yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-config-map
+data:
+  GRPC_TIMEOUT: "PT0.01S" # gRPC request timeout
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          envFrom:
+            - configMapRef:
+                name: example-config-map
+\`\`\`
+
+</details>
+
+<details><summary><strong>Docker</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+when running as a [Docker service] defined in a Docker compose file.
+
+[docker service]: https://docs.docker.com/compose/environment-variables/#set-environment-variables-in-containers
+
+\`\`\`yaml
+service:
+  example-service:
+    environment:
+      GRPC_TIMEOUT: "PT0.01S" # gRPC request timeout
+\`\`\`
+
+</details>
+"
+`;
+
+exports[`Specification documents > when there are durations > describes required durations 1`] = `
+"# Environment Variables
+
+This document describes the environment variables used by \`<app>\`.
+
+Please note that **undefined** variables and **empty strings** are considered
+equivalent.
+
+The application may consume other undocumented environment variables; this
+document only shows those variables defined using [Austenite].
+
+[austenite]: https://github.com/ezzatron/austenite
+
+## Index
+
+- [\`GRPC_TIMEOUT\`](#GRPC_TIMEOUT) — gRPC request timeout
+
+## Specification
+
+### \`GRPC_TIMEOUT\`
+
+> gRPC request timeout
+
+This variable **MUST** be set to a non-empty **ISO 8601 duration** value.
+If left undefined the application will print usage information to \`STDERR\` then
+exit with a non-zero exit code.
+
+\`\`\`sh
+export GRPC_TIMEOUT=PT1M30S    # ISO 8601 duration
+export GRPC_TIMEOUT=P1M15DT12H # ISO 8601 duration
+\`\`\`
+
+## Usage Examples
+
+<details><summary><strong>Kubernetes</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+on a [Kubernetes container] within a Kubenetes deployment manifest.
+
+[kubernetes container]: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/#define-an-environment-variable-for-a-container
+
+\`\`\`yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          env:
+            - name: GRPC_TIMEOUT # gRPC request timeout
+              value: "PT1M30S"
+\`\`\`
+
+Alternatively, the environment variables can be defined within a [config map]
+then referenced a deployment manifest using \`configMapRef\`.
+
+[config map]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables
+
+\`\`\`yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-config-map
+data:
+  GRPC_TIMEOUT: "PT1M30S" # gRPC request timeout
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          envFrom:
+            - configMapRef:
+                name: example-config-map
+\`\`\`
+
+</details>
+
+<details><summary><strong>Docker</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+when running as a [Docker service] defined in a Docker compose file.
+
+[docker service]: https://docs.docker.com/compose/environment-variables/#set-environment-variables-in-containers
+
+\`\`\`yaml
+service:
+  example-service:
+    environment:
+      GRPC_TIMEOUT: "PT1M30S" # gRPC request timeout
+\`\`\`
+
+</details>
+"
+`;
+
+exports[`Specification documents > when there are enumerations > describes optional enumerations 1`] = `
+"# Environment Variables
+
+This document describes the environment variables used by \`<app>\`.
+
+Please note that **undefined** variables and **empty strings** are considered
+equivalent.
+
+The application may consume other undocumented environment variables; this
+document only shows those variables defined using [Austenite].
+
+[austenite]: https://github.com/ezzatron/austenite
+
+## Index
+
+- [\`LOG_LEVEL\`](#LOG_LEVEL) — the minimum log level to record
+
+## Specification
+
+### \`LOG_LEVEL\`
+
+> the minimum log level to record
+
+This variable **MAY** be set to one of the values below or left undefined.
+
+\`\`\`sh
+export LOG_LEVEL=debug # show information for developers
+export LOG_LEVEL=info  # standard log messages
+export LOG_LEVEL=warn  # important, but don't need individual human review
+export LOG_LEVEL=error # a healthy application shouldn't produce any errors
+export LOG_LEVEL=fatal # the application cannot proceed
+\`\`\`
+
+## Usage Examples
+
+<details><summary><strong>Kubernetes</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+on a [Kubernetes container] within a Kubenetes deployment manifest.
+
+[kubernetes container]: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/#define-an-environment-variable-for-a-container
+
+\`\`\`yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          env:
+            - name: LOG_LEVEL # the minimum log level to record
+              value: "debug"
+\`\`\`
+
+Alternatively, the environment variables can be defined within a [config map]
+then referenced a deployment manifest using \`configMapRef\`.
+
+[config map]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables
+
+\`\`\`yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-config-map
+data:
+  LOG_LEVEL: "debug" # the minimum log level to record
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          envFrom:
+            - configMapRef:
+                name: example-config-map
+\`\`\`
+
+</details>
+
+<details><summary><strong>Docker</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+when running as a [Docker service] defined in a Docker compose file.
+
+[docker service]: https://docs.docker.com/compose/environment-variables/#set-environment-variables-in-containers
+
+\`\`\`yaml
+service:
+  example-service:
+    environment:
+      LOG_LEVEL: "debug" # the minimum log level to record
+\`\`\`
+
+</details>
+"
+`;
+
+exports[`Specification documents > when there are enumerations > describes optional enumerations with defaults 1`] = `
+"# Environment Variables
+
+This document describes the environment variables used by \`<app>\`.
+
+Please note that **undefined** variables and **empty strings** are considered
+equivalent.
+
+The application may consume other undocumented environment variables; this
+document only shows those variables defined using [Austenite].
+
+[austenite]: https://github.com/ezzatron/austenite
+
+## Index
+
+- [\`LOG_LEVEL\`](#LOG_LEVEL) — the minimum log level to record
+
+## Specification
+
+### \`LOG_LEVEL\`
+
+> the minimum log level to record
+
+This variable **MAY** be set to one of the values below.
+If left undefined the default value is used (see below).
+
+\`\`\`sh
+export LOG_LEVEL=debug # show information for developers
+export LOG_LEVEL=info  # standard log messages
+export LOG_LEVEL=warn  # important, but don't need individual human review
+export LOG_LEVEL=error # a healthy application shouldn't produce any errors (default)
+export LOG_LEVEL=fatal # the application cannot proceed
+\`\`\`
+
+## Usage Examples
+
+<details><summary><strong>Kubernetes</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+on a [Kubernetes container] within a Kubenetes deployment manifest.
+
+[kubernetes container]: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/#define-an-environment-variable-for-a-container
+
+\`\`\`yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          env:
+            - name: LOG_LEVEL # the minimum log level to record
+              value: "debug"
+\`\`\`
+
+Alternatively, the environment variables can be defined within a [config map]
+then referenced a deployment manifest using \`configMapRef\`.
+
+[config map]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables
+
+\`\`\`yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-config-map
+data:
+  LOG_LEVEL: "debug" # the minimum log level to record
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          envFrom:
+            - configMapRef:
+                name: example-config-map
+\`\`\`
+
+</details>
+
+<details><summary><strong>Docker</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+when running as a [Docker service] defined in a Docker compose file.
+
+[docker service]: https://docs.docker.com/compose/environment-variables/#set-environment-variables-in-containers
+
+\`\`\`yaml
+service:
+  example-service:
+    environment:
+      LOG_LEVEL: "debug" # the minimum log level to record
+\`\`\`
+
+</details>
+"
+`;
+
+exports[`Specification documents > when there are enumerations > describes required enumerations 1`] = `
+"# Environment Variables
+
+This document describes the environment variables used by \`<app>\`.
+
+Please note that **undefined** variables and **empty strings** are considered
+equivalent.
+
+The application may consume other undocumented environment variables; this
+document only shows those variables defined using [Austenite].
+
+[austenite]: https://github.com/ezzatron/austenite
+
+## Index
+
+- [\`LOG_LEVEL\`](#LOG_LEVEL) — the minimum log level to record
+
+## Specification
+
+### \`LOG_LEVEL\`
+
+> the minimum log level to record
+
+This variable **MUST** be set to one of the values below.
+If left undefined the application will print usage information to \`STDERR\` then
+exit with a non-zero exit code.
+
+\`\`\`sh
+export LOG_LEVEL=debug # show information for developers
+export LOG_LEVEL=info  # standard log messages
+export LOG_LEVEL=warn  # important, but don't need individual human review
+export LOG_LEVEL=error # a healthy application shouldn't produce any errors
+export LOG_LEVEL=fatal # the application cannot proceed
+\`\`\`
+
+## Usage Examples
+
+<details><summary><strong>Kubernetes</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+on a [Kubernetes container] within a Kubenetes deployment manifest.
+
+[kubernetes container]: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/#define-an-environment-variable-for-a-container
+
+\`\`\`yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          env:
+            - name: LOG_LEVEL # the minimum log level to record
+              value: "debug"
+\`\`\`
+
+Alternatively, the environment variables can be defined within a [config map]
+then referenced a deployment manifest using \`configMapRef\`.
+
+[config map]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables
+
+\`\`\`yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-config-map
+data:
+  LOG_LEVEL: "debug" # the minimum log level to record
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          envFrom:
+            - configMapRef:
+                name: example-config-map
+\`\`\`
+
+</details>
+
+<details><summary><strong>Docker</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+when running as a [Docker service] defined in a Docker compose file.
+
+[docker service]: https://docs.docker.com/compose/environment-variables/#set-environment-variables-in-containers
+
+\`\`\`yaml
+service:
+  example-service:
+    environment:
+      LOG_LEVEL: "debug" # the minimum log level to record
+\`\`\`
+
+</details>
+"
+`;
+
+exports[`Specification documents > when there are integers > describes optional integers 1`] = `
+"# Environment Variables
+
+This document describes the environment variables used by \`<app>\`.
+
+Please note that **undefined** variables and **empty strings** are considered
+equivalent.
+
+The application may consume other undocumented environment variables; this
+document only shows those variables defined using [Austenite].
+
+[austenite]: https://github.com/ezzatron/austenite
+
+## Index
+
+- [\`WEIGHT\`](#WEIGHT) — weighting for this node
+
+## Specification
+
+### \`WEIGHT\`
+
+> weighting for this node
+
+This variable **MAY** be set to a non-empty **integer** value or left undefined.
+
+\`\`\`sh
+export WEIGHT=123456              # positive
+export WEIGHT=-123456             # negative
+export WEIGHT=1.23456e+5          # exponential
+export WEIGHT=0x1E240             # hexadecimal
+export WEIGHT=0o361100            # octal
+export WEIGHT=0b11110001001000000 # binary
+\`\`\`
+
+## Usage Examples
+
+<details><summary><strong>Kubernetes</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+on a [Kubernetes container] within a Kubenetes deployment manifest.
+
+[kubernetes container]: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/#define-an-environment-variable-for-a-container
+
+\`\`\`yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          env:
+            - name: WEIGHT # weighting for this node
+              value: "123456"
+\`\`\`
+
+Alternatively, the environment variables can be defined within a [config map]
+then referenced a deployment manifest using \`configMapRef\`.
+
+[config map]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables
+
+\`\`\`yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-config-map
+data:
+  WEIGHT: "123456" # weighting for this node
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          envFrom:
+            - configMapRef:
+                name: example-config-map
+\`\`\`
+
+</details>
+
+<details><summary><strong>Docker</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+when running as a [Docker service] defined in a Docker compose file.
+
+[docker service]: https://docs.docker.com/compose/environment-variables/#set-environment-variables-in-containers
+
+\`\`\`yaml
+service:
+  example-service:
+    environment:
+      WEIGHT: "123456" # weighting for this node
+\`\`\`
+
+</details>
+"
+`;
+
+exports[`Specification documents > when there are integers > describes optional integers with defaults 1`] = `
+"# Environment Variables
+
+This document describes the environment variables used by \`<app>\`.
+
+Please note that **undefined** variables and **empty strings** are considered
+equivalent.
+
+The application may consume other undocumented environment variables; this
+document only shows those variables defined using [Austenite].
+
+[austenite]: https://github.com/ezzatron/austenite
+
+## Index
+
+- [\`WEIGHT\`](#WEIGHT) — weighting for this node
+
+## Specification
+
+### \`WEIGHT\`
+
+> weighting for this node
+
+This variable **MAY** be set to a non-empty **integer** value.
+If left undefined the default value is used (see below).
+
+\`\`\`sh
+export WEIGHT=101                 # (default)
+export WEIGHT=123456              # positive
+export WEIGHT=-123456             # negative
+export WEIGHT=1.23456e+5          # exponential
+export WEIGHT=0x1E240             # hexadecimal
+export WEIGHT=0o361100            # octal
+export WEIGHT=0b11110001001000000 # binary
+\`\`\`
+
+## Usage Examples
+
+<details><summary><strong>Kubernetes</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+on a [Kubernetes container] within a Kubenetes deployment manifest.
+
+[kubernetes container]: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/#define-an-environment-variable-for-a-container
+
+\`\`\`yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          env:
+            - name: WEIGHT # weighting for this node
+              value: "101"
+\`\`\`
+
+Alternatively, the environment variables can be defined within a [config map]
+then referenced a deployment manifest using \`configMapRef\`.
+
+[config map]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables
+
+\`\`\`yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-config-map
+data:
+  WEIGHT: "101" # weighting for this node
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          envFrom:
+            - configMapRef:
+                name: example-config-map
+\`\`\`
+
+</details>
+
+<details><summary><strong>Docker</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+when running as a [Docker service] defined in a Docker compose file.
+
+[docker service]: https://docs.docker.com/compose/environment-variables/#set-environment-variables-in-containers
+
+\`\`\`yaml
+service:
+  example-service:
+    environment:
+      WEIGHT: "101" # weighting for this node
+\`\`\`
+
+</details>
+"
+`;
+
+exports[`Specification documents > when there are integers > describes required integers 1`] = `
+"# Environment Variables
+
+This document describes the environment variables used by \`<app>\`.
+
+Please note that **undefined** variables and **empty strings** are considered
+equivalent.
+
+The application may consume other undocumented environment variables; this
+document only shows those variables defined using [Austenite].
+
+[austenite]: https://github.com/ezzatron/austenite
+
+## Index
+
+- [\`WEIGHT\`](#WEIGHT) — weighting for this node
+
+## Specification
+
+### \`WEIGHT\`
+
+> weighting for this node
+
+This variable **MUST** be set to a non-empty **integer** value.
+If left undefined the application will print usage information to \`STDERR\` then
+exit with a non-zero exit code.
+
+\`\`\`sh
+export WEIGHT=123456              # positive
+export WEIGHT=-123456             # negative
+export WEIGHT=1.23456e+5          # exponential
+export WEIGHT=0x1E240             # hexadecimal
+export WEIGHT=0o361100            # octal
+export WEIGHT=0b11110001001000000 # binary
+\`\`\`
+
+## Usage Examples
+
+<details><summary><strong>Kubernetes</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+on a [Kubernetes container] within a Kubenetes deployment manifest.
+
+[kubernetes container]: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/#define-an-environment-variable-for-a-container
+
+\`\`\`yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          env:
+            - name: WEIGHT # weighting for this node
+              value: "123456"
+\`\`\`
+
+Alternatively, the environment variables can be defined within a [config map]
+then referenced a deployment manifest using \`configMapRef\`.
+
+[config map]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables
+
+\`\`\`yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-config-map
+data:
+  WEIGHT: "123456" # weighting for this node
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          envFrom:
+            - configMapRef:
+                name: example-config-map
+\`\`\`
+
+</details>
+
+<details><summary><strong>Docker</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+when running as a [Docker service] defined in a Docker compose file.
+
+[docker service]: https://docs.docker.com/compose/environment-variables/#set-environment-variables-in-containers
+
+\`\`\`yaml
+service:
+  example-service:
+    environment:
+      WEIGHT: "123456" # weighting for this node
+\`\`\`
+
+</details>
+"
+`;
+
+exports[`Specification documents > when there are kubernetes addresses > describes addresses with named ports 1`] = `
+"# Environment Variables
+
+This document describes the environment variables used by \`<app>\`.
+
+Please note that **undefined** variables and **empty strings** are considered
+equivalent.
+
+The application may consume other undocumented environment variables; this
+document only shows those variables defined using [Austenite].
+
+[austenite]: https://github.com/ezzatron/austenite
+
+## Index
+
+- [\`REDIS_PRIMARY_SERVICE_HOST\`](#REDIS_PRIMARY_SERVICE_HOST) — kubernetes \`redis-primary\` service host
+- [\`REDIS_PRIMARY_SERVICE_PORT_DB\`](#REDIS_PRIMARY_SERVICE_PORT_DB) — kubernetes \`redis-primary\` service \`db\` port
+- [\`REDIS_PRIMARY_SERVICE_PORT_OBSERVABILITY\`](#REDIS_PRIMARY_SERVICE_PORT_OBSERVABILITY) — kubernetes \`redis-primary\` service \`observability\` port
+
+## Specification
+
+### \`REDIS_PRIMARY_SERVICE_HOST\`
+
+> kubernetes \`redis-primary\` service host
+
+This variable **MUST** be set to a non-empty **hostname** value.
+If left undefined the application will print usage information to \`STDERR\` then
+exit with a non-zero exit code.
+
+\`\`\`sh
+export REDIS_PRIMARY_SERVICE_HOST=service.example.org # a hostname
+export REDIS_PRIMARY_SERVICE_HOST=10.0.0.11           # an IP address
+\`\`\`
+
+### \`REDIS_PRIMARY_SERVICE_PORT_DB\`
+
+> kubernetes \`redis-primary\` service \`db\` port
+
+This variable **MUST** be set to a non-empty **port number** value.
+If left undefined the application will print usage information to \`STDERR\` then
+exit with a non-zero exit code.
+
+\`\`\`sh
+export REDIS_PRIMARY_SERVICE_PORT_DB=12345 # a port number
+\`\`\`
+
+### \`REDIS_PRIMARY_SERVICE_PORT_OBSERVABILITY\`
+
+> kubernetes \`redis-primary\` service \`observability\` port
+
+This variable **MUST** be set to a non-empty **port number** value.
+If left undefined the application will print usage information to \`STDERR\` then
+exit with a non-zero exit code.
+
+\`\`\`sh
+export REDIS_PRIMARY_SERVICE_PORT_OBSERVABILITY=12345 # a port number
+\`\`\`
+
+## Usage Examples
+
+<details><summary><strong>Kubernetes</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+on a [Kubernetes container] within a Kubenetes deployment manifest.
+
+[kubernetes container]: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/#define-an-environment-variable-for-a-container
+
+\`\`\`yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          env:
+            - name: REDIS_PRIMARY_SERVICE_HOST # kubernetes \`redis-primary\` service host
+              value: "service.example.org"
+            - name: REDIS_PRIMARY_SERVICE_PORT_DB # kubernetes \`redis-primary\` service \`db\` port
+              value: "12345"
+            - name: REDIS_PRIMARY_SERVICE_PORT_OBSERVABILITY # kubernetes \`redis-primary\` service \`observability\` port
+              value: "12345"
+\`\`\`
+
+Alternatively, the environment variables can be defined within a [config map]
+then referenced a deployment manifest using \`configMapRef\`.
+
+[config map]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables
+
+\`\`\`yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-config-map
+data:
+  REDIS_PRIMARY_SERVICE_HOST: "service.example.org" # kubernetes \`redis-primary\` service host
+  REDIS_PRIMARY_SERVICE_PORT_DB: "12345" # kubernetes \`redis-primary\` service \`db\` port
+  REDIS_PRIMARY_SERVICE_PORT_OBSERVABILITY: "12345" # kubernetes \`redis-primary\` service \`observability\` port
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          envFrom:
+            - configMapRef:
+                name: example-config-map
+\`\`\`
+
+</details>
+
+<details><summary><strong>Docker</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+when running as a [Docker service] defined in a Docker compose file.
+
+[docker service]: https://docs.docker.com/compose/environment-variables/#set-environment-variables-in-containers
+
+\`\`\`yaml
+service:
+  example-service:
+    environment:
+      REDIS_PRIMARY_SERVICE_HOST: "service.example.org" # kubernetes \`redis-primary\` service host
+      REDIS_PRIMARY_SERVICE_PORT_DB: "12345" # kubernetes \`redis-primary\` service \`db\` port
+      REDIS_PRIMARY_SERVICE_PORT_OBSERVABILITY: "12345" # kubernetes \`redis-primary\` service \`observability\` port
+\`\`\`
+
+</details>
+"
+`;
+
+exports[`Specification documents > when there are kubernetes addresses > describes optional addresses 1`] = `
+"# Environment Variables
+
+This document describes the environment variables used by \`<app>\`.
+
+Please note that **undefined** variables and **empty strings** are considered
+equivalent.
+
+The application may consume other undocumented environment variables; this
+document only shows those variables defined using [Austenite].
+
+[austenite]: https://github.com/ezzatron/austenite
+
+## Index
+
+- [\`REDIS_PRIMARY_SERVICE_HOST\`](#REDIS_PRIMARY_SERVICE_HOST) — kubernetes \`redis-primary\` service host
+- [\`REDIS_PRIMARY_SERVICE_PORT\`](#REDIS_PRIMARY_SERVICE_PORT) — kubernetes \`redis-primary\` service port
+
+## Specification
+
+### \`REDIS_PRIMARY_SERVICE_HOST\`
+
+> kubernetes \`redis-primary\` service host
+
+This variable **MAY** be set to a non-empty **hostname** value or left undefined.
+
+\`\`\`sh
+export REDIS_PRIMARY_SERVICE_HOST=service.example.org # a hostname
+export REDIS_PRIMARY_SERVICE_HOST=10.0.0.11           # an IP address
+\`\`\`
+
+### \`REDIS_PRIMARY_SERVICE_PORT\`
+
+> kubernetes \`redis-primary\` service port
+
+This variable **MAY** be set to a non-empty **port number** value or left undefined.
+
+\`\`\`sh
+export REDIS_PRIMARY_SERVICE_PORT=12345 # a port number
+\`\`\`
+
+## Usage Examples
+
+<details><summary><strong>Kubernetes</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+on a [Kubernetes container] within a Kubenetes deployment manifest.
+
+[kubernetes container]: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/#define-an-environment-variable-for-a-container
+
+\`\`\`yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          env:
+            - name: REDIS_PRIMARY_SERVICE_HOST # kubernetes \`redis-primary\` service host
+              value: "service.example.org"
+            - name: REDIS_PRIMARY_SERVICE_PORT # kubernetes \`redis-primary\` service port
+              value: "12345"
+\`\`\`
+
+Alternatively, the environment variables can be defined within a [config map]
+then referenced a deployment manifest using \`configMapRef\`.
+
+[config map]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables
+
+\`\`\`yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-config-map
+data:
+  REDIS_PRIMARY_SERVICE_HOST: "service.example.org" # kubernetes \`redis-primary\` service host
+  REDIS_PRIMARY_SERVICE_PORT: "12345" # kubernetes \`redis-primary\` service port
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          envFrom:
+            - configMapRef:
+                name: example-config-map
+\`\`\`
+
+</details>
+
+<details><summary><strong>Docker</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+when running as a [Docker service] defined in a Docker compose file.
+
+[docker service]: https://docs.docker.com/compose/environment-variables/#set-environment-variables-in-containers
+
+\`\`\`yaml
+service:
+  example-service:
+    environment:
+      REDIS_PRIMARY_SERVICE_HOST: "service.example.org" # kubernetes \`redis-primary\` service host
+      REDIS_PRIMARY_SERVICE_PORT: "12345" # kubernetes \`redis-primary\` service port
+\`\`\`
+
+</details>
+"
+`;
+
+exports[`Specification documents > when there are kubernetes addresses > describes optional addresses with defaults 1`] = `
+"# Environment Variables
+
+This document describes the environment variables used by \`<app>\`.
+
+Please note that **undefined** variables and **empty strings** are considered
+equivalent.
+
+The application may consume other undocumented environment variables; this
+document only shows those variables defined using [Austenite].
+
+[austenite]: https://github.com/ezzatron/austenite
+
+## Index
+
+- [\`REDIS_PRIMARY_SERVICE_HOST\`](#REDIS_PRIMARY_SERVICE_HOST) — kubernetes \`redis-primary\` service host
+- [\`REDIS_PRIMARY_SERVICE_PORT\`](#REDIS_PRIMARY_SERVICE_PORT) — kubernetes \`redis-primary\` service port
+
+## Specification
+
+### \`REDIS_PRIMARY_SERVICE_HOST\`
+
+> kubernetes \`redis-primary\` service host
+
+This variable **MAY** be set to a non-empty **hostname** value.
+If left undefined the default value is used (see below).
+
+\`\`\`sh
+export REDIS_PRIMARY_SERVICE_HOST=redis.example.org   # (default)
+export REDIS_PRIMARY_SERVICE_HOST=service.example.org # a hostname
+export REDIS_PRIMARY_SERVICE_HOST=10.0.0.11           # an IP address
+\`\`\`
+
+### \`REDIS_PRIMARY_SERVICE_PORT\`
+
+> kubernetes \`redis-primary\` service port
+
+This variable **MAY** be set to a non-empty **port number** value.
+If left undefined the default value is used (see below).
+
+\`\`\`sh
+export REDIS_PRIMARY_SERVICE_PORT=6379  # (default)
+export REDIS_PRIMARY_SERVICE_PORT=12345 # a port number
+\`\`\`
+
+## Usage Examples
+
+<details><summary><strong>Kubernetes</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+on a [Kubernetes container] within a Kubenetes deployment manifest.
+
+[kubernetes container]: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/#define-an-environment-variable-for-a-container
+
+\`\`\`yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          env:
+            - name: REDIS_PRIMARY_SERVICE_HOST # kubernetes \`redis-primary\` service host
+              value: "redis.example.org"
+            - name: REDIS_PRIMARY_SERVICE_PORT # kubernetes \`redis-primary\` service port
+              value: "6379"
+\`\`\`
+
+Alternatively, the environment variables can be defined within a [config map]
+then referenced a deployment manifest using \`configMapRef\`.
+
+[config map]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables
+
+\`\`\`yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-config-map
+data:
+  REDIS_PRIMARY_SERVICE_HOST: "redis.example.org" # kubernetes \`redis-primary\` service host
+  REDIS_PRIMARY_SERVICE_PORT: "6379" # kubernetes \`redis-primary\` service port
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          envFrom:
+            - configMapRef:
+                name: example-config-map
+\`\`\`
+
+</details>
+
+<details><summary><strong>Docker</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+when running as a [Docker service] defined in a Docker compose file.
+
+[docker service]: https://docs.docker.com/compose/environment-variables/#set-environment-variables-in-containers
+
+\`\`\`yaml
+service:
+  example-service:
+    environment:
+      REDIS_PRIMARY_SERVICE_HOST: "redis.example.org" # kubernetes \`redis-primary\` service host
+      REDIS_PRIMARY_SERVICE_PORT: "6379" # kubernetes \`redis-primary\` service port
+\`\`\`
+
+</details>
+"
+`;
+
+exports[`Specification documents > when there are kubernetes addresses > describes required addresses 1`] = `
+"# Environment Variables
+
+This document describes the environment variables used by \`<app>\`.
+
+Please note that **undefined** variables and **empty strings** are considered
+equivalent.
+
+The application may consume other undocumented environment variables; this
+document only shows those variables defined using [Austenite].
+
+[austenite]: https://github.com/ezzatron/austenite
+
+## Index
+
+- [\`REDIS_PRIMARY_SERVICE_HOST\`](#REDIS_PRIMARY_SERVICE_HOST) — kubernetes \`redis-primary\` service host
+- [\`REDIS_PRIMARY_SERVICE_PORT\`](#REDIS_PRIMARY_SERVICE_PORT) — kubernetes \`redis-primary\` service port
+
+## Specification
+
+### \`REDIS_PRIMARY_SERVICE_HOST\`
+
+> kubernetes \`redis-primary\` service host
+
+This variable **MUST** be set to a non-empty **hostname** value.
+If left undefined the application will print usage information to \`STDERR\` then
+exit with a non-zero exit code.
+
+\`\`\`sh
+export REDIS_PRIMARY_SERVICE_HOST=service.example.org # a hostname
+export REDIS_PRIMARY_SERVICE_HOST=10.0.0.11           # an IP address
+\`\`\`
+
+### \`REDIS_PRIMARY_SERVICE_PORT\`
+
+> kubernetes \`redis-primary\` service port
+
+This variable **MUST** be set to a non-empty **port number** value.
+If left undefined the application will print usage information to \`STDERR\` then
+exit with a non-zero exit code.
+
+\`\`\`sh
+export REDIS_PRIMARY_SERVICE_PORT=12345 # a port number
+\`\`\`
+
+## Usage Examples
+
+<details><summary><strong>Kubernetes</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+on a [Kubernetes container] within a Kubenetes deployment manifest.
+
+[kubernetes container]: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/#define-an-environment-variable-for-a-container
+
+\`\`\`yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          env:
+            - name: REDIS_PRIMARY_SERVICE_HOST # kubernetes \`redis-primary\` service host
+              value: "service.example.org"
+            - name: REDIS_PRIMARY_SERVICE_PORT # kubernetes \`redis-primary\` service port
+              value: "12345"
+\`\`\`
+
+Alternatively, the environment variables can be defined within a [config map]
+then referenced a deployment manifest using \`configMapRef\`.
+
+[config map]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables
+
+\`\`\`yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-config-map
+data:
+  REDIS_PRIMARY_SERVICE_HOST: "service.example.org" # kubernetes \`redis-primary\` service host
+  REDIS_PRIMARY_SERVICE_PORT: "12345" # kubernetes \`redis-primary\` service port
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          envFrom:
+            - configMapRef:
+                name: example-config-map
+\`\`\`
+
+</details>
+
+<details><summary><strong>Docker</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+when running as a [Docker service] defined in a Docker compose file.
+
+[docker service]: https://docs.docker.com/compose/environment-variables/#set-environment-variables-in-containers
+
+\`\`\`yaml
+service:
+  example-service:
+    environment:
+      REDIS_PRIMARY_SERVICE_HOST: "service.example.org" # kubernetes \`redis-primary\` service host
+      REDIS_PRIMARY_SERVICE_PORT: "12345" # kubernetes \`redis-primary\` service port
+\`\`\`
+
+</details>
+"
+`;
+
+exports[`Specification documents > when there are network port numbers > describes optional port numbers 1`] = `
+"# Environment Variables
+
+This document describes the environment variables used by \`<app>\`.
+
+Please note that **undefined** variables and **empty strings** are considered
+equivalent.
+
+The application may consume other undocumented environment variables; this
+document only shows those variables defined using [Austenite].
+
+[austenite]: https://github.com/ezzatron/austenite
+
+## Index
+
+- [\`PORT\`](#PORT) — listen port for the HTTP server
+
+## Specification
+
+### \`PORT\`
+
+> listen port for the HTTP server
+
+This variable **MAY** be set to a non-empty **port number** value or left undefined.
+
+\`\`\`sh
+export PORT=12345 # a port number
+\`\`\`
+
+## Usage Examples
+
+<details><summary><strong>Kubernetes</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+on a [Kubernetes container] within a Kubenetes deployment manifest.
+
+[kubernetes container]: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/#define-an-environment-variable-for-a-container
+
+\`\`\`yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          env:
+            - name: PORT # listen port for the HTTP server
+              value: "12345"
+\`\`\`
+
+Alternatively, the environment variables can be defined within a [config map]
+then referenced a deployment manifest using \`configMapRef\`.
+
+[config map]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables
+
+\`\`\`yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-config-map
+data:
+  PORT: "12345" # listen port for the HTTP server
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          envFrom:
+            - configMapRef:
+                name: example-config-map
+\`\`\`
+
+</details>
+
+<details><summary><strong>Docker</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+when running as a [Docker service] defined in a Docker compose file.
+
+[docker service]: https://docs.docker.com/compose/environment-variables/#set-environment-variables-in-containers
+
+\`\`\`yaml
+service:
+  example-service:
+    environment:
+      PORT: "12345" # listen port for the HTTP server
+\`\`\`
+
+</details>
+"
+`;
+
+exports[`Specification documents > when there are network port numbers > describes optional port numbers with defaults 1`] = `
+"# Environment Variables
+
+This document describes the environment variables used by \`<app>\`.
+
+Please note that **undefined** variables and **empty strings** are considered
+equivalent.
+
+The application may consume other undocumented environment variables; this
+document only shows those variables defined using [Austenite].
+
+[austenite]: https://github.com/ezzatron/austenite
+
+## Index
+
+- [\`PORT\`](#PORT) — listen port for the HTTP server
+
+## Specification
+
+### \`PORT\`
+
+> listen port for the HTTP server
+
+This variable **MAY** be set to a non-empty **port number** value.
+If left undefined the default value is used (see below).
+
+\`\`\`sh
+export PORT=8080  # (default)
+export PORT=12345 # a port number
+\`\`\`
+
+## Usage Examples
+
+<details><summary><strong>Kubernetes</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+on a [Kubernetes container] within a Kubenetes deployment manifest.
+
+[kubernetes container]: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/#define-an-environment-variable-for-a-container
+
+\`\`\`yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          env:
+            - name: PORT # listen port for the HTTP server
+              value: "8080"
+\`\`\`
+
+Alternatively, the environment variables can be defined within a [config map]
+then referenced a deployment manifest using \`configMapRef\`.
+
+[config map]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables
+
+\`\`\`yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-config-map
+data:
+  PORT: "8080" # listen port for the HTTP server
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          envFrom:
+            - configMapRef:
+                name: example-config-map
+\`\`\`
+
+</details>
+
+<details><summary><strong>Docker</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+when running as a [Docker service] defined in a Docker compose file.
+
+[docker service]: https://docs.docker.com/compose/environment-variables/#set-environment-variables-in-containers
+
+\`\`\`yaml
+service:
+  example-service:
+    environment:
+      PORT: "8080" # listen port for the HTTP server
+\`\`\`
+
+</details>
+"
+`;
+
+exports[`Specification documents > when there are network port numbers > describes required port numbers 1`] = `
+"# Environment Variables
+
+This document describes the environment variables used by \`<app>\`.
+
+Please note that **undefined** variables and **empty strings** are considered
+equivalent.
+
+The application may consume other undocumented environment variables; this
+document only shows those variables defined using [Austenite].
+
+[austenite]: https://github.com/ezzatron/austenite
+
+## Index
+
+- [\`PORT\`](#PORT) — listen port for the HTTP server
+
+## Specification
+
+### \`PORT\`
+
+> listen port for the HTTP server
+
+This variable **MUST** be set to a non-empty **port number** value.
+If left undefined the application will print usage information to \`STDERR\` then
+exit with a non-zero exit code.
+
+\`\`\`sh
+export PORT=12345 # a port number
+\`\`\`
+
+## Usage Examples
+
+<details><summary><strong>Kubernetes</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+on a [Kubernetes container] within a Kubenetes deployment manifest.
+
+[kubernetes container]: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/#define-an-environment-variable-for-a-container
+
+\`\`\`yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          env:
+            - name: PORT # listen port for the HTTP server
+              value: "12345"
+\`\`\`
+
+Alternatively, the environment variables can be defined within a [config map]
+then referenced a deployment manifest using \`configMapRef\`.
+
+[config map]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables
+
+\`\`\`yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-config-map
+data:
+  PORT: "12345" # listen port for the HTTP server
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          envFrom:
+            - configMapRef:
+                name: example-config-map
+\`\`\`
+
+</details>
+
+<details><summary><strong>Docker</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+when running as a [Docker service] defined in a Docker compose file.
+
+[docker service]: https://docs.docker.com/compose/environment-variables/#set-environment-variables-in-containers
+
+\`\`\`yaml
+service:
+  example-service:
+    environment:
+      PORT: "12345" # listen port for the HTTP server
+\`\`\`
+
+</details>
+"
+`;
+
+exports[`Specification documents > when there are numbers > describes optional numbers 1`] = `
+"# Environment Variables
+
+This document describes the environment variables used by \`<app>\`.
+
+Please note that **undefined** variables and **empty strings** are considered
+equivalent.
+
+The application may consume other undocumented environment variables; this
+document only shows those variables defined using [Austenite].
+
+[austenite]: https://github.com/ezzatron/austenite
+
+## Index
+
+- [\`WEIGHT\`](#WEIGHT) — weighting for this node
+
+## Specification
+
+### \`WEIGHT\`
+
+> weighting for this node
+
+This variable **MAY** be set to a non-empty **number** value or left undefined.
+
+\`\`\`sh
+export WEIGHT=123456              # integer
+export WEIGHT=123.456             # positive
+export WEIGHT=-123.456            # negative
+export WEIGHT=1.23456e+2          # exponential
+export WEIGHT=0x1E240             # hexadecimal
+export WEIGHT=0o361100            # octal
+export WEIGHT=0b11110001001000000 # binary
+\`\`\`
+
+## Usage Examples
+
+<details><summary><strong>Kubernetes</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+on a [Kubernetes container] within a Kubenetes deployment manifest.
+
+[kubernetes container]: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/#define-an-environment-variable-for-a-container
+
+\`\`\`yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          env:
+            - name: WEIGHT # weighting for this node
+              value: "123456"
+\`\`\`
+
+Alternatively, the environment variables can be defined within a [config map]
+then referenced a deployment manifest using \`configMapRef\`.
+
+[config map]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables
+
+\`\`\`yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-config-map
+data:
+  WEIGHT: "123456" # weighting for this node
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          envFrom:
+            - configMapRef:
+                name: example-config-map
+\`\`\`
+
+</details>
+
+<details><summary><strong>Docker</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+when running as a [Docker service] defined in a Docker compose file.
+
+[docker service]: https://docs.docker.com/compose/environment-variables/#set-environment-variables-in-containers
+
+\`\`\`yaml
+service:
+  example-service:
+    environment:
+      WEIGHT: "123456" # weighting for this node
+\`\`\`
+
+</details>
+"
+`;
+
+exports[`Specification documents > when there are numbers > describes optional numbers with defaults 1`] = `
+"# Environment Variables
+
+This document describes the environment variables used by \`<app>\`.
+
+Please note that **undefined** variables and **empty strings** are considered
+equivalent.
+
+The application may consume other undocumented environment variables; this
+document only shows those variables defined using [Austenite].
+
+[austenite]: https://github.com/ezzatron/austenite
+
+## Index
+
+- [\`WEIGHT\`](#WEIGHT) — weighting for this node
+
+## Specification
+
+### \`WEIGHT\`
+
+> weighting for this node
+
+This variable **MAY** be set to a non-empty **number** value.
+If left undefined the default value is used (see below).
+
+\`\`\`sh
+export WEIGHT=100.001             # (default)
+export WEIGHT=123456              # integer
+export WEIGHT=123.456             # positive
+export WEIGHT=-123.456            # negative
+export WEIGHT=1.23456e+2          # exponential
+export WEIGHT=0x1E240             # hexadecimal
+export WEIGHT=0o361100            # octal
+export WEIGHT=0b11110001001000000 # binary
+\`\`\`
+
+## Usage Examples
+
+<details><summary><strong>Kubernetes</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+on a [Kubernetes container] within a Kubenetes deployment manifest.
+
+[kubernetes container]: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/#define-an-environment-variable-for-a-container
+
+\`\`\`yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          env:
+            - name: WEIGHT # weighting for this node
+              value: "100.001"
+\`\`\`
+
+Alternatively, the environment variables can be defined within a [config map]
+then referenced a deployment manifest using \`configMapRef\`.
+
+[config map]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables
+
+\`\`\`yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-config-map
+data:
+  WEIGHT: "100.001" # weighting for this node
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          envFrom:
+            - configMapRef:
+                name: example-config-map
+\`\`\`
+
+</details>
+
+<details><summary><strong>Docker</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+when running as a [Docker service] defined in a Docker compose file.
+
+[docker service]: https://docs.docker.com/compose/environment-variables/#set-environment-variables-in-containers
+
+\`\`\`yaml
+service:
+  example-service:
+    environment:
+      WEIGHT: "100.001" # weighting for this node
+\`\`\`
+
+</details>
+"
+`;
+
+exports[`Specification documents > when there are numbers > describes required numbers 1`] = `
+"# Environment Variables
+
+This document describes the environment variables used by \`<app>\`.
+
+Please note that **undefined** variables and **empty strings** are considered
+equivalent.
+
+The application may consume other undocumented environment variables; this
+document only shows those variables defined using [Austenite].
+
+[austenite]: https://github.com/ezzatron/austenite
+
+## Index
+
+- [\`WEIGHT\`](#WEIGHT) — weighting for this node
+
+## Specification
+
+### \`WEIGHT\`
+
+> weighting for this node
+
+This variable **MUST** be set to a non-empty **number** value.
+If left undefined the application will print usage information to \`STDERR\` then
+exit with a non-zero exit code.
+
+\`\`\`sh
+export WEIGHT=123456              # integer
+export WEIGHT=123.456             # positive
+export WEIGHT=-123.456            # negative
+export WEIGHT=1.23456e+2          # exponential
+export WEIGHT=0x1E240             # hexadecimal
+export WEIGHT=0o361100            # octal
+export WEIGHT=0b11110001001000000 # binary
+\`\`\`
+
+## Usage Examples
+
+<details><summary><strong>Kubernetes</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+on a [Kubernetes container] within a Kubenetes deployment manifest.
+
+[kubernetes container]: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/#define-an-environment-variable-for-a-container
+
+\`\`\`yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          env:
+            - name: WEIGHT # weighting for this node
+              value: "123456"
+\`\`\`
+
+Alternatively, the environment variables can be defined within a [config map]
+then referenced a deployment manifest using \`configMapRef\`.
+
+[config map]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables
+
+\`\`\`yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-config-map
+data:
+  WEIGHT: "123456" # weighting for this node
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          envFrom:
+            - configMapRef:
+                name: example-config-map
+\`\`\`
+
+</details>
+
+<details><summary><strong>Docker</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+when running as a [Docker service] defined in a Docker compose file.
+
+[docker service]: https://docs.docker.com/compose/environment-variables/#set-environment-variables-in-containers
+
+\`\`\`yaml
+service:
+  example-service:
+    environment:
+      WEIGHT: "123456" # weighting for this node
+\`\`\`
+
+</details>
+"
+`;
+
+exports[`Specification documents > when there are strings > describes optional strings 1`] = `
+"# Environment Variables
+
+This document describes the environment variables used by \`<app>\`.
+
+Please note that **undefined** variables and **empty strings** are considered
+equivalent.
+
+The application may consume other undocumented environment variables; this
+document only shows those variables defined using [Austenite].
+
+[austenite]: https://github.com/ezzatron/austenite
+
+## Index
+
+- [\`READ_DSN\`](#READ_DSN) — database connection string for read-models
+
+## Specification
+
+### \`READ_DSN\`
+
+> database connection string for read-models
+
+This variable **MAY** be set to a non-empty **string** value or left undefined.
+
+\`\`\`sh
+export READ_DSN=conquistador         # any value
+export READ_DSN='alabaster parakeet' # some values may need escaping
+\`\`\`
+
+## Usage Examples
+
+<details><summary><strong>Kubernetes</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+on a [Kubernetes container] within a Kubenetes deployment manifest.
+
+[kubernetes container]: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/#define-an-environment-variable-for-a-container
+
+\`\`\`yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          env:
+            - name: READ_DSN # database connection string for read-models
+              value: "conquistador"
+\`\`\`
+
+Alternatively, the environment variables can be defined within a [config map]
+then referenced a deployment manifest using \`configMapRef\`.
+
+[config map]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables
+
+\`\`\`yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-config-map
+data:
+  READ_DSN: "conquistador" # database connection string for read-models
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          envFrom:
+            - configMapRef:
+                name: example-config-map
+\`\`\`
+
+</details>
+
+<details><summary><strong>Docker</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+when running as a [Docker service] defined in a Docker compose file.
+
+[docker service]: https://docs.docker.com/compose/environment-variables/#set-environment-variables-in-containers
+
+\`\`\`yaml
+service:
+  example-service:
+    environment:
+      READ_DSN: "conquistador" # database connection string for read-models
+\`\`\`
+
+</details>
+"
+`;
+
+exports[`Specification documents > when there are strings > describes optional strings with defaults 1`] = `
+"# Environment Variables
+
+This document describes the environment variables used by \`<app>\`.
+
+Please note that **undefined** variables and **empty strings** are considered
+equivalent.
+
+The application may consume other undocumented environment variables; this
+document only shows those variables defined using [Austenite].
+
+[austenite]: https://github.com/ezzatron/austenite
+
+## Index
+
+- [\`READ_DSN\`](#READ_DSN) — database connection string for read-models
+
+## Specification
+
+### \`READ_DSN\`
+
+> database connection string for read-models
+
+This variable **MAY** be set to a non-empty **string** value.
+If left undefined the default value is used (see below).
+
+\`\`\`sh
+export READ_DSN='host=localhost dbname=readmodels user=projector' # (default)
+export READ_DSN=conquistador                                      # any value
+export READ_DSN='alabaster parakeet'                              # some values may need escaping
+\`\`\`
+
+## Usage Examples
+
+<details><summary><strong>Kubernetes</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+on a [Kubernetes container] within a Kubenetes deployment manifest.
+
+[kubernetes container]: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/#define-an-environment-variable-for-a-container
+
+\`\`\`yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          env:
+            - name: READ_DSN # database connection string for read-models
+              value: "host=localhost dbname=readmodels user=projector"
+\`\`\`
+
+Alternatively, the environment variables can be defined within a [config map]
+then referenced a deployment manifest using \`configMapRef\`.
+
+[config map]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables
+
+\`\`\`yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-config-map
+data:
+  READ_DSN: "host=localhost dbname=readmodels user=projector" # database connection string for read-models
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          envFrom:
+            - configMapRef:
+                name: example-config-map
+\`\`\`
+
+</details>
+
+<details><summary><strong>Docker</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+when running as a [Docker service] defined in a Docker compose file.
+
+[docker service]: https://docs.docker.com/compose/environment-variables/#set-environment-variables-in-containers
+
+\`\`\`yaml
+service:
+  example-service:
+    environment:
+      READ_DSN: "host=localhost dbname=readmodels user=projector" # database connection string for read-models
+\`\`\`
+
+</details>
+"
+`;
+
+exports[`Specification documents > when there are strings > describes optional strings with defaults that need quoting 1`] = `
+"# Environment Variables
+
+This document describes the environment variables used by \`<app>\`.
+
+Please note that **undefined** variables and **empty strings** are considered
+equivalent.
+
+The application may consume other undocumented environment variables; this
+document only shows those variables defined using [Austenite].
+
+[austenite]: https://github.com/ezzatron/austenite
+
+## Index
+
+- [\`MESSAGE\`](#MESSAGE) — message to output
+
+## Specification
+
+### \`MESSAGE\`
+
+> message to output
+
+This variable **MAY** be set to a non-empty **string** value.
+If left undefined the default value is used (see below).
+
+\`\`\`sh
+export MESSAGE='Season'"'"'s greetings, world!' # (default)
+export MESSAGE=conquistador                     # any value
+export MESSAGE='alabaster parakeet'             # some values may need escaping
+\`\`\`
+
+## Usage Examples
+
+<details><summary><strong>Kubernetes</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+on a [Kubernetes container] within a Kubenetes deployment manifest.
+
+[kubernetes container]: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/#define-an-environment-variable-for-a-container
+
+\`\`\`yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          env:
+            - name: MESSAGE # message to output
+              value: "Season's greetings, world!"
+\`\`\`
+
+Alternatively, the environment variables can be defined within a [config map]
+then referenced a deployment manifest using \`configMapRef\`.
+
+[config map]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables
+
+\`\`\`yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-config-map
+data:
+  MESSAGE: "Season's greetings, world!" # message to output
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          envFrom:
+            - configMapRef:
+                name: example-config-map
+\`\`\`
+
+</details>
+
+<details><summary><strong>Docker</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+when running as a [Docker service] defined in a Docker compose file.
+
+[docker service]: https://docs.docker.com/compose/environment-variables/#set-environment-variables-in-containers
+
+\`\`\`yaml
+service:
+  example-service:
+    environment:
+      MESSAGE: "Season's greetings, world!" # message to output
+\`\`\`
+
+</details>
+"
+`;
+
+exports[`Specification documents > when there are strings > describes required strings 1`] = `
+"# Environment Variables
+
+This document describes the environment variables used by \`<app>\`.
+
+Please note that **undefined** variables and **empty strings** are considered
+equivalent.
+
+The application may consume other undocumented environment variables; this
+document only shows those variables defined using [Austenite].
+
+[austenite]: https://github.com/ezzatron/austenite
+
+## Index
+
+- [\`READ_DSN\`](#READ_DSN) — database connection string for read-models
+
+## Specification
+
+### \`READ_DSN\`
+
+> database connection string for read-models
+
+This variable **MUST** be set to a non-empty **string** value.
+If left undefined the application will print usage information to \`STDERR\` then
+exit with a non-zero exit code.
+
+\`\`\`sh
+export READ_DSN=conquistador         # any value
+export READ_DSN='alabaster parakeet' # some values may need escaping
+\`\`\`
+
+## Usage Examples
+
+<details><summary><strong>Kubernetes</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+on a [Kubernetes container] within a Kubenetes deployment manifest.
+
+[kubernetes container]: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/#define-an-environment-variable-for-a-container
+
+\`\`\`yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          env:
+            - name: READ_DSN # database connection string for read-models
+              value: "conquistador"
+\`\`\`
+
+Alternatively, the environment variables can be defined within a [config map]
+then referenced a deployment manifest using \`configMapRef\`.
+
+[config map]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables
+
+\`\`\`yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-config-map
+data:
+  READ_DSN: "conquistador" # database connection string for read-models
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: example-container
+          envFrom:
+            - configMapRef:
+                name: example-config-map
+\`\`\`
+
+</details>
+
+<details><summary><strong>Docker</strong></summary><br>
+
+This example shows how to define the environment variables needed by \`<app>\`
+when running as a [Docker service] defined in a Docker compose file.
+
+[docker service]: https://docs.docker.com/compose/environment-variables/#set-environment-variables-in-containers
+
+\`\`\`yaml
+service:
+  example-service:
+    environment:
+      READ_DSN: "conquistador" # database connection string for read-models
+\`\`\`
+
+</details>
+"
+`;
+
+exports[`Specification documents > when there no declarations > describes an empty environment 1`] = `
+"# Environment Variables
+
+This document describes the environment variables used by \`<app>\`.
+
+**There do not appear to be any environment variables.**
+
+The application may consume other undocumented environment variables; this
+document only shows those variables defined using [Austenite].
+
+[austenite]: https://github.com/ezzatron/austenite
+"
+`;
