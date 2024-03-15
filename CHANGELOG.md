@@ -10,6 +10,14 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ## Unreleased
 
+## [v0.7.0] - 2024-03-15
+
+[v0.7.0]: https://github.com/ezzatron/austenite/releases/tag/v0.7.0
+
+### Added
+
+- Added `binary` variable declarations.
+
 ## [v0.6.2] - 2023-10-15
 
 [v0.6.2]: https://github.com/ezzatron/austenite/releases/tag/v0.6.2
