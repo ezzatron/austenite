@@ -1,28 +1,26 @@
-# Environment Variables
+# Environment variables
 
-This document describes the environment variables used by `<app>`.
-
-Please note that **undefined** variables and **empty strings** are considered
-equivalent.
-
-The application may consume other undocumented environment variables; this
-document only shows those variables defined using [Austenite].
+The `<app>` app uses **declarative environment variables** powered by
+**[Austenite]**.
 
 [austenite]: https://github.com/ezzatron/austenite
 
-## Index
+| Name                          | Usage    | Description               |
+| :---------------------------- | :------- | :------------------------ |
+| [`SESSION_KEY`](#SESSION_KEY) | Required | Session token signing key |
 
-- [`SESSION_KEY`](#SESSION_KEY) — session token signing key
+> [!TIP]
+> If you set an empty value for an environment variable, the app behaves as if
+> that variable isn't set.
 
-## Specification
+## `SESSION_KEY`
 
-### `SESSION_KEY`
+_Session token signing key_
 
-> session token signing key
+The `SESSION_KEY` variable is a **required** variable
+that takes **base64** values.
 
-This variable **MUST** be set to a non-empty **base64** value.
-If left undefined, the application will print usage information to `STDERR` then
-exit with a non-zero exit code.
+### Example values
 
 ```sh
 export SESSION_KEY=Y29ucXVpc3RhZG9y # base64 encoded string

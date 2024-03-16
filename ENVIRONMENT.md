@@ -1,308 +1,291 @@
-# Environment Variables
+# Environment variables
 
-This document describes the environment variables used by `run.ts`.
-
-Please note that **undefined** variables and **empty strings** are considered
-equivalent.
-
-The application may consume other undocumented environment variables; this
-document only shows those variables defined using [Austenite].
+The `run.ts` app uses **declarative environment variables** powered by
+**[Austenite]**.
 
 [austenite]: https://github.com/ezzatron/austenite
 
-## Index
+| Name                                                        | Usage    | Description                                |
+| :---------------------------------------------------------- | :------- | :----------------------------------------- |
+| [`CDN_URL`](#CDN_URL)                                       | Required | CDN to use when serving static assets      |
+| [`DEBUG`](#DEBUG)                                           | Optional | Enable or disable debugging features       |
+| [`EARTH_ATOM_COUNT`](#EARTH_ATOM_COUNT)                     | Optional | Number of atoms on earth                   |
+| [`GRPC_TIMEOUT`](#GRPC_TIMEOUT)                             | Optional | GRPC request timeout                       |
+| [`LOG_LEVEL`](#LOG_LEVEL)                                   | Optional | The minimum log level to record            |
+| [`PORT`](#PORT)                                             | Optional | Listen port for the HTTP server            |
+| [`READ_DSN`](#READ_DSN)                                     | Required | Database connection string for read-models |
+| [`REDIS_PRIMARY_SERVICE_HOST`](#REDIS_PRIMARY_SERVICE_HOST) | Required | Kubernetes `redis-primary` service host    |
+| [`REDIS_PRIMARY_SERVICE_PORT`](#REDIS_PRIMARY_SERVICE_PORT) | Required | Kubernetes `redis-primary` service port    |
+| [`SAMPLE_RATIO`](#SAMPLE_RATIO)                             | Optional | Ratio of requests to sample                |
+| [`SESSION_KEY`](#SESSION_KEY)                               | Required | Session token signing key                  |
+| [`WEIGHT`](#WEIGHT)                                         | Required | Weighting for this node                    |
 
-- [`CDN_URL`](#CDN_URL) — CDN to use when serving static assets
-- [`DEBUG`](#DEBUG) — enable or disable debugging features
-- [`EARTH_ATOM_COUNT`](#EARTH_ATOM_COUNT) — number of atoms on earth
-- [`GRPC_TIMEOUT`](#GRPC_TIMEOUT) — gRPC request timeout
-- [`LOG_LEVEL`](#LOG_LEVEL) — the minimum log level to record
-- [`PORT`](#PORT) — listen port for the HTTP server
-- [`READ_DSN`](#READ_DSN) — database connection string for read-models
-- [`REDIS_PRIMARY_SERVICE_HOST`](#REDIS_PRIMARY_SERVICE_HOST) — kubernetes `redis-primary` service host
-- [`REDIS_PRIMARY_SERVICE_PORT`](#REDIS_PRIMARY_SERVICE_PORT) — kubernetes `redis-primary` service port
-- [`SAMPLE_RATIO`](#SAMPLE_RATIO) — ratio of requests to sample
-- [`SESSION_KEY`](#SESSION_KEY) — session token signing key
-- [`WEIGHT`](#WEIGHT) — weighting for this node
+> [!TIP]
+> If you set an empty value for an environment variable, the app behaves as if
+> that variable isn't set.
 
-## Specification
+## `CDN_URL`
 
-### `CDN_URL`
+_CDN to use when serving static assets_
 
-> CDN to use when serving static assets
+The `CDN_URL` variable is a **required** variable
+that takes **URL** values.
 
-This variable **MUST** be set to a non-empty **URL** value.
-If left undefined, the application will print usage information to `STDERR` then
-exit with a non-zero exit code.
+### Example values
 
 ```sh
 export CDN_URL=https://host.example.org/path/to/resource # URL (absolute)
 ```
 
-### `DEBUG`
+## `DEBUG`
 
-> enable or disable debugging features
+_Enable or disable debugging features_
 
-This variable **MUST** be set to one of the values below.
-If left undefined, the application will print usage information to `STDERR` then
-exit with a non-zero exit code.
+The `DEBUG` variable is an **optional** variable
+that takes `true` or `false`.
+
+### Default value
 
 ```sh
-export DEBUG=true  # true
+export DEBUG=false # default
+```
+
+### Example values
+
+```sh
+export DEBUG=true # true
+```
+
+```sh
 export DEBUG=false # false
 ```
 
-### `EARTH_ATOM_COUNT`
+## `EARTH_ATOM_COUNT`
 
-> number of atoms on earth
+_Number of atoms on earth_
 
-This variable **MUST** be set to a non-empty **big integer** value.
-If left undefined, the application will print usage information to `STDERR` then
-exit with a non-zero exit code.
+The `EARTH_ATOM_COUNT` variable is an **optional** variable
+that takes **big integer** values.
+
+### Example values
 
 ```sh
-export EARTH_ATOM_COUNT=123456              # positive
-export EARTH_ATOM_COUNT=-123456             # negative
-export EARTH_ATOM_COUNT=0x1E240             # hexadecimal
-export EARTH_ATOM_COUNT=0o361100            # octal
+export EARTH_ATOM_COUNT=123456 # positive
+```
+
+```sh
+export EARTH_ATOM_COUNT=-123456 # negative
+```
+
+```sh
+export EARTH_ATOM_COUNT=0x1E240 # hexadecimal
+```
+
+```sh
+export EARTH_ATOM_COUNT=0o361100 # octal
+```
+
+```sh
 export EARTH_ATOM_COUNT=0b11110001001000000 # binary
 ```
 
-### `GRPC_TIMEOUT`
+## `GRPC_TIMEOUT`
 
-> gRPC request timeout
+_GRPC request timeout_
 
-This variable **MUST** be set to a non-empty **ISO 8601 duration** value.
-If left undefined, the application will print usage information to `STDERR` then
-exit with a non-zero exit code.
+The `GRPC_TIMEOUT` variable is an **optional** variable
+that takes **ISO 8601 duration** values.
+
+### Example values
 
 ```sh
-export GRPC_TIMEOUT=PT1M30S    # ISO 8601 duration
+export GRPC_TIMEOUT=PT1M30S # ISO 8601 duration
+```
+
+```sh
 export GRPC_TIMEOUT=P1M15DT12H # ISO 8601 duration
 ```
 
-### `LOG_LEVEL`
+## `LOG_LEVEL`
 
-> the minimum log level to record
+_The minimum log level to record_
 
-This variable **MUST** be set to one of the values below.
-If left undefined, the application will print usage information to `STDERR` then
-exit with a non-zero exit code.
+The `LOG_LEVEL` variable is an **optional** variable
+that takes `debug`, `info`, `warn`, `error`, or `fatal`.
+
+### Default value
+
+```sh
+export LOG_LEVEL=info # default
+```
+
+### Example values
 
 ```sh
 export LOG_LEVEL=debug # show information for developers
-export LOG_LEVEL=info  # standard log messages
-export LOG_LEVEL=warn  # important, but don't need individual human review
+```
+
+```sh
+export LOG_LEVEL=info # standard log messages
+```
+
+```sh
+export LOG_LEVEL=warn # important, but don't need individual human review
+```
+
+```sh
 export LOG_LEVEL=error # a healthy application shouldn't produce any errors
+```
+
+```sh
 export LOG_LEVEL=fatal # the application cannot proceed
 ```
 
-### `PORT`
+## `PORT`
 
-> listen port for the HTTP server
+_Listen port for the HTTP server_
 
-This variable **MUST** be set to a non-empty **port number** value.
-If left undefined, the application will print usage information to `STDERR` then
-exit with a non-zero exit code.
+The `PORT` variable is an **optional** variable
+that takes **port number** values.
+
+### Default value
+
+```sh
+export PORT=8080 # default
+```
+
+### Example values
 
 ```sh
 export PORT=12345 # a port number
 ```
 
-### `READ_DSN`
+## `READ_DSN`
 
-> database connection string for read-models
+_Database connection string for read-models_
 
-This variable **MUST** be set to a non-empty **string** value.
-If left undefined, the application will print usage information to `STDERR` then
-exit with a non-zero exit code.
+The `READ_DSN` variable is a **required** variable
+that takes **string** values.
+
+### Example values
 
 ```sh
-export READ_DSN=conquistador         # any value
+export READ_DSN=conquistador # any value
+```
+
+```sh
 export READ_DSN='alabaster parakeet' # some values may need escaping
 ```
 
-### `REDIS_PRIMARY_SERVICE_HOST`
+## `REDIS_PRIMARY_SERVICE_HOST`
 
-> kubernetes `redis-primary` service host
+_Kubernetes `redis-primary` service host_
 
-This variable **MUST** be set to a non-empty **hostname** value.
-If left undefined, the application will print usage information to `STDERR` then
-exit with a non-zero exit code.
+The `REDIS_PRIMARY_SERVICE_HOST` variable is a **required** variable
+that takes **hostname** values.
+
+### Example values
 
 ```sh
 export REDIS_PRIMARY_SERVICE_HOST=service.example.org # a hostname
-export REDIS_PRIMARY_SERVICE_HOST=10.0.0.11           # an IP address
 ```
 
-### `REDIS_PRIMARY_SERVICE_PORT`
+```sh
+export REDIS_PRIMARY_SERVICE_HOST=10.0.0.11 # an IP address
+```
 
-> kubernetes `redis-primary` service port
+## `REDIS_PRIMARY_SERVICE_PORT`
 
-This variable **MUST** be set to a non-empty **port number** value.
-If left undefined, the application will print usage information to `STDERR` then
-exit with a non-zero exit code.
+_Kubernetes `redis-primary` service port_
+
+The `REDIS_PRIMARY_SERVICE_PORT` variable is a **required** variable
+that takes **port number** values.
+
+### Example values
 
 ```sh
 export REDIS_PRIMARY_SERVICE_PORT=12345 # a port number
 ```
 
-### `SAMPLE_RATIO`
+## `SAMPLE_RATIO`
 
-> ratio of requests to sample
+_Ratio of requests to sample_
 
-This variable **MUST** be set to a non-empty **number** value.
-If left undefined, the application will print usage information to `STDERR` then
-exit with a non-zero exit code.
+The `SAMPLE_RATIO` variable is an **optional** variable
+that takes **number** values.
+
+### Example values
 
 ```sh
-export SAMPLE_RATIO=123456              # integer
-export SAMPLE_RATIO=123.456             # positive
-export SAMPLE_RATIO=-123.456            # negative
-export SAMPLE_RATIO=1.23456e+2          # exponential
-export SAMPLE_RATIO=0x1E240             # hexadecimal
-export SAMPLE_RATIO=0o361100            # octal
+export SAMPLE_RATIO=123456 # integer
+```
+
+```sh
+export SAMPLE_RATIO=123.456 # positive
+```
+
+```sh
+export SAMPLE_RATIO=-123.456 # negative
+```
+
+```sh
+export SAMPLE_RATIO=1.23456e+2 # exponential
+```
+
+```sh
+export SAMPLE_RATIO=0x1E240 # hexadecimal
+```
+
+```sh
+export SAMPLE_RATIO=0o361100 # octal
+```
+
+```sh
 export SAMPLE_RATIO=0b11110001001000000 # binary
 ```
 
-### `SESSION_KEY`
+## `SESSION_KEY`
 
-> session token signing key
+_Session token signing key_
 
-This variable **MUST** be set to a non-empty **base64** value.
-If left undefined, the application will print usage information to `STDERR` then
-exit with a non-zero exit code.
+The `SESSION_KEY` variable is a **required** variable
+that takes **base64** values.
+
+### Example values
 
 ```sh
 export SESSION_KEY=Y29ucXVpc3RhZG9y # base64 encoded string
 ```
 
-### `WEIGHT`
+## `WEIGHT`
 
-> weighting for this node
+_Weighting for this node_
 
-This variable **MUST** be set to a non-empty **integer** value.
-If left undefined, the application will print usage information to `STDERR` then
-exit with a non-zero exit code.
+The `WEIGHT` variable is a **required** variable
+that takes **integer** values.
+
+### Example values
 
 ```sh
-export WEIGHT=123456              # positive
-export WEIGHT=-123456             # negative
-export WEIGHT=1.23456e+5          # exponential
-export WEIGHT=0x1E240             # hexadecimal
-export WEIGHT=0o361100            # octal
+export WEIGHT=123456 # positive
+```
+
+```sh
+export WEIGHT=-123456 # negative
+```
+
+```sh
+export WEIGHT=1.23456e+5 # exponential
+```
+
+```sh
+export WEIGHT=0x1E240 # hexadecimal
+```
+
+```sh
+export WEIGHT=0o361100 # octal
+```
+
+```sh
 export WEIGHT=0b11110001001000000 # binary
 ```
-
-## Usage Examples
-
-<details><summary><strong>Kubernetes</strong></summary><br>
-
-This example shows how to define the environment variables needed by `run.ts`
-on a [Kubernetes container] within a Kubenetes deployment manifest.
-
-[kubernetes container]: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/#define-an-environment-variable-for-a-container
-
-```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: example-deployment
-spec:
-  template:
-    spec:
-      containers:
-        - name: example-container
-          env:
-            - name: CDN_URL # CDN to use when serving static assets
-              value: "https://host.example.org/path/to/resource"
-            - name: DEBUG # enable or disable debugging features
-              value: "true"
-            - name: EARTH_ATOM_COUNT # number of atoms on earth
-              value: "123456"
-            - name: GRPC_TIMEOUT # gRPC request timeout
-              value: "PT1M30S"
-            - name: LOG_LEVEL # the minimum log level to record
-              value: "debug"
-            - name: PORT # listen port for the HTTP server
-              value: "12345"
-            - name: READ_DSN # database connection string for read-models
-              value: "conquistador"
-            - name: REDIS_PRIMARY_SERVICE_HOST # kubernetes `redis-primary` service host
-              value: "service.example.org"
-            - name: REDIS_PRIMARY_SERVICE_PORT # kubernetes `redis-primary` service port
-              value: "12345"
-            - name: SAMPLE_RATIO # ratio of requests to sample
-              value: "123456"
-            - name: SESSION_KEY # session token signing key
-              value: "Y29ucXVpc3RhZG9y"
-            - name: WEIGHT # weighting for this node
-              value: "123456"
-```
-
-Alternatively, the environment variables can be defined within a [config map]
-then referenced a deployment manifest using `configMapRef`.
-
-[config map]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables
-
-```yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: example-config-map
-data:
-  CDN_URL: "https://host.example.org/path/to/resource" # CDN to use when serving static assets
-  DEBUG: "true" # enable or disable debugging features
-  EARTH_ATOM_COUNT: "123456" # number of atoms on earth
-  GRPC_TIMEOUT: "PT1M30S" # gRPC request timeout
-  LOG_LEVEL: "debug" # the minimum log level to record
-  PORT: "12345" # listen port for the HTTP server
-  READ_DSN: "conquistador" # database connection string for read-models
-  REDIS_PRIMARY_SERVICE_HOST: "service.example.org" # kubernetes `redis-primary` service host
-  REDIS_PRIMARY_SERVICE_PORT: "12345" # kubernetes `redis-primary` service port
-  SAMPLE_RATIO: "123456" # ratio of requests to sample
-  SESSION_KEY: "Y29ucXVpc3RhZG9y" # session token signing key
-  WEIGHT: "123456" # weighting for this node
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: example-deployment
-spec:
-  template:
-    spec:
-      containers:
-        - name: example-container
-          envFrom:
-            - configMapRef:
-                name: example-config-map
-```
-
-</details>
-
-<details><summary><strong>Docker</strong></summary><br>
-
-This example shows how to define the environment variables needed by `run.ts`
-when running as a [Docker service] defined in a Docker compose file.
-
-[docker service]: https://docs.docker.com/compose/environment-variables/#set-environment-variables-in-containers
-
-```yaml
-service:
-  example-service:
-    environment:
-      CDN_URL: "https://host.example.org/path/to/resource" # CDN to use when serving static assets
-      DEBUG: "true" # enable or disable debugging features
-      EARTH_ATOM_COUNT: "123456" # number of atoms on earth
-      GRPC_TIMEOUT: "PT1M30S" # gRPC request timeout
-      LOG_LEVEL: "debug" # the minimum log level to record
-      PORT: "12345" # listen port for the HTTP server
-      READ_DSN: "conquistador" # database connection string for read-models
-      REDIS_PRIMARY_SERVICE_HOST: "service.example.org" # kubernetes `redis-primary` service host
-      REDIS_PRIMARY_SERVICE_PORT: "12345" # kubernetes `redis-primary` service port
-      SAMPLE_RATIO: "123456" # ratio of requests to sample
-      SESSION_KEY: "Y29ucXVpc3RhZG9y" # session token signing key
-      WEIGHT: "123456" # weighting for this node
-```
-
-</details>

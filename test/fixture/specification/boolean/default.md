@@ -1,42 +1,61 @@
-# Environment Variables
+# Environment variables
 
-This document describes the environment variables used by `<app>`.
-
-Please note that **undefined** variables and **empty strings** are considered
-equivalent.
-
-The application may consume other undocumented environment variables; this
-document only shows those variables defined using [Austenite].
+The `<app>` app uses **declarative environment variables** powered by
+**[Austenite]**.
 
 [austenite]: https://github.com/ezzatron/austenite
 
-## Index
+| Name                        | Usage    | Description                          |
+| :-------------------------- | :------- | :----------------------------------- |
+| [`DEBUG`](#DEBUG)           | Optional | Enable or disable debugging features |
+| [`PRODUCTION`](#PRODUCTION) | Optional | Enable or disable production mode    |
 
-- [`DEBUG`](#DEBUG) — enable or disable debugging features
-- [`PRODUCTION`](#PRODUCTION) — enable or disable production mode
+> [!TIP]
+> If you set an empty value for an environment variable, the app behaves as if
+> that variable isn't set.
 
-## Specification
+## `DEBUG`
 
-### `DEBUG`
+_Enable or disable debugging features_
 
-> enable or disable debugging features
+The `DEBUG` variable is an **optional** variable
+that takes `true` or `false`.
 
-This variable **MAY** be set to one of the values below.
-If left undefined, the default value is used (see below).
+### Default value
 
 ```sh
-export DEBUG=true  # true
-export DEBUG=false # false (default)
+export DEBUG=false # default
 ```
 
-### `PRODUCTION`
-
-> enable or disable production mode
-
-This variable **MAY** be set to one of the values below.
-If left undefined, the default value is used (see below).
+### Example values
 
 ```sh
-export PRODUCTION=true  # true (default)
+export DEBUG=true # true
+```
+
+```sh
+export DEBUG=false # false
+```
+
+## `PRODUCTION`
+
+_Enable or disable production mode_
+
+The `PRODUCTION` variable is an **optional** variable
+that takes `true` or `false`.
+
+### Default value
+
+```sh
+export PRODUCTION=true # default
+```
+
+### Example values
+
+```sh
+export PRODUCTION=true # true
+```
+
+```sh
 export PRODUCTION=false # false
 ```

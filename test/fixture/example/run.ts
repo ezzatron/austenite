@@ -22,7 +22,7 @@ console.log("");
 console.table({
   cdnUrl: cdnUrl.value().toString(),
   earthAtomCount: earthAtomCount.value(),
-  grpcTimeout: grpcTimeout.value().total("millisecond"),
+  grpcTimeout: grpcTimeout.value()?.total("millisecond"),
   isDebug: isDebug.value(),
   logLevel: logLevel.value(),
   port: port.value(),

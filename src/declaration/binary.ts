@@ -7,8 +7,8 @@ import {
   type ExactOptions,
 } from "../declaration.js";
 import { registerVariable } from "../environment.js";
-import { Example, Examples, create as createExamples } from "../example.js";
-import { Maybe, resolve } from "../maybe.js";
+import { Examples, create as createExamples } from "../example.js";
+import { resolve } from "../maybe.js";
 import { Scalar, createScalar } from "../schema.js";
 
 const PATTERNS: Partial<Record<BufferEncoding, RegExp>> = {
@@ -35,7 +35,7 @@ export function binary<O extends Options>(
     default: def,
     isSensitive,
     schema,
-    examples: buildExamples(encoding, schema, isSensitive, def),
+    examples: buildExamples(encoding, schema),
   });
 
   return {
@@ -77,19 +77,8 @@ function createUnmarshal(
 function buildExamples(
   encoding: BufferEncoding,
   schema: Scalar<Buffer>,
-  isSensitive: boolean,
-  def: Maybe<Buffer | undefined>,
 ): Examples {
-  let defExample: Example | undefined;
-
-  if (!isSensitive && def.isDefined && typeof def.value !== "undefined") {
-    defExample = {
-      canonical: schema.marshal(def.value),
-      description: "(default)",
-    };
-  }
-
-  return createExamples(defExample, {
+  return createExamples({
     canonical: schema.marshal(Buffer.from("conquistador", "utf-8")),
     description: `${encoding} encoded string`,
   });

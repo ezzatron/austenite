@@ -1,28 +1,31 @@
-# Environment Variables
+# Environment variables
 
-This document describes the environment variables used by `<app>`.
-
-Please note that **undefined** variables and **empty strings** are considered
-equivalent.
-
-The application may consume other undocumented environment variables; this
-document only shows those variables defined using [Austenite].
+The `<app>` app uses **declarative environment variables** powered by
+**[Austenite]**.
 
 [austenite]: https://github.com/ezzatron/austenite
 
-## Index
+| Name                    | Usage    | Description                                |
+| :---------------------- | :------- | :----------------------------------------- |
+| [`READ_DSN`](#READ_DSN) | Optional | Database connection string for read-models |
 
-- [`READ_DSN`](#READ_DSN) — database connection string for read-models
+> [!TIP]
+> If you set an empty value for an environment variable, the app behaves as if
+> that variable isn't set.
 
-## Specification
+## `READ_DSN`
 
-### `READ_DSN`
+_Database connection string for read-models_
 
-> database connection string for read-models
+The `READ_DSN` variable is an **optional** variable
+that takes **string** values.
 
-This variable **MAY** be set to a non-empty **string** value or left undefined.
+### Example values
 
 ```sh
-export READ_DSN=conquistador         # any value
+export READ_DSN=conquistador # any value
+```
+
+```sh
 export READ_DSN='alabaster parakeet' # some values may need escaping
 ```

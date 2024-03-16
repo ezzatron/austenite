@@ -1,24 +1,15 @@
 import { basename } from "path";
-import { code, inlineCode, strong } from "./markdown.js";
+import { code, inlineCode, italic, strong, table } from "./markdown.js";
 import { Visitor } from "./schema.js";
 import { quote } from "./shell.js";
-import { create as createTable } from "./table.js";
-import { usage } from "./usage.js";
 import { Variable } from "./variable.js";
 
 export function render(variables: Variable<unknown>[]): string {
   const app = appName();
-  const parts = [header(app, variables)];
 
-  if (variables.length > 0) {
-    parts.push(
-      index(variables),
-      specification(variables),
-      usage(app, variables),
-    );
-  }
+  if (variables.length < 1) return "TODO\n";
 
-  return parts.join("\n\n");
+  return header(app, variables) + "\n\n" + specification(variables);
 }
 
 function appName(): string {
@@ -28,41 +19,38 @@ function appName(): string {
 }
 
 function header(app: string, variables: Variable<unknown>[]): string {
-  const middleParagraph =
-    variables.length > 0
-      ? `Please note that **undefined** variables and **empty strings** are considered
-equivalent.`
-      : `**There do not appear to be any environment variables.**`;
+  return `# Environment variables
 
-  return `# Environment Variables
+The ${inlineCode(app)} app uses **declarative environment variables** powered by
+**[Austenite]**.
 
-This document describes the environment variables used by ${inlineCode(app)}.
+[austenite]: https://github.com/ezzatron/austenite
 
-${middleParagraph}
+${index(variables)}
 
-The application may consume other undocumented environment variables; this
-document only shows those variables defined using [Austenite].
-
-[austenite]: https://github.com/ezzatron/austenite`;
+> [!TIP]
+> If you set an empty value for an environment variable, the app behaves as if
+> that variable isn't set.`;
 }
 
 function index(variables: Variable<unknown>[]): string {
-  const items = variables.map(
-    ({ spec: { name, description } }) =>
-      `- [${inlineCode(name)}](#${name}) — ${description}`,
+  const rows = variables.map(
+    ({ spec: { name, description, default: def } }) => [
+      `[${inlineCode(name)}](#${name})`,
+      def.isDefined ? "Optional" : "Required",
+      uppercaseFirst(description),
+    ],
   );
 
-  return `## Index
-
-${items.join("\n")}`;
+  return table(
+    ["Name", "Usage", "Description"],
+    ["left", "left", "left"],
+    rows,
+  );
 }
 
 function specification(variables: Variable<unknown>[]): string {
-  const parts = variables.map((v) => variable(v));
-
-  return `## Specification
-
-${parts.join("\n\n")}`;
+  return variables.map((v) => variable(v)).join("\n\n");
 }
 
 function variable(variable: Variable<unknown>): string {
@@ -70,63 +58,84 @@ function variable(variable: Variable<unknown>): string {
     spec: { name, description },
   } = variable;
 
-  return `### ${inlineCode(name)}
+  return `## ${inlineCode(name)}
 
-> ${description}
+${italic(uppercaseFirst(description))}
 
 ${variable.spec.schema.accept(createSchemaRenderer(variable))}
 
-${examples(variable)}`;
+${defaultExample(variable)}${examples(variable)}`;
 }
 
-function createSchemaRenderer({
-  spec: { default: def, isSensitive },
-}: Variable<unknown>): Visitor<string> {
-  const ifLeftUndefined = isSensitive
-    ? `If left undefined, a default value is used.`
-    : `If left undefined, the default value is used (see below).`;
+function createSchemaRenderer(variable: Variable<unknown>): Visitor<string> {
+  const {
+    spec: { name, default: def },
+  } = variable;
+
+  const optionality = def.isDefined ? "an **optional**" : "a **required**";
 
   return {
-    visitEnum() {
-      if (!def.isDefined) {
-        return `This variable **MUST** be set to one of the values below.
-If left undefined, the application will print usage information to \`STDERR\` then
-exit with a non-zero exit code.`;
-      }
+    visitEnum({ members }) {
+      const listFormatter = new Intl.ListFormat("en", {
+        type: "disjunction",
+      });
+      const acceptableValues = Object.keys(members).map((m) =>
+        inlineCode(quote(m)),
+      );
 
-      if (typeof def.value === "undefined") {
-        return `This variable **MAY** be set to one of the values below or left undefined.`;
-      }
-
-      return `This variable **MAY** be set to one of the values below.
-${ifLeftUndefined}`;
+      return `The ${inlineCode(name)} variable is ${optionality} variable
+that takes ${listFormatter.format(acceptableValues)}.`;
     },
 
     visitScalar({ description }): string {
-      const beSetTo = `be set to a non-empty ${strong(description)} value`;
-
-      if (!def.isDefined) {
-        return `This variable **MUST** ${beSetTo}.
-If left undefined, the application will print usage information to \`STDERR\` then
-exit with a non-zero exit code.`;
-      }
-
-      if (typeof def.value === "undefined") {
-        return `This variable **MAY** ${beSetTo} or left undefined.`;
-      }
-
-      return `This variable **MAY** ${beSetTo}.
-${ifLeftUndefined}`;
+      return `The ${inlineCode(name)} variable is ${optionality} variable
+that takes ${strong(description)} values.`;
     },
   };
 }
 
-function examples({ spec: { name, examples } }: Variable<unknown>): string {
-  const table = createTable(1);
+function defaultExample(variable: Variable<unknown>): string {
+  const {
+    spec: { name, default: def, isSensitive },
+  } = variable;
 
-  for (const { canonical, description } of examples) {
-    table.addRow([`export ${name}=${quote(canonical)}`, `# ${description}`]);
+  if (!def.isDefined || typeof def.value === "undefined") return "";
+
+  const { value } = def;
+  let body: string;
+
+  if (isSensitive) {
+    body = `> [!NOTE]
+> The ${inlineCode(name)} variable is sensitive,
+> so the default value can't be shown.`;
+  } else {
+    body = code(
+      "sh",
+      `export ${name}=${quote(variable.marshal(value))} # default`,
+    );
   }
 
-  return code("sh", table.render());
+  return `### Default value
+
+${body}
+
+`;
+}
+
+function examples({ spec: { name, examples } }: Variable<unknown>): string {
+  const blocks = [];
+
+  for (const { canonical, description } of examples) {
+    blocks.push(
+      code("sh", `export ${name}=${quote(canonical)} # ${description}`),
+    );
+  }
+
+  return `### Example values
+
+${blocks.join("\n\n")}`;
+}
+
+function uppercaseFirst(string: string): string {
+  return string.charAt(0).toUpperCase() + string.slice(1);
 }

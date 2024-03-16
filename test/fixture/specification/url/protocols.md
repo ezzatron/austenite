@@ -1,30 +1,31 @@
-# Environment Variables
+# Environment variables
 
-This document describes the environment variables used by `<app>`.
-
-Please note that **undefined** variables and **empty strings** are considered
-equivalent.
-
-The application may consume other undocumented environment variables; this
-document only shows those variables defined using [Austenite].
+The `<app>` app uses **declarative environment variables** powered by
+**[Austenite]**.
 
 [austenite]: https://github.com/ezzatron/austenite
 
-## Index
+| Name                              | Usage    | Description             |
+| :-------------------------------- | :------- | :---------------------- |
+| [`SOCKET_SERVER`](#SOCKET_SERVER) | Required | WebSocket server to use |
 
-- [`SOCKET_SERVER`](#SOCKET_SERVER) — WebSocket server to use
+> [!TIP]
+> If you set an empty value for an environment variable, the app behaves as if
+> that variable isn't set.
 
-## Specification
+## `SOCKET_SERVER`
 
-### `SOCKET_SERVER`
+_WebSocket server to use_
 
-> WebSocket server to use
+The `SOCKET_SERVER` variable is a **required** variable
+that takes **URL** values.
 
-This variable **MUST** be set to a non-empty **URL** value.
-If left undefined, the application will print usage information to `STDERR` then
-exit with a non-zero exit code.
+### Example values
 
 ```sh
-export SOCKET_SERVER=ws://host.example.org/path/to/resource  # URL (ws:)
+export SOCKET_SERVER=ws://host.example.org/path/to/resource # URL (ws:)
+```
+
+```sh
 export SOCKET_SERVER=wss://host.example.org/path/to/resource # URL (wss:)
 ```

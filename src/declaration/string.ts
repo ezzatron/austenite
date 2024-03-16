@@ -6,9 +6,9 @@ import {
   type ExactOptions,
 } from "../declaration.js";
 import { registerVariable } from "../environment.js";
-import { Example, Examples, create as createExamples } from "../example.js";
-import { Maybe, resolve } from "../maybe.js";
-import { Scalar, createString } from "../schema.js";
+import { Examples, create as createExamples } from "../example.js";
+import { resolve } from "../maybe.js";
+import { createString } from "../schema.js";
 
 export type Options = DeclarationOptions<string>;
 
@@ -27,7 +27,7 @@ export function string<O extends Options>(
     default: def,
     isSensitive,
     schema,
-    examples: buildExamples(schema, isSensitive, def),
+    examples: buildExamples(),
   });
 
   return {
@@ -37,22 +37,8 @@ export function string<O extends Options>(
   };
 }
 
-function buildExamples(
-  schema: Scalar<string>,
-  isSensitive: boolean,
-  def: Maybe<string | undefined>,
-): Examples {
-  let defExample: Example | undefined;
-
-  if (!isSensitive && def.isDefined && typeof def.value !== "undefined") {
-    defExample = {
-      canonical: schema.marshal(def.value),
-      description: "(default)",
-    };
-  }
-
+function buildExamples(): Examples {
   return createExamples(
-    defExample,
     {
       canonical: "conquistador",
       description: "any value",

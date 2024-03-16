@@ -1,43 +1,57 @@
-# Environment Variables
+# Environment variables
 
-This document describes the environment variables used by `<app>`.
-
-Please note that **undefined** variables and **empty strings** are considered
-equivalent.
-
-The application may consume other undocumented environment variables; this
-document only shows those variables defined using [Austenite].
+The `<app>` app uses **declarative environment variables** powered by
+**[Austenite]**.
 
 [austenite]: https://github.com/ezzatron/austenite
 
-## Index
+| Name                                                        | Usage    | Description                             |
+| :---------------------------------------------------------- | :------- | :-------------------------------------- |
+| [`REDIS_PRIMARY_SERVICE_HOST`](#REDIS_PRIMARY_SERVICE_HOST) | Optional | Kubernetes `redis-primary` service host |
+| [`REDIS_PRIMARY_SERVICE_PORT`](#REDIS_PRIMARY_SERVICE_PORT) | Optional | Kubernetes `redis-primary` service port |
 
-- [`REDIS_PRIMARY_SERVICE_HOST`](#REDIS_PRIMARY_SERVICE_HOST) — kubernetes `redis-primary` service host
-- [`REDIS_PRIMARY_SERVICE_PORT`](#REDIS_PRIMARY_SERVICE_PORT) — kubernetes `redis-primary` service port
+> [!TIP]
+> If you set an empty value for an environment variable, the app behaves as if
+> that variable isn't set.
 
-## Specification
+## `REDIS_PRIMARY_SERVICE_HOST`
 
-### `REDIS_PRIMARY_SERVICE_HOST`
+_Kubernetes `redis-primary` service host_
 
-> kubernetes `redis-primary` service host
+The `REDIS_PRIMARY_SERVICE_HOST` variable is an **optional** variable
+that takes **hostname** values.
 
-This variable **MAY** be set to a non-empty **hostname** value.
-If left undefined, the default value is used (see below).
+### Default value
 
 ```sh
-export REDIS_PRIMARY_SERVICE_HOST=redis.example.org   # (default)
-export REDIS_PRIMARY_SERVICE_HOST=service.example.org # a hostname
-export REDIS_PRIMARY_SERVICE_HOST=10.0.0.11           # an IP address
+export REDIS_PRIMARY_SERVICE_HOST=redis.example.org # default
 ```
 
-### `REDIS_PRIMARY_SERVICE_PORT`
-
-> kubernetes `redis-primary` service port
-
-This variable **MAY** be set to a non-empty **port number** value.
-If left undefined, the default value is used (see below).
+### Example values
 
 ```sh
-export REDIS_PRIMARY_SERVICE_PORT=6379  # (default)
+export REDIS_PRIMARY_SERVICE_HOST=service.example.org # a hostname
+```
+
+```sh
+export REDIS_PRIMARY_SERVICE_HOST=10.0.0.11 # an IP address
+```
+
+## `REDIS_PRIMARY_SERVICE_PORT`
+
+_Kubernetes `redis-primary` service port_
+
+The `REDIS_PRIMARY_SERVICE_PORT` variable is an **optional** variable
+that takes **port number** values.
+
+### Default value
+
+```sh
+export REDIS_PRIMARY_SERVICE_PORT=6379 # default
+```
+
+### Example values
+
+```sh
 export REDIS_PRIMARY_SERVICE_PORT=12345 # a port number
 ```

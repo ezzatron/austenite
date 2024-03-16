@@ -7,8 +7,8 @@ import {
   type ExactOptions,
 } from "../declaration.js";
 import { registerVariable } from "../environment.js";
-import { Example, Examples, create as createExamples } from "../example.js";
-import { Maybe, resolve } from "../maybe.js";
+import { Examples, create as createExamples } from "../example.js";
+import { resolve } from "../maybe.js";
 import { Scalar, createScalar, toString } from "../schema.js";
 
 const { Duration } = Temporal;
@@ -31,7 +31,7 @@ export function duration<O extends Options>(
     default: def,
     isSensitive,
     schema,
-    examples: buildExamples(schema, isSensitive, def),
+    examples: buildExamples(),
   });
 
   return {
@@ -53,22 +53,8 @@ function createSchema(): Scalar<Duration> {
   return createScalar("ISO 8601 duration", toString, unmarshal);
 }
 
-function buildExamples(
-  schema: Scalar<Duration>,
-  isSensitive: boolean,
-  def: Maybe<Duration | undefined>,
-): Examples {
-  let defExample: Example | undefined;
-
-  if (!isSensitive && def.isDefined && typeof def.value !== "undefined") {
-    defExample = {
-      canonical: schema.marshal(def.value),
-      description: "(default)",
-    };
-  }
-
+function buildExamples(): Examples {
   return createExamples(
-    defExample,
     {
       canonical: Duration.from({ minutes: 1, seconds: 30 }).toString(),
       description: "ISO 8601 duration",

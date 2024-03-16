@@ -8,7 +8,7 @@ import {
 import { registerVariable } from "../environment.js";
 import { normalize } from "../error.js";
 import { Example, Examples, create as createExamples } from "../example.js";
-import { Maybe, resolve } from "../maybe.js";
+import { resolve } from "../maybe.js";
 import { Scalar, createScalar, toString } from "../schema.js";
 import { Constraint, SpecError } from "../variable.js";
 
@@ -41,7 +41,7 @@ export function url<O extends Options>(
     default: def,
     isSensitive,
     schema,
-    examples: buildExamples(base, protocols, schema, isSensitive, def),
+    examples: buildExamples(base, protocols),
     constraint: validate,
   });
 
@@ -122,20 +122,9 @@ function createValidate(
 function buildExamples(
   base: URL | undefined,
   protocols: string[] | undefined,
-  schema: Scalar<URL>,
-  isSensitive: boolean,
-  def: Maybe<URL | undefined>,
 ): Examples {
-  let defExample: Example | undefined;
   let protocolExamples: Example[];
   let relativeExample: Example | undefined;
-
-  if (!isSensitive && def.isDefined && typeof def.value !== "undefined") {
-    defExample = {
-      canonical: schema.marshal(def.value),
-      description: "(default)",
-    };
-  }
 
   if (protocols == null) {
     protocolExamples = [
@@ -158,7 +147,7 @@ function buildExamples(
     };
   }
 
-  return createExamples(defExample, ...protocolExamples, relativeExample);
+  return createExamples(...protocolExamples, relativeExample);
 }
 
 class BaseUrlError extends SpecError {

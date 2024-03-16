@@ -7,7 +7,7 @@ import {
 } from "../declaration.js";
 import { registerVariable } from "../environment.js";
 import { Examples, create as createExamples } from "../example.js";
-import { Maybe, resolve } from "../maybe.js";
+import { resolve } from "../maybe.js";
 import { Enum, InvalidEnumError, createEnum } from "../schema.js";
 import { SpecError } from "../variable.js";
 
@@ -36,7 +36,7 @@ export function enumeration<T, O extends Options<T>>(
     default: def,
     isSensitive,
     schema,
-    examples: buildExamples(members, isSensitive, def),
+    examples: buildExamples(members),
   });
 
   return {
@@ -74,20 +74,11 @@ function createSchema<T>(name: string, members: Members<T>): Enum<T> {
   return createEnum(schemaMembers, marshal, unmarshal);
 }
 
-function buildExamples<T>(
-  members: Members<T>,
-  isSensitive: boolean,
-  def: Maybe<T | undefined>,
-): Examples {
-  const defValue = def.isDefined ? def.value : undefined;
-
+function buildExamples<T>(members: Members<T>): Examples {
   return createExamples(
-    ...Object.entries(members).map(([literal, { value, description }]) => ({
+    ...Object.entries(members).map(([literal, { description }]) => ({
       canonical: literal,
-      description:
-        !isSensitive && defValue === value
-          ? `${description} (default)`
-          : description,
+      description,
     })),
   );
 }

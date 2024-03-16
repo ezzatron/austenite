@@ -1,35 +1,57 @@
-# Environment Variables
+# Environment variables
 
-This document describes the environment variables used by `<app>`.
-
-Please note that **undefined** variables and **empty strings** are considered
-equivalent.
-
-The application may consume other undocumented environment variables; this
-document only shows those variables defined using [Austenite].
+The `<app>` app uses **declarative environment variables** powered by
+**[Austenite]**.
 
 [austenite]: https://github.com/ezzatron/austenite
 
-## Index
+| Name                | Usage    | Description             |
+| :------------------ | :------- | :---------------------- |
+| [`WEIGHT`](#WEIGHT) | Optional | Weighting for this node |
 
-- [`WEIGHT`](#WEIGHT) — weighting for this node
+> [!TIP]
+> If you set an empty value for an environment variable, the app behaves as if
+> that variable isn't set.
 
-## Specification
+## `WEIGHT`
 
-### `WEIGHT`
+_Weighting for this node_
 
-> weighting for this node
+The `WEIGHT` variable is an **optional** variable
+that takes **number** values.
 
-This variable **MAY** be set to a non-empty **number** value.
-If left undefined, the default value is used (see below).
+### Default value
 
 ```sh
-export WEIGHT=100.001             # (default)
-export WEIGHT=123456              # integer
-export WEIGHT=123.456             # positive
-export WEIGHT=-123.456            # negative
-export WEIGHT=1.23456e+2          # exponential
-export WEIGHT=0x1E240             # hexadecimal
-export WEIGHT=0o361100            # octal
+export WEIGHT=100.001 # default
+```
+
+### Example values
+
+```sh
+export WEIGHT=123456 # integer
+```
+
+```sh
+export WEIGHT=123.456 # positive
+```
+
+```sh
+export WEIGHT=-123.456 # negative
+```
+
+```sh
+export WEIGHT=1.23456e+2 # exponential
+```
+
+```sh
+export WEIGHT=0x1E240 # hexadecimal
+```
+
+```sh
+export WEIGHT=0o361100 # octal
+```
+
+```sh
 export WEIGHT=0b11110001001000000 # binary
 ```

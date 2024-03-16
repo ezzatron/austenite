@@ -1,55 +1,58 @@
-# Environment Variables
+# Environment variables
 
-This document describes the environment variables used by `<app>`.
-
-Please note that **undefined** variables and **empty strings** are considered
-equivalent.
-
-The application may consume other undocumented environment variables; this
-document only shows those variables defined using [Austenite].
+The `<app>` app uses **declarative environment variables** powered by
+**[Austenite]**.
 
 [austenite]: https://github.com/ezzatron/austenite
 
-## Index
+| Name                                                                                    | Usage    | Description                                             |
+| :-------------------------------------------------------------------------------------- | :------- | :------------------------------------------------------ |
+| [`REDIS_PRIMARY_SERVICE_HOST`](#REDIS_PRIMARY_SERVICE_HOST)                             | Required | Kubernetes `redis-primary` service host                 |
+| [`REDIS_PRIMARY_SERVICE_PORT_DB`](#REDIS_PRIMARY_SERVICE_PORT_DB)                       | Required | Kubernetes `redis-primary` service `db` port            |
+| [`REDIS_PRIMARY_SERVICE_PORT_OBSERVABILITY`](#REDIS_PRIMARY_SERVICE_PORT_OBSERVABILITY) | Required | Kubernetes `redis-primary` service `observability` port |
 
-- [`REDIS_PRIMARY_SERVICE_HOST`](#REDIS_PRIMARY_SERVICE_HOST) — kubernetes `redis-primary` service host
-- [`REDIS_PRIMARY_SERVICE_PORT_DB`](#REDIS_PRIMARY_SERVICE_PORT_DB) — kubernetes `redis-primary` service `db` port
-- [`REDIS_PRIMARY_SERVICE_PORT_OBSERVABILITY`](#REDIS_PRIMARY_SERVICE_PORT_OBSERVABILITY) — kubernetes `redis-primary` service `observability` port
+> [!TIP]
+> If you set an empty value for an environment variable, the app behaves as if
+> that variable isn't set.
 
-## Specification
+## `REDIS_PRIMARY_SERVICE_HOST`
 
-### `REDIS_PRIMARY_SERVICE_HOST`
+_Kubernetes `redis-primary` service host_
 
-> kubernetes `redis-primary` service host
+The `REDIS_PRIMARY_SERVICE_HOST` variable is a **required** variable
+that takes **hostname** values.
 
-This variable **MUST** be set to a non-empty **hostname** value.
-If left undefined, the application will print usage information to `STDERR` then
-exit with a non-zero exit code.
+### Example values
 
 ```sh
 export REDIS_PRIMARY_SERVICE_HOST=service.example.org # a hostname
-export REDIS_PRIMARY_SERVICE_HOST=10.0.0.11           # an IP address
 ```
 
-### `REDIS_PRIMARY_SERVICE_PORT_DB`
+```sh
+export REDIS_PRIMARY_SERVICE_HOST=10.0.0.11 # an IP address
+```
 
-> kubernetes `redis-primary` service `db` port
+## `REDIS_PRIMARY_SERVICE_PORT_DB`
 
-This variable **MUST** be set to a non-empty **port number** value.
-If left undefined, the application will print usage information to `STDERR` then
-exit with a non-zero exit code.
+_Kubernetes `redis-primary` service `db` port_
+
+The `REDIS_PRIMARY_SERVICE_PORT_DB` variable is a **required** variable
+that takes **port number** values.
+
+### Example values
 
 ```sh
 export REDIS_PRIMARY_SERVICE_PORT_DB=12345 # a port number
 ```
 
-### `REDIS_PRIMARY_SERVICE_PORT_OBSERVABILITY`
+## `REDIS_PRIMARY_SERVICE_PORT_OBSERVABILITY`
 
-> kubernetes `redis-primary` service `observability` port
+_Kubernetes `redis-primary` service `observability` port_
 
-This variable **MUST** be set to a non-empty **port number** value.
-If left undefined, the application will print usage information to `STDERR` then
-exit with a non-zero exit code.
+The `REDIS_PRIMARY_SERVICE_PORT_OBSERVABILITY` variable is a **required** variable
+that takes **port number** values.
+
+### Example values
 
 ```sh
 export REDIS_PRIMARY_SERVICE_PORT_OBSERVABILITY=12345 # a port number

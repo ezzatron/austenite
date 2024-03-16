@@ -1,30 +1,31 @@
-# Environment Variables
+# Environment variables
 
-This document describes the environment variables used by `<app>`.
-
-Please note that **undefined** variables and **empty strings** are considered
-equivalent.
-
-The application may consume other undocumented environment variables; this
-document only shows those variables defined using [Austenite].
+The `<app>` app uses **declarative environment variables** powered by
+**[Austenite]**.
 
 [austenite]: https://github.com/ezzatron/austenite
 
-## Index
+| Name                            | Usage    | Description          |
+| :------------------------------ | :------- | :------------------- |
+| [`GRPC_TIMEOUT`](#GRPC_TIMEOUT) | Required | GRPC request timeout |
 
-- [`GRPC_TIMEOUT`](#GRPC_TIMEOUT) — gRPC request timeout
+> [!TIP]
+> If you set an empty value for an environment variable, the app behaves as if
+> that variable isn't set.
 
-## Specification
+## `GRPC_TIMEOUT`
 
-### `GRPC_TIMEOUT`
+_GRPC request timeout_
 
-> gRPC request timeout
+The `GRPC_TIMEOUT` variable is a **required** variable
+that takes **ISO 8601 duration** values.
 
-This variable **MUST** be set to a non-empty **ISO 8601 duration** value.
-If left undefined, the application will print usage information to `STDERR` then
-exit with a non-zero exit code.
+### Example values
 
 ```sh
-export GRPC_TIMEOUT=PT1M30S    # ISO 8601 duration
+export GRPC_TIMEOUT=PT1M30S # ISO 8601 duration
+```
+
+```sh
 export GRPC_TIMEOUT=P1M15DT12H # ISO 8601 duration
 ```

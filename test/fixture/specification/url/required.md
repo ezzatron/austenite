@@ -1,28 +1,26 @@
-# Environment Variables
+# Environment variables
 
-This document describes the environment variables used by `<app>`.
-
-Please note that **undefined** variables and **empty strings** are considered
-equivalent.
-
-The application may consume other undocumented environment variables; this
-document only shows those variables defined using [Austenite].
+The `<app>` app uses **declarative environment variables** powered by
+**[Austenite]**.
 
 [austenite]: https://github.com/ezzatron/austenite
 
-## Index
+| Name                  | Usage    | Description                           |
+| :-------------------- | :------- | :------------------------------------ |
+| [`CDN_URL`](#CDN_URL) | Required | CDN to use when serving static assets |
 
-- [`CDN_URL`](#CDN_URL) — CDN to use when serving static assets
+> [!TIP]
+> If you set an empty value for an environment variable, the app behaves as if
+> that variable isn't set.
 
-## Specification
+## `CDN_URL`
 
-### `CDN_URL`
+_CDN to use when serving static assets_
 
-> CDN to use when serving static assets
+The `CDN_URL` variable is a **required** variable
+that takes **URL** values.
 
-This variable **MUST** be set to a non-empty **URL** value.
-If left undefined, the application will print usage information to `STDERR` then
-exit with a non-zero exit code.
+### Example values
 
 ```sh
 export CDN_URL=https://host.example.org/path/to/resource # URL (absolute)

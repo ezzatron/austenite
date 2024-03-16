@@ -1,29 +1,33 @@
-# Environment Variables
+# Environment variables
 
-This document describes the environment variables used by `<app>`.
-
-Please note that **undefined** variables and **empty strings** are considered
-equivalent.
-
-The application may consume other undocumented environment variables; this
-document only shows those variables defined using [Austenite].
+The `<app>` app uses **declarative environment variables** powered by
+**[Austenite]**.
 
 [austenite]: https://github.com/ezzatron/austenite
 
-## Index
+| Name            | Usage    | Description                     |
+| :-------------- | :------- | :------------------------------ |
+| [`PORT`](#PORT) | Optional | Listen port for the HTTP server |
 
-- [`PORT`](#PORT) — listen port for the HTTP server
+> [!TIP]
+> If you set an empty value for an environment variable, the app behaves as if
+> that variable isn't set.
 
-## Specification
+## `PORT`
 
-### `PORT`
+_Listen port for the HTTP server_
 
-> listen port for the HTTP server
+The `PORT` variable is an **optional** variable
+that takes **port number** values.
 
-This variable **MAY** be set to a non-empty **port number** value.
-If left undefined, the default value is used (see below).
+### Default value
 
 ```sh
-export PORT=8080  # (default)
+export PORT=8080 # default
+```
+
+### Example values
+
+```sh
 export PORT=12345 # a port number
 ```

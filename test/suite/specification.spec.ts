@@ -48,7 +48,7 @@ describe("Specification documents", () => {
       bigInteger("WEIGHT", "weighting for this node");
       initialize();
 
-      await expect(stripUsage(mockConsole.readStdout())).toMatchFileSnapshot(
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("big-integer/required"),
       );
       expect(exitCode).toBe(0);
@@ -60,7 +60,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      await expect(stripUsage(mockConsole.readStdout())).toMatchFileSnapshot(
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("big-integer/optional"),
       );
       expect(exitCode).toBe(0);
@@ -72,7 +72,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      await expect(stripUsage(mockConsole.readStdout())).toMatchFileSnapshot(
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("big-integer/default"),
       );
       expect(exitCode).toBe(0);
@@ -84,7 +84,7 @@ describe("Specification documents", () => {
       binary("SESSION_KEY", "session token signing key");
       initialize();
 
-      await expect(stripUsage(mockConsole.readStdout())).toMatchFileSnapshot(
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("binary/required"),
       );
       expect(exitCode).toBe(0);
@@ -96,7 +96,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      await expect(stripUsage(mockConsole.readStdout())).toMatchFileSnapshot(
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("binary/optional"),
       );
       expect(exitCode).toBe(0);
@@ -111,7 +111,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      await expect(stripUsage(mockConsole.readStdout())).toMatchFileSnapshot(
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("binary/default"),
       );
       expect(exitCode).toBe(0);
@@ -123,7 +123,7 @@ describe("Specification documents", () => {
       boolean("DEBUG", "enable or disable debugging features");
       initialize();
 
-      await expect(stripUsage(mockConsole.readStdout())).toMatchFileSnapshot(
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("boolean/required"),
       );
       expect(exitCode).toBe(0);
@@ -135,7 +135,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      await expect(stripUsage(mockConsole.readStdout())).toMatchFileSnapshot(
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("boolean/optional"),
       );
       expect(exitCode).toBe(0);
@@ -150,7 +150,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      await expect(stripUsage(mockConsole.readStdout())).toMatchFileSnapshot(
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("boolean/default"),
       );
       expect(exitCode).toBe(0);
@@ -168,7 +168,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      await expect(stripUsage(mockConsole.readStdout())).toMatchFileSnapshot(
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("boolean/custom-literals"),
       );
       expect(exitCode).toBe(0);
@@ -180,7 +180,7 @@ describe("Specification documents", () => {
       duration("GRPC_TIMEOUT", "gRPC request timeout");
       initialize();
 
-      await expect(stripUsage(mockConsole.readStdout())).toMatchFileSnapshot(
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("duration/required"),
       );
       expect(exitCode).toBe(0);
@@ -192,7 +192,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      await expect(stripUsage(mockConsole.readStdout())).toMatchFileSnapshot(
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("duration/optional"),
       );
       expect(exitCode).toBe(0);
@@ -204,7 +204,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      await expect(stripUsage(mockConsole.readStdout())).toMatchFileSnapshot(
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("duration/default"),
       );
       expect(exitCode).toBe(0);
@@ -230,7 +230,7 @@ describe("Specification documents", () => {
       enumeration("LOG_LEVEL", "the minimum log level to record", members);
       initialize();
 
-      await expect(stripUsage(mockConsole.readStdout())).toMatchFileSnapshot(
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("enumeration/required"),
       );
       expect(exitCode).toBe(0);
@@ -242,7 +242,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      await expect(stripUsage(mockConsole.readStdout())).toMatchFileSnapshot(
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("enumeration/optional"),
       );
       expect(exitCode).toBe(0);
@@ -254,7 +254,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      await expect(stripUsage(mockConsole.readStdout())).toMatchFileSnapshot(
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("enumeration/default"),
       );
       expect(exitCode).toBe(0);
@@ -266,7 +266,7 @@ describe("Specification documents", () => {
       integer("WEIGHT", "weighting for this node");
       initialize();
 
-      await expect(stripUsage(mockConsole.readStdout())).toMatchFileSnapshot(
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("integer/required"),
       );
       expect(exitCode).toBe(0);
@@ -278,7 +278,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      await expect(stripUsage(mockConsole.readStdout())).toMatchFileSnapshot(
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("integer/optional"),
       );
       expect(exitCode).toBe(0);
@@ -290,7 +290,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      await expect(stripUsage(mockConsole.readStdout())).toMatchFileSnapshot(
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("integer/default"),
       );
       expect(exitCode).toBe(0);
@@ -302,7 +302,7 @@ describe("Specification documents", () => {
       kubernetesAddress("redis-primary");
       initialize();
 
-      await expect(stripUsage(mockConsole.readStdout())).toMatchFileSnapshot(
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("kubernetes-address/required"),
       );
       expect(exitCode).toBe(0);
@@ -314,7 +314,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      await expect(stripUsage(mockConsole.readStdout())).toMatchFileSnapshot(
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("kubernetes-address/optional"),
       );
       expect(exitCode).toBe(0);
@@ -329,7 +329,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      await expect(stripUsage(mockConsole.readStdout())).toMatchFileSnapshot(
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("kubernetes-address/default"),
       );
       expect(exitCode).toBe(0);
@@ -344,7 +344,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      await expect(stripUsage(mockConsole.readStdout())).toMatchFileSnapshot(
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("kubernetes-address/named-ports"),
       );
       expect(exitCode).toBe(0);
@@ -356,7 +356,7 @@ describe("Specification documents", () => {
       networkPortNumber("PORT", "listen port for the HTTP server");
       initialize();
 
-      await expect(stripUsage(mockConsole.readStdout())).toMatchFileSnapshot(
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("network-port-number/required"),
       );
       expect(exitCode).toBe(0);
@@ -368,7 +368,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      await expect(stripUsage(mockConsole.readStdout())).toMatchFileSnapshot(
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("network-port-number/optional"),
       );
       expect(exitCode).toBe(0);
@@ -380,7 +380,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      await expect(stripUsage(mockConsole.readStdout())).toMatchFileSnapshot(
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("network-port-number/default"),
       );
       expect(exitCode).toBe(0);
@@ -392,7 +392,7 @@ describe("Specification documents", () => {
       number("WEIGHT", "weighting for this node");
       initialize();
 
-      await expect(stripUsage(mockConsole.readStdout())).toMatchFileSnapshot(
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("number/required"),
       );
       expect(exitCode).toBe(0);
@@ -404,7 +404,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      await expect(stripUsage(mockConsole.readStdout())).toMatchFileSnapshot(
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("number/optional"),
       );
       expect(exitCode).toBe(0);
@@ -416,7 +416,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      await expect(stripUsage(mockConsole.readStdout())).toMatchFileSnapshot(
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("number/default"),
       );
       expect(exitCode).toBe(0);
@@ -428,7 +428,7 @@ describe("Specification documents", () => {
       string("READ_DSN", "database connection string for read-models");
       initialize();
 
-      await expect(stripUsage(mockConsole.readStdout())).toMatchFileSnapshot(
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("string/required"),
       );
       expect(exitCode).toBe(0);
@@ -440,7 +440,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      await expect(stripUsage(mockConsole.readStdout())).toMatchFileSnapshot(
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("string/optional"),
       );
       expect(exitCode).toBe(0);
@@ -452,7 +452,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      await expect(stripUsage(mockConsole.readStdout())).toMatchFileSnapshot(
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("string/default"),
       );
       expect(exitCode).toBe(0);
@@ -464,7 +464,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      await expect(stripUsage(mockConsole.readStdout())).toMatchFileSnapshot(
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("string/quoting"),
       );
       expect(exitCode).toBe(0);
@@ -476,7 +476,7 @@ describe("Specification documents", () => {
       url("CDN_URL", "CDN to use when serving static assets");
       initialize();
 
-      await expect(stripUsage(mockConsole.readStdout())).toMatchFileSnapshot(
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("url/required"),
       );
       expect(exitCode).toBe(0);
@@ -488,7 +488,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      await expect(stripUsage(mockConsole.readStdout())).toMatchFileSnapshot(
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("url/optional"),
       );
       expect(exitCode).toBe(0);
@@ -500,7 +500,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      await expect(stripUsage(mockConsole.readStdout())).toMatchFileSnapshot(
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("url/default"),
       );
       expect(exitCode).toBe(0);
@@ -512,7 +512,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      await expect(stripUsage(mockConsole.readStdout())).toMatchFileSnapshot(
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("url/base"),
       );
       expect(exitCode).toBe(0);
@@ -524,7 +524,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      await expect(stripUsage(mockConsole.readStdout())).toMatchFileSnapshot(
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("url/protocols"),
       );
       expect(exitCode).toBe(0);
@@ -607,7 +607,7 @@ describe("Specification documents", () => {
       });
       initialize();
 
-      await expect(stripUsage(mockConsole.readStdout())).toMatchFileSnapshot(
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("sensitive"),
       );
       expect(exitCode).toBe(0);
@@ -655,8 +655,4 @@ describe("Specification documents", () => {
 
 function fixturePath(name: string): string {
   return join(fixturesPath, `${name}.md`);
-}
-
-function stripUsage(output: string): string {
-  return output.split("\n## Usage Examples")[0];
 }

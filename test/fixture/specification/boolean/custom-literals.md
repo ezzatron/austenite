@@ -1,31 +1,45 @@
-# Environment Variables
+# Environment variables
 
-This document describes the environment variables used by `<app>`.
-
-Please note that **undefined** variables and **empty strings** are considered
-equivalent.
-
-The application may consume other undocumented environment variables; this
-document only shows those variables defined using [Austenite].
+The `<app>` app uses **declarative environment variables** powered by
+**[Austenite]**.
 
 [austenite]: https://github.com/ezzatron/austenite
 
-## Index
+| Name              | Usage    | Description                          |
+| :---------------- | :------- | :----------------------------------- |
+| [`DEBUG`](#DEBUG) | Optional | Enable or disable debugging features |
 
-- [`DEBUG`](#DEBUG) — enable or disable debugging features
+> [!TIP]
+> If you set an empty value for an environment variable, the app behaves as if
+> that variable isn't set.
 
-## Specification
+## `DEBUG`
 
-### `DEBUG`
+_Enable or disable debugging features_
 
-> enable or disable debugging features
+The `DEBUG` variable is an **optional** variable
+that takes `y`, `yes`, `n`, or `no`.
 
-This variable **MAY** be set to one of the values below.
-If left undefined, the default value is used (see below).
+### Default value
 
 ```sh
-export DEBUG=y   # true
+export DEBUG=n # default
+```
+
+### Example values
+
+```sh
+export DEBUG=y # true
+```
+
+```sh
 export DEBUG=yes # true
-export DEBUG=n   # false (default)
-export DEBUG=no  # false (default)
+```
+
+```sh
+export DEBUG=n # false
+```
+
+```sh
+export DEBUG=no # false
 ```

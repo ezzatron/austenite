@@ -6,8 +6,8 @@ import {
   type ExactOptions,
 } from "../declaration.js";
 import { registerVariable } from "../environment.js";
-import { Example, Examples, create as createExamples } from "../example.js";
-import { Maybe, resolve } from "../maybe.js";
+import { Examples, create as createExamples } from "../example.js";
+import { resolve } from "../maybe.js";
 import { Scalar, createScalar, toString } from "../schema.js";
 
 export type Options = DeclarationOptions<number>;
@@ -27,7 +27,7 @@ export function networkPortNumber<O extends Options>(
     default: def,
     isSensitive,
     schema,
-    examples: buildExamples(schema, isSensitive, def),
+    examples: buildExamples(),
     constraint: validate,
   });
 
@@ -58,21 +58,8 @@ function validate(port: number): void {
   if (port < 1 || port > 65535) throw new Error("must be between 1 and 65535");
 }
 
-function buildExamples(
-  schema: Scalar<number>,
-  isSensitive: boolean,
-  def: Maybe<number | undefined>,
-): Examples {
-  let defExample: Example | undefined;
-
-  if (!isSensitive && def.isDefined && typeof def.value !== "undefined") {
-    defExample = {
-      canonical: schema.marshal(def.value),
-      description: "(default)",
-    };
-  }
-
-  return createExamples(defExample, {
+function buildExamples(): Examples {
+  return createExamples({
     canonical: "12345",
     description: "a port number",
   });

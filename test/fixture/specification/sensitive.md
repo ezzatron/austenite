@@ -1,197 +1,363 @@
-# Environment Variables
+# Environment variables
 
-This document describes the environment variables used by `<app>`.
-
-Please note that **undefined** variables and **empty strings** are considered
-equivalent.
-
-The application may consume other undocumented environment variables; this
-document only shows those variables defined using [Austenite].
+The `<app>` app uses **declarative environment variables** powered by
+**[Austenite]**.
 
 [austenite]: https://github.com/ezzatron/austenite
 
-## Index
+| Name                                                        | Usage    | Description                             |
+| :---------------------------------------------------------- | :------- | :-------------------------------------- |
+| [`AUSTENITE_BINARY`](#AUSTENITE_BINARY)                     | Optional | Example binary                          |
+| [`AUSTENITE_BOOLEAN`](#AUSTENITE_BOOLEAN)                   | Optional | Example boolean                         |
+| [`AUSTENITE_DURATION`](#AUSTENITE_DURATION)                 | Optional | Example duration                        |
+| [`AUSTENITE_ENUMERATION`](#AUSTENITE_ENUMERATION)           | Optional | Example enumeration                     |
+| [`AUSTENITE_INTEGER`](#AUSTENITE_INTEGER)                   | Optional | Example integer                         |
+| [`AUSTENITE_INTEGER_BIG`](#AUSTENITE_INTEGER_BIG)           | Optional | Example big integer                     |
+| [`AUSTENITE_NUMBER`](#AUSTENITE_NUMBER)                     | Optional | Example number                          |
+| [`AUSTENITE_PORT_NUMBER`](#AUSTENITE_PORT_NUMBER)           | Optional | Example port number                     |
+| [`AUSTENITE_STRING`](#AUSTENITE_STRING)                     | Optional | Example string                          |
+| [`AUSTENITE_SVC_SERVICE_HOST`](#AUSTENITE_SVC_SERVICE_HOST) | Optional | Kubernetes `austenite-svc` service host |
+| [`AUSTENITE_SVC_SERVICE_PORT`](#AUSTENITE_SVC_SERVICE_PORT) | Optional | Kubernetes `austenite-svc` service port |
+| [`AUSTENITE_URL`](#AUSTENITE_URL)                           | Optional | Example URL                             |
+| [`AUSTENITE_XTRIGGER`](#AUSTENITE_XTRIGGER)                 | Required | Trigger failure                         |
 
-- [`AUSTENITE_BINARY`](#AUSTENITE_BINARY) — example binary
-- [`AUSTENITE_BOOLEAN`](#AUSTENITE_BOOLEAN) — example boolean
-- [`AUSTENITE_DURATION`](#AUSTENITE_DURATION) — example duration
-- [`AUSTENITE_ENUMERATION`](#AUSTENITE_ENUMERATION) — example enumeration
-- [`AUSTENITE_INTEGER`](#AUSTENITE_INTEGER) — example integer
-- [`AUSTENITE_INTEGER_BIG`](#AUSTENITE_INTEGER_BIG) — example big integer
-- [`AUSTENITE_NUMBER`](#AUSTENITE_NUMBER) — example number
-- [`AUSTENITE_PORT_NUMBER`](#AUSTENITE_PORT_NUMBER) — example port number
-- [`AUSTENITE_STRING`](#AUSTENITE_STRING) — example string
-- [`AUSTENITE_SVC_SERVICE_HOST`](#AUSTENITE_SVC_SERVICE_HOST) — kubernetes `austenite-svc` service host
-- [`AUSTENITE_SVC_SERVICE_PORT`](#AUSTENITE_SVC_SERVICE_PORT) — kubernetes `austenite-svc` service port
-- [`AUSTENITE_URL`](#AUSTENITE_URL) — example URL
-- [`AUSTENITE_XTRIGGER`](#AUSTENITE_XTRIGGER) — trigger failure
+> [!TIP]
+> If you set an empty value for an environment variable, the app behaves as if
+> that variable isn't set.
 
-## Specification
+## `AUSTENITE_BINARY`
 
-### `AUSTENITE_BINARY`
+_Example binary_
 
-> example binary
+The `AUSTENITE_BINARY` variable is an **optional** variable
+that takes **base64** values.
 
-This variable **MAY** be set to a non-empty **base64** value.
-If left undefined, a default value is used.
+### Default value
+
+> [!NOTE]
+> The `AUSTENITE_BINARY` variable is sensitive,
+> so the default value can't be shown.
+
+### Example values
 
 ```sh
 export AUSTENITE_BINARY=Y29ucXVpc3RhZG9y # base64 encoded string
 ```
 
-### `AUSTENITE_BOOLEAN`
+## `AUSTENITE_BOOLEAN`
 
-> example boolean
+_Example boolean_
 
-This variable **MAY** be set to one of the values below.
-If left undefined, a default value is used.
+The `AUSTENITE_BOOLEAN` variable is an **optional** variable
+that takes `y`, `yes`, `n`, or `no`.
+
+### Default value
+
+> [!NOTE]
+> The `AUSTENITE_BOOLEAN` variable is sensitive,
+> so the default value can't be shown.
+
+### Example values
 
 ```sh
-export AUSTENITE_BOOLEAN=y   # true
-export AUSTENITE_BOOLEAN=yes # true
-export AUSTENITE_BOOLEAN=n   # false
-export AUSTENITE_BOOLEAN=no  # false
+export AUSTENITE_BOOLEAN=y # true
 ```
 
-### `AUSTENITE_DURATION`
-
-> example duration
-
-This variable **MAY** be set to a non-empty **ISO 8601 duration** value.
-If left undefined, a default value is used.
+```sh
+export AUSTENITE_BOOLEAN=yes # true
+```
 
 ```sh
-export AUSTENITE_DURATION=PT1M30S    # ISO 8601 duration
+export AUSTENITE_BOOLEAN=n # false
+```
+
+```sh
+export AUSTENITE_BOOLEAN=no # false
+```
+
+## `AUSTENITE_DURATION`
+
+_Example duration_
+
+The `AUSTENITE_DURATION` variable is an **optional** variable
+that takes **ISO 8601 duration** values.
+
+### Default value
+
+> [!NOTE]
+> The `AUSTENITE_DURATION` variable is sensitive,
+> so the default value can't be shown.
+
+### Example values
+
+```sh
+export AUSTENITE_DURATION=PT1M30S # ISO 8601 duration
+```
+
+```sh
 export AUSTENITE_DURATION=P1M15DT12H # ISO 8601 duration
 ```
 
-### `AUSTENITE_ENUMERATION`
+## `AUSTENITE_ENUMERATION`
 
-> example enumeration
+_Example enumeration_
 
-This variable **MAY** be set to one of the values below.
-If left undefined, a default value is used.
+The `AUSTENITE_ENUMERATION` variable is an **optional** variable
+that takes `foo`, `bar`, or `baz`.
+
+### Default value
+
+> [!NOTE]
+> The `AUSTENITE_ENUMERATION` variable is sensitive,
+> so the default value can't be shown.
+
+### Example values
 
 ```sh
 export AUSTENITE_ENUMERATION=foo # foo
+```
+
+```sh
 export AUSTENITE_ENUMERATION=bar # bar
+```
+
+```sh
 export AUSTENITE_ENUMERATION=baz # baz
 ```
 
-### `AUSTENITE_INTEGER`
+## `AUSTENITE_INTEGER`
 
-> example integer
+_Example integer_
 
-This variable **MAY** be set to a non-empty **integer** value.
-If left undefined, a default value is used.
+The `AUSTENITE_INTEGER` variable is an **optional** variable
+that takes **integer** values.
+
+### Default value
+
+> [!NOTE]
+> The `AUSTENITE_INTEGER` variable is sensitive,
+> so the default value can't be shown.
+
+### Example values
 
 ```sh
-export AUSTENITE_INTEGER=123456              # positive
-export AUSTENITE_INTEGER=-123456             # negative
-export AUSTENITE_INTEGER=1.23456e+5          # exponential
-export AUSTENITE_INTEGER=0x1E240             # hexadecimal
-export AUSTENITE_INTEGER=0o361100            # octal
+export AUSTENITE_INTEGER=123456 # positive
+```
+
+```sh
+export AUSTENITE_INTEGER=-123456 # negative
+```
+
+```sh
+export AUSTENITE_INTEGER=1.23456e+5 # exponential
+```
+
+```sh
+export AUSTENITE_INTEGER=0x1E240 # hexadecimal
+```
+
+```sh
+export AUSTENITE_INTEGER=0o361100 # octal
+```
+
+```sh
 export AUSTENITE_INTEGER=0b11110001001000000 # binary
 ```
 
-### `AUSTENITE_INTEGER_BIG`
+## `AUSTENITE_INTEGER_BIG`
 
-> example big integer
+_Example big integer_
 
-This variable **MAY** be set to a non-empty **big integer** value.
-If left undefined, a default value is used.
+The `AUSTENITE_INTEGER_BIG` variable is an **optional** variable
+that takes **big integer** values.
+
+### Default value
+
+> [!NOTE]
+> The `AUSTENITE_INTEGER_BIG` variable is sensitive,
+> so the default value can't be shown.
+
+### Example values
 
 ```sh
-export AUSTENITE_INTEGER_BIG=123456              # positive
-export AUSTENITE_INTEGER_BIG=-123456             # negative
-export AUSTENITE_INTEGER_BIG=0x1E240             # hexadecimal
-export AUSTENITE_INTEGER_BIG=0o361100            # octal
+export AUSTENITE_INTEGER_BIG=123456 # positive
+```
+
+```sh
+export AUSTENITE_INTEGER_BIG=-123456 # negative
+```
+
+```sh
+export AUSTENITE_INTEGER_BIG=0x1E240 # hexadecimal
+```
+
+```sh
+export AUSTENITE_INTEGER_BIG=0o361100 # octal
+```
+
+```sh
 export AUSTENITE_INTEGER_BIG=0b11110001001000000 # binary
 ```
 
-### `AUSTENITE_NUMBER`
+## `AUSTENITE_NUMBER`
 
-> example number
+_Example number_
 
-This variable **MAY** be set to a non-empty **number** value.
-If left undefined, a default value is used.
+The `AUSTENITE_NUMBER` variable is an **optional** variable
+that takes **number** values.
+
+### Default value
+
+> [!NOTE]
+> The `AUSTENITE_NUMBER` variable is sensitive,
+> so the default value can't be shown.
+
+### Example values
 
 ```sh
-export AUSTENITE_NUMBER=123456              # integer
-export AUSTENITE_NUMBER=123.456             # positive
-export AUSTENITE_NUMBER=-123.456            # negative
-export AUSTENITE_NUMBER=1.23456e+2          # exponential
-export AUSTENITE_NUMBER=0x1E240             # hexadecimal
-export AUSTENITE_NUMBER=0o361100            # octal
+export AUSTENITE_NUMBER=123456 # integer
+```
+
+```sh
+export AUSTENITE_NUMBER=123.456 # positive
+```
+
+```sh
+export AUSTENITE_NUMBER=-123.456 # negative
+```
+
+```sh
+export AUSTENITE_NUMBER=1.23456e+2 # exponential
+```
+
+```sh
+export AUSTENITE_NUMBER=0x1E240 # hexadecimal
+```
+
+```sh
+export AUSTENITE_NUMBER=0o361100 # octal
+```
+
+```sh
 export AUSTENITE_NUMBER=0b11110001001000000 # binary
 ```
 
-### `AUSTENITE_PORT_NUMBER`
+## `AUSTENITE_PORT_NUMBER`
 
-> example port number
+_Example port number_
 
-This variable **MAY** be set to a non-empty **port number** value.
-If left undefined, a default value is used.
+The `AUSTENITE_PORT_NUMBER` variable is an **optional** variable
+that takes **port number** values.
+
+### Default value
+
+> [!NOTE]
+> The `AUSTENITE_PORT_NUMBER` variable is sensitive,
+> so the default value can't be shown.
+
+### Example values
 
 ```sh
 export AUSTENITE_PORT_NUMBER=12345 # a port number
 ```
 
-### `AUSTENITE_STRING`
+## `AUSTENITE_STRING`
 
-> example string
+_Example string_
 
-This variable **MAY** be set to a non-empty **string** value.
-If left undefined, a default value is used.
+The `AUSTENITE_STRING` variable is an **optional** variable
+that takes **string** values.
+
+### Default value
+
+> [!NOTE]
+> The `AUSTENITE_STRING` variable is sensitive,
+> so the default value can't be shown.
+
+### Example values
 
 ```sh
-export AUSTENITE_STRING=conquistador         # any value
+export AUSTENITE_STRING=conquistador # any value
+```
+
+```sh
 export AUSTENITE_STRING='alabaster parakeet' # some values may need escaping
 ```
 
-### `AUSTENITE_SVC_SERVICE_HOST`
+## `AUSTENITE_SVC_SERVICE_HOST`
 
-> kubernetes `austenite-svc` service host
+_Kubernetes `austenite-svc` service host_
 
-This variable **MAY** be set to a non-empty **hostname** value.
-If left undefined, a default value is used.
+The `AUSTENITE_SVC_SERVICE_HOST` variable is an **optional** variable
+that takes **hostname** values.
+
+### Default value
+
+> [!NOTE]
+> The `AUSTENITE_SVC_SERVICE_HOST` variable is sensitive,
+> so the default value can't be shown.
+
+### Example values
 
 ```sh
 export AUSTENITE_SVC_SERVICE_HOST=service.example.org # a hostname
-export AUSTENITE_SVC_SERVICE_HOST=10.0.0.11           # an IP address
 ```
 
-### `AUSTENITE_SVC_SERVICE_PORT`
+```sh
+export AUSTENITE_SVC_SERVICE_HOST=10.0.0.11 # an IP address
+```
 
-> kubernetes `austenite-svc` service port
+## `AUSTENITE_SVC_SERVICE_PORT`
 
-This variable **MAY** be set to a non-empty **port number** value.
-If left undefined, a default value is used.
+_Kubernetes `austenite-svc` service port_
+
+The `AUSTENITE_SVC_SERVICE_PORT` variable is an **optional** variable
+that takes **port number** values.
+
+### Default value
+
+> [!NOTE]
+> The `AUSTENITE_SVC_SERVICE_PORT` variable is sensitive,
+> so the default value can't be shown.
+
+### Example values
 
 ```sh
 export AUSTENITE_SVC_SERVICE_PORT=12345 # a port number
 ```
 
-### `AUSTENITE_URL`
+## `AUSTENITE_URL`
 
-> example URL
+_Example URL_
 
-This variable **MAY** be set to a non-empty **URL** value.
-If left undefined, a default value is used.
+The `AUSTENITE_URL` variable is an **optional** variable
+that takes **URL** values.
+
+### Default value
+
+> [!NOTE]
+> The `AUSTENITE_URL` variable is sensitive,
+> so the default value can't be shown.
+
+### Example values
 
 ```sh
 export AUSTENITE_URL=https://host.example.org/path/to/resource # URL (absolute)
 ```
 
-### `AUSTENITE_XTRIGGER`
+## `AUSTENITE_XTRIGGER`
 
-> trigger failure
+_Trigger failure_
 
-This variable **MUST** be set to a non-empty **string** value.
-If left undefined, the application will print usage information to `STDERR` then
-exit with a non-zero exit code.
+The `AUSTENITE_XTRIGGER` variable is a **required** variable
+that takes **string** values.
+
+### Example values
 
 ```sh
-export AUSTENITE_XTRIGGER=conquistador         # any value
+export AUSTENITE_XTRIGGER=conquistador # any value
+```
+
+```sh
 export AUSTENITE_XTRIGGER='alabaster parakeet' # some values may need escaping
 ```

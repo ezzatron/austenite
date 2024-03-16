@@ -15,6 +15,7 @@ The format is based on [Keep a Changelog], and this project adheres to
 - Declarations can now be marked as sensitive, which will cause their default
   values and actual values to be redacted in validation summaries and
   generated specifications.
+- The generated specification output has been improved to be easier to read.
 
 ## [v0.7.0] - 2024-03-15
 

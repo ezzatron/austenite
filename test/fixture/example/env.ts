@@ -17,10 +17,18 @@ export const cdnUrl = url("CDN_URL", "CDN to use when serving static assets");
 export const earthAtomCount = bigInteger(
   "EARTH_ATOM_COUNT",
   "number of atoms on earth",
+  { default: undefined },
 );
 
-export const grpcTimeout = duration("GRPC_TIMEOUT", "gRPC request timeout");
-export const isDebug = boolean("DEBUG", "enable or disable debugging features");
+export const grpcTimeout = duration("GRPC_TIMEOUT", "gRPC request timeout", {
+  default: undefined,
+});
+
+export const isDebug = boolean(
+  "DEBUG",
+  "enable or disable debugging features",
+  { default: false },
+);
 
 export const logLevel = enumeration(
   "LOG_LEVEL",
@@ -38,11 +46,13 @@ export const logLevel = enumeration(
     },
     fatal: { value: "fatal", description: "the application cannot proceed" },
   },
+  { default: "info" },
 );
 
 export const port = networkPortNumber(
   "PORT",
   "listen port for the HTTP server",
+  { default: 8080 },
 );
 
 export const readDsn = string(
@@ -55,6 +65,7 @@ export const redisPrimary = kubernetesAddress("redis-primary");
 export const sampleRatio = number(
   "SAMPLE_RATIO",
   "ratio of requests to sample",
+  { default: undefined },
 );
 
 export const sessionKey = binary("SESSION_KEY", "session token signing key", {

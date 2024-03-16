@@ -7,7 +7,7 @@ import {
 } from "../declaration.js";
 import { registerVariable } from "../environment.js";
 import { Examples, create as createExamples } from "../example.js";
-import { Maybe, resolve } from "../maybe.js";
+import { resolve } from "../maybe.js";
 import { Enum, InvalidEnumError, createEnum } from "../schema.js";
 import { SpecError } from "../variable.js";
 
@@ -37,7 +37,7 @@ export function boolean<O extends Options>(
     default: def,
     isSensitive,
     schema,
-    examples: buildExamples(literals, isSensitive, def),
+    examples: buildExamples(literals),
   });
 
   return {
@@ -82,20 +82,11 @@ function findLiteral(
   throw new MissingLiteralError(name, native);
 }
 
-function buildExamples(
-  literals: Literals,
-  isSensitive: boolean,
-  def: Maybe<boolean | undefined>,
-): Examples {
-  const defValue = def.isDefined ? def.value : undefined;
-
+function buildExamples(literals: Literals): Examples {
   return createExamples(
     ...Object.entries(literals).map(([literal, native]) => ({
       canonical: literal,
-      description:
-        !isSensitive && defValue === native
-          ? `${String(native)} (default)`
-          : String(native),
+      description: String(native),
     })),
   );
 }

@@ -8,7 +8,7 @@ import {
 } from "../declaration.js";
 import { registerVariable } from "../environment.js";
 import { normalize } from "../error.js";
-import { Example, create as createExamples } from "../example.js";
+import { create as createExamples } from "../example.js";
 import { Maybe, map, resolve } from "../maybe.js";
 import { Scalar, createScalar, createString, toString } from "../schema.js";
 import { Variable } from "../variable.js";
@@ -56,19 +56,6 @@ function registerHost(
 ): Variable<string> {
   const hostDef = map(def, (address) => address?.host);
   const schema = createString("hostname");
-  let defExample: Example | undefined;
-
-  if (
-    !isSensitive &&
-    hostDef.isDefined &&
-    typeof hostDef.value !== "undefined"
-  ) {
-    defExample = {
-      canonical: schema.marshal(hostDef.value),
-      description: "(default)",
-    };
-  }
-
   let envName: string;
 
   try {
@@ -84,7 +71,6 @@ function registerHost(
     isSensitive,
     schema,
     examples: createExamples(
-      defExample,
       {
         canonical: "service.example.org",
         description: "a hostname",
@@ -143,18 +129,6 @@ function registerPort(
 
   const portDef = map(def, (service) => service?.port);
   const schema = createPortSchema();
-  let defExample: Example | undefined;
-
-  if (
-    !isSensitive &&
-    portDef.isDefined &&
-    typeof portDef.value !== "undefined"
-  ) {
-    defExample = {
-      canonical: schema.marshal(portDef.value),
-      description: "(default)",
-    };
-  }
 
   return registerVariable({
     name: varName,
@@ -162,7 +136,7 @@ function registerPort(
     default: portDef,
     isSensitive,
     schema,
-    examples: createExamples(defExample, {
+    examples: createExamples({
       canonical: "12345",
       description: "a port number",
     }),
