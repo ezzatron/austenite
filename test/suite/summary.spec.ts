@@ -39,18 +39,20 @@ describe("Validation summary", () => {
   });
 
   it("summarizes required variables", () => {
-    process.env.AUSTENITE_BOOLEAN = "y";
-    process.env.AUSTENITE_BINARY = "QmVlcCBib29wIQ==";
-    process.env.AUSTENITE_DURATION = "PT3H20M";
-    process.env.AUSTENITE_ENUMERATION = "foo";
-    process.env.AUSTENITE_INTEGER = "-123456";
-    process.env.AUSTENITE_INTEGER_BIG = "-12345678901234567890";
-    process.env.AUSTENITE_NUMBER = "-123.456";
-    process.env.AUSTENITE_PORT_NUMBER = "443";
-    process.env.AUSTENITE_STRING = "Season's greetings, world!";
-    process.env.AUSTENITE_SVC_SERVICE_HOST = "host.example.org";
-    process.env.AUSTENITE_SVC_SERVICE_PORT = "443";
-    process.env.AUSTENITE_URL = "https://host.example.org/path/to/resource";
+    Object.assign(process.env, {
+      AUSTENITE_BINARY: "QmVlcCBib29wIQ==",
+      AUSTENITE_BOOLEAN: "y",
+      AUSTENITE_DURATION: "PT3H20M",
+      AUSTENITE_ENUMERATION: "foo",
+      AUSTENITE_INTEGER_BIG: "-12345678901234567890",
+      AUSTENITE_INTEGER: "-123456",
+      AUSTENITE_NUMBER: "-123.456",
+      AUSTENITE_PORT_NUMBER: "443",
+      AUSTENITE_STRING: "Season's greetings, world!",
+      AUSTENITE_SVC_SERVICE_HOST: "host.example.org",
+      AUSTENITE_SVC_SERVICE_PORT: "443",
+      AUSTENITE_URL: "https://host.example.org/path/to/resource",
+    });
 
     string("AUSTENITE_XTRIGGER", "trigger failure");
     url("AUSTENITE_URL", "example URL");
@@ -284,12 +286,14 @@ describe("Validation summary", () => {
   });
 
   it("summarizes non-canonical values", () => {
-    process.env.AUSTENITE_BINARY = "QmVlcCBib29wIQ";
-    process.env.AUSTENITE_DURATION = "PT3H10M0S";
-    process.env.AUSTENITE_INTEGER = "1.23456e5";
-    process.env.AUSTENITE_INTEGER_BIG = "0x1E240";
-    process.env.AUSTENITE_NUMBER = "1.23456e2";
-    process.env.AUSTENITE_URL = "https://host.example.org";
+    Object.assign(process.env, {
+      AUSTENITE_BINARY: "QmVlcCBib29wIQ",
+      AUSTENITE_DURATION: "PT3H10M0S",
+      AUSTENITE_INTEGER: "1.23456e5",
+      AUSTENITE_INTEGER_BIG: "0x1E240",
+      AUSTENITE_NUMBER: "1.23456e2",
+      AUSTENITE_URL: "https://host.example.org",
+    });
 
     string("AUSTENITE_XTRIGGER", "trigger failure");
     url("AUSTENITE_URL", "example URL");
@@ -319,17 +323,19 @@ describe("Validation summary", () => {
   });
 
   it("summarizes invalid values", () => {
-    process.env.AUSTENITE_BINARY = "???";
-    process.env.AUSTENITE_BOOLEAN = "yes";
-    process.env.AUSTENITE_DURATION = "10S";
-    process.env.AUSTENITE_ENUMERATION = "qux";
-    process.env.AUSTENITE_INTEGER = "123.456";
-    process.env.AUSTENITE_INTEGER_BIG = "1.23456e5";
-    process.env.AUSTENITE_NUMBER = "1.2.3";
-    process.env.AUSTENITE_PORT_NUMBER = "65536";
-    process.env.AUSTENITE_SVC_SERVICE_HOST = ".host.example.org";
-    process.env.AUSTENITE_SVC_SERVICE_PORT = "65536";
-    process.env.AUSTENITE_URL = "host.example.org";
+    Object.assign(process.env, {
+      AUSTENITE_BINARY: "???",
+      AUSTENITE_BOOLEAN: "yes",
+      AUSTENITE_DURATION: "10S",
+      AUSTENITE_ENUMERATION: "qux",
+      AUSTENITE_INTEGER: "123.456",
+      AUSTENITE_INTEGER_BIG: "1.23456e5",
+      AUSTENITE_NUMBER: "1.2.3",
+      AUSTENITE_PORT_NUMBER: "65536",
+      AUSTENITE_SVC_SERVICE_HOST: ".host.example.org",
+      AUSTENITE_SVC_SERVICE_PORT: "65536",
+      AUSTENITE_URL: "host.example.org",
+    });
 
     string("AUSTENITE_XTRIGGER", "trigger failure");
     url("AUSTENITE_URL", "example URL");
@@ -384,8 +390,10 @@ describe("Validation summary", () => {
   });
 
   it("summarizes misbehaving variables", () => {
-    process.env.AUSTENITE_CUSTOM = "custom value";
-    process.env.AUSTENITE_STRING = "hello, world!";
+    Object.assign(process.env, {
+      AUSTENITE_CUSTOM: "custom value",
+      AUSTENITE_STRING: "hello, world!",
+    });
 
     const spec: VariableSpec<string> = {
       name: "AUSTENITE_CUSTOM",
