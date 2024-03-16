@@ -531,7 +531,90 @@ describe("Specification documents", () => {
     });
   });
 
-  describe("when there no declarations", () => {
+  describe("when there are sensitive declarations", () => {
+    it("doesn't leak default values", async () => {
+      string("AUSTENITE_XTRIGGER", "trigger failure");
+      url("AUSTENITE_URL", "example URL", {
+        default: new URL("https://default.example.org/path/to/resource"),
+        isSensitive: true,
+      });
+      kubernetesAddress("austenite-svc", {
+        default: {
+          host: "host.example.org",
+          port: 443,
+        },
+        isSensitive: true,
+      });
+      string("AUSTENITE_STRING", "example string", {
+        default: "hello, world!",
+        isSensitive: true,
+      });
+      networkPortNumber("AUSTENITE_PORT_NUMBER", "example port number", {
+        default: 443,
+        isSensitive: true,
+      });
+      number("AUSTENITE_NUMBER", "example number", {
+        default: 123.456,
+        isSensitive: true,
+      });
+      bigInteger("AUSTENITE_INTEGER_BIG", "example big integer", {
+        default: 12345678901234567890n,
+        isSensitive: true,
+      });
+      integer("AUSTENITE_INTEGER", "example integer", {
+        default: 123456,
+        isSensitive: true,
+      });
+      enumeration(
+        "AUSTENITE_ENUMERATION",
+        "example enumeration",
+        {
+          foo: {
+            value: "foo",
+            description: "foo",
+          },
+          bar: {
+            value: "bar",
+            description: "bar",
+          },
+          baz: {
+            value: "baz",
+            description: "baz",
+          },
+        } as const,
+        {
+          default: "bar",
+          isSensitive: true,
+        },
+      );
+      duration("AUSTENITE_DURATION", "example duration", {
+        default: Duration.from("PT10S"),
+        isSensitive: true,
+      });
+      boolean("AUSTENITE_BOOLEAN", "example boolean", {
+        default: true,
+        isSensitive: true,
+        literals: {
+          y: true,
+          yes: true,
+          n: false,
+          no: false,
+        },
+      });
+      binary("AUSTENITE_BINARY", "example binary", {
+        isSensitive: true,
+        default: Buffer.from("Beep boop!", "utf-8"),
+      });
+      initialize();
+
+      await expect(stripUsage(mockConsole.readStdout())).toMatchFileSnapshot(
+        fixturePath("sensitive"),
+      );
+      expect(exitCode).toBe(0);
+    });
+  });
+
+  describe("when there are no declarations", () => {
     it("describes an empty environment", async () => {
       initialize();
 

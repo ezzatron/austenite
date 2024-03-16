@@ -27,7 +27,7 @@ export function boolean<O extends Options>(
   description: string,
   options: ExactOptions<O, Options> = {} as ExactOptions<O, Options>,
 ): Declaration<boolean, O> {
-  const { literals = defaultLiterals } = options;
+  const { isSensitive = false, literals = defaultLiterals } = options;
   const schema = createSchema(name, literals);
   const def = defaultFromOptions(options);
 
@@ -35,8 +35,9 @@ export function boolean<O extends Options>(
     name,
     description,
     default: def,
+    isSensitive,
     schema,
-    examples: buildExamples(literals, def),
+    examples: buildExamples(literals, isSensitive, def),
   });
 
   return {
@@ -83,6 +84,7 @@ function findLiteral(
 
 function buildExamples(
   literals: Literals,
+  isSensitive: boolean,
   def: Maybe<boolean | undefined>,
 ): Examples {
   const defValue = def.isDefined ? def.value : undefined;
@@ -91,7 +93,9 @@ function buildExamples(
     ...Object.entries(literals).map(([literal, native]) => ({
       canonical: literal,
       description:
-        defValue === native ? `${String(native)} (default)` : String(native),
+        !isSensitive && defValue === native
+          ? `${String(native)} (default)`
+          : String(native),
     })),
   );
 }

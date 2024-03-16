@@ -389,6 +389,320 @@ describe("Validation summary", () => {
     expect(exitCode).toBeGreaterThan(0);
   });
 
+  it("summarizes sensitive variables", () => {
+    Object.assign(process.env, {
+      AUSTENITE_BINARY: "QmVlcCBib29wIQ==",
+      AUSTENITE_BOOLEAN: "y",
+      AUSTENITE_DURATION: "PT3H20M",
+      AUSTENITE_ENUMERATION: "foo",
+      AUSTENITE_INTEGER_BIG: "-12345678901234567890",
+      AUSTENITE_INTEGER: "-123456",
+      AUSTENITE_NUMBER: "-123.456",
+      AUSTENITE_PORT_NUMBER: "443",
+      AUSTENITE_STRING: "Season's greetings, world!",
+      AUSTENITE_SVC_SERVICE_HOST: "host.example.org",
+      AUSTENITE_SVC_SERVICE_PORT: "443",
+      AUSTENITE_URL: "https://host.example.org/path/to/resource",
+    });
+
+    string("AUSTENITE_XTRIGGER", "trigger failure", {
+      isSensitive: true,
+    });
+    url("AUSTENITE_URL", "example URL", {
+      isSensitive: true,
+    });
+    kubernetesAddress("austenite-svc", {
+      isSensitive: true,
+    });
+    string("AUSTENITE_STRING", "example string", {
+      isSensitive: true,
+    });
+    networkPortNumber("AUSTENITE_PORT_NUMBER", "example port number", {
+      isSensitive: true,
+    });
+    number("AUSTENITE_NUMBER", "example number", {
+      isSensitive: true,
+    });
+    bigInteger("AUSTENITE_INTEGER_BIG", "example big integer", {
+      isSensitive: true,
+    });
+    integer("AUSTENITE_INTEGER", "example integer", {
+      isSensitive: true,
+    });
+    enumeration(
+      "AUSTENITE_ENUMERATION",
+      "example enumeration",
+      {
+        foo: {
+          value: "foo",
+          description: "foo",
+        },
+        bar: {
+          value: "bar",
+          description: "bar",
+        },
+        baz: {
+          value: "baz",
+          description: "baz",
+        },
+      },
+      {
+        isSensitive: true,
+      },
+    );
+    duration("AUSTENITE_DURATION", "example duration", {
+      isSensitive: true,
+    });
+    boolean("AUSTENITE_BOOLEAN", "example boolean", {
+      isSensitive: true,
+      literals: {
+        y: true,
+        yes: true,
+        n: false,
+        no: false,
+      },
+    });
+    binary("AUSTENITE_BINARY", "example binary", {
+      isSensitive: true,
+    });
+
+    initialize();
+
+    expect(mockConsole.readStderr()).toBe(
+      [
+        "Environment Variables:",
+        "",
+        "  AUSTENITE_BINARY            example binary                             <base64>               ✓ set to <sensitive value>",
+        "  AUSTENITE_BOOLEAN           example boolean                            y | yes | n | no       ✓ set to <sensitive value>",
+        "  AUSTENITE_DURATION          example duration                           <ISO 8601 duration>    ✓ set to <sensitive value>",
+        "  AUSTENITE_ENUMERATION       example enumeration                        foo | bar | baz        ✓ set to <sensitive value>",
+        "  AUSTENITE_INTEGER           example integer                            <integer>              ✓ set to <sensitive value>",
+        "  AUSTENITE_INTEGER_BIG       example big integer                        <big integer>          ✓ set to <sensitive value>",
+        "  AUSTENITE_NUMBER            example number                             <number>               ✓ set to <sensitive value>",
+        "  AUSTENITE_PORT_NUMBER       example port number                        <port number>          ✓ set to <sensitive value>",
+        `  AUSTENITE_STRING            example string                             <string>               ✓ set to <sensitive value>`,
+        "  AUSTENITE_SVC_SERVICE_HOST  kubernetes `austenite-svc` service host    <hostname>             ✓ set to <sensitive value>",
+        "  AUSTENITE_SVC_SERVICE_PORT  kubernetes `austenite-svc` service port    <port number>          ✓ set to <sensitive value>",
+        "  AUSTENITE_URL               example URL                                <URL>                  ✓ set to <sensitive value>",
+        "❯ AUSTENITE_XTRIGGER          trigger failure                            <string>               ✗ undefined",
+        "",
+      ].join(EOL),
+    );
+    expect(exitCode).toBeGreaterThan(0);
+  });
+
+  it("summarizes sensitive variables with defaults", () => {
+    string("AUSTENITE_XTRIGGER", "trigger failure");
+    url("AUSTENITE_URL", "example URL", {
+      default: new URL("https://default.example.org/path/to/resource"),
+      isSensitive: true,
+    });
+    kubernetesAddress("austenite-svc", {
+      default: {
+        host: "host.example.org",
+        port: 443,
+      },
+      isSensitive: true,
+    });
+    string("AUSTENITE_STRING", "example string", {
+      default: "hello, world!",
+      isSensitive: true,
+    });
+    networkPortNumber("AUSTENITE_PORT_NUMBER", "example port number", {
+      default: 443,
+      isSensitive: true,
+    });
+    number("AUSTENITE_NUMBER", "example number", {
+      default: 123.456,
+      isSensitive: true,
+    });
+    bigInteger("AUSTENITE_INTEGER_BIG", "example big integer", {
+      default: 12345678901234567890n,
+      isSensitive: true,
+    });
+    integer("AUSTENITE_INTEGER", "example integer", {
+      default: 123456,
+      isSensitive: true,
+    });
+    enumeration(
+      "AUSTENITE_ENUMERATION",
+      "example enumeration",
+      {
+        foo: {
+          value: "foo",
+          description: "foo",
+        },
+        bar: {
+          value: "bar",
+          description: "bar",
+        },
+        baz: {
+          value: "baz",
+          description: "baz",
+        },
+      } as const,
+      {
+        default: "bar",
+        isSensitive: true,
+      },
+    );
+    duration("AUSTENITE_DURATION", "example duration", {
+      default: Duration.from("PT10S"),
+      isSensitive: true,
+    });
+    boolean("AUSTENITE_BOOLEAN", "example boolean", {
+      default: true,
+      isSensitive: true,
+      literals: {
+        y: true,
+        yes: true,
+        n: false,
+        no: false,
+      },
+    });
+    binary("AUSTENITE_BINARY", "example binary", {
+      isSensitive: true,
+      default: Buffer.from("Beep boop!", "utf-8"),
+    });
+
+    initialize();
+
+    expect(mockConsole.readStderr()).toBe(
+      [
+        "Environment Variables:",
+        "",
+        "  AUSTENITE_BINARY            example binary                           [ <base64> ] = <sensitive value>             ✓ using default value",
+        "  AUSTENITE_BOOLEAN           example boolean                          [ y | yes | n | no ] = <sensitive value>     ✓ using default value",
+        "  AUSTENITE_DURATION          example duration                         [ <ISO 8601 duration> ] = <sensitive value>  ✓ using default value",
+        "  AUSTENITE_ENUMERATION       example enumeration                      [ foo | bar | baz ] = <sensitive value>      ✓ using default value",
+        "  AUSTENITE_INTEGER           example integer                          [ <integer> ] = <sensitive value>            ✓ using default value",
+        "  AUSTENITE_INTEGER_BIG       example big integer                      [ <big integer> ] = <sensitive value>        ✓ using default value",
+        "  AUSTENITE_NUMBER            example number                           [ <number> ] = <sensitive value>             ✓ using default value",
+        "  AUSTENITE_PORT_NUMBER       example port number                      [ <port number> ] = <sensitive value>        ✓ using default value",
+        "  AUSTENITE_STRING            example string                           [ <string> ] = <sensitive value>             ✓ using default value",
+        "  AUSTENITE_SVC_SERVICE_HOST  kubernetes `austenite-svc` service host  [ <hostname> ] = <sensitive value>           ✓ using default value",
+        "  AUSTENITE_SVC_SERVICE_PORT  kubernetes `austenite-svc` service port  [ <port number> ] = <sensitive value>        ✓ using default value",
+        "  AUSTENITE_URL               example URL                              [ <URL> ] = <sensitive value>                ✓ using default value",
+        "❯ AUSTENITE_XTRIGGER          trigger failure                            <string>                                   ✗ undefined",
+        "",
+      ].join(EOL),
+    );
+    expect(exitCode).toBeGreaterThan(0);
+  });
+
+  it("summarizes sensitive non-canonical values", () => {
+    process.env.AUSTENITE_BINARY = "QmVlcCBib29wIQ";
+
+    string("AUSTENITE_XTRIGGER", "trigger failure");
+    binary("AUSTENITE_BINARY", "example binary", {
+      isSensitive: true,
+    });
+
+    initialize();
+
+    expect(mockConsole.readStderr()).toBe(
+      [
+        `Environment Variables:`,
+        ``,
+        "  AUSTENITE_BINARY    example binary     <base64>    ✓ set to <sensitive value> (specified non-canonically)",
+        `❯ AUSTENITE_XTRIGGER  trigger failure    <string>    ✗ undefined`,
+        ``,
+      ].join(EOL),
+    );
+    expect(exitCode).toBeGreaterThan(0);
+  });
+
+  it("summarizes sensitive invalid values", () => {
+    Object.assign(process.env, {
+      AUSTENITE_BINARY: "???",
+      AUSTENITE_BOOLEAN: "yes",
+      AUSTENITE_DURATION: "10S",
+      AUSTENITE_ENUMERATION: "qux",
+      AUSTENITE_INTEGER_BIG: "1.23456e5",
+      AUSTENITE_INTEGER: "123.456",
+      AUSTENITE_NUMBER: "1.2.3",
+      AUSTENITE_PORT_NUMBER: "65536",
+      AUSTENITE_SVC_SERVICE_HOST: ".host.example.org",
+      AUSTENITE_SVC_SERVICE_PORT: "65536",
+      AUSTENITE_URL: "host.example.org",
+    });
+
+    string("AUSTENITE_XTRIGGER", "trigger failure", {
+      isSensitive: true,
+    });
+    url("AUSTENITE_URL", "example URL", {
+      isSensitive: true,
+    });
+    kubernetesAddress("austenite-svc", {
+      isSensitive: true,
+    });
+    networkPortNumber("AUSTENITE_PORT_NUMBER", "example port number", {
+      isSensitive: true,
+    });
+    number("AUSTENITE_NUMBER", "example number", {
+      isSensitive: true,
+    });
+    bigInteger("AUSTENITE_INTEGER_BIG", "example big integer", {
+      isSensitive: true,
+    });
+    integer("AUSTENITE_INTEGER", "example integer", {
+      isSensitive: true,
+    });
+    enumeration(
+      "AUSTENITE_ENUMERATION",
+      "example enumeration",
+      {
+        foo: {
+          value: "foo",
+          description: "foo",
+        },
+        bar: {
+          value: "bar",
+          description: "bar",
+        },
+        baz: {
+          value: "baz",
+          description: "baz",
+        },
+      },
+      {
+        isSensitive: true,
+      },
+    );
+    duration("AUSTENITE_DURATION", "example duration", {
+      isSensitive: true,
+    });
+    boolean("AUSTENITE_BOOLEAN", "example boolean", {
+      isSensitive: true,
+    });
+    binary("AUSTENITE_BINARY", "example binary", {
+      isSensitive: true,
+    });
+
+    initialize();
+
+    expect(mockConsole.readStderr()).toBe(
+      [
+        `Environment Variables:`,
+        ``,
+        `❯ AUSTENITE_BINARY            example binary                             <base64>               ✗ set to <sensitive value>, must be base64 encoded`,
+        `❯ AUSTENITE_BOOLEAN           example boolean                            true | false           ✗ set to <sensitive value>, expected true or false`,
+        "❯ AUSTENITE_DURATION          example duration                           <ISO 8601 duration>    ✗ set to <sensitive value>, must be an ISO 8601 duration",
+        "❯ AUSTENITE_ENUMERATION       example enumeration                        foo | bar | baz        ✗ set to <sensitive value>, expected foo, bar, or baz",
+        "❯ AUSTENITE_INTEGER           example integer                            <integer>              ✗ set to <sensitive value>, must be an integer",
+        "❯ AUSTENITE_INTEGER_BIG       example big integer                        <big integer>          ✗ set to <sensitive value>, must be a big integer",
+        "❯ AUSTENITE_NUMBER            example number                             <number>               ✗ set to <sensitive value>, must be numeric",
+        "❯ AUSTENITE_PORT_NUMBER       example port number                        <port number>          ✗ set to <sensitive value>, must be between 1 and 65535",
+        "❯ AUSTENITE_SVC_SERVICE_HOST  kubernetes `austenite-svc` service host    <hostname>             ✗ set to <sensitive value>, must not begin or end with a dot",
+        "❯ AUSTENITE_SVC_SERVICE_PORT  kubernetes `austenite-svc` service port    <port number>          ✗ set to <sensitive value>, must be between 1 and 65535",
+        "❯ AUSTENITE_URL               example URL                                <URL>                  ✗ set to <sensitive value>, must be a URL",
+        `❯ AUSTENITE_XTRIGGER          trigger failure                            <string>               ✗ undefined`,
+        ``,
+      ].join(EOL),
+    );
+    expect(exitCode).toBeGreaterThan(0);
+  });
+
   it("summarizes misbehaving variables", () => {
     Object.assign(process.env, {
       AUSTENITE_CUSTOM: "custom value",
@@ -399,6 +713,7 @@ describe("Validation summary", () => {
       name: "AUSTENITE_CUSTOM",
       description: "custom variable",
       default: undefinedValue(),
+      isSensitive: false,
       schema: createString("string"),
       examples: [],
       constraint: () => {

@@ -21,6 +21,7 @@ export function duration<O extends Options>(
   description: string,
   options: ExactOptions<O, Options> = {} as ExactOptions<O, Options>,
 ): Declaration<Duration, O> {
+  const { isSensitive = false } = options;
   const def = defaultFromOptions(options);
   const schema = createSchema();
 
@@ -28,8 +29,9 @@ export function duration<O extends Options>(
     name,
     description,
     default: def,
+    isSensitive,
     schema,
-    examples: buildExamples(schema, def),
+    examples: buildExamples(schema, isSensitive, def),
   });
 
   return {
@@ -53,11 +55,12 @@ function createSchema(): Scalar<Duration> {
 
 function buildExamples(
   schema: Scalar<Duration>,
+  isSensitive: boolean,
   def: Maybe<Duration | undefined>,
 ): Examples {
   let defExample: Example | undefined;
 
-  if (def.isDefined && typeof def.value !== "undefined") {
+  if (!isSensitive && def.isDefined && typeof def.value !== "undefined") {
     defExample = {
       canonical: schema.marshal(def.value),
       description: "(default)",

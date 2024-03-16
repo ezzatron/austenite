@@ -26,6 +26,7 @@ export function enumeration<T, O extends Options<T>>(
   members: Members<T>,
   options: ExactOptions<O, Options<T>> = {} as ExactOptions<O, Options<T>>,
 ): Declaration<T, O> {
+  const { isSensitive = false } = options;
   const def = defaultFromOptions(options);
   const schema = createSchema(name, members);
 
@@ -33,8 +34,9 @@ export function enumeration<T, O extends Options<T>>(
     name,
     description,
     default: def,
+    isSensitive,
     schema,
-    examples: buildExamples(members, schema, def),
+    examples: buildExamples(members, isSensitive, def),
   });
 
   return {
@@ -74,7 +76,7 @@ function createSchema<T>(name: string, members: Members<T>): Enum<T> {
 
 function buildExamples<T>(
   members: Members<T>,
-  schema: Enum<T>,
+  isSensitive: boolean,
   def: Maybe<T | undefined>,
 ): Examples {
   const defValue = def.isDefined ? def.value : undefined;
@@ -83,7 +85,9 @@ function buildExamples<T>(
     ...Object.entries(members).map(([literal, { value, description }]) => ({
       canonical: literal,
       description:
-        defValue === value ? `${description} (default)` : description,
+        !isSensitive && defValue === value
+          ? `${description} (default)`
+          : description,
     })),
   );
 }

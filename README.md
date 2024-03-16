@@ -59,7 +59,7 @@ Environment Variables:
 ❯ REDIS_PRIMARY_SERVICE_HOST  kubernetes `redis-primary` service host       <hostname>                             ✗ set to .redis.example.org, must not begin or end with a dot
 ❯ REDIS_PRIMARY_SERVICE_PORT  kubernetes `redis-primary` service port       <port number>                          ✗ set to 65536, must be between 1 and 65535
 ❯ SAMPLE_RATIO                ratio of requests to sample                   <number>                               ✗ set to 1/100, must be numeric
-❯ SESSION_KEY                 session token signing key                     <base64>                               ✗ set to '???', must be base64 encoded
+❯ SESSION_KEY                 session token signing key                     <base64>                               ✗ set to <sensitive value>, must be base64 encoded
 ❯ WEIGHT                      weighting for this node                       <integer>                              ✗ set to 123.456, must be an integer
 ```
 
@@ -107,6 +107,11 @@ import { binary } from "austenite";
 
 // required
 export const sessionKey = binary("SESSION_KEY", "session token signing key");
+
+// sensitive
+export const sessionKey = binary("SESSION_KEY", "session token signing key", {
+  isSensitive: true,
+});
 
 // optional
 export const sessionKey = binary("SESSION_KEY", "session token signing key", {
@@ -335,6 +340,13 @@ import { string } from "austenite";
 export const readDsn = string(
   "READ_DSN",
   "database connection string for read-models",
+);
+
+// sensitive
+export const readDsn = string(
+  "READ_DSN",
+  "database connection string for read-models",
+  { isSensitive: true },
 );
 
 // optional

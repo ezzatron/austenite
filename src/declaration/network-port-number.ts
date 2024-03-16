@@ -17,6 +17,7 @@ export function networkPortNumber<O extends Options>(
   description: string,
   options: ExactOptions<O, Options> = {} as ExactOptions<O, Options>,
 ): Declaration<number, O> {
+  const { isSensitive = false } = options;
   const def = defaultFromOptions(options);
   const schema = createSchema();
 
@@ -24,8 +25,9 @@ export function networkPortNumber<O extends Options>(
     name,
     description,
     default: def,
+    isSensitive,
     schema,
-    examples: buildExamples(schema, def),
+    examples: buildExamples(schema, isSensitive, def),
     constraint: validate,
   });
 
@@ -58,11 +60,12 @@ function validate(port: number): void {
 
 function buildExamples(
   schema: Scalar<number>,
+  isSensitive: boolean,
   def: Maybe<number | undefined>,
 ): Examples {
   let defExample: Example | undefined;
 
-  if (def.isDefined && typeof def.value !== "undefined") {
+  if (!isSensitive && def.isDefined && typeof def.value !== "undefined") {
     defExample = {
       canonical: schema.marshal(def.value),
       description: "(default)",

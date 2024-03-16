@@ -25,6 +25,7 @@ export function url<O extends Options>(
   description: string,
   options: ExactOptions<O, Options> = {} as ExactOptions<O, Options>,
 ): Declaration<URL, O> {
+  const { isSensitive = false } = options;
   const { base, protocols } = options;
   assertProtocols(name, protocols);
 
@@ -38,8 +39,9 @@ export function url<O extends Options>(
     name,
     description,
     default: def,
+    isSensitive,
     schema,
-    examples: buildExamples(base, protocols, schema, def),
+    examples: buildExamples(base, protocols, schema, isSensitive, def),
     constraint: validate,
   });
 
@@ -121,13 +123,14 @@ function buildExamples(
   base: URL | undefined,
   protocols: string[] | undefined,
   schema: Scalar<URL>,
+  isSensitive: boolean,
   def: Maybe<URL | undefined>,
 ): Examples {
   let defExample: Example | undefined;
   let protocolExamples: Example[];
   let relativeExample: Example | undefined;
 
-  if (def.isDefined && typeof def.value !== "undefined") {
+  if (!isSensitive && def.isDefined && typeof def.value !== "undefined") {
     defExample = {
       canonical: schema.marshal(def.value),
       description: "(default)",

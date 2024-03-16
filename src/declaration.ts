@@ -11,6 +11,7 @@ export type Value<
 
 export type Options<T> = {
   readonly default?: T;
+  readonly isSensitive?: boolean;
 };
 
 export type ExactOptions<O, Expected> = O extends Expected

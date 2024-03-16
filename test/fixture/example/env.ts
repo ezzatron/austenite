@@ -57,6 +57,8 @@ export const sampleRatio = number(
   "ratio of requests to sample",
 );
 
-export const sessionKey = binary("SESSION_KEY", "session token signing key");
+export const sessionKey = binary("SESSION_KEY", "session token signing key", {
+  isSensitive: true,
+});
 
 export const weight = integer("WEIGHT", "weighting for this node");

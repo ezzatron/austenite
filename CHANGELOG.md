@@ -10,6 +10,12 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ## Unreleased
 
+### Added
+
+- Declarations can now be marked as sensitive, which will cause their default
+  values and actual values to be redacted in validation summaries and
+  generated specifications.
+
 ## [v0.7.0] - 2024-03-15
 
 [v0.7.0]: https://github.com/ezzatron/austenite/releases/tag/v0.7.0

@@ -26,12 +26,12 @@ export function kubernetesAddress<O extends Options>(
   name: string,
   options: ExactOptions<O, Options> = {} as ExactOptions<O, Options>,
 ): Declaration<KubernetesAddress, O> {
-  const { portName } = options;
+  const { isSensitive = false, portName } = options;
   const def = defaultFromOptions(options);
 
-  const hostVar = registerHost(name, def);
+  const hostVar = registerHost(name, isSensitive, def);
   const hName = hostVar.spec.name;
-  const portVar = registerPort(name, def, portName);
+  const portVar = registerPort(name, isSensitive, def, portName);
   const pName = portVar.spec.name;
 
   return {
@@ -51,13 +51,18 @@ export function kubernetesAddress<O extends Options>(
 
 function registerHost(
   name: string,
+  isSensitive: boolean,
   def: Maybe<KubernetesAddress | undefined>,
 ): Variable<string> {
   const hostDef = map(def, (address) => address?.host);
   const schema = createString("hostname");
   let defExample: Example | undefined;
 
-  if (hostDef.isDefined && typeof hostDef.value !== "undefined") {
+  if (
+    !isSensitive &&
+    hostDef.isDefined &&
+    typeof hostDef.value !== "undefined"
+  ) {
     defExample = {
       canonical: schema.marshal(hostDef.value),
       description: "(default)",
@@ -76,6 +81,7 @@ function registerHost(
     name: `${envName}_SERVICE_HOST`,
     description: `kubernetes \`${name}\` service host`,
     default: hostDef,
+    isSensitive,
     schema,
     examples: createExamples(
       defExample,
@@ -112,6 +118,7 @@ function validateHost(host: string): void {
 
 function registerPort(
   name: string,
+  isSensitive: boolean,
   def: Maybe<KubernetesAddress | undefined>,
   portName?: string,
 ): Variable<number> {
@@ -138,7 +145,11 @@ function registerPort(
   const schema = createPortSchema();
   let defExample: Example | undefined;
 
-  if (portDef.isDefined && typeof portDef.value !== "undefined") {
+  if (
+    !isSensitive &&
+    portDef.isDefined &&
+    typeof portDef.value !== "undefined"
+  ) {
     defExample = {
       canonical: schema.marshal(portDef.value),
       description: "(default)",
@@ -149,6 +160,7 @@ function registerPort(
     name: varName,
     description,
     default: portDef,
+    isSensitive,
     schema,
     examples: createExamples(defExample, {
       canonical: "12345",

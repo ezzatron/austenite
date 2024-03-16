@@ -25,7 +25,7 @@ export function binary<O extends Options>(
   description: string,
   options: ExactOptions<O, Options> = {} as ExactOptions<O, Options>,
 ): Declaration<Buffer, O> {
-  const { encoding = "base64" } = options;
+  const { encoding = "base64", isSensitive = false } = options;
   const def = defaultFromOptions(options);
   const schema = createSchema(encoding);
 
@@ -33,8 +33,9 @@ export function binary<O extends Options>(
     name,
     description,
     default: def,
+    isSensitive,
     schema,
-    examples: buildExamples(encoding, schema, def),
+    examples: buildExamples(encoding, schema, isSensitive, def),
   });
 
   return {
@@ -76,11 +77,12 @@ function createUnmarshal(
 function buildExamples(
   encoding: BufferEncoding,
   schema: Scalar<Buffer>,
+  isSensitive: boolean,
   def: Maybe<Buffer | undefined>,
 ): Examples {
   let defExample: Example | undefined;
 
-  if (def.isDefined && typeof def.value !== "undefined") {
+  if (!isSensitive && def.isDefined && typeof def.value !== "undefined") {
     defExample = {
       canonical: schema.marshal(def.value),
       description: "(default)",

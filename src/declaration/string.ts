@@ -17,6 +17,7 @@ export function string<O extends Options>(
   description: string,
   options: ExactOptions<O, Options> = {} as ExactOptions<O, Options>,
 ): Declaration<string, O> {
+  const { isSensitive = false } = options;
   const def = defaultFromOptions(options);
   const schema = createString("string");
 
@@ -24,8 +25,9 @@ export function string<O extends Options>(
     name,
     description,
     default: def,
+    isSensitive,
     schema,
-    examples: buildExamples(schema, def),
+    examples: buildExamples(schema, isSensitive, def),
   });
 
   return {
@@ -37,11 +39,12 @@ export function string<O extends Options>(
 
 function buildExamples(
   schema: Scalar<string>,
+  isSensitive: boolean,
   def: Maybe<string | undefined>,
 ): Examples {
   let defExample: Example | undefined;
 
-  if (def.isDefined && typeof def.value !== "undefined") {
+  if (!isSensitive && def.isDefined && typeof def.value !== "undefined") {
     defExample = {
       canonical: schema.marshal(def.value),
       description: "(default)",

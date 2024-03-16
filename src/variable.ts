@@ -9,6 +9,7 @@ export type VariableSpec<T> = {
   readonly name: string;
   readonly description: string;
   readonly default: Maybe<T | undefined>;
+  readonly isSensitive: boolean;
   readonly schema: Schema<T>;
   readonly examples: Examples;
   readonly constraint?: Constraint<T>;

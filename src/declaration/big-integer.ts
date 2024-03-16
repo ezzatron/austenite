@@ -17,6 +17,7 @@ export function bigInteger<O extends Options>(
   description: string,
   options: ExactOptions<O, Options> = {} as ExactOptions<O, Options>,
 ): Declaration<bigint, O> {
+  const { isSensitive = false } = options;
   const def = defaultFromOptions(options);
   const schema = createSchema();
 
@@ -24,8 +25,9 @@ export function bigInteger<O extends Options>(
     name,
     description,
     default: def,
+    isSensitive,
     schema,
-    examples: buildExamples(schema, def),
+    examples: buildExamples(schema, isSensitive, def),
   });
 
   return {
@@ -49,11 +51,12 @@ function createSchema(): Scalar<bigint> {
 
 function buildExamples(
   schema: Scalar<bigint>,
+  isSensitive: boolean,
   def: Maybe<bigint | undefined>,
 ): Examples {
   let defExample: Example | undefined;
 
-  if (def.isDefined && typeof def.value !== "undefined") {
+  if (!isSensitive && def.isDefined && typeof def.value !== "undefined") {
     defExample = {
       canonical: schema.marshal(def.value),
       description: "(default)",

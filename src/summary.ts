@@ -17,7 +17,7 @@ export function render(results: Results): string {
       renderName(variable, result),
       variable.spec.description,
       renderSchema(variable),
-      renderResult(result),
+      renderResult(variable, result),
     ]);
   }
 
@@ -29,7 +29,7 @@ function renderName({ spec: { name } }: Variable<unknown>, { error }: Result) {
 }
 
 function renderSchema({
-  spec: { default: def, schema },
+  spec: { default: def, isSensitive, schema },
   marshal,
 }: Variable<unknown>) {
   const rendered = schema.accept(createSchemaRenderer());
@@ -37,7 +37,7 @@ function renderSchema({
   const optionality = def.isDefined ? "[]" : "  ";
   const schemaDefault =
     def.isDefined && typeof def.value !== "undefined"
-      ? ` = ${quote(marshal(def.value))}`
+      ? ` = ${quoteAndSuppress(isSensitive, marshal(def.value))}`
       : "";
 
   return `${optionality[0]} ${rendered} ${optionality[1]}${schemaDefault}`;
@@ -55,24 +55,35 @@ function createSchemaRenderer(): Visitor<string> {
   };
 }
 
-function renderResult({ error, maybe }: Result) {
-  if (error != null) return `${INVALID} ${describeError(error)}`;
+function renderResult(
+  { spec: { isSensitive } }: Variable<unknown>,
+  { error, maybe }: Result,
+) {
+  if (error != null) return `${INVALID} ${describeError(isSensitive, error)}`;
   if (!maybe.isDefined) return `${NEUTRAL} undefined`;
   if (maybe.value.isDefault) return `${VALID} using default value`;
 
   const { value } = maybe;
   const { canonical, verbatim } = value;
-  const result = `${VALID} set to ${quote(canonical)}`;
+  const result = `${VALID} set to ${quoteAndSuppress(isSensitive, canonical)}`;
 
   if (verbatim !== canonical) {
-    return `${result} (specified non-canonically as ${quote(verbatim)})`;
+    if (isSensitive) return `${result} (specified non-canonically)`;
+
+    const quotedVerbatim = quoteAndSuppress(isSensitive, verbatim);
+
+    return `${result} (specified non-canonically as ${quotedVerbatim})`;
   }
 
   return result;
 }
 
-function describeError(error: Error) {
+function describeError(isSensitive: boolean, error: Error) {
   if (!(error instanceof ValueError)) return "undefined";
 
-  return `set to ${quote(error.value)}, ${error.cause.message}`;
+  return `set to ${quoteAndSuppress(isSensitive, error.value)}, ${error.cause.message}`;
+}
+
+function quoteAndSuppress(isSensitive: boolean, value: string) {
+  return isSensitive ? "<sensitive value>" : quote(value);
 }

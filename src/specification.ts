@@ -80,8 +80,12 @@ ${examples(variable)}`;
 }
 
 function createSchemaRenderer({
-  spec: { default: def },
+  spec: { default: def, isSensitive },
 }: Variable<unknown>): Visitor<string> {
+  const ifLeftUndefined = isSensitive
+    ? `If left undefined a default value is used.`
+    : `If left undefined the default value is used (see below).`;
+
   return {
     visitEnum() {
       if (!def.isDefined) {
@@ -95,7 +99,7 @@ exit with a non-zero exit code.`;
       }
 
       return `This variable **MAY** be set to one of the values below.
-If left undefined the default value is used (see below).`;
+${ifLeftUndefined}`;
     },
 
     visitScalar({ description }): string {
@@ -112,7 +116,7 @@ exit with a non-zero exit code.`;
       }
 
       return `This variable **MAY** ${beSetTo}.
-If left undefined the default value is used (see below).`;
+${ifLeftUndefined}`;
     },
   };
 }
