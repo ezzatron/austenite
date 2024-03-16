@@ -12,10 +12,10 @@ import { SpecError } from "../variable.js";
 
 export type Members<T> = Record<string, Member<T>>;
 
-export interface Member<T> {
+export type Member<T> = {
   readonly value: T;
   readonly description: string;
-}
+};
 
 export type Options<T> = DeclarationOptions<T>;
 

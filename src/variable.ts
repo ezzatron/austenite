@@ -5,31 +5,31 @@ import { definedValue, map, Maybe, undefinedValue } from "./maybe.js";
 import { Schema } from "./schema.js";
 import { quote } from "./shell.js";
 
-export interface VariableSpec<T> {
+export type VariableSpec<T> = {
   readonly name: string;
   readonly description: string;
   readonly default: Maybe<T | undefined>;
   readonly schema: Schema<T>;
   readonly examples: Examples;
   readonly constraint?: Constraint<T>;
-}
+};
 
 export type Constraint<T> = (value: T) => void;
 
-export interface Variable<T> {
+export type Variable<T> = {
   readonly spec: VariableSpec<T>;
   value(): Maybe<Value<T>>;
   nativeValue(): Maybe<T>;
   marshal(value: T): string;
   unmarshal(value: string): T;
-}
+};
 
-export interface Value<T> {
+export type Value<T> = {
   readonly verbatim: string;
   readonly canonical: string;
   readonly native: T;
   readonly isDefault: boolean;
-}
+};
 
 export function create<T>(spec: VariableSpec<T>): Variable<T> {
   const { schema } = spec;

@@ -14,10 +14,10 @@ import { Constraint, SpecError } from "../variable.js";
 // as per https://www.rfc-editor.org/rfc/rfc3986#section-3.1
 const VALID_PROTOCOL_PATTERN = /^[a-zA-Z][a-zA-Z0-9.+-]*:$/;
 
-export interface Options extends DeclarationOptions<URL> {
+export type Options = DeclarationOptions<URL> & {
   readonly base?: URL;
   readonly protocols?: string[];
-}
+};
 
 export function url<O extends Options>(
   name: string,

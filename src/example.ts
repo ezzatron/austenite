@@ -1,7 +1,7 @@
-export interface Example {
+export type Example = {
   readonly canonical: string;
   readonly description: string;
-}
+};
 
 export type Examples = Iterable<Example>;
 

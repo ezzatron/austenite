@@ -1,21 +1,21 @@
 import { quote } from "./shell.js";
 
-export interface Schema<T> {
+export type Schema<T> = {
   marshal(value: T): string;
   unmarshal(value: string): T;
   accept<U>(visitor: Visitor<U>): U;
-}
+};
 
 export type MarshalFn<T> = Schema<T>["marshal"];
 export type UnmarshalFn<T> = Schema<T>["unmarshal"];
 
-export interface Scalar<T> extends Schema<T> {
+export type Scalar<T> = Schema<T> & {
   readonly description: string;
-}
+};
 
-export interface Enum<T> extends Schema<T> {
+export type Enum<T> = Schema<T> & {
   readonly members: Record<string, T>;
-}
+};
 
 export function createString(description: string): Scalar<string> {
   return createScalar(description, identity, identity);
@@ -53,10 +53,10 @@ export function createScalar<T>(
   };
 }
 
-export interface Visitor<T> {
+export type Visitor<T> = {
   visitEnum(e: Enum<unknown>): T;
   visitScalar(s: Scalar<unknown>): T;
-}
+};
 
 export class InvalidEnumError<T> extends Error {
   constructor(members: Record<string, T>) {
@@ -74,9 +74,9 @@ export function identity<T>(v: T): T {
   return v;
 }
 
-interface Stringable {
+type Stringable = {
   toString(): string;
-}
+};
 
 export function toString<T extends Stringable>(v: T): string {
   return v.toString();

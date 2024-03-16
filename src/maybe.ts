@@ -1,11 +1,11 @@
-export interface DefinedValue<T> {
+export type DefinedValue<T> = {
   readonly isDefined: true;
   readonly value: T;
-}
+};
 
-export interface UndefinedValue {
+export type UndefinedValue = {
   readonly isDefined: false;
-}
+};
 
 export type Maybe<T> = DefinedValue<T> | UndefinedValue;
 

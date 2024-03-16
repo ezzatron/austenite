@@ -15,9 +15,9 @@ const PATTERNS: Partial<Record<BufferEncoding, RegExp>> = {
   hex: /^[0-9a-fA-F]*$/,
 } as const;
 
-export interface Options extends DeclarationOptions<Buffer> {
+export type Options = DeclarationOptions<Buffer> & {
   readonly encoding?: BufferEncoding;
-}
+};
 
 export function binary<O extends Options>(
   name: string,

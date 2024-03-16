@@ -10,9 +10,9 @@ import { Maybe, resolve } from "../maybe.js";
 import { Enum, InvalidEnumError, createEnum } from "../schema.js";
 import { SpecError } from "../variable.js";
 
-export interface Options extends DeclarationOptions<boolean> {
+export type Options = DeclarationOptions<boolean> & {
   readonly literals?: Literals;
-}
+};
 
 export type Literals = Record<string, boolean>;
 

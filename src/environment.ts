@@ -10,9 +10,9 @@ import {
 
 let state: State = createInitialState();
 
-export interface InitializeOptions {
+export type InitializeOptions = {
   readonly onInvalid?: OnInvalid;
-}
+};
 
 export function initialize(options: InitializeOptions = {}): void {
   if (process.env.AUSTENITE_SPEC === "true") {
@@ -50,11 +50,11 @@ export function reset(): void {
   state = createInitialState();
 }
 
-interface State {
+type State = {
   // TODO: WTF TypeScript? Why can't I use unknown here?
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   readonly variables: Record<string, Variable<any>>;
-}
+};
 
 function createInitialState(): State {
   return {
@@ -83,7 +83,7 @@ function compareVariableNames(a: Variable<unknown>, b: Variable<unknown>) {
 
 export type OnInvalid = (args: OnInvalidArgs) => void;
 
-interface OnInvalidArgs {
+type OnInvalidArgs = {
   readonly results: Results;
   defaultHandler: () => never;
-}
+};

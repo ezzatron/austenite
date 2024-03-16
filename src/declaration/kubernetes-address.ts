@@ -12,14 +12,14 @@ import { Maybe, map, resolve } from "../maybe.js";
 import { Scalar, createScalar, createString, toString } from "../schema.js";
 import { Variable } from "../variable.js";
 
-export interface KubernetesAddress {
+export type KubernetesAddress = {
   readonly host: string;
   readonly port: number;
-}
+};
 
-export interface Options extends DeclarationOptions<KubernetesAddress> {
+export type Options = DeclarationOptions<KubernetesAddress> & {
   readonly portName?: string;
-}
+};
 
 export function kubernetesAddress<O extends Options>(
   name: string,
