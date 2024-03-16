@@ -21,7 +21,7 @@ document only shows those variables defined using [Austenite].
 > session token signing key
 
 This variable **MAY** be set to a non-empty **base64** value.
-If left undefined the default value is used (see below).
+If left undefined, the default value is used (see below).
 
 ```sh
 export SESSION_KEY=XY7l3m0bmuzX5IAu6/KUyPRQXKc8H1LjAl2Q897vbYw= # (default)

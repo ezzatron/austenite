@@ -21,7 +21,7 @@ document only shows those variables defined using [Austenite].
 > enable or disable debugging features
 
 This variable **MUST** be set to one of the values below.
-If left undefined the application will print usage information to `STDERR` then
+If left undefined, the application will print usage information to `STDERR` then
 exit with a non-zero exit code.
 
 ```sh

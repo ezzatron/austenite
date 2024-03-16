@@ -21,7 +21,7 @@ document only shows those variables defined using [Austenite].
 > weighting for this node
 
 This variable **MUST** be set to a non-empty **integer** value.
-If left undefined the application will print usage information to `STDERR` then
+If left undefined, the application will print usage information to `STDERR` then
 exit with a non-zero exit code.
 
 ```sh

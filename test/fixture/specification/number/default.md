@@ -21,7 +21,7 @@ document only shows those variables defined using [Austenite].
 > weighting for this node
 
 This variable **MAY** be set to a non-empty **number** value.
-If left undefined the default value is used (see below).
+If left undefined, the default value is used (see below).
 
 ```sh
 export WEIGHT=100.001             # (default)

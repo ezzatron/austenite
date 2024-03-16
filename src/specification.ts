@@ -83,14 +83,14 @@ function createSchemaRenderer({
   spec: { default: def, isSensitive },
 }: Variable<unknown>): Visitor<string> {
   const ifLeftUndefined = isSensitive
-    ? `If left undefined a default value is used.`
-    : `If left undefined the default value is used (see below).`;
+    ? `If left undefined, a default value is used.`
+    : `If left undefined, the default value is used (see below).`;
 
   return {
     visitEnum() {
       if (!def.isDefined) {
         return `This variable **MUST** be set to one of the values below.
-If left undefined the application will print usage information to \`STDERR\` then
+If left undefined, the application will print usage information to \`STDERR\` then
 exit with a non-zero exit code.`;
       }
 
@@ -107,7 +107,7 @@ ${ifLeftUndefined}`;
 
       if (!def.isDefined) {
         return `This variable **MUST** ${beSetTo}.
-If left undefined the application will print usage information to \`STDERR\` then
+If left undefined, the application will print usage information to \`STDERR\` then
 exit with a non-zero exit code.`;
       }
 

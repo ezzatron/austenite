@@ -22,7 +22,7 @@ document only shows those variables defined using [Austenite].
 > enable or disable debugging features
 
 This variable **MAY** be set to one of the values below.
-If left undefined the default value is used (see below).
+If left undefined, the default value is used (see below).
 
 ```sh
 export DEBUG=true  # true
@@ -34,7 +34,7 @@ export DEBUG=false # false (default)
 > enable or disable production mode
 
 This variable **MAY** be set to one of the values below.
-If left undefined the default value is used (see below).
+If left undefined, the default value is used (see below).
 
 ```sh
 export PRODUCTION=true  # true (default)

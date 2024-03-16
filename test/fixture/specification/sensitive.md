@@ -33,7 +33,7 @@ document only shows those variables defined using [Austenite].
 > example binary
 
 This variable **MAY** be set to a non-empty **base64** value.
-If left undefined a default value is used.
+If left undefined, a default value is used.
 
 ```sh
 export AUSTENITE_BINARY=Y29ucXVpc3RhZG9y # base64 encoded string
@@ -44,7 +44,7 @@ export AUSTENITE_BINARY=Y29ucXVpc3RhZG9y # base64 encoded string
 > example boolean
 
 This variable **MAY** be set to one of the values below.
-If left undefined a default value is used.
+If left undefined, a default value is used.
 
 ```sh
 export AUSTENITE_BOOLEAN=y   # true
@@ -58,7 +58,7 @@ export AUSTENITE_BOOLEAN=no  # false
 > example duration
 
 This variable **MAY** be set to a non-empty **ISO 8601 duration** value.
-If left undefined a default value is used.
+If left undefined, a default value is used.
 
 ```sh
 export AUSTENITE_DURATION=PT1M30S    # ISO 8601 duration
@@ -70,7 +70,7 @@ export AUSTENITE_DURATION=P1M15DT12H # ISO 8601 duration
 > example enumeration
 
 This variable **MAY** be set to one of the values below.
-If left undefined a default value is used.
+If left undefined, a default value is used.
 
 ```sh
 export AUSTENITE_ENUMERATION=foo # foo
@@ -83,7 +83,7 @@ export AUSTENITE_ENUMERATION=baz # baz
 > example integer
 
 This variable **MAY** be set to a non-empty **integer** value.
-If left undefined a default value is used.
+If left undefined, a default value is used.
 
 ```sh
 export AUSTENITE_INTEGER=123456              # positive
@@ -99,7 +99,7 @@ export AUSTENITE_INTEGER=0b11110001001000000 # binary
 > example big integer
 
 This variable **MAY** be set to a non-empty **big integer** value.
-If left undefined a default value is used.
+If left undefined, a default value is used.
 
 ```sh
 export AUSTENITE_INTEGER_BIG=123456              # positive
@@ -114,7 +114,7 @@ export AUSTENITE_INTEGER_BIG=0b11110001001000000 # binary
 > example number
 
 This variable **MAY** be set to a non-empty **number** value.
-If left undefined a default value is used.
+If left undefined, a default value is used.
 
 ```sh
 export AUSTENITE_NUMBER=123456              # integer
@@ -131,7 +131,7 @@ export AUSTENITE_NUMBER=0b11110001001000000 # binary
 > example port number
 
 This variable **MAY** be set to a non-empty **port number** value.
-If left undefined a default value is used.
+If left undefined, a default value is used.
 
 ```sh
 export AUSTENITE_PORT_NUMBER=12345 # a port number
@@ -142,7 +142,7 @@ export AUSTENITE_PORT_NUMBER=12345 # a port number
 > example string
 
 This variable **MAY** be set to a non-empty **string** value.
-If left undefined a default value is used.
+If left undefined, a default value is used.
 
 ```sh
 export AUSTENITE_STRING=conquistador         # any value
@@ -154,7 +154,7 @@ export AUSTENITE_STRING='alabaster parakeet' # some values may need escaping
 > kubernetes `austenite-svc` service host
 
 This variable **MAY** be set to a non-empty **hostname** value.
-If left undefined a default value is used.
+If left undefined, a default value is used.
 
 ```sh
 export AUSTENITE_SVC_SERVICE_HOST=service.example.org # a hostname
@@ -166,7 +166,7 @@ export AUSTENITE_SVC_SERVICE_HOST=10.0.0.11           # an IP address
 > kubernetes `austenite-svc` service port
 
 This variable **MAY** be set to a non-empty **port number** value.
-If left undefined a default value is used.
+If left undefined, a default value is used.
 
 ```sh
 export AUSTENITE_SVC_SERVICE_PORT=12345 # a port number
@@ -177,7 +177,7 @@ export AUSTENITE_SVC_SERVICE_PORT=12345 # a port number
 > example URL
 
 This variable **MAY** be set to a non-empty **URL** value.
-If left undefined a default value is used.
+If left undefined, a default value is used.
 
 ```sh
 export AUSTENITE_URL=https://host.example.org/path/to/resource # URL (absolute)
@@ -188,7 +188,7 @@ export AUSTENITE_URL=https://host.example.org/path/to/resource # URL (absolute)
 > trigger failure
 
 This variable **MUST** be set to a non-empty **string** value.
-If left undefined the application will print usage information to `STDERR` then
+If left undefined, the application will print usage information to `STDERR` then
 exit with a non-zero exit code.
 
 ```sh

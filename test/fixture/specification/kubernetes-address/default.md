@@ -22,7 +22,7 @@ document only shows those variables defined using [Austenite].
 > kubernetes `redis-primary` service host
 
 This variable **MAY** be set to a non-empty **hostname** value.
-If left undefined the default value is used (see below).
+If left undefined, the default value is used (see below).
 
 ```sh
 export REDIS_PRIMARY_SERVICE_HOST=redis.example.org   # (default)
@@ -35,7 +35,7 @@ export REDIS_PRIMARY_SERVICE_HOST=10.0.0.11           # an IP address
 > kubernetes `redis-primary` service port
 
 This variable **MAY** be set to a non-empty **port number** value.
-If left undefined the default value is used (see below).
+If left undefined, the default value is used (see below).
 
 ```sh
 export REDIS_PRIMARY_SERVICE_PORT=6379  # (default)

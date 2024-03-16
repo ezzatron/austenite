@@ -32,7 +32,7 @@ document only shows those variables defined using [Austenite].
 > CDN to use when serving static assets
 
 This variable **MUST** be set to a non-empty **URL** value.
-If left undefined the application will print usage information to `STDERR` then
+If left undefined, the application will print usage information to `STDERR` then
 exit with a non-zero exit code.
 
 ```sh
@@ -44,7 +44,7 @@ export CDN_URL=https://host.example.org/path/to/resource # URL (absolute)
 > enable or disable debugging features
 
 This variable **MUST** be set to one of the values below.
-If left undefined the application will print usage information to `STDERR` then
+If left undefined, the application will print usage information to `STDERR` then
 exit with a non-zero exit code.
 
 ```sh
@@ -57,7 +57,7 @@ export DEBUG=false # false
 > number of atoms on earth
 
 This variable **MUST** be set to a non-empty **big integer** value.
-If left undefined the application will print usage information to `STDERR` then
+If left undefined, the application will print usage information to `STDERR` then
 exit with a non-zero exit code.
 
 ```sh
@@ -73,7 +73,7 @@ export EARTH_ATOM_COUNT=0b11110001001000000 # binary
 > gRPC request timeout
 
 This variable **MUST** be set to a non-empty **ISO 8601 duration** value.
-If left undefined the application will print usage information to `STDERR` then
+If left undefined, the application will print usage information to `STDERR` then
 exit with a non-zero exit code.
 
 ```sh
@@ -86,7 +86,7 @@ export GRPC_TIMEOUT=P1M15DT12H # ISO 8601 duration
 > the minimum log level to record
 
 This variable **MUST** be set to one of the values below.
-If left undefined the application will print usage information to `STDERR` then
+If left undefined, the application will print usage information to `STDERR` then
 exit with a non-zero exit code.
 
 ```sh
@@ -102,7 +102,7 @@ export LOG_LEVEL=fatal # the application cannot proceed
 > listen port for the HTTP server
 
 This variable **MUST** be set to a non-empty **port number** value.
-If left undefined the application will print usage information to `STDERR` then
+If left undefined, the application will print usage information to `STDERR` then
 exit with a non-zero exit code.
 
 ```sh
@@ -114,7 +114,7 @@ export PORT=12345 # a port number
 > database connection string for read-models
 
 This variable **MUST** be set to a non-empty **string** value.
-If left undefined the application will print usage information to `STDERR` then
+If left undefined, the application will print usage information to `STDERR` then
 exit with a non-zero exit code.
 
 ```sh
@@ -127,7 +127,7 @@ export READ_DSN='alabaster parakeet' # some values may need escaping
 > kubernetes `redis-primary` service host
 
 This variable **MUST** be set to a non-empty **hostname** value.
-If left undefined the application will print usage information to `STDERR` then
+If left undefined, the application will print usage information to `STDERR` then
 exit with a non-zero exit code.
 
 ```sh
@@ -140,7 +140,7 @@ export REDIS_PRIMARY_SERVICE_HOST=10.0.0.11           # an IP address
 > kubernetes `redis-primary` service port
 
 This variable **MUST** be set to a non-empty **port number** value.
-If left undefined the application will print usage information to `STDERR` then
+If left undefined, the application will print usage information to `STDERR` then
 exit with a non-zero exit code.
 
 ```sh
@@ -152,7 +152,7 @@ export REDIS_PRIMARY_SERVICE_PORT=12345 # a port number
 > ratio of requests to sample
 
 This variable **MUST** be set to a non-empty **number** value.
-If left undefined the application will print usage information to `STDERR` then
+If left undefined, the application will print usage information to `STDERR` then
 exit with a non-zero exit code.
 
 ```sh
@@ -170,7 +170,7 @@ export SAMPLE_RATIO=0b11110001001000000 # binary
 > session token signing key
 
 This variable **MUST** be set to a non-empty **base64** value.
-If left undefined the application will print usage information to `STDERR` then
+If left undefined, the application will print usage information to `STDERR` then
 exit with a non-zero exit code.
 
 ```sh
@@ -182,7 +182,7 @@ export SESSION_KEY=Y29ucXVpc3RhZG9y # base64 encoded string
 > weighting for this node
 
 This variable **MUST** be set to a non-empty **integer** value.
-If left undefined the application will print usage information to `STDERR` then
+If left undefined, the application will print usage information to `STDERR` then
 exit with a non-zero exit code.
 
 ```sh

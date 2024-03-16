@@ -21,7 +21,7 @@ document only shows those variables defined using [Austenite].
 > the minimum log level to record
 
 This variable **MAY** be set to one of the values below.
-If left undefined the default value is used (see below).
+If left undefined, the default value is used (see below).
 
 ```sh
 export LOG_LEVEL=debug # show information for developers
