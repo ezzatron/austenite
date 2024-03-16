@@ -49,18 +49,18 @@ with a non-zero exit code, and output a table that describes what went wrong:
 ```
 Environment Variables:
 
-❯ CDN_URL                     CDN to use when serving static assets         <URL>                                  ✗ set to host.example.org, must be a URL
-❯ DEBUG                       enable or disable debugging features          true | false                           ✗ set to yes, expected true or false
-❯ EARTH_ATOM_COUNT            number of atoms on earth                      <big integer>                          ✗ set to 5.9722e24, must be a big integer
-❯ GRPC_TIMEOUT                gRPC request timeout                          <ISO 8601 duration>                    ✗ set to 10S, must be an ISO 8601 duration
-❯ LOG_LEVEL                   the minimum log level to record               debug | info | warn | error | fatal    ✗ set to silly, expected debug, info, warn, error, or fatal
-❯ PORT                        listen port for the HTTP server               <port number>                          ✗ set to 65536, must be between 1 and 65535
-❯ READ_DSN                    database connection string for read-models    <string>                               ✗ not set
-❯ REDIS_PRIMARY_SERVICE_HOST  kubernetes `redis-primary` service host       <hostname>                             ✗ set to .redis.example.org, must not begin or end with a dot
-❯ REDIS_PRIMARY_SERVICE_PORT  kubernetes `redis-primary` service port       <port number>                          ✗ set to 65536, must be between 1 and 65535
-❯ SAMPLE_RATIO                ratio of requests to sample                   <number>                               ✗ set to 1/100, must be numeric
-❯ SESSION_KEY                 session token signing key                     <base64>                               ✗ set to <sensitive value>, must be base64 encoded
-❯ WEIGHT                      weighting for this node                       <integer>                              ✗ set to 123.456, must be an integer
+❯ CDN_URL                     CDN to use when serving static assets         <URL>                                         ✗ set to host.example.org, must be a URL
+❯ DEBUG                       enable or disable debugging features        [ true | false ] = false                        ✗ set to yes, expected true or false
+❯ EARTH_ATOM_COUNT            number of atoms on earth                    [ <big integer> ]                               ✗ set to 5.9722e24, must be a big integer
+❯ GRPC_TIMEOUT                gRPC request timeout                        [ <ISO 8601 duration> ]                         ✗ set to 10S, must be an ISO 8601 duration
+❯ LOG_LEVEL                   the minimum log level to record             [ debug | info | warn | error | fatal ] = info  ✗ set to silly, expected debug, info, warn, error, or fatal
+❯ PORT                        listen port for the HTTP server             [ <port number> ] = 8080                        ✗ set to 65536, must be between 1 and 65535
+❯ READ_DSN                    database connection string for read-models    <string>                                      ✗ not set
+❯ REDIS_PRIMARY_SERVICE_HOST  kubernetes `redis-primary` service host       <hostname>                                    ✗ set to .redis.example.org, must not begin or end with a dot
+❯ REDIS_PRIMARY_SERVICE_PORT  kubernetes `redis-primary` service port       <port number>                                 ✗ set to 65536, must be between 1 and 65535
+❯ SAMPLE_RATIO                ratio of requests to sample                 [ <number> ]                                    ✗ set to 1/100, must be numeric
+❯ SESSION_KEY                 session token signing key                     <base64>                                      ✗ set to <sensitive value>, must be base64 encoded
+❯ WEIGHT                      weighting for this node                       <integer>                                     ✗ set to 123.456, must be an integer
 ```
 
 ## Generated environment specifications
