@@ -9,7 +9,7 @@ import { registerVariable } from "../environment.js";
 import { normalize } from "../error.js";
 import { Example, Examples, create as createExamples } from "../example.js";
 import { resolve } from "../maybe.js";
-import { Scalar, createScalar, toString } from "../schema.js";
+import { createURL, toString, type URLSchema } from "../schema.js";
 import { Constraint, SpecError } from "../variable.js";
 
 // as per https://www.rfc-editor.org/rfc/rfc3986#section-3.1
@@ -33,7 +33,7 @@ export function url<O extends Options>(
   assertBase(name, validate, base);
 
   const def = defaultFromOptions(options);
-  const schema = createSchema(base);
+  const schema = createSchema(base, protocols);
 
   const v = registerVariable({
     name,
@@ -89,7 +89,10 @@ function assertBase(
   }
 }
 
-function createSchema(base: URL | undefined): Scalar<URL> {
+function createSchema(
+  base: URL | undefined,
+  protocols: string[] | undefined,
+): URLSchema {
   function unmarshal(v: string): URL {
     try {
       const url = new URL(v, base);
@@ -100,7 +103,7 @@ function createSchema(base: URL | undefined): Scalar<URL> {
     }
   }
 
-  return createScalar("URL", toString, unmarshal);
+  return createURL(base, protocols, toString, unmarshal);
 }
 
 function createValidate(

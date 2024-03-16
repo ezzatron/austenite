@@ -4,6 +4,10 @@ import { Visitor } from "./schema.js";
 import { quote } from "./shell.js";
 import { Variable } from "./variable.js";
 
+const disjunctionFormatter = new Intl.ListFormat("en", {
+  type: "disjunction",
+});
+
 export function render(variables: Variable<unknown>[]): string {
   const app = appName();
 
@@ -85,20 +89,39 @@ function createSchemaRenderer(variable: Variable<unknown>): Visitor<string> {
 
   return {
     visitEnum({ members }) {
-      const listFormatter = new Intl.ListFormat("en", {
-        type: "disjunction",
-      });
       const acceptableValues = Object.keys(members).map((m) =>
         inlineCode(quote(m)),
       );
 
       return `The ${inlineCode(name)} variable is ${optionality} variable
-that takes ${listFormatter.format(acceptableValues)}.`;
+that takes ${disjunctionFormatter.format(acceptableValues)}.`;
     },
 
     visitScalar({ description }): string {
       return `The ${inlineCode(name)} variable is ${optionality} variable
 that takes ${strong(description)} values.`;
+    },
+
+    visitURL({ base, protocols = [] }): string {
+      const protocolList: string =
+        protocols.length > 0
+          ? disjunctionFormatter.format(protocols.map((p) => inlineCode(p))) +
+            " "
+          : "";
+
+      const lines = [
+        `The ${inlineCode(name)} variable is ${optionality} variable
+that takes ${strong(`${protocolList}URL`)} values.`,
+      ];
+
+      if (base) {
+        lines.push(
+          `You can also use a URL reference relative to ` +
+            inlineCode(quote(base.toString())),
+        );
+      }
+
+      return lines.join("\n");
     },
   };
 }

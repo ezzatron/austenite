@@ -5,20 +5,34 @@ The `<app>` app uses **declarative environment variables** powered by
 
 [austenite]: https://github.com/ezzatron/austenite
 
-| Name                              | Usage    | Description             |
-| :-------------------------------- | :------- | :---------------------- |
-| [`SOCKET_SERVER`](#SOCKET_SERVER) | Required | WebSocket server to use |
+| Name                              | Usage    | Description                           |
+| :-------------------------------- | :------- | :------------------------------------ |
+| [`CDN_URL`](#CDN_URL)             | Required | CDN to use when serving static assets |
+| [`SOCKET_SERVER`](#SOCKET_SERVER) | Required | WebSocket server to use               |
 
 > [!TIP]
 > If you set an empty value for an environment variable, the app behaves as if
 > that variable isn't set.
+
+## `CDN_URL`
+
+_CDN to use when serving static assets_
+
+The `CDN_URL` variable is a **required** variable
+that takes **`https:` URL** values.
+
+### Example values
+
+```sh
+export CDN_URL=https://host.example.org/path/to/resource # URL (https:)
+```
 
 ## `SOCKET_SERVER`
 
 _WebSocket server to use_
 
 The `SOCKET_SERVER` variable is a **required** variable
-that takes **URL** values.
+that takes **`ws:` or `wss:` URL** values.
 
 ### Example values
 

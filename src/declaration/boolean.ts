@@ -8,7 +8,7 @@ import {
 import { registerVariable } from "../environment.js";
 import { Examples, create as createExamples } from "../example.js";
 import { resolve } from "../maybe.js";
-import { Enum, InvalidEnumError, createEnum } from "../schema.js";
+import { EnumSchema, InvalidEnumError, createEnum } from "../schema.js";
 import { SpecError } from "../variable.js";
 
 export type Options = DeclarationOptions<boolean> & {
@@ -47,7 +47,7 @@ export function boolean<O extends Options>(
   };
 }
 
-function createSchema(name: string, literals: Literals): Enum<boolean> {
+function createSchema(name: string, literals: Literals): EnumSchema<boolean> {
   for (const literal of Object.keys(literals)) {
     if (literal.length < 1) throw new EmptyLiteralError(name);
   }

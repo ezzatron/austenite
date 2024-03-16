@@ -9,7 +9,7 @@ import {
 import { registerVariable } from "../environment.js";
 import { Examples, create as createExamples } from "../example.js";
 import { resolve } from "../maybe.js";
-import { Scalar, createScalar } from "../schema.js";
+import { ScalarSchema, createScalar } from "../schema.js";
 
 const PATTERNS: Partial<Record<BufferEncoding, RegExp>> = {
   base64: /^[A-Za-z0-9+/]*={0,2}$/,
@@ -45,7 +45,7 @@ export function binary<O extends Options>(
   };
 }
 
-function createSchema(encoding: BufferEncoding): Scalar<Buffer> {
+function createSchema(encoding: BufferEncoding): ScalarSchema<Buffer> {
   function marshal(v: Buffer): string {
     return v.toString(encoding);
   }
@@ -76,7 +76,7 @@ function createUnmarshal(
 
 function buildExamples(
   encoding: BufferEncoding,
-  schema: Scalar<Buffer>,
+  schema: ScalarSchema<Buffer>,
 ): Examples {
   return createExamples({
     canonical: schema.marshal(Buffer.from("conquistador", "utf-8")),

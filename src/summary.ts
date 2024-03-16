@@ -52,6 +52,10 @@ function createSchemaRenderer(): Visitor<string> {
     visitScalar(s) {
       return `<${s.description}>`;
     },
+
+    visitURL() {
+      return "<URL>";
+    },
   };
 }
 

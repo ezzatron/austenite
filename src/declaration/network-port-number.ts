@@ -8,7 +8,7 @@ import {
 import { registerVariable } from "../environment.js";
 import { Examples, create as createExamples } from "../example.js";
 import { resolve } from "../maybe.js";
-import { Scalar, createScalar, toString } from "../schema.js";
+import { ScalarSchema, createScalar, toString } from "../schema.js";
 
 export type Options = DeclarationOptions<number>;
 
@@ -38,7 +38,7 @@ export function networkPortNumber<O extends Options>(
   };
 }
 
-function createSchema(): Scalar<number> {
+function createSchema(): ScalarSchema<number> {
   function unmarshal(v: string): number {
     if (!/^\d*$/.test(v)) throw new Error("must be an unsigned integer");
     if (v !== "0" && v.startsWith("0")) {

@@ -10,7 +10,12 @@ import { registerVariable } from "../environment.js";
 import { normalize } from "../error.js";
 import { create as createExamples } from "../example.js";
 import { Maybe, map, resolve } from "../maybe.js";
-import { Scalar, createScalar, createString, toString } from "../schema.js";
+import {
+  ScalarSchema,
+  createScalar,
+  createString,
+  toString,
+} from "../schema.js";
 import { Variable } from "../variable.js";
 
 export type KubernetesAddress = {
@@ -144,7 +149,7 @@ function registerPort(
   });
 }
 
-function createPortSchema(): Scalar<number> {
+function createPortSchema(): ScalarSchema<number> {
   function unmarshal(v: string): number {
     if (!/^\d*$/.test(v)) throw new Error("must be an unsigned integer");
     if (v !== "0" && v.startsWith("0")) {

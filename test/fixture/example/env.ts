@@ -12,7 +12,9 @@ import {
   url,
 } from "../../../src/index.js";
 
-export const cdnUrl = url("CDN_URL", "CDN to use when serving static assets");
+export const cdnUrl = url("CDN_URL", "CDN to use when serving static assets", {
+  protocols: ["http:", "https:"],
+});
 
 export const earthAtomCount = bigInteger(
   "EARTH_ATOM_COUNT",

@@ -9,7 +9,7 @@ import {
 import { registerVariable } from "../environment.js";
 import { Examples, create as createExamples } from "../example.js";
 import { resolve } from "../maybe.js";
-import { Scalar, createScalar, toString } from "../schema.js";
+import { ScalarSchema, createScalar, toString } from "../schema.js";
 
 const { Duration } = Temporal;
 type Duration = Temporal.Duration;
@@ -41,7 +41,7 @@ export function duration<O extends Options>(
   };
 }
 
-function createSchema(): Scalar<Duration> {
+function createSchema(): ScalarSchema<Duration> {
   function unmarshal(v: string): Duration {
     try {
       return Duration.from(v);

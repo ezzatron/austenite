@@ -519,6 +519,9 @@ describe("Specification documents", () => {
     });
 
     it("describes URLs with protocol requirements", async () => {
+      url("CDN_URL", "CDN to use when serving static assets", {
+        protocols: ["https:"],
+      });
       url("SOCKET_SERVER", "WebSocket server to use", {
         protocols: ["ws:", "wss:"],
       });

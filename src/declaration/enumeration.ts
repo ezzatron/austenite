@@ -8,7 +8,7 @@ import {
 import { registerVariable } from "../environment.js";
 import { Examples, create as createExamples } from "../example.js";
 import { resolve } from "../maybe.js";
-import { Enum, InvalidEnumError, createEnum } from "../schema.js";
+import { EnumSchema, InvalidEnumError, createEnum } from "../schema.js";
 import { SpecError } from "../variable.js";
 
 export type Members<T> = Record<string, Member<T>>;
@@ -46,7 +46,7 @@ export function enumeration<T, O extends Options<T>>(
   };
 }
 
-function createSchema<T>(name: string, members: Members<T>): Enum<T> {
+function createSchema<T>(name: string, members: Members<T>): EnumSchema<T> {
   const entries = Object.entries(members);
 
   if (entries.length < 2) throw new InsufficientMembersError(name);

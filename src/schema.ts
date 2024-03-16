@@ -9,15 +9,20 @@ export type Schema<T> = {
 export type MarshalFn<T> = Schema<T>["marshal"];
 export type UnmarshalFn<T> = Schema<T>["unmarshal"];
 
-export type Scalar<T> = Schema<T> & {
+export type ScalarSchema<T> = Schema<T> & {
   readonly description: string;
 };
 
-export type Enum<T> = Schema<T> & {
+export type EnumSchema<T> = Schema<T> & {
   readonly members: Record<string, T>;
 };
 
-export function createString(description: string): Scalar<string> {
+export type URLSchema = Schema<URL> & {
+  readonly base: URL | undefined;
+  readonly protocols: string[] | undefined;
+};
+
+export function createString(description: string): ScalarSchema<string> {
   return createScalar(description, identity, identity);
 }
 
@@ -25,7 +30,7 @@ export function createEnum<T>(
   members: Record<string, T>,
   marshal: MarshalFn<T>,
   unmarshal: UnmarshalFn<T>,
-): Enum<T> {
+): EnumSchema<T> {
   return {
     members,
     marshal,
@@ -37,11 +42,29 @@ export function createEnum<T>(
   };
 }
 
+export function createURL(
+  base: URL | undefined,
+  protocols: string[] | undefined,
+  marshal: MarshalFn<URL>,
+  unmarshal: UnmarshalFn<URL>,
+): URLSchema {
+  return {
+    base,
+    protocols,
+    marshal,
+    unmarshal,
+
+    accept(visitor) {
+      return visitor.visitURL(this);
+    },
+  };
+}
+
 export function createScalar<T>(
   description: string,
   marshal: MarshalFn<T>,
   unmarshal: UnmarshalFn<T>,
-): Scalar<T> {
+): ScalarSchema<T> {
   return {
     description,
     marshal,
@@ -54,8 +77,9 @@ export function createScalar<T>(
 }
 
 export type Visitor<T> = {
-  visitEnum(e: Enum<unknown>): T;
-  visitScalar(s: Scalar<unknown>): T;
+  visitEnum(e: EnumSchema<unknown>): T;
+  visitScalar(s: ScalarSchema<unknown>): T;
+  visitURL(s: URLSchema): T;
 };
 
 export class InvalidEnumError<T> extends Error {

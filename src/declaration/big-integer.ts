@@ -8,7 +8,7 @@ import {
 import { registerVariable } from "../environment.js";
 import { Examples, create as createExamples } from "../example.js";
 import { resolve } from "../maybe.js";
-import { Scalar, createScalar, toString } from "../schema.js";
+import { ScalarSchema, createScalar, toString } from "../schema.js";
 
 export type Options = DeclarationOptions<bigint>;
 
@@ -37,7 +37,7 @@ export function bigInteger<O extends Options>(
   };
 }
 
-function createSchema(): Scalar<bigint> {
+function createSchema(): ScalarSchema<bigint> {
   function unmarshal(v: string): bigint {
     try {
       return BigInt(v);

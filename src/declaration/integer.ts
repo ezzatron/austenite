@@ -8,7 +8,7 @@ import {
 import { registerVariable } from "../environment.js";
 import { Examples, create as createExamples } from "../example.js";
 import { resolve } from "../maybe.js";
-import { Scalar, createScalar, toString } from "../schema.js";
+import { ScalarSchema, createScalar, toString } from "../schema.js";
 
 export type Options = DeclarationOptions<number>;
 
@@ -37,7 +37,7 @@ export function integer<O extends Options>(
   };
 }
 
-function createSchema(): Scalar<number> {
+function createSchema(): ScalarSchema<number> {
   function unmarshal(v: string): number {
     const n = Number(v);
 
