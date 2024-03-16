@@ -1,6 +1,6 @@
 # Environment variables
 
-The `run.ts` app uses **declarative environment variables** powered by
+The `example` app uses **declarative environment variables** powered by
 **[Austenite]**.
 
 [austenite]: https://github.com/ezzatron/austenite
