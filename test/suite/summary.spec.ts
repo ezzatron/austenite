@@ -289,8 +289,8 @@ describe("Validation summary", () => {
     Object.assign(process.env, {
       AUSTENITE_BINARY: "QmVlcCBib29wIQ",
       AUSTENITE_DURATION: "PT3H10M0S",
-      AUSTENITE_INTEGER: "1.23456e5",
       AUSTENITE_INTEGER_BIG: "0x1E240",
+      AUSTENITE_INTEGER: "1.23456e5",
       AUSTENITE_NUMBER: "1.23456e2",
       AUSTENITE_URL: "https://host.example.org",
     });
@@ -328,8 +328,8 @@ describe("Validation summary", () => {
       AUSTENITE_BOOLEAN: "yes",
       AUSTENITE_DURATION: "10S",
       AUSTENITE_ENUMERATION: "qux",
-      AUSTENITE_INTEGER: "123.456",
       AUSTENITE_INTEGER_BIG: "1.23456e5",
+      AUSTENITE_INTEGER: "123.456",
       AUSTENITE_NUMBER: "1.2.3",
       AUSTENITE_PORT_NUMBER: "65536",
       AUSTENITE_SVC_SERVICE_HOST: ".host.example.org",
