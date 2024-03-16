@@ -7,8 +7,6 @@ import { Variable } from "./variable.js";
 export function render(variables: Variable<unknown>[]): string {
   const app = appName();
 
-  if (variables.length < 1) return "TODO\n";
-
   return header(app, variables) + "\n\n" + specification(variables);
 }
 
@@ -19,12 +17,23 @@ function appName(): string {
 }
 
 function header(app: string, variables: Variable<unknown>[]): string {
-  return `# Environment variables
+  const start = `# Environment variables
 
 The ${inlineCode(app)} app uses **declarative environment variables** powered by
 **[Austenite]**.
 
-[austenite]: https://github.com/ezzatron/austenite
+[austenite]: https://github.com/ezzatron/austenite`;
+
+  if (variables.length < 1) {
+    return `${start}
+
+> [!TIP]
+> Try [declaring] some environment variables to see them listed here!
+
+[declaring]: https://github.com/ezzatron/austenite#declarations`;
+  }
+
+  return `${start}
 
 ${index(variables)}
 
