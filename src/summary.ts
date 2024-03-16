@@ -60,7 +60,7 @@ function renderResult(
   { error, maybe }: Result,
 ) {
   if (error != null) return `${INVALID} ${describeError(isSensitive, error)}`;
-  if (!maybe.isDefined) return `${NEUTRAL} undefined`;
+  if (!maybe.isDefined) return `${NEUTRAL} not set`;
   if (maybe.value.isDefault) return `${VALID} using default value`;
 
   const { value } = maybe;
@@ -79,7 +79,7 @@ function renderResult(
 }
 
 function describeError(isSensitive: boolean, error: Error) {
-  if (!(error instanceof ValueError)) return "undefined";
+  if (!(error instanceof ValueError)) return "not set";
 
   return `set to ${quoteAndSuppress(isSensitive, error.value)}, ${error.cause.message}`;
 }

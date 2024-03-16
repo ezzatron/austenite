@@ -55,7 +55,7 @@ Environment Variables:
 ❯ GRPC_TIMEOUT                gRPC request timeout                          <ISO 8601 duration>                    ✗ set to 10S, must be an ISO 8601 duration
 ❯ LOG_LEVEL                   the minimum log level to record               debug | info | warn | error | fatal    ✗ set to silly, expected debug, info, warn, error, or fatal
 ❯ PORT                        listen port for the HTTP server               <port number>                          ✗ set to 65536, must be between 1 and 65535
-❯ READ_DSN                    database connection string for read-models    <string>                               ✗ undefined
+❯ READ_DSN                    database connection string for read-models    <string>                               ✗ not set
 ❯ REDIS_PRIMARY_SERVICE_HOST  kubernetes `redis-primary` service host       <hostname>                             ✗ set to .redis.example.org, must not begin or end with a dot
 ❯ REDIS_PRIMARY_SERVICE_PORT  kubernetes `redis-primary` service port       <port number>                          ✗ set to 65536, must be between 1 and 65535
 ❯ SAMPLE_RATIO                ratio of requests to sample                   <number>                               ✗ set to 1/100, must be numeric
