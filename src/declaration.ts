@@ -13,6 +13,12 @@ export type Options<T> = {
   readonly default?: T;
 };
 
+export type ExactOptions<O, Expected> = O extends Expected
+  ? Exclude<keyof O, keyof Expected> extends never
+    ? O
+    : never
+  : never;
+
 export function defaultFromOptions<T>(
   options: Options<T>,
 ): Maybe<T | undefined> {

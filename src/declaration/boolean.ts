@@ -3,6 +3,7 @@ import {
   Options as DeclarationOptions,
   Value,
   defaultFromOptions,
+  type ExactOptions,
 } from "../declaration.js";
 import { registerVariable } from "../environment.js";
 import { Examples, create as createExamples } from "../example.js";
@@ -24,7 +25,7 @@ const defaultLiterals = {
 export function boolean<O extends Options>(
   name: string,
   description: string,
-  options: O = {} as O,
+  options: ExactOptions<O, Options> = {} as ExactOptions<O, Options>,
 ): Declaration<boolean, O> {
   const { literals = defaultLiterals } = options;
   const schema = createSchema(name, literals);

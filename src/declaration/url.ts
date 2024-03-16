@@ -3,6 +3,7 @@ import {
   Options as DeclarationOptions,
   Value,
   defaultFromOptions,
+  type ExactOptions,
 } from "../declaration.js";
 import { registerVariable } from "../environment.js";
 import { normalize } from "../error.js";
@@ -22,7 +23,7 @@ export type Options = DeclarationOptions<URL> & {
 export function url<O extends Options>(
   name: string,
   description: string,
-  options: O = {} as O,
+  options: ExactOptions<O, Options> = {} as ExactOptions<O, Options>,
 ): Declaration<URL, O> {
   const { base, protocols } = options;
   assertProtocols(name, protocols);

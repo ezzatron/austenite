@@ -31,4 +31,20 @@ describe("Big integer declarations", () => {
       });
     });
   });
+
+  describe("when valid options are specified", () => {
+    it("does not allow unknown options", () => {
+      const declaration = bigInteger(
+        "AUSTENITE_INTEGER",
+        "<description>",
+        // @ts-expect-error - unknown option
+        {
+          default: undefined,
+          unknown: "unknown",
+        },
+      );
+
+      expectTypeOf(declaration).toBeObject();
+    });
+  });
 });

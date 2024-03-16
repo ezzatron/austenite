@@ -4,6 +4,7 @@ import {
   Options as DeclarationOptions,
   Value,
   defaultFromOptions,
+  type ExactOptions,
 } from "../declaration.js";
 import { registerVariable } from "../environment.js";
 import { Example, Examples, create as createExamples } from "../example.js";
@@ -18,7 +19,7 @@ export type Options = DeclarationOptions<Duration>;
 export function duration<O extends Options>(
   name: string,
   description: string,
-  options: O = {} as O,
+  options: ExactOptions<O, Options> = {} as ExactOptions<O, Options>,
 ): Declaration<Duration, O> {
   const def = defaultFromOptions(options);
   const schema = createSchema();

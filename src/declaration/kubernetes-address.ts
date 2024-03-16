@@ -4,6 +4,7 @@ import {
   Options as DeclarationOptions,
   Value,
   defaultFromOptions,
+  type ExactOptions,
 } from "../declaration.js";
 import { registerVariable } from "../environment.js";
 import { normalize } from "../error.js";
@@ -23,7 +24,7 @@ export type Options = DeclarationOptions<KubernetesAddress> & {
 
 export function kubernetesAddress<O extends Options>(
   name: string,
-  options: O = {} as O,
+  options: ExactOptions<O, Options> = {} as ExactOptions<O, Options>,
 ): Declaration<KubernetesAddress, O> {
   const { portName } = options;
   const def = defaultFromOptions(options);

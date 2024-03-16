@@ -3,6 +3,7 @@ import {
   Options as DeclarationOptions,
   Value,
   defaultFromOptions,
+  type ExactOptions,
 } from "../declaration.js";
 import { registerVariable } from "../environment.js";
 import { Examples, create as createExamples } from "../example.js";
@@ -23,7 +24,7 @@ export function enumeration<T, O extends Options<T>>(
   name: string,
   description: string,
   members: Members<T>,
-  options: O = {} as O,
+  options: ExactOptions<O, Options<T>> = {} as ExactOptions<O, Options<T>>,
 ): Declaration<T, O> {
   const def = defaultFromOptions(options);
   const schema = createSchema(name, members);
