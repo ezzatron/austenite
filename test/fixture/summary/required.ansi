@@ -1,0 +1,15 @@
+Environment Variables:
+
+  AUSTENITE_BINARY            example binary                             <base64>               ✓ set to QmVlcCBib29wIQ==
+  AUSTENITE_BOOLEAN           example boolean                            y | yes | n | no       ✓ set to y
+  AUSTENITE_DURATION          example duration                           <ISO 8601 duration>    ✓ set to PT3H20M
+  AUSTENITE_ENUMERATION       example enumeration                        foo | bar | baz        ✓ set to foo
+  AUSTENITE_INTEGER           example integer                            <integer>              ✓ set to -123456
+  AUSTENITE_INTEGER_BIG       example big integer                        <big integer>          ✓ set to -12345678901234567890
+  AUSTENITE_NUMBER            example number                             <number>               ✓ set to -123.456
+  AUSTENITE_PORT_NUMBER       example port number                        <port number>          ✓ set to 443
+  AUSTENITE_STRING            example string                             <string>               ✓ set to 'Season'"'"'s greetings, world!'
+  AUSTENITE_SVC_SERVICE_HOST  kubernetes `austenite-svc` service host    <hostname>             ✓ set to host.example.org
+  AUSTENITE_SVC_SERVICE_PORT  kubernetes `austenite-svc` service port    <port number>          ✓ set to 443
+  AUSTENITE_URL               example URL                                <URL>                  ✓ set to https://host.example.org/path/to/resource
+❯ AUSTENITE_XTRIGGER          trigger failure                            <string>               ✗ not set

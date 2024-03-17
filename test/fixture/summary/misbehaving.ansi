@@ -1,0 +1,4 @@
+Environment Variables:
+
+❯ AUSTENITE_CUSTOM  custom variable    <string>    ✗ set to 'custom value', not really an error
+  AUSTENITE_STRING  example string     <string>    ✓ set to 'hello, world!'

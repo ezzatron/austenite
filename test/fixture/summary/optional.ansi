@@ -1,0 +1,15 @@
+Environment Variables:
+
+  AUSTENITE_BINARY            example binary                           [ <base64> ]             • not set
+  AUSTENITE_BOOLEAN           example boolean                          [ y | yes | n | no ]     • not set
+  AUSTENITE_DURATION          example duration                         [ <ISO 8601 duration> ]  • not set
+  AUSTENITE_ENUMERATION       example enumeration                      [ foo | bar | baz ]      • not set
+  AUSTENITE_INTEGER           example integer                          [ <integer> ]            • not set
+  AUSTENITE_INTEGER_BIG       example big integer                      [ <big integer> ]        • not set
+  AUSTENITE_NUMBER            example number                           [ <number> ]             • not set
+  AUSTENITE_PORT_NUMBER       example port number                      [ <port number> ]        • not set
+  AUSTENITE_STRING            example string                           [ <string> ]             • not set
+  AUSTENITE_SVC_SERVICE_HOST  kubernetes `austenite-svc` service host  [ <hostname> ]           • not set
+  AUSTENITE_SVC_SERVICE_PORT  kubernetes `austenite-svc` service port  [ <port number> ]        • not set
+  AUSTENITE_URL               example URL                              [ <URL> ]                • not set
+❯ AUSTENITE_XTRIGGER          trigger failure                            <string>               ✗ not set

@@ -1,5 +1,6 @@
 import { Temporal } from "@js-temporal/polyfill";
-import { EOL } from "os";
+import { join } from "path";
+import { fileURLToPath } from "url";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { registerVariable } from "../../src/environment.js";
 import {
@@ -21,6 +22,10 @@ import { createString } from "../../src/schema.js";
 import { VariableSpec } from "../../src/variable.js";
 import { MockConsole, createMockConsole } from "../helpers.js";
 
+const fixturesPath = fileURLToPath(
+  new URL("../fixture/summary", import.meta.url),
+);
+
 const { Duration } = Temporal;
 
 describe("Validation summary", () => {
@@ -38,7 +43,7 @@ describe("Validation summary", () => {
     mockConsole = createMockConsole();
   });
 
-  it("summarizes required variables", () => {
+  it("summarizes required variables", async () => {
     Object.assign(process.env, {
       AUSTENITE_BINARY: "QmVlcCBib29wIQ==",
       AUSTENITE_BOOLEAN: "y",
@@ -89,30 +94,13 @@ describe("Validation summary", () => {
 
     initialize();
 
-    expect(mockConsole.readStderr()).toBe(
-      [
-        "Environment Variables:",
-        "",
-        "  AUSTENITE_BINARY            example binary                             <base64>               ✓ set to QmVlcCBib29wIQ==",
-        "  AUSTENITE_BOOLEAN           example boolean                            y | yes | n | no       ✓ set to y",
-        "  AUSTENITE_DURATION          example duration                           <ISO 8601 duration>    ✓ set to PT3H20M",
-        "  AUSTENITE_ENUMERATION       example enumeration                        foo | bar | baz        ✓ set to foo",
-        "  AUSTENITE_INTEGER           example integer                            <integer>              ✓ set to -123456",
-        "  AUSTENITE_INTEGER_BIG       example big integer                        <big integer>          ✓ set to -12345678901234567890",
-        "  AUSTENITE_NUMBER            example number                             <number>               ✓ set to -123.456",
-        "  AUSTENITE_PORT_NUMBER       example port number                        <port number>          ✓ set to 443",
-        `  AUSTENITE_STRING            example string                             <string>               ✓ set to 'Season'"'"'s greetings, world!'`,
-        "  AUSTENITE_SVC_SERVICE_HOST  kubernetes `austenite-svc` service host    <hostname>             ✓ set to host.example.org",
-        "  AUSTENITE_SVC_SERVICE_PORT  kubernetes `austenite-svc` service port    <port number>          ✓ set to 443",
-        "  AUSTENITE_URL               example URL                                <URL>                  ✓ set to https://host.example.org/path/to/resource",
-        "❯ AUSTENITE_XTRIGGER          trigger failure                            <string>               ✗ not set",
-        "",
-      ].join(EOL),
+    await expect(mockConsole.readStderr()).toMatchFileSnapshot(
+      fixturePath("required"),
     );
     expect(exitCode).toBeGreaterThan(0);
   });
 
-  it("summarizes optional variables with no defaults", () => {
+  it("summarizes optional variables with no defaults", async () => {
     string("AUSTENITE_XTRIGGER", "trigger failure");
     url("AUSTENITE_URL", "example URL", {
       default: undefined,
@@ -174,30 +162,13 @@ describe("Validation summary", () => {
 
     initialize();
 
-    expect(mockConsole.readStderr()).toBe(
-      [
-        "Environment Variables:",
-        "",
-        "  AUSTENITE_BINARY            example binary                           [ <base64> ]             • not set",
-        "  AUSTENITE_BOOLEAN           example boolean                          [ y | yes | n | no ]     • not set",
-        "  AUSTENITE_DURATION          example duration                         [ <ISO 8601 duration> ]  • not set",
-        "  AUSTENITE_ENUMERATION       example enumeration                      [ foo | bar | baz ]      • not set",
-        "  AUSTENITE_INTEGER           example integer                          [ <integer> ]            • not set",
-        "  AUSTENITE_INTEGER_BIG       example big integer                      [ <big integer> ]        • not set",
-        "  AUSTENITE_NUMBER            example number                           [ <number> ]             • not set",
-        "  AUSTENITE_PORT_NUMBER       example port number                      [ <port number> ]        • not set",
-        "  AUSTENITE_STRING            example string                           [ <string> ]             • not set",
-        "  AUSTENITE_SVC_SERVICE_HOST  kubernetes `austenite-svc` service host  [ <hostname> ]           • not set",
-        "  AUSTENITE_SVC_SERVICE_PORT  kubernetes `austenite-svc` service port  [ <port number> ]        • not set",
-        "  AUSTENITE_URL               example URL                              [ <URL> ]                • not set",
-        "❯ AUSTENITE_XTRIGGER          trigger failure                            <string>               ✗ not set",
-        "",
-      ].join(EOL),
+    await expect(mockConsole.readStderr()).toMatchFileSnapshot(
+      fixturePath("optional"),
     );
     expect(exitCode).toBeGreaterThan(0);
   });
 
-  it("summarizes variables with defaults", () => {
+  it("summarizes variables with defaults", async () => {
     string("AUSTENITE_XTRIGGER", "trigger failure");
     url("AUSTENITE_URL", "example URL", {
       default: new URL("https://default.example.org/path/to/resource"),
@@ -262,30 +233,13 @@ describe("Validation summary", () => {
 
     initialize();
 
-    expect(mockConsole.readStderr()).toBe(
-      [
-        "Environment Variables:",
-        "",
-        "  AUSTENITE_BINARY            example binary                           [ <base64> ] = QmVlcCBib29wIQ==                           ✓ using default value",
-        "  AUSTENITE_BOOLEAN           example boolean                          [ y | yes | n | no ] = y                                  ✓ using default value",
-        "  AUSTENITE_DURATION          example duration                         [ <ISO 8601 duration> ] = PT10S                           ✓ using default value",
-        "  AUSTENITE_ENUMERATION       example enumeration                      [ foo | bar | baz ] = bar                                 ✓ using default value",
-        "  AUSTENITE_INTEGER           example integer                          [ <integer> ] = 123456                                    ✓ using default value",
-        "  AUSTENITE_INTEGER_BIG       example big integer                      [ <big integer> ] = 12345678901234567890                  ✓ using default value",
-        "  AUSTENITE_NUMBER            example number                           [ <number> ] = 123.456                                    ✓ using default value",
-        "  AUSTENITE_PORT_NUMBER       example port number                      [ <port number> ] = 443                                   ✓ using default value",
-        "  AUSTENITE_STRING            example string                           [ <string> ] = 'hello, world!'                            ✓ using default value",
-        "  AUSTENITE_SVC_SERVICE_HOST  kubernetes `austenite-svc` service host  [ <hostname> ] = host.example.org                         ✓ using default value",
-        "  AUSTENITE_SVC_SERVICE_PORT  kubernetes `austenite-svc` service port  [ <port number> ] = 443                                   ✓ using default value",
-        "  AUSTENITE_URL               example URL                              [ <URL> ] = https://default.example.org/path/to/resource  ✓ using default value",
-        "❯ AUSTENITE_XTRIGGER          trigger failure                            <string>                                                ✗ not set",
-        "",
-      ].join(EOL),
+    await expect(mockConsole.readStderr()).toMatchFileSnapshot(
+      fixturePath("default"),
     );
     expect(exitCode).toBeGreaterThan(0);
   });
 
-  it("summarizes non-canonical values", () => {
+  it("summarizes non-canonical values", async () => {
     Object.assign(process.env, {
       AUSTENITE_BINARY: "QmVlcCBib29wIQ",
       AUSTENITE_DURATION: "PT3H10M0S",
@@ -305,24 +259,13 @@ describe("Validation summary", () => {
 
     initialize();
 
-    expect(mockConsole.readStderr()).toBe(
-      [
-        `Environment Variables:`,
-        ``,
-        "  AUSTENITE_BINARY       example binary         <base64>               ✓ set to QmVlcCBib29wIQ== (specified non-canonically as QmVlcCBib29wIQ)",
-        "  AUSTENITE_DURATION     example duration       <ISO 8601 duration>    ✓ set to PT3H10M (specified non-canonically as PT3H10M0S)",
-        "  AUSTENITE_INTEGER      example integer        <integer>              ✓ set to 123456 (specified non-canonically as 1.23456e5)",
-        "  AUSTENITE_INTEGER_BIG  example big integer    <big integer>          ✓ set to 123456 (specified non-canonically as 0x1E240)",
-        "  AUSTENITE_NUMBER       example number         <number>               ✓ set to 123.456 (specified non-canonically as 1.23456e2)",
-        "  AUSTENITE_URL          example URL            <URL>                  ✓ set to https://host.example.org/ (specified non-canonically as https://host.example.org)",
-        `❯ AUSTENITE_XTRIGGER     trigger failure        <string>               ✗ not set`,
-        ``,
-      ].join(EOL),
+    await expect(mockConsole.readStderr()).toMatchFileSnapshot(
+      fixturePath("non-canonical"),
     );
     expect(exitCode).toBeGreaterThan(0);
   });
 
-  it("summarizes invalid values", () => {
+  it("summarizes invalid values", async () => {
     Object.assign(process.env, {
       AUSTENITE_BINARY: "???",
       AUSTENITE_BOOLEAN: "yes",
@@ -366,30 +309,13 @@ describe("Validation summary", () => {
 
     initialize();
 
-    expect(mockConsole.readStderr()).toBe(
-      [
-        `Environment Variables:`,
-        ``,
-        `❯ AUSTENITE_BINARY            example binary                             <base64>               ✗ set to '???', must be base64 encoded`,
-        `❯ AUSTENITE_BOOLEAN           example boolean                            true | false           ✗ set to yes, expected true or false`,
-        "❯ AUSTENITE_DURATION          example duration                           <ISO 8601 duration>    ✗ set to 10S, must be an ISO 8601 duration",
-        "❯ AUSTENITE_ENUMERATION       example enumeration                        foo | bar | baz        ✗ set to qux, expected foo, bar, or baz",
-        "❯ AUSTENITE_INTEGER           example integer                            <integer>              ✗ set to 123.456, must be an integer",
-        "❯ AUSTENITE_INTEGER_BIG       example big integer                        <big integer>          ✗ set to 1.23456e5, must be a big integer",
-        "❯ AUSTENITE_NUMBER            example number                             <number>               ✗ set to 1.2.3, must be numeric",
-        "❯ AUSTENITE_PORT_NUMBER       example port number                        <port number>          ✗ set to 65536, must be between 1 and 65535",
-        `❯ AUSTENITE_STRING            example string                             <string>               ✗ not set`,
-        "❯ AUSTENITE_SVC_SERVICE_HOST  kubernetes `austenite-svc` service host    <hostname>             ✗ set to .host.example.org, must not begin or end with a dot",
-        "❯ AUSTENITE_SVC_SERVICE_PORT  kubernetes `austenite-svc` service port    <port number>          ✗ set to 65536, must be between 1 and 65535",
-        "❯ AUSTENITE_URL               example URL                                <URL>                  ✗ set to host.example.org, must be a URL",
-        `❯ AUSTENITE_XTRIGGER          trigger failure                            <string>               ✗ not set`,
-        ``,
-      ].join(EOL),
+    await expect(mockConsole.readStderr()).toMatchFileSnapshot(
+      fixturePath("invalid"),
     );
     expect(exitCode).toBeGreaterThan(0);
   });
 
-  it("summarizes sensitive variables", () => {
+  it("summarizes sensitive variables", async () => {
     Object.assign(process.env, {
       AUSTENITE_BINARY: "QmVlcCBib29wIQ==",
       AUSTENITE_BOOLEAN: "y",
@@ -468,30 +394,13 @@ describe("Validation summary", () => {
 
     initialize();
 
-    expect(mockConsole.readStderr()).toBe(
-      [
-        "Environment Variables:",
-        "",
-        "  AUSTENITE_BINARY            example binary                             <base64>               ✓ set to <sensitive value>",
-        "  AUSTENITE_BOOLEAN           example boolean                            y | yes | n | no       ✓ set to <sensitive value>",
-        "  AUSTENITE_DURATION          example duration                           <ISO 8601 duration>    ✓ set to <sensitive value>",
-        "  AUSTENITE_ENUMERATION       example enumeration                        foo | bar | baz        ✓ set to <sensitive value>",
-        "  AUSTENITE_INTEGER           example integer                            <integer>              ✓ set to <sensitive value>",
-        "  AUSTENITE_INTEGER_BIG       example big integer                        <big integer>          ✓ set to <sensitive value>",
-        "  AUSTENITE_NUMBER            example number                             <number>               ✓ set to <sensitive value>",
-        "  AUSTENITE_PORT_NUMBER       example port number                        <port number>          ✓ set to <sensitive value>",
-        `  AUSTENITE_STRING            example string                             <string>               ✓ set to <sensitive value>`,
-        "  AUSTENITE_SVC_SERVICE_HOST  kubernetes `austenite-svc` service host    <hostname>             ✓ set to <sensitive value>",
-        "  AUSTENITE_SVC_SERVICE_PORT  kubernetes `austenite-svc` service port    <port number>          ✓ set to <sensitive value>",
-        "  AUSTENITE_URL               example URL                                <URL>                  ✓ set to <sensitive value>",
-        "❯ AUSTENITE_XTRIGGER          trigger failure                            <string>               ✗ not set",
-        "",
-      ].join(EOL),
+    await expect(mockConsole.readStderr()).toMatchFileSnapshot(
+      fixturePath("sensitive"),
     );
     expect(exitCode).toBeGreaterThan(0);
   });
 
-  it("summarizes sensitive variables with defaults", () => {
+  it("summarizes sensitive variables with defaults", async () => {
     string("AUSTENITE_XTRIGGER", "trigger failure");
     url("AUSTENITE_URL", "example URL", {
       default: new URL("https://default.example.org/path/to/resource"),
@@ -567,30 +476,13 @@ describe("Validation summary", () => {
 
     initialize();
 
-    expect(mockConsole.readStderr()).toBe(
-      [
-        "Environment Variables:",
-        "",
-        "  AUSTENITE_BINARY            example binary                           [ <base64> ] = <sensitive value>             ✓ using default value",
-        "  AUSTENITE_BOOLEAN           example boolean                          [ y | yes | n | no ] = <sensitive value>     ✓ using default value",
-        "  AUSTENITE_DURATION          example duration                         [ <ISO 8601 duration> ] = <sensitive value>  ✓ using default value",
-        "  AUSTENITE_ENUMERATION       example enumeration                      [ foo | bar | baz ] = <sensitive value>      ✓ using default value",
-        "  AUSTENITE_INTEGER           example integer                          [ <integer> ] = <sensitive value>            ✓ using default value",
-        "  AUSTENITE_INTEGER_BIG       example big integer                      [ <big integer> ] = <sensitive value>        ✓ using default value",
-        "  AUSTENITE_NUMBER            example number                           [ <number> ] = <sensitive value>             ✓ using default value",
-        "  AUSTENITE_PORT_NUMBER       example port number                      [ <port number> ] = <sensitive value>        ✓ using default value",
-        "  AUSTENITE_STRING            example string                           [ <string> ] = <sensitive value>             ✓ using default value",
-        "  AUSTENITE_SVC_SERVICE_HOST  kubernetes `austenite-svc` service host  [ <hostname> ] = <sensitive value>           ✓ using default value",
-        "  AUSTENITE_SVC_SERVICE_PORT  kubernetes `austenite-svc` service port  [ <port number> ] = <sensitive value>        ✓ using default value",
-        "  AUSTENITE_URL               example URL                              [ <URL> ] = <sensitive value>                ✓ using default value",
-        "❯ AUSTENITE_XTRIGGER          trigger failure                            <string>                                   ✗ not set",
-        "",
-      ].join(EOL),
+    await expect(mockConsole.readStderr()).toMatchFileSnapshot(
+      fixturePath("sensitive-default"),
     );
     expect(exitCode).toBeGreaterThan(0);
   });
 
-  it("summarizes sensitive non-canonical values", () => {
+  it("summarizes sensitive non-canonical values", async () => {
     process.env.AUSTENITE_BINARY = "QmVlcCBib29wIQ";
 
     string("AUSTENITE_XTRIGGER", "trigger failure");
@@ -600,19 +492,13 @@ describe("Validation summary", () => {
 
     initialize();
 
-    expect(mockConsole.readStderr()).toBe(
-      [
-        `Environment Variables:`,
-        ``,
-        "  AUSTENITE_BINARY    example binary     <base64>    ✓ set to <sensitive value> (specified non-canonically)",
-        `❯ AUSTENITE_XTRIGGER  trigger failure    <string>    ✗ not set`,
-        ``,
-      ].join(EOL),
+    await expect(mockConsole.readStderr()).toMatchFileSnapshot(
+      fixturePath("sensitive-non-canonical"),
     );
     expect(exitCode).toBeGreaterThan(0);
   });
 
-  it("summarizes sensitive invalid values", () => {
+  it("summarizes sensitive invalid values", async () => {
     Object.assign(process.env, {
       AUSTENITE_BINARY: "???",
       AUSTENITE_BOOLEAN: "yes",
@@ -681,29 +567,13 @@ describe("Validation summary", () => {
 
     initialize();
 
-    expect(mockConsole.readStderr()).toBe(
-      [
-        `Environment Variables:`,
-        ``,
-        `❯ AUSTENITE_BINARY            example binary                             <base64>               ✗ set to <sensitive value>, must be base64 encoded`,
-        `❯ AUSTENITE_BOOLEAN           example boolean                            true | false           ✗ set to <sensitive value>, expected true or false`,
-        "❯ AUSTENITE_DURATION          example duration                           <ISO 8601 duration>    ✗ set to <sensitive value>, must be an ISO 8601 duration",
-        "❯ AUSTENITE_ENUMERATION       example enumeration                        foo | bar | baz        ✗ set to <sensitive value>, expected foo, bar, or baz",
-        "❯ AUSTENITE_INTEGER           example integer                            <integer>              ✗ set to <sensitive value>, must be an integer",
-        "❯ AUSTENITE_INTEGER_BIG       example big integer                        <big integer>          ✗ set to <sensitive value>, must be a big integer",
-        "❯ AUSTENITE_NUMBER            example number                             <number>               ✗ set to <sensitive value>, must be numeric",
-        "❯ AUSTENITE_PORT_NUMBER       example port number                        <port number>          ✗ set to <sensitive value>, must be between 1 and 65535",
-        "❯ AUSTENITE_SVC_SERVICE_HOST  kubernetes `austenite-svc` service host    <hostname>             ✗ set to <sensitive value>, must not begin or end with a dot",
-        "❯ AUSTENITE_SVC_SERVICE_PORT  kubernetes `austenite-svc` service port    <port number>          ✗ set to <sensitive value>, must be between 1 and 65535",
-        "❯ AUSTENITE_URL               example URL                                <URL>                  ✗ set to <sensitive value>, must be a URL",
-        `❯ AUSTENITE_XTRIGGER          trigger failure                            <string>               ✗ not set`,
-        ``,
-      ].join(EOL),
+    await expect(mockConsole.readStderr()).toMatchFileSnapshot(
+      fixturePath("senstive-invalid"),
     );
     expect(exitCode).toBeGreaterThan(0);
   });
 
-  it("summarizes misbehaving variables", () => {
+  it("summarizes misbehaving variables", async () => {
     Object.assign(process.env, {
       AUSTENITE_CUSTOM: "custom value",
       AUSTENITE_STRING: "hello, world!",
@@ -730,15 +600,13 @@ describe("Validation summary", () => {
 
     initialize();
 
-    expect(mockConsole.readStderr()).toBe(
-      [
-        "Environment Variables:",
-        "",
-        "❯ AUSTENITE_CUSTOM  custom variable    <string>    ✗ set to 'custom value', not really an error",
-        "  AUSTENITE_STRING  example string     <string>    ✓ set to 'hello, world!'",
-        "",
-      ].join(EOL),
+    await expect(mockConsole.readStderr()).toMatchFileSnapshot(
+      fixturePath("misbehaving"),
     );
     expect(exitCode).toBeGreaterThan(0);
   });
 });
+
+function fixturePath(name: string): string {
+  return join(fixturesPath, `${name}.ansi`);
+}
