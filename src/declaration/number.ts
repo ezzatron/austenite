@@ -46,7 +46,7 @@ function createSchema(): ScalarSchema<number> {
     return n;
   }
 
-  return createScalar("number", toString, unmarshal);
+  return createScalar("number", toString, unmarshal, []);
 }
 
 function buildExamples(): Examples {

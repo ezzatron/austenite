@@ -315,6 +315,28 @@ describe("Validation summary", () => {
     expect(exitCode).toBeGreaterThan(0);
   });
 
+  it("summarizes variables that violate constraints", async () => {
+    Object.assign(process.env, {
+      AUSTENITE_STRING: "hello, world!",
+      AUSTENITE_BINARY: "QmVlcCBib29wIQ==",
+    });
+
+    string("AUSTENITE_XTRIGGER", "trigger failure");
+    string("AUSTENITE_STRING", "example string", {
+      length: 5,
+    });
+    binary("AUSTENITE_BINARY", "example binary", {
+      length: 5,
+    });
+
+    initialize();
+
+    await expect(mockConsole.readStderr()).toMatchFileSnapshot(
+      fixturePath("constraint-violation"),
+    );
+    expect(exitCode).toBeGreaterThan(0);
+  });
+
   it("summarizes sensitive variables", async () => {
     Object.assign(process.env, {
       AUSTENITE_BINARY: "QmVlcCBib29wIQ==",
@@ -584,7 +606,7 @@ describe("Validation summary", () => {
       description: "custom variable",
       default: undefinedValue(),
       isSensitive: false,
-      schema: createString("string"),
+      schema: createString("string", []),
       examples: [],
       constraint: () => {
         throw {

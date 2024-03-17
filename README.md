@@ -55,7 +55,7 @@ Environment Variables:
 ❯ GRPC_TIMEOUT                gRPC request timeout                        [ <ISO 8601 duration> ]                         ✗ set to 10S, must be an ISO 8601 duration
 ❯ LOG_LEVEL                   the minimum log level to record             [ debug | info | warn | error | fatal ] = info  ✗ set to silly, expected debug, info, warn, error, or fatal
 ❯ PORT                        listen port for the HTTP server             [ <port number> ] = 8080                        ✗ set to 65536, must be between 1 and 65535
-❯ READ_DSN                    database connection string for read-models    <string>                                      ✗ not set
+❯ READ_DSN                    database connection string for read-models    <string>                                      ✗ set to host=localhost, must have a minimum length of 30, but has a length of 14
 ❯ REDIS_PRIMARY_SERVICE_HOST  kubernetes `redis-primary` service host       <hostname>                                    ✗ set to .redis.example.org, must not begin or end with a dot
 ❯ REDIS_PRIMARY_SERVICE_PORT  kubernetes `redis-primary` service port       <port number>                                 ✗ set to 65536, must be between 1 and 65535
 ❯ SAMPLE_RATIO                ratio of requests to sample                 [ <number> ]                                    ✗ set to 1/100, must be numeric
@@ -131,6 +131,16 @@ export const sessionKey = binary("SESSION_KEY", "session token signing key", {
 // hex
 export const sessionKey = binary("SESSION_KEY", "session token signing key", {
   encoding: "hex",
+});
+
+// exact length
+export const sessionKey = binary("SESSION_KEY", "session token signing key", {
+  length: 32,
+});
+
+// min/max length
+export const sessionKey = binary("SESSION_KEY", "session token signing key", {
+  length: { min: 32, max: 64 },
 });
 ```
 
@@ -361,6 +371,20 @@ export const readDsn = string(
   "READ_DSN",
   "database connection string for read-models",
   { default: "host=localhost dbname=readmodels user=projector" },
+);
+
+// exact length
+export const readDsn = string(
+  "READ_DSN",
+  "database connection string for read-models",
+  { length: 100 },
+);
+
+// min/max length
+export const readDsn = string(
+  "READ_DSN",
+  "database connection string for read-models",
+  { length: { min: 100, max: 1000 } },
 );
 ```
 

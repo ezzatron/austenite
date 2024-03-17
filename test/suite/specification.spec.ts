@@ -534,6 +534,73 @@ describe("Specification documents", () => {
     });
   });
 
+  describe("when there are constraints", () => {
+    it("describes the constraints", async () => {
+      string(
+        "AUSTENITE_STRING_LENGTH",
+        "example string with length constraint",
+        {
+          length: 1,
+        },
+      );
+      string(
+        "AUSTENITE_STRING_MIN_LENGTH",
+        "example string with minimum length constraint",
+        {
+          length: { min: 2 },
+        },
+      );
+      string(
+        "AUSTENITE_STRING_MAX_LENGTH",
+        "example string with maximum length constraint",
+        {
+          length: { max: 3 },
+        },
+      );
+      string(
+        "AUSTENITE_STRING_LENGTH_RANGE",
+        "example string with length range constraint",
+        {
+          length: { min: 4, max: 5 },
+        },
+      );
+      binary(
+        "AUSTENITE_BINARY_LENGTH",
+        "example binary with length constraint",
+        {
+          length: 1,
+        },
+      );
+      binary(
+        "AUSTENITE_BINARY_MIN_LENGTH",
+        "example binary with minimum length constraint",
+        {
+          length: { min: 2 },
+        },
+      );
+      binary(
+        "AUSTENITE_BINARY_MAX_LENGTH",
+        "example binary with maximum length constraint",
+        {
+          length: { max: 3 },
+        },
+      );
+      binary(
+        "AUSTENITE_BINARY_LENGTH_RANGE",
+        "example binary with length range constraint",
+        {
+          length: { min: 4, max: 5 },
+        },
+      );
+      initialize();
+
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
+        fixturePath("constraints"),
+      );
+      expect(exitCode).toBe(0);
+    });
+  });
+
   describe("when there are sensitive declarations", () => {
     it("doesn't leak default values", async () => {
       string("AUSTENITE_XTRIGGER", "trigger failure");

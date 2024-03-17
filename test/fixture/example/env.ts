@@ -60,6 +60,7 @@ export const port = networkPortNumber(
 export const readDsn = string(
   "READ_DSN",
   "database connection string for read-models",
+  { length: { min: 30 } },
 );
 
 export const redisPrimary = kubernetesAddress("redis-primary");

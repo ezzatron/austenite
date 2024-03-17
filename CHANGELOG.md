@@ -13,8 +13,13 @@ The format is based on [Keep a Changelog], and this project adheres to
 ### Added
 
 - Declarations can now be marked as sensitive, which will cause their default
-  values and actual values to be redacted in validation summaries and
-  generated specifications.
+  values and actual values to be redacted in validation summaries and generated
+  specifications.
+- Length constraints can now be set on `binary` and `string` variable
+  declarations.
+
+### Changed
+
 - The generated specification output has been improved to be easier to read.
 - The validation summary output uses "not set" instead of "undefined" to
   describe values that are not set, or are set to empty values.

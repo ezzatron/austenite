@@ -16,6 +16,10 @@ export function italic(content: string): string {
   return `_${content.replaceAll("_", "\\_")}_`;
 }
 
+export function list(items: string[]): string {
+  return items.map((i) => `- ${i}`).join("\n");
+}
+
 type Alignment = "left" | "center" | "right";
 
 export function table(

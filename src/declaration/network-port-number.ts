@@ -48,7 +48,7 @@ function createSchema(): ScalarSchema<number> {
     return Number(v);
   }
 
-  return createScalar("port number", toString, unmarshal);
+  return createScalar("port number", toString, unmarshal, []);
 }
 
 function validate(port: number): void {

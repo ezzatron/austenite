@@ -67,7 +67,7 @@ function createSchema(name: string, literals: Literals): EnumSchema<boolean> {
     throw new InvalidEnumError(literals);
   }
 
-  return createEnum(literals, marshal, unmarshal);
+  return createEnum(literals, marshal, unmarshal, []);
 }
 
 function findLiteral(

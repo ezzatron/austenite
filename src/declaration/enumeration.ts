@@ -71,7 +71,7 @@ function createSchema<T>(name: string, members: Members<T>): EnumSchema<T> {
     throw new InvalidEnumError(members);
   }
 
-  return createEnum(schemaMembers, marshal, unmarshal);
+  return createEnum(schemaMembers, marshal, unmarshal, []);
 }
 
 function buildExamples<T>(members: Members<T>): Examples {

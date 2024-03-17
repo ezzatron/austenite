@@ -46,7 +46,7 @@ function createSchema(): ScalarSchema<bigint> {
     }
   }
 
-  return createScalar("big integer", toString, unmarshal);
+  return createScalar("big integer", toString, unmarshal, []);
 }
 
 function buildExamples(): Examples {

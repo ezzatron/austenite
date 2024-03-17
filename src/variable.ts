@@ -104,6 +104,7 @@ export function create<T>(spec: VariableSpec<T>): Variable<T> {
     } else {
       try {
         const native = unmarshal(value);
+        applyConstraints(value, native);
 
         resolution = {
           result: definedValue({
@@ -140,6 +141,21 @@ export function create<T>(spec: VariableSpec<T>): Variable<T> {
         value,
         normalize(error),
       );
+    }
+  }
+
+  function applyConstraints(value: string, native: T): void {
+    for (const { description, constrain } of schema.constraints) {
+      const error = constrain(native);
+
+      if (typeof error === "string") {
+        throw new ValueError(
+          spec.name,
+          spec.isSensitive,
+          value,
+          new Error(`${description}, but ${error}`),
+        );
+      }
     }
   }
 }

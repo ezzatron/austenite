@@ -60,7 +60,7 @@ function registerHost(
   def: Maybe<KubernetesAddress | undefined>,
 ): Variable<string> {
   const hostDef = map(def, (address) => address?.host);
-  const schema = createString("hostname");
+  const schema = createString("hostname", []);
   let envName: string;
 
   try {
@@ -159,7 +159,7 @@ function createPortSchema(): ScalarSchema<number> {
     return Number(v);
   }
 
-  return createScalar("port number", toString, unmarshal);
+  return createScalar("port number", toString, unmarshal, []);
 }
 
 function validatePort(port: number): void {

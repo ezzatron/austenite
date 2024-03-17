@@ -104,7 +104,7 @@ function createSchema(
     }
   }
 
-  return createURL(base, protocols, toString, unmarshal);
+  return createURL(base, protocols, toString, unmarshal, []);
 }
 
 function createValidate(

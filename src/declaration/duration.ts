@@ -50,7 +50,7 @@ function createSchema(): ScalarSchema<Duration> {
     }
   }
 
-  return createScalar("ISO 8601 duration", toString, unmarshal);
+  return createScalar("ISO 8601 duration", toString, unmarshal, []);
 }
 
 function buildExamples(): Examples {

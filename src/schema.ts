@@ -1,9 +1,11 @@
+import type { DescribedConstraint } from "./constraint.js";
 import { createDisjunctionFormatter } from "./list.js";
 import { quote } from "./shell.js";
 
 export type Schema<T> = {
   marshal(value: T): string;
   unmarshal(value: string): T;
+  constraints: DescribedConstraint<T>[];
   accept<U>(visitor: Visitor<U>): U;
 };
 
@@ -23,19 +25,24 @@ export type URLSchema = Schema<URL> & {
   readonly protocols: string[] | undefined;
 };
 
-export function createString(description: string): ScalarSchema<string> {
-  return createScalar(description, identity, identity);
+export function createString(
+  description: string,
+  constraints: DescribedConstraint<string>[],
+): ScalarSchema<string> {
+  return createScalar(description, identity, identity, constraints);
 }
 
 export function createEnum<T>(
   members: Record<string, T>,
   marshal: MarshalFn<T>,
   unmarshal: UnmarshalFn<T>,
+  constraints: DescribedConstraint<T>[],
 ): EnumSchema<T> {
   return {
     members,
     marshal,
     unmarshal,
+    constraints,
 
     accept(visitor) {
       return visitor.visitEnum(this);
@@ -48,12 +55,14 @@ export function createURL(
   protocols: string[] | undefined,
   marshal: MarshalFn<URL>,
   unmarshal: UnmarshalFn<URL>,
+  constraints: DescribedConstraint<URL>[],
 ): URLSchema {
   return {
     base,
     protocols,
     marshal,
     unmarshal,
+    constraints,
 
     accept(visitor) {
       return visitor.visitURL(this);
@@ -65,11 +74,13 @@ export function createScalar<T>(
   description: string,
   marshal: MarshalFn<T>,
   unmarshal: UnmarshalFn<T>,
+  constraints: DescribedConstraint<T>[],
 ): ScalarSchema<T> {
   return {
     description,
     marshal,
     unmarshal,
+    constraints,
 
     accept(visitor) {
       return visitor.visitScalar(this);
@@ -78,8 +89,10 @@ export function createScalar<T>(
 }
 
 export type Visitor<T> = {
-  visitEnum(e: EnumSchema<unknown>): T;
-  visitScalar(s: ScalarSchema<unknown>): T;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  visitEnum(e: EnumSchema<any>): T;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  visitScalar(s: ScalarSchema<any>): T;
   visitURL(s: URLSchema): T;
 };
 
@@ -92,14 +105,14 @@ export class InvalidEnumError<T> extends Error {
   }
 }
 
-export function identity<T>(v: T): T {
-  return v;
-}
-
 type Stringable = {
   toString(): string;
 };
 
 export function toString<T extends Stringable>(v: T): string {
   return v.toString();
+}
+
+function identity<T>(v: T): T {
+  return v;
 }

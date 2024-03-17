@@ -226,6 +226,244 @@ describe("Binary declarations", () => {
       });
     });
   });
+
+  describe("when the declaration has an exact length", () => {
+    beforeEach(() => {
+      declaration = binary("AUSTENITE_BINARY", "<description>", {
+        length: 3,
+      });
+    });
+
+    describe("when the decoded value is too short", () => {
+      beforeEach(() => {
+        process.env.AUSTENITE_BINARY = Buffer.from("ab", "utf-8").toString(
+          "base64",
+        );
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("throws", () => {
+          expect(() => {
+            declaration.value();
+          }).toThrow(
+            "value of AUSTENITE_BINARY (YWI=) is invalid: must have a decoded length of 3, but has a decoded length of 2",
+          );
+        });
+      });
+    });
+
+    describe("when the decoded value is too long", () => {
+      beforeEach(() => {
+        process.env.AUSTENITE_BINARY = Buffer.from("abcd", "utf-8").toString(
+          "base64",
+        );
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("throws", () => {
+          expect(() => {
+            declaration.value();
+          }).toThrow(
+            "value of AUSTENITE_BINARY (YWJjZA==) is invalid: must have a decoded length of 3, but has a decoded length of 4",
+          );
+        });
+      });
+    });
+
+    describe("when the decoded value is the right length", () => {
+      beforeEach(() => {
+        process.env.AUSTENITE_BINARY = Buffer.from("abc", "utf-8").toString(
+          "base64",
+        );
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("returns the value", () => {
+          expect(declaration.value().toString("utf-8")).toEqual("abc");
+        });
+      });
+    });
+  });
+
+  describe("when the declaration has a minimum length", () => {
+    beforeEach(() => {
+      declaration = binary("AUSTENITE_BINARY", "<description>", {
+        length: {
+          min: 3,
+        },
+      });
+    });
+
+    describe("when the decoded value is too short", () => {
+      beforeEach(() => {
+        process.env.AUSTENITE_BINARY = Buffer.from("ab", "utf-8").toString(
+          "base64",
+        );
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("throws", () => {
+          expect(() => {
+            declaration.value();
+          }).toThrow(
+            "value of AUSTENITE_BINARY (YWI=) is invalid: must have a minimum decoded length of 3, but has a decoded length of 2",
+          );
+        });
+      });
+    });
+
+    describe("when the decoded value is long enough", () => {
+      beforeEach(() => {
+        process.env.AUSTENITE_BINARY = Buffer.from("abc", "utf-8").toString(
+          "base64",
+        );
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("returns the value", () => {
+          expect(declaration.value().toString("utf-8")).toEqual("abc");
+        });
+      });
+    });
+  });
+
+  describe("when the declaration has a maximum length", () => {
+    beforeEach(() => {
+      declaration = binary("AUSTENITE_BINARY", "<description>", {
+        length: {
+          max: 3,
+        },
+      });
+    });
+
+    describe("when the decoded value is too long", () => {
+      beforeEach(() => {
+        process.env.AUSTENITE_BINARY = Buffer.from("abcd", "utf-8").toString(
+          "base64",
+        );
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("throws", () => {
+          expect(() => {
+            declaration.value();
+          }).toThrow(
+            "value of AUSTENITE_BINARY (YWJjZA==) is invalid: must have a maximum decoded length of 3, but has a decoded length of 4",
+          );
+        });
+      });
+    });
+
+    describe("when the decoded value is short enough", () => {
+      beforeEach(() => {
+        process.env.AUSTENITE_BINARY = Buffer.from("abc", "utf-8").toString(
+          "base64",
+        );
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("returns the value", () => {
+          expect(declaration.value().toString("utf-8")).toEqual("abc");
+        });
+      });
+    });
+  });
+
+  describe("when the declaration has a minimum and maximum length", () => {
+    beforeEach(() => {
+      declaration = binary("AUSTENITE_BINARY", "<description>", {
+        length: {
+          min: 3,
+          max: 5,
+        },
+      });
+    });
+
+    describe("when the decoded value is too short", () => {
+      beforeEach(() => {
+        process.env.AUSTENITE_BINARY = Buffer.from("ab", "utf-8").toString(
+          "base64",
+        );
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("throws", () => {
+          expect(() => {
+            declaration.value();
+          }).toThrow(
+            "value of AUSTENITE_BINARY (YWI=) is invalid: must have a decoded length between 3 and 5, but has a decoded length of 2",
+          );
+        });
+      });
+    });
+
+    describe("when the decoded value is too long", () => {
+      beforeEach(() => {
+        process.env.AUSTENITE_BINARY = Buffer.from("abcdef", "utf-8").toString(
+          "base64",
+        );
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("throws", () => {
+          expect(() => {
+            declaration.value();
+          }).toThrow(
+            "value of AUSTENITE_BINARY (YWJjZGVm) is invalid: must have a decoded length between 3 and 5, but has a decoded length of 6",
+          );
+        });
+      });
+    });
+
+    describe("when the decoded value is the right length", () => {
+      beforeEach(() => {
+        process.env.AUSTENITE_BINARY = Buffer.from("abcde", "utf-8").toString(
+          "base64",
+        );
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("returns the value", () => {
+          expect(declaration.value().toString("utf-8")).toEqual("abcde");
+        });
+      });
+    });
+  });
+
+  describe("when the declaration has a minimum length that is greater than the maximum length", () => {
+    it("throws", () => {
+      expect(() => {
+        binary("AUSTENITE_BINARY", "<description>", {
+          length: {
+            min: 5,
+            max: 3,
+          },
+        });
+      }).toThrow(
+        "specification for AUSTENITE_BINARY is invalid: minimum length (5) is greater than maximum length (3)",
+      );
+    });
+  });
 });
 
 function toEncoding(encoding: BufferEncoding, value: string): string {

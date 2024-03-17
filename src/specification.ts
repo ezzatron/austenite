@@ -1,6 +1,7 @@
 import { basename } from "path";
+import type { DescribedConstraint } from "./constraint.js";
 import { createDisjunctionFormatter } from "./list.js";
-import { code, inlineCode, italic, strong, table } from "./markdown.js";
+import { code, inlineCode, italic, list, strong, table } from "./markdown.js";
 import { Visitor } from "./schema.js";
 import { quote } from "./shell.js";
 import { Variable } from "./variable.js";
@@ -97,9 +98,14 @@ function createSchemaRenderer(variable: Variable<unknown>): Visitor<string> {
 that takes ${listFormatter.format(acceptableValues)}.`;
     },
 
-    visitScalar({ description }): string {
+    visitScalar({ description, constraints }): string {
+      const constraintsDescription = constraintList(constraints);
+      const end = constraintsDescription
+        ? ` with these constraints:\n\n${constraintsDescription}`
+        : ".";
+
       return `The ${inlineCode(name)} variable is ${optionality} variable
-that takes ${strong(description)} values.`;
+that takes ${strong(description)} values${end}`;
     },
 
     visitURL({ base, protocols = [] }): string {
@@ -124,6 +130,12 @@ that takes ${strong(`${protocolList}URL`)} values.`,
       return lines.join("\n");
     },
   };
+}
+
+function constraintList(constraints: DescribedConstraint<unknown>[]): string {
+  return list(
+    constraints.map(({ description }) => uppercaseFirst(description)),
+  );
 }
 
 function defaultExample(variable: Variable<unknown>): string {
@@ -154,7 +166,13 @@ ${body}
 `;
 }
 
-function examples({ spec: { name, examples } }: Variable<unknown>): string {
+function examples({
+  spec: {
+    name,
+    examples,
+    schema: { constraints },
+  },
+}: Variable<unknown>): string {
   const blocks = [];
 
   for (const { canonical, description } of examples) {
@@ -163,7 +181,16 @@ function examples({ spec: { name, examples } }: Variable<unknown>): string {
     );
   }
 
-  return `### Example values
+  const constraintWarning =
+    constraints.length > 0
+      ? `
+
+> [!WARNING]
+> These generated examples may not follow the constraints applied to
+> ${inlineCode(name)}.`
+      : "";
+
+  return `### Example values${constraintWarning}
 
 ${blocks.join("\n\n")}`;
 }

@@ -169,9 +169,15 @@ export PORT=12345 # a port number
 _Database connection string for read-models_
 
 The `READ_DSN` variable is a **required** variable
-that takes **string** values.
+that takes **string** values with these constraints:
+
+- Must have a minimum length of 30
 
 ### Example values
+
+> [!WARNING]
+> These generated examples may not follow the constraints applied to
+> `READ_DSN`.
 
 ```sh
 export READ_DSN=conquistador # any value

@@ -1,5 +1,9 @@
 import { Buffer } from "node:buffer";
 import {
+  createLengthConstraint,
+  type LengthConstraintSpec,
+} from "../constraint.js";
+import {
   Declaration,
   Options as DeclarationOptions,
   Value,
@@ -7,9 +11,11 @@ import {
   type ExactOptions,
 } from "../declaration.js";
 import { registerVariable } from "../environment.js";
+import { normalize } from "../error.js";
 import { Examples, create as createExamples } from "../example.js";
 import { resolve } from "../maybe.js";
 import { ScalarSchema, createScalar } from "../schema.js";
+import { SpecError } from "../variable.js";
 
 const PATTERNS: Partial<Record<BufferEncoding, RegExp>> = {
   base64: /^[A-Za-z0-9+/]*={0,2}$/,
@@ -18,6 +24,7 @@ const PATTERNS: Partial<Record<BufferEncoding, RegExp>> = {
 
 export type Options = DeclarationOptions<Buffer> & {
   readonly encoding?: BufferEncoding;
+  readonly length?: LengthConstraintSpec;
 };
 
 export function binary<O extends Options>(
@@ -25,9 +32,9 @@ export function binary<O extends Options>(
   description: string,
   options: ExactOptions<O, Options> = {} as ExactOptions<O, Options>,
 ): Declaration<Buffer, O> {
-  const { encoding = "base64", isSensitive = false } = options;
+  const { encoding = "base64", isSensitive = false, length } = options;
   const def = defaultFromOptions(options);
-  const schema = createSchema(encoding);
+  const schema = createSchema(name, encoding, length);
 
   const v = registerVariable({
     name,
@@ -45,15 +52,30 @@ export function binary<O extends Options>(
   };
 }
 
-function createSchema(encoding: BufferEncoding): ScalarSchema<Buffer> {
+function createSchema(
+  name: string,
+  encoding: BufferEncoding,
+  length: LengthConstraintSpec | undefined,
+): ScalarSchema<Buffer> {
   function marshal(v: Buffer): string {
     return v.toString(encoding);
+  }
+
+  const constraints = [];
+
+  try {
+    if (typeof length !== "undefined") {
+      constraints.push(createLengthConstraint("decoded length", length));
+    }
+  } catch (error) {
+    throw new SpecError(name, normalize(error));
   }
 
   return createScalar(
     encoding,
     marshal,
     createUnmarshal(encoding, PATTERNS[encoding]),
+    constraints,
   );
 }
 
