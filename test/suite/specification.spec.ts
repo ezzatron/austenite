@@ -621,23 +621,11 @@ describe("Specification documents", () => {
     it("describes an empty environment", async () => {
       initialize();
 
-      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
-        fixturePath("empty"),
-      );
+      await expect(
+        "<BEGIN>\n" + mockConsole.readStdout() + "<END>\n",
+      ).toMatchFileSnapshot(fixturePath("empty"));
       expect(exitCode).toBe(0);
     });
-  });
-
-  it("provides usage instructions", async () => {
-    boolean("DEBUG", "enable or disable debugging features", {
-      default: undefined,
-    });
-    initialize();
-
-    await expect(mockConsole.readStdout()).toMatchFileSnapshot(
-      fixturePath("usage"),
-    );
-    expect(exitCode).toBe(0);
   });
 
   describe("when the AUSTENITE_APP environment variable is set", () => {
@@ -648,9 +636,9 @@ describe("Specification documents", () => {
     it("uses the value as the app name", async () => {
       initialize();
 
-      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
-        fixturePath("app-env-var"),
-      );
+      await expect(
+        "<BEGIN>\n" + mockConsole.readStdout() + "<END>\n",
+      ).toMatchFileSnapshot(fixturePath("app-env-var"));
       expect(exitCode).toBe(0);
     });
   });

@@ -1,12 +1,9 @@
 import { basename } from "path";
+import { createDisjunctionFormatter } from "./list.js";
 import { code, inlineCode, italic, strong, table } from "./markdown.js";
 import { Visitor } from "./schema.js";
 import { quote } from "./shell.js";
 import { Variable } from "./variable.js";
-
-const disjunctionFormatter = new Intl.ListFormat("en", {
-  type: "disjunction",
-});
 
 export function render(variables: Variable<unknown>[]): string {
   const app = appName();
@@ -91,12 +88,13 @@ function createSchemaRenderer(variable: Variable<unknown>): Visitor<string> {
 
   return {
     visitEnum({ members }) {
+      const listFormatter = createDisjunctionFormatter();
       const acceptableValues = Object.keys(members).map((m) =>
         inlineCode(quote(m)),
       );
 
       return `The ${inlineCode(name)} variable is ${optionality} variable
-that takes ${disjunctionFormatter.format(acceptableValues)}.`;
+that takes ${listFormatter.format(acceptableValues)}.`;
     },
 
     visitScalar({ description }): string {
@@ -105,10 +103,10 @@ that takes ${strong(description)} values.`;
     },
 
     visitURL({ base, protocols = [] }): string {
+      const listFormatter = createDisjunctionFormatter();
       const protocolList: string =
         protocols.length > 0
-          ? disjunctionFormatter.format(protocols.map((p) => inlineCode(p))) +
-            " "
+          ? listFormatter.format(protocols.map((p) => inlineCode(p))) + " "
           : "";
 
       const lines = [

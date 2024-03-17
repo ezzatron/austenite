@@ -24,7 +24,7 @@ export function table(
   rows: string[][],
 ): string {
   const widths = headers.map((h, i) =>
-    Math.max(h.length, ...rows.map((r) => r[i].length)),
+    Math.max(3, h.length, ...rows.map((r) => r[i].length)),
   );
   const header = tableRow(widths, headers);
   const separator = tableRow(widths, tableSeparator(widths, alignments));

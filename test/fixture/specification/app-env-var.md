@@ -1,3 +1,4 @@
+<BEGIN>
 # Environment variables
 
 The `<custom app name>` app uses **declarative environment variables** powered by
@@ -9,3 +10,4 @@ The `<custom app name>` app uses **declarative environment variables** powered b
 > Try [declaring] some environment variables to see them listed here!
 
 [declaring]: https://github.com/ezzatron/austenite#declarations
+<END>

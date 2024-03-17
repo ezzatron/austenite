@@ -1,3 +1,4 @@
+import { createDisjunctionFormatter } from "./list.js";
 import { quote } from "./shell.js";
 
 export type Schema<T> = {
@@ -84,11 +85,8 @@ export type Visitor<T> = {
 
 export class InvalidEnumError<T> extends Error {
   constructor(members: Record<string, T>) {
+    const listFormatter = createDisjunctionFormatter();
     const quotedMembers = Object.keys(members).map(quote);
-    const listFormatter = new Intl.ListFormat("en", {
-      style: "short",
-      type: "disjunction",
-    });
 
     super(`expected ${listFormatter.format(quotedMembers)}`);
   }

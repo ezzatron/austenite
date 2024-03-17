@@ -8,6 +8,7 @@ import {
 import { registerVariable } from "../environment.js";
 import { normalize } from "../error.js";
 import { Example, Examples, create as createExamples } from "../example.js";
+import { createDisjunctionFormatter } from "../list.js";
 import { resolve } from "../maybe.js";
 import { createURL, toString, type URLSchema } from "../schema.js";
 import { Constraint, SpecError } from "../variable.js";
@@ -111,10 +112,7 @@ function createValidate(
 ): Constraint<URL> | undefined {
   if (protocols == null) return undefined;
 
-  const listFormatter = new Intl.ListFormat("en", {
-    style: "short",
-    type: "disjunction",
-  });
+  const listFormatter = createDisjunctionFormatter();
   const protocolMessage = `protocol must be ${listFormatter.format(protocols)}`;
 
   return (url) => {
