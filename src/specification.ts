@@ -11,7 +11,9 @@ const disjunctionFormatter = new Intl.ListFormat("en", {
 export function render(variables: Variable<unknown>[]): string {
   const app = appName();
 
-  return header(app, variables) + "\n\n" + specification(variables);
+  return variables.length < 1
+    ? header(app, variables)
+    : header(app, variables) + "\n\n" + specification(variables);
 }
 
 function appName(): string {
