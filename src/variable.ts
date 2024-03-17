@@ -134,7 +134,12 @@ export function create<T>(spec: VariableSpec<T>): Variable<T> {
 
       return native;
     } catch (error) {
-      throw new ValueError(spec.name, value, normalize(error));
+      throw new ValueError(
+        spec.name,
+        spec.isSensitive,
+        value,
+        normalize(error),
+      );
     }
   }
 }
@@ -151,10 +156,13 @@ export class SpecError extends Error {
 export class ValueError extends Error {
   constructor(
     public readonly name: string,
+    public readonly isSensitive: boolean,
     public readonly value: string,
     public readonly cause: Error,
   ) {
-    super(`value of ${name} (${quote(value)}) is invalid: ${cause.message}`);
+    const renderedValue = isSensitive ? "<sensitive value>" : quote(value);
+
+    super(`value of ${name} (${renderedValue}) is invalid: ${cause.message}`);
   }
 }
 
