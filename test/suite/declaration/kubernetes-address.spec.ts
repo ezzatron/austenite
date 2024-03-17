@@ -112,7 +112,7 @@ describe("Kubernetes address declarations", () => {
       expect(() => {
         declaration.value();
       }).toThrow(
-        "AUSTENITE_SVC_SERVICE_HOST is undefined and does not have a default value",
+        "AUSTENITE_SVC_SERVICE_HOST is not set and does not have a default value",
       );
     });
   });
@@ -128,7 +128,7 @@ describe("Kubernetes address declarations", () => {
       expect(() => {
         declaration.value();
       }).toThrow(
-        "AUSTENITE_SVC_SERVICE_HOST is undefined and does not have a default value",
+        "AUSTENITE_SVC_SERVICE_HOST is not set and does not have a default value",
       );
     });
   });
@@ -238,7 +238,7 @@ describe("Kubernetes address declarations", () => {
           expect(() => {
             declaration.value();
           }).toThrow(
-            "AUSTENITE_SVC_SERVICE_HOST is undefined and does not have a default value",
+            "AUSTENITE_SVC_SERVICE_HOST is not set and does not have a default value",
           );
         });
       });
@@ -256,7 +256,7 @@ describe("Kubernetes address declarations", () => {
           expect(() => {
             declaration.value();
           }).toThrow(
-            "AUSTENITE_SVC_SERVICE_PORT is undefined and does not have a default value",
+            "AUSTENITE_SVC_SERVICE_PORT is not set and does not have a default value",
           );
         });
       });
@@ -272,7 +272,7 @@ describe("Kubernetes address declarations", () => {
           expect(() => {
             declaration.value();
           }).toThrow(
-            "AUSTENITE_SVC_SERVICE_HOST is undefined and does not have a default value",
+            "AUSTENITE_SVC_SERVICE_HOST is not set and does not have a default value",
           );
         });
       });

@@ -53,7 +53,7 @@ describe("Binary declarations", () => {
       expect(() => {
         declaration.value();
       }).toThrow(
-        "AUSTENITE_BINARY is undefined and does not have a default value",
+        "AUSTENITE_BINARY is not set and does not have a default value",
       );
     });
 
@@ -76,7 +76,7 @@ describe("Binary declarations", () => {
       expect(() => {
         declaration.value();
       }).toThrow(
-        "AUSTENITE_BINARY is undefined and does not have a default value",
+        "AUSTENITE_BINARY is not set and does not have a default value",
       );
     });
   });
@@ -140,7 +140,7 @@ describe("Binary declarations", () => {
           expect(() => {
             declaration.value();
           }).toThrow(
-            "AUSTENITE_BINARY is undefined and does not have a default value",
+            "AUSTENITE_BINARY is not set and does not have a default value",
           );
         });
       });

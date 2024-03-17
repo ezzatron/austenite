@@ -60,9 +60,7 @@ describe("Network port number declarations", () => {
     it("defaults to a required declaration", () => {
       expect(() => {
         declaration.value();
-      }).toThrow(
-        "AUSTENITE_PORT is undefined and does not have a default value",
-      );
+      }).toThrow("AUSTENITE_PORT is not set and does not have a default value");
     });
   });
 
@@ -76,9 +74,7 @@ describe("Network port number declarations", () => {
     it("defaults to a required declaration", () => {
       expect(() => {
         declaration.value();
-      }).toThrow(
-        "AUSTENITE_PORT is undefined and does not have a default value",
-      );
+      }).toThrow("AUSTENITE_PORT is not set and does not have a default value");
     });
   });
 
@@ -138,7 +134,7 @@ describe("Network port number declarations", () => {
           expect(() => {
             declaration.value();
           }).toThrow(
-            "AUSTENITE_PORT is undefined and does not have a default value",
+            "AUSTENITE_PORT is not set and does not have a default value",
           );
         });
       });

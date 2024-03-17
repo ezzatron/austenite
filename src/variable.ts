@@ -100,9 +100,7 @@ export function create<T>(spec: VariableSpec<T>): Variable<T> {
 
     if (value === "") {
       resolution =
-        def == null
-          ? { error: new UndefinedError(spec.name) }
-          : { result: def };
+        def == null ? { error: new NotSetError(spec.name) } : { result: def };
     } else {
       try {
         const native = unmarshal(value);
@@ -160,8 +158,8 @@ export class ValueError extends Error {
   }
 }
 
-export class UndefinedError extends Error {
+export class NotSetError extends Error {
   constructor(public readonly name: string) {
-    super(`${name} is undefined and does not have a default value`);
+    super(`${name} is not set and does not have a default value`);
   }
 }

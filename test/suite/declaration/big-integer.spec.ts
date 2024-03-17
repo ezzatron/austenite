@@ -58,7 +58,7 @@ describe("Big integer declarations", () => {
       expect(() => {
         declaration.value();
       }).toThrow(
-        "AUSTENITE_INTEGER is undefined and does not have a default value",
+        "AUSTENITE_INTEGER is not set and does not have a default value",
       );
     });
   });
@@ -74,7 +74,7 @@ describe("Big integer declarations", () => {
       expect(() => {
         declaration.value();
       }).toThrow(
-        "AUSTENITE_INTEGER is undefined and does not have a default value",
+        "AUSTENITE_INTEGER is not set and does not have a default value",
       );
     });
   });
@@ -135,7 +135,7 @@ describe("Big integer declarations", () => {
           expect(() => {
             declaration.value();
           }).toThrow(
-            "AUSTENITE_INTEGER is undefined and does not have a default value",
+            "AUSTENITE_INTEGER is not set and does not have a default value",
           );
         });
       });

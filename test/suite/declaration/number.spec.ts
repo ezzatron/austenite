@@ -49,7 +49,7 @@ describe("Number declarations", () => {
       expect(() => {
         declaration.value();
       }).toThrow(
-        "AUSTENITE_NUMBER is undefined and does not have a default value",
+        "AUSTENITE_NUMBER is not set and does not have a default value",
       );
     });
   });
@@ -65,7 +65,7 @@ describe("Number declarations", () => {
       expect(() => {
         declaration.value();
       }).toThrow(
-        "AUSTENITE_NUMBER is undefined and does not have a default value",
+        "AUSTENITE_NUMBER is not set and does not have a default value",
       );
     });
   });
@@ -126,7 +126,7 @@ describe("Number declarations", () => {
           expect(() => {
             declaration.value();
           }).toThrow(
-            "AUSTENITE_NUMBER is undefined and does not have a default value",
+            "AUSTENITE_NUMBER is not set and does not have a default value",
           );
         });
       });

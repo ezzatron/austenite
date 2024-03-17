@@ -39,9 +39,7 @@ describe("URL declarations", () => {
     it("defaults to a required declaration", () => {
       expect(() => {
         declaration.value();
-      }).toThrow(
-        "AUSTENITE_URL is undefined and does not have a default value",
-      );
+      }).toThrow("AUSTENITE_URL is not set and does not have a default value");
     });
   });
 
@@ -55,9 +53,7 @@ describe("URL declarations", () => {
     it("defaults to a required declaration", () => {
       expect(() => {
         declaration.value();
-      }).toThrow(
-        "AUSTENITE_URL is undefined and does not have a default value",
-      );
+      }).toThrow("AUSTENITE_URL is not set and does not have a default value");
     });
   });
 
@@ -117,7 +113,7 @@ describe("URL declarations", () => {
           expect(() => {
             declaration.value();
           }).toThrow(
-            "AUSTENITE_URL is undefined and does not have a default value",
+            "AUSTENITE_URL is not set and does not have a default value",
           );
         });
       });

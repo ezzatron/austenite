@@ -50,7 +50,7 @@ describe("Duration declarations", () => {
       expect(() => {
         declaration.value();
       }).toThrow(
-        "AUSTENITE_DURATION is undefined and does not have a default value",
+        "AUSTENITE_DURATION is not set and does not have a default value",
       );
     });
   });
@@ -66,7 +66,7 @@ describe("Duration declarations", () => {
       expect(() => {
         declaration.value();
       }).toThrow(
-        "AUSTENITE_DURATION is undefined and does not have a default value",
+        "AUSTENITE_DURATION is not set and does not have a default value",
       );
     });
   });
@@ -124,7 +124,7 @@ describe("Duration declarations", () => {
           expect(() => {
             declaration.value();
           }).toThrow(
-            "AUSTENITE_DURATION is undefined and does not have a default value",
+            "AUSTENITE_DURATION is not set and does not have a default value",
           );
         });
       });

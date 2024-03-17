@@ -18,7 +18,7 @@ describe("Boolean declarations", () => {
       expect(() => {
         declaration.value();
       }).toThrow(
-        "AUSTENITE_BOOLEAN is undefined and does not have a default value",
+        "AUSTENITE_BOOLEAN is not set and does not have a default value",
       );
     });
   });
@@ -34,7 +34,7 @@ describe("Boolean declarations", () => {
       expect(() => {
         declaration.value();
       }).toThrow(
-        "AUSTENITE_BOOLEAN is undefined and does not have a default value",
+        "AUSTENITE_BOOLEAN is not set and does not have a default value",
       );
     });
   });
@@ -103,7 +103,7 @@ describe("Boolean declarations", () => {
           expect(() => {
             declaration.value();
           }).toThrow(
-            "AUSTENITE_BOOLEAN is undefined and does not have a default value",
+            "AUSTENITE_BOOLEAN is not set and does not have a default value",
           );
         });
       });

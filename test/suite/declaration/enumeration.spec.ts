@@ -37,7 +37,7 @@ describe("Enumeration declarations", () => {
       expect(() => {
         declaration.value();
       }).toThrow(
-        "AUSTENITE_ENUMERATION is undefined and does not have a default value",
+        "AUSTENITE_ENUMERATION is not set and does not have a default value",
       );
     });
   });
@@ -58,7 +58,7 @@ describe("Enumeration declarations", () => {
       expect(() => {
         declaration.value();
       }).toThrow(
-        "AUSTENITE_ENUMERATION is undefined and does not have a default value",
+        "AUSTENITE_ENUMERATION is not set and does not have a default value",
       );
     });
   });
@@ -127,7 +127,7 @@ describe("Enumeration declarations", () => {
           expect(() => {
             declaration.value();
           }).toThrow(
-            "AUSTENITE_ENUMERATION is undefined and does not have a default value",
+            "AUSTENITE_ENUMERATION is not set and does not have a default value",
           );
         });
       });
