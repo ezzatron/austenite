@@ -353,4 +353,17 @@ describe("String declarations", () => {
       );
     });
   });
+
+  describe("when the declaration has a default that violates the length constraints", () => {
+    it("throws", () => {
+      expect(() => {
+        string("AUSTENITE_STRING", "<description>", {
+          default: "ab",
+          length: 1,
+        });
+      }).toThrow(
+        "specification for AUSTENITE_STRING is invalid: default value: must have a length of 1, but has a length of 2",
+      );
+    });
+  });
 });

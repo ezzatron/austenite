@@ -464,6 +464,19 @@ describe("Binary declarations", () => {
       );
     });
   });
+
+  describe("when the declaration has a default that violates the length constraints", () => {
+    it("throws", () => {
+      expect(() => {
+        binary("AUSTENITE_BINARY", "<description>", {
+          default: Buffer.from("ab", "utf-8"),
+          length: 1,
+        });
+      }).toThrow(
+        "specification for AUSTENITE_BINARY is invalid: default value: must have a decoded length of 1, but has a decoded length of 2",
+      );
+    });
+  });
 });
 
 function toEncoding(encoding: BufferEncoding, value: string): string {

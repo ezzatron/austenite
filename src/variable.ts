@@ -104,7 +104,6 @@ export function create<T>(spec: VariableSpec<T>): Variable<T> {
     } else {
       try {
         const native = unmarshal(value);
-        applyConstraints(value, native);
 
         resolution = {
           result: definedValue({
@@ -125,13 +124,30 @@ export function create<T>(spec: VariableSpec<T>): Variable<T> {
   function marshal(value: T): string {
     spec.constraint?.(value);
 
+    for (const { description, constrain } of schema.constraints) {
+      const error = constrain(value);
+
+      if (typeof error === "string") {
+        throw new Error(`${description}, but ${error}`);
+      }
+    }
+
     return schema.marshal(value);
   }
 
   function unmarshal(value: string): T {
     try {
       const native = schema.unmarshal(value);
+
       spec.constraint?.(native);
+
+      for (const { description, constrain } of schema.constraints) {
+        const error = constrain(native);
+
+        if (typeof error === "string") {
+          throw new Error(`${description}, but ${error}`);
+        }
+      }
 
       return native;
     } catch (error) {
@@ -141,21 +157,6 @@ export function create<T>(spec: VariableSpec<T>): Variable<T> {
         value,
         normalize(error),
       );
-    }
-  }
-
-  function applyConstraints(value: string, native: T): void {
-    for (const { description, constrain } of schema.constraints) {
-      const error = constrain(native);
-
-      if (typeof error === "string") {
-        throw new ValueError(
-          spec.name,
-          spec.isSensitive,
-          value,
-          new Error(`${description}, but ${error}`),
-        );
-      }
     }
   }
 }
