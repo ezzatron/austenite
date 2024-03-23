@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ## Unreleased
 
+## [v0.8.0] - 2024-03-23
+
+[v0.8.0]: https://github.com/ezzatron/austenite/releases/tag/v0.8.0
+
 ### Added
 
 - Declarations can now be marked as sensitive, which will cause their default
