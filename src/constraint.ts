@@ -42,7 +42,7 @@ export function createLengthConstraint<T extends { length: number }>(
     description,
     constrain: function constrainLength({ length }) {
       return length < min || length > max
-        ? `has a ${lengthType} of ${length}`
+        ? `${description}, but has a ${lengthType} of ${length}`
         : undefined;
     },
   };

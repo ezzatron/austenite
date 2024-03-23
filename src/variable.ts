@@ -124,12 +124,10 @@ export function create<T>(spec: VariableSpec<T>): Variable<T> {
   function marshal(value: T): string {
     spec.constraint?.(value);
 
-    for (const { description, constrain } of schema.constraints) {
+    for (const { constrain } of schema.constraints) {
       const error = constrain(value);
 
-      if (typeof error === "string") {
-        throw new Error(`${description}, but ${error}`);
-      }
+      if (typeof error === "string") throw new Error(error);
     }
 
     return schema.marshal(value);
@@ -141,12 +139,10 @@ export function create<T>(spec: VariableSpec<T>): Variable<T> {
 
       spec.constraint?.(native);
 
-      for (const { description, constrain } of schema.constraints) {
+      for (const { constrain } of schema.constraints) {
         const error = constrain(native);
 
-        if (typeof error === "string") {
-          throw new Error(`${description}, but ${error}`);
-        }
+        if (typeof error === "string") throw new Error(error);
       }
 
       return native;
