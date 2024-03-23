@@ -135,7 +135,7 @@ that takes ${strong("URL")} values${end}`,
   };
 }
 
-function constraintList(constraints: Constraint<never>[]): string {
+function constraintList<T>(constraints: Constraint<T>[]): string {
   return list(
     extrinsicConstraints(constraints).map(({ description }) =>
       uppercaseFirst(description),
