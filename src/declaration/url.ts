@@ -1,3 +1,4 @@
+import { applyConstraints, type Constraint } from "../constraint.js";
 import {
   Declaration,
   Options as DeclarationOptions,
@@ -11,7 +12,7 @@ import { Example, Examples, create as createExamples } from "../example.js";
 import { createDisjunctionFormatter } from "../list.js";
 import { resolve } from "../maybe.js";
 import { createURL, toString, type URLSchema } from "../schema.js";
-import { Constraint, SpecError } from "../variable.js";
+import { SpecError } from "../variable.js";
 
 // as per https://www.rfc-editor.org/rfc/rfc3986#section-3.1
 const VALID_PROTOCOL_PATTERN = /^[a-zA-Z][a-zA-Z0-9.+-]*:$/;
@@ -30,11 +31,11 @@ export function url<O extends Options>(
   const { base, protocols } = options;
   assertProtocols(name, protocols);
 
-  const validate = createValidate(protocols);
-  assertBase(name, validate, base);
+  const schema = createSchema(base, protocols);
+
+  assertBase(name, schema.constraints, base);
 
   const def = defaultFromOptions(options);
-  const schema = createSchema(base, protocols);
 
   const v = registerVariable({
     name,
@@ -43,7 +44,6 @@ export function url<O extends Options>(
     isSensitive,
     schema,
     examples: buildExamples(base, protocols),
-    constraint: validate,
   });
 
   return {
@@ -78,13 +78,13 @@ function assertProtocols(name: string, protocols: string[] | undefined): void {
 
 function assertBase(
   name: string,
-  validate: Constraint<URL> | undefined,
+  constraints: Constraint<URL>[],
   base: URL | undefined,
 ): void {
-  if (base == null || validate == null) return;
+  if (base == null) return;
 
   try {
-    validate(base);
+    applyConstraints(constraints, base);
   } catch (error) {
     throw new BaseUrlError(name, base, normalize(error).message);
   }
@@ -96,28 +96,28 @@ function createSchema(
 ): URLSchema {
   function unmarshal(v: string): URL {
     try {
-      const url = new URL(v, base);
-
-      return url;
+      return new URL(v, base);
     } catch {
       throw new Error("must be a URL");
     }
   }
 
-  return createURL(base, protocols, toString, unmarshal, []);
-}
+  const constraints: Constraint<URL>[] = [];
 
-function createValidate(
-  protocols: string[] | undefined,
-): Constraint<URL> | undefined {
-  if (protocols == null) return undefined;
+  if (protocols != null) {
+    const listFormatter = createDisjunctionFormatter();
+    const protocolMessage = `protocol must be ${listFormatter.format(protocols)}`;
 
-  const listFormatter = createDisjunctionFormatter();
-  const protocolMessage = `protocol must be ${listFormatter.format(protocols)}`;
+    constraints.push({
+      isExtrinsic: false,
+      description: `protocol must be ${protocols.join(", ")}`,
+      constrain({ protocol }) {
+        if (!protocols.includes(protocol)) throw new Error(protocolMessage);
+      },
+    });
+  }
 
-  return (url) => {
-    if (!protocols.includes(url.protocol)) throw new Error(protocolMessage);
-  };
+  return createURL(base, protocols, toString, unmarshal, constraints);
 }
 
 function buildExamples(

@@ -6,7 +6,7 @@ export type Constraint<T> = {
   constrain: Constrain<T>;
 };
 
-export type Constrain<T> = (v: T) => string | undefined;
+export type Constrain<T> = (v: T) => string | undefined | void;
 
 export function applyConstraints<T>(
   constraints: Constraint<T>[],
