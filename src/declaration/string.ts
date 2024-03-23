@@ -58,11 +58,11 @@ export function string<O extends Options>(
 function buildExamples(): Examples {
   return createExamples(
     {
-      canonical: "conquistador",
+      value: "conquistador",
       description: "any value",
     },
     {
-      canonical: "alabaster parakeet",
+      value: "alabaster parakeet",
       description: "some values may need escaping",
     },
   );

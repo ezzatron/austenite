@@ -85,7 +85,7 @@ function findLiteral(
 function buildExamples(literals: Literals): Examples {
   return createExamples(
     ...Object.entries(literals).map(([literal, native]) => ({
-      canonical: literal,
+      value: literal,
       description: String(native),
     })),
   );

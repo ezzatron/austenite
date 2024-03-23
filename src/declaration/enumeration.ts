@@ -77,7 +77,7 @@ function createSchema<T>(name: string, members: Members<T>): EnumSchema<T> {
 function buildExamples<T>(members: Members<T>): Examples {
   return createExamples(
     ...Object.entries(members).map(([literal, { description }]) => ({
-      canonical: literal,
+      value: literal,
       description,
     })),
   );

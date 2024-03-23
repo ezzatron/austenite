@@ -101,7 +101,7 @@ function buildExamples(
   schema: ScalarSchema<Buffer>,
 ): Examples {
   return createExamples({
-    canonical: schema.marshal(Buffer.from("conquistador", "utf-8")),
+    value: schema.marshal(Buffer.from("conquistador", "utf-8")),
     description: `${encoding} encoded string`,
   });
 }

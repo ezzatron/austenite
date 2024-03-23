@@ -56,11 +56,11 @@ function createSchema(): ScalarSchema<Duration> {
 function buildExamples(): Examples {
   return createExamples(
     {
-      canonical: Duration.from({ minutes: 1, seconds: 30 }).toString(),
+      value: Duration.from({ minutes: 1, seconds: 30 }).toString(),
       description: "ISO 8601 duration",
     },
     {
-      canonical: Duration.from({ months: 1, days: 15, hours: 12 }).toString(),
+      value: Duration.from({ months: 1, days: 15, hours: 12 }).toString(),
       description: "ISO 8601 duration",
     },
   );

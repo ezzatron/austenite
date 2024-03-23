@@ -1,5 +1,5 @@
 export type Example = {
-  readonly canonical: string;
+  readonly value: string;
   readonly description: string;
 };
 
@@ -10,8 +10,8 @@ export function create(...init: (Example | undefined)[]): Examples {
   const examples: Example[] = [];
 
   for (const example of init) {
-    if (example == null || seen.has(example.canonical)) continue;
-    seen.add(example.canonical);
+    if (example == null || seen.has(example.value)) continue;
+    seen.add(example.value);
     examples.push(example);
   }
 

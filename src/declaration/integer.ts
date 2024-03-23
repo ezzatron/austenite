@@ -52,27 +52,27 @@ function createSchema(): ScalarSchema<number> {
 function buildExamples(): Examples {
   return createExamples(
     {
-      canonical: "123456",
+      value: "123456",
       description: "positive",
     },
     {
-      canonical: "-123456",
+      value: "-123456",
       description: "negative",
     },
     {
-      canonical: "1.23456e+5",
+      value: "1.23456e+5",
       description: "exponential",
     },
     {
-      canonical: "0x1E240",
+      value: "0x1E240",
       description: "hexadecimal",
     },
     {
-      canonical: "0o361100",
+      value: "0o361100",
       description: "octal",
     },
     {
-      canonical: "0b11110001001000000",
+      value: "0b11110001001000000",
       description: "binary",
     },
   );

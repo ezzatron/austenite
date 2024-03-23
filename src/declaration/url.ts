@@ -120,20 +120,20 @@ function buildExamples(
   if (protocols == null) {
     protocolExamples = [
       {
-        canonical: `https://host.example.org/path/to/resource`,
+        value: `https://host.example.org/path/to/resource`,
         description: "URL (absolute)",
       },
     ];
   } else {
     protocolExamples = protocols.map((protocol) => ({
-      canonical: `${protocol}//host.example.org/path/to/resource`,
+      value: `${protocol}//host.example.org/path/to/resource`,
       description: `URL (${protocol})`,
     }));
   }
 
   if (base != null) {
     relativeExample = {
-      canonical: `path/to/resource`,
+      value: `path/to/resource`,
       description: "URL (relative)",
     };
   }

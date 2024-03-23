@@ -176,7 +176,7 @@ function examples({
 }: Variable<unknown>): string {
   const blocks = [];
 
-  for (const { canonical, description } of examples) {
+  for (const { value: canonical, description } of examples) {
     blocks.push(
       code("sh", `export ${name}=${quote(canonical)} # ${description}`),
     );

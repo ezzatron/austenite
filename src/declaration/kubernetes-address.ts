@@ -78,11 +78,11 @@ function registerHost(
     schema,
     examples: createExamples(
       {
-        canonical: "service.example.org",
+        value: "service.example.org",
         description: "a hostname",
       },
       {
-        canonical: "10.0.0.11",
+        value: "10.0.0.11",
         description: "an IP address",
       },
     ),
@@ -124,7 +124,7 @@ function registerPort(
     isSensitive,
     schema,
     examples: createExamples({
-      canonical: "12345",
+      value: "12345",
       description: "a port number",
     }),
   });

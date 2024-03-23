@@ -55,7 +55,7 @@ function createSchema(): ScalarSchema<number> {
 
 function buildExamples(): Examples {
   return createExamples({
-    canonical: "12345",
+    value: "12345",
     description: "a port number",
   });
 }
