@@ -1,4 +1,5 @@
 import { normalize } from "./error.js";
+import { createConjunctionFormatter } from "./list.js";
 
 export type Constraint<T> = IntrinsicConstraint<T> | ExtrinsicConstraint<T>;
 
@@ -40,11 +41,9 @@ export function extrinsicConstraints<T>(
 
 export class ConstraintsError extends Error {
   constructor(public readonly errors: Error[]) {
-    if (errors.length === 1) {
-      super(errors[0].message);
-    } else {
-      super(`violates ${errors.length} constraints`);
-    }
+    const listFormatter = createConjunctionFormatter();
+
+    super(listFormatter.format(errors.map((e) => e.message)));
   }
 }
 

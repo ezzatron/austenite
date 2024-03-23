@@ -2,6 +2,7 @@ import { Temporal } from "@js-temporal/polyfill";
 import { join } from "path";
 import { fileURLToPath } from "url";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { registerVariable } from "../../src/environment.js";
 import {
   bigInteger,
   binary,
@@ -16,6 +17,8 @@ import {
   string,
   url,
 } from "../../src/index.js";
+import { undefinedValue } from "../../src/maybe.js";
+import { createString } from "../../src/schema.js";
 import { MockConsole, createMockConsole } from "../helpers.js";
 
 const fixturesPath = fileURLToPath(
@@ -315,6 +318,7 @@ describe("Validation summary", () => {
     Object.assign(process.env, {
       AUSTENITE_STRING: "hello, world!",
       AUSTENITE_BINARY: "QmVlcCBib29wIQ==",
+      AUSTENITE_CUSTOM: "Goodbye, loser!",
     });
 
     string("AUSTENITE_XTRIGGER", "trigger failure");
@@ -323,6 +327,31 @@ describe("Validation summary", () => {
     });
     binary("AUSTENITE_BINARY", "example binary", {
       length: 5,
+    });
+    registerVariable({
+      name: "AUSTENITE_CUSTOM",
+      description: "custom variable",
+      default: undefinedValue(),
+      isSensitive: false,
+      schema: createString("string", [
+        {
+          description: "must start with a greeting",
+          constrain: function constrainGreeting(v) {
+            if (!v.match(/^(Hi|Hello)\b/)) {
+              return 'must start with "Hi" or "Hello"';
+            }
+          },
+        },
+        {
+          description: "must end with a subject",
+          constrain: function constrainSubject(v) {
+            if (!v.match(/\b(world|universe)!$/i)) {
+              return 'must end with "world!" or "universe!"';
+            }
+          },
+        },
+      ]),
+      examples: [],
     });
 
     initialize();
