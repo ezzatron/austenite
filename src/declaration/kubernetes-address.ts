@@ -1,4 +1,4 @@
-import ipaddr from "ipaddr.js";
+import { createHostnameConstraint } from "../constraint/hostname.js";
 import { createNetworkPortNumberConstraint } from "../constraint/network-port-number.js";
 import {
   Declaration,
@@ -61,7 +61,7 @@ function registerHost(
   def: Maybe<KubernetesAddress | undefined>,
 ): Variable<string> {
   const hostDef = map(def, (address) => address?.host);
-  const schema = createString("hostname", []);
+  const schema = createString("hostname", [createHostnameConstraint()]);
   let envName: string;
 
   try {
@@ -86,26 +86,7 @@ function registerHost(
         description: "an IP address",
       },
     ),
-    constraint: validateHost,
   });
-}
-
-function validateHost(host: string): void {
-  if (host === "") throw new Error("must not be empty");
-
-  if (ipaddr.isValid(host)) return;
-
-  if (host.includes(" ")) {
-    throw new Error("must not contain whitespace");
-  }
-  if (host.includes(":")) {
-    throw new Error(
-      "must not contain a colon (:) unless part of an IPv6 address",
-    );
-  }
-  if (host.startsWith(".") || host.endsWith(".")) {
-    throw new Error("must not begin or end with a dot");
-  }
 }
 
 function registerPort(
