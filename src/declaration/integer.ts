@@ -1,4 +1,6 @@
+import { createIntegerConstraint } from "../constraint/integer.js";
 import {
+  assertRangeSpec,
   createRangeConstraint,
   hasNumberRangeConstraint,
   type RangeConstraintSpec,
@@ -47,24 +49,14 @@ export function integer<O extends Options>(
 
 function createSchema(name: string, options: Options): ScalarSchema<number> {
   function unmarshal(v: string): number {
-    const n = Number(v);
-
-    if (!Number.isInteger(n)) throw new Error("must be an integer");
-
-    return n;
+    return Number(v);
   }
 
-  const constraints = [];
+  const constraints = [createIntegerConstraint()];
 
   try {
     if (hasNumberRangeConstraint(options)) {
-      if ("min" in options && !Number.isInteger(options.min)) {
-        throw new Error(`minimum (${options.min}) must be an integer`);
-      }
-      if ("max" in options && !Number.isInteger(options.max)) {
-        throw new Error(`maximum (${options.max}) must be an integer`);
-      }
-
+      assertRangeSpec(constraints, options);
       constraints.push(createRangeConstraint(options));
     }
   } catch (error) {
