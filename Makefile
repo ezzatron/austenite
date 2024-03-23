@@ -14,7 +14,11 @@ GENERATED_FILES += ENVIRONMENT.md
 
 .PHONY: run-example
 run-example: artifacts/link-dependencies.touch
-	node --loader ts-node/esm test/fixture/example/run.ts
+	source test/fixture/example/invalid-values.sh; node --loader ts-node/esm test/fixture/example/run.ts
+
+.PHONY: copy-example
+copy-example: artifacts/link-dependencies.touch
+	$(MAKE) run-example 2>&1 | pbcopy
 
 .PHONY: stryker
 stryker: artifacts/link-dependencies.touch
