@@ -1,10 +1,12 @@
 import { normalize } from "./error.js";
 
-export type Constrain<T> = (v: T) => string | undefined;
 export type Constraint<T> = {
+  isExtrinsic: boolean;
   description: string;
   constrain: Constrain<T>;
 };
+
+export type Constrain<T> = (v: T) => string | undefined;
 
 export function applyConstraints<T>(
   constraints: Constraint<T>[],
@@ -58,6 +60,7 @@ export function createLengthConstraint<T extends { length: number }>(
   }
 
   return {
+    isExtrinsic: true,
     description,
     constrain: function constrainLength({ length }) {
       return length < min || length > max

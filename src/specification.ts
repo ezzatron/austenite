@@ -134,7 +134,9 @@ that takes ${strong(`${protocolList}URL`)} values.`,
 
 function constraintList(constraints: Constraint<unknown>[]): string {
   return list(
-    constraints.map(({ description }) => uppercaseFirst(description)),
+    constraints
+      .filter((c) => c.isExtrinsic)
+      .map(({ description }) => uppercaseFirst(description)),
   );
 }
 
@@ -181,14 +183,13 @@ function examples({
     );
   }
 
-  const constraintWarning =
-    constraints.length > 0
-      ? `
+  const constraintWarning = constraints.some((c) => c.isExtrinsic)
+    ? `
 
 > [!WARNING]
 > These generated examples may not follow the constraints applied to
 > ${inlineCode(name)}.`
-      : "";
+    : "";
 
   return `### Example values${constraintWarning}
 
