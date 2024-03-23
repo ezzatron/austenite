@@ -180,14 +180,7 @@ export const isDebug = boolean(
 export const isDebug = boolean(
   "DEBUG",
   "enable or disable debugging features",
-  {
-    literals: {
-      y: true,
-      yes: true,
-      n: false,
-      no: false,
-    },
-  },
+  { literals: { y: true, yes: true, n: false, no: false } },
 );
 ```
 
@@ -300,10 +293,7 @@ export const redisPrimary = kubernetesAddress("redis-primary", {
 
 // default
 export const redisPrimary = kubernetesAddress("redis-primary", {
-  default: {
-    host: "redis.example.org",
-    port: 6379,
-  },
+  default: { host: "redis.example.org", port: 6379 },
 });
 ```
 
@@ -322,28 +312,21 @@ export const port = networkPortNumber(
 export const port = networkPortNumber(
   "PORT",
   "listen port for the HTTP server",
-  {
-    default: undefined,
-  },
+  { default: undefined },
 );
 
 // default
 export const port = networkPortNumber(
   "PORT",
   "listen port for the HTTP server",
-  {
-    default: 8080,
-  },
+  { default: 8080 },
 );
 
 // min/max
 export const port = networkPortNumber(
   "PORT",
   "listen port for the HTTP server",
-  {
-    min: 49152,
-    max: 65535,
-  },
+  { min: 49152, max: 65535 },
 );
 ```
 
