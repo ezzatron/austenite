@@ -18,7 +18,7 @@ import { noop } from "../../helpers.js";
 const { Duration } = Temporal;
 type Duration = Temporal.Duration;
 
-type create<T extends number | bigint | Duration> = (
+type CreateDeclaration<T extends number | bigint | Duration> = (
   options: RangeOptions<T>,
 ) => RangeDeclaration<T>;
 
@@ -30,19 +30,19 @@ type RangeDeclaration<T extends number | bigint | Duration> = Declaration<
 type RangeOptions<T extends number | bigint | Duration> = Options<T> &
   RangeConstraintSpec<T>;
 
-const createNumber = (options: RangeConstraintSpec<number>) =>
+const createNumber = (options: RangeOptions<number>) =>
   number("AUSTENITE_VAR", "<description>", options);
 
-const createInteger = (options: RangeConstraintSpec<number>) =>
+const createInteger = (options: RangeOptions<number>) =>
   integer("AUSTENITE_VAR", "<description>", options);
 
-const createBigInteger = (options: RangeConstraintSpec<bigint>) =>
+const createBigInteger = (options: RangeOptions<bigint>) =>
   bigInteger("AUSTENITE_VAR", "<description>", options);
 
-const createNetworkPortNumber = (options: RangeConstraintSpec<number>) =>
+const createNetworkPortNumber = (options: RangeOptions<number>) =>
   networkPortNumber("AUSTENITE_VAR", "<description>", options);
 
-const createDuration = (options: RangeConstraintSpec<Duration>) =>
+const createDuration = (options: RangeOptions<Duration>) =>
   duration("AUSTENITE_VAR", "<description>", options);
 
 describe.each`
@@ -65,7 +65,7 @@ describe.each`
     low,
     high,
   }: {
-    create: create<T>;
+    create: CreateDeclaration<T>;
     min: T;
     minCanonical: string;
     max: T;

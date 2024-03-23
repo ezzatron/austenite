@@ -14,12 +14,10 @@ export function createLengthConstraint<T extends { length: number }>(
   } else {
     min = spec.min ?? -Infinity;
     max = spec.max ?? Infinity;
-  }
 
-  if (min > max) {
-    throw new Error(
-      `minimum length (${min}) is greater than maximum length (${max})`,
-    );
+    if (min >= max) {
+      throw new Error(`minimum length (${min}) is >= maximum length (${max})`);
+    }
   }
 
   let description: string;
