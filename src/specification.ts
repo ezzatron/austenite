@@ -1,5 +1,5 @@
 import { basename } from "path";
-import type { DescribedConstraint } from "./constraint.js";
+import type { Constraint } from "./constraint.js";
 import { createDisjunctionFormatter } from "./list.js";
 import { code, inlineCode, italic, list, strong, table } from "./markdown.js";
 import { Visitor } from "./schema.js";
@@ -132,7 +132,7 @@ that takes ${strong(`${protocolList}URL`)} values.`,
   };
 }
 
-function constraintList(constraints: DescribedConstraint<unknown>[]): string {
+function constraintList(constraints: Constraint<unknown>[]): string {
   return list(
     constraints.map(({ description }) => uppercaseFirst(description)),
   );

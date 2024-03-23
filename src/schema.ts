@@ -1,11 +1,11 @@
-import type { DescribedConstraint } from "./constraint.js";
+import type { Constraint } from "./constraint.js";
 import { createDisjunctionFormatter } from "./list.js";
 import { quote } from "./shell.js";
 
 export type Schema<T> = {
   marshal(value: T): string;
   unmarshal(value: string): T;
-  constraints: DescribedConstraint<T>[];
+  constraints: Constraint<T>[];
   accept<U>(visitor: Visitor<U>): U;
 };
 
@@ -27,7 +27,7 @@ export type URLSchema = Schema<URL> & {
 
 export function createString(
   description: string,
-  constraints: DescribedConstraint<string>[],
+  constraints: Constraint<string>[],
 ): ScalarSchema<string> {
   return createScalar(description, identity, identity, constraints);
 }
@@ -36,7 +36,7 @@ export function createEnum<T>(
   members: Record<string, T>,
   marshal: MarshalFn<T>,
   unmarshal: UnmarshalFn<T>,
-  constraints: DescribedConstraint<T>[],
+  constraints: Constraint<T>[],
 ): EnumSchema<T> {
   return {
     members,
@@ -55,7 +55,7 @@ export function createURL(
   protocols: string[] | undefined,
   marshal: MarshalFn<URL>,
   unmarshal: UnmarshalFn<URL>,
-  constraints: DescribedConstraint<URL>[],
+  constraints: Constraint<URL>[],
 ): URLSchema {
   return {
     base,
@@ -74,7 +74,7 @@ export function createScalar<T>(
   description: string,
   marshal: MarshalFn<T>,
   unmarshal: UnmarshalFn<T>,
-  constraints: DescribedConstraint<T>[],
+  constraints: Constraint<T>[],
 ): ScalarSchema<T> {
   return {
     description,

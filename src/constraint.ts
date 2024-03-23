@@ -1,20 +1,20 @@
 import { normalize } from "./error.js";
 
-export type Constraint<T> = (v: T) => string | undefined;
-export type DescribedConstraint<T> = {
+export type Constrain<T> = (v: T) => string | undefined;
+export type Constraint<T> = {
   description: string;
-  constrain: Constraint<T>;
+  constrain: Constrain<T>;
 };
 
 export function applyConstraints<T>(
-  constraints: DescribedConstraint<T>[],
+  constraints: Constraint<T>[],
   value: T,
 ): void {
   const errors: Error[] = [];
 
   for (const { constrain } of constraints) {
     try {
-      applyConstraint(constrain, value);
+      applyConstrain(constrain, value);
     } catch (error) {
       errors.push(normalize(error));
     }
@@ -28,7 +28,7 @@ export type LengthConstraintSpec = number | { min?: number; max?: number };
 export function createLengthConstraint<T extends { length: number }>(
   lengthType: string,
   spec: LengthConstraintSpec,
-): DescribedConstraint<T> {
+): Constraint<T> {
   let min: number, max: number;
 
   if (typeof spec === "number") {
@@ -77,8 +77,8 @@ export class ConstraintsError extends Error {
   }
 }
 
-function applyConstraint<T>(constraint: Constraint<T>, value: T): void {
-  const error = constraint(value);
+function applyConstrain<T>(constrain: Constrain<T>, value: T): void {
+  const error = constrain(value);
 
   if (typeof error === "string") throw new Error(error);
 }
