@@ -13,8 +13,8 @@ The format is based on [Keep a Changelog], and this project adheres to
 ### Added
 
 - Declarations can now be marked as sensitive, which will cause their default
-  values and actual values to be redacted in validation summaries and generated
-  specifications.
+  values and actual values to be redacted in validation summaries, generated
+  specifications, and exception messages.
 - Length constraints can now be set on `binary` and `string` variable
   declarations.
 - Range constraints can now be set on `number`, `integer`, `bigInteger`,
