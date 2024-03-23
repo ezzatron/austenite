@@ -2,7 +2,7 @@ import { Buffer } from "node:buffer";
 import {
   createLengthConstraint,
   type LengthConstraintSpec,
-} from "../constraint.js";
+} from "../constraint/length.js";
 import {
   Declaration,
   Options as DeclarationOptions,
