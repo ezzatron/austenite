@@ -1,7 +1,8 @@
+import { applyConstraints } from "./constraint.js";
 import { readVariable } from "./environment.js";
 import { normalize } from "./error.js";
 import { Examples } from "./example.js";
-import { definedValue, map, Maybe, undefinedValue } from "./maybe.js";
+import { Maybe, definedValue, map, undefinedValue } from "./maybe.js";
 import { Schema } from "./schema.js";
 import { quote } from "./shell.js";
 
@@ -123,12 +124,7 @@ export function create<T>(spec: VariableSpec<T>): Variable<T> {
 
   function marshal(value: T): string {
     spec.constraint?.(value);
-
-    for (const { constrain } of schema.constraints) {
-      const error = constrain(value);
-
-      if (typeof error === "string") throw new Error(error);
-    }
+    applyConstraints(schema.constraints, value);
 
     return schema.marshal(value);
   }
@@ -138,12 +134,7 @@ export function create<T>(spec: VariableSpec<T>): Variable<T> {
       const native = schema.unmarshal(value);
 
       spec.constraint?.(native);
-
-      for (const { constrain } of schema.constraints) {
-        const error = constrain(native);
-
-        if (typeof error === "string") throw new Error(error);
-      }
+      applyConstraints(schema.constraints, native);
 
       return native;
     } catch (error) {

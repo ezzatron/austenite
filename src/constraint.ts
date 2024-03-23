@@ -4,6 +4,19 @@ export type DescribedConstraint<T> = {
   constrain: Constraint<T>;
 };
 
+export function applyConstraint<T>(constraint: Constraint<T>, value: T): void {
+  const error = constraint(value);
+
+  if (typeof error === "string") throw new Error(error);
+}
+
+export function applyConstraints<T>(
+  constraints: DescribedConstraint<T>[],
+  value: T,
+): void {
+  for (const { constrain } of constraints) applyConstraint(constrain, value);
+}
+
 export type LengthConstraintSpec = number | { min?: number; max?: number };
 
 export function createLengthConstraint<T extends { length: number }>(
