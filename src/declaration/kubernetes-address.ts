@@ -1,4 +1,5 @@
 import ipaddr from "ipaddr.js";
+import { createNetworkPortNumberConstraint } from "../constraint/network-port-number.js";
 import {
   Declaration,
   Options as DeclarationOptions,
@@ -145,7 +146,6 @@ function registerPort(
       canonical: "12345",
       description: "a port number",
     }),
-    constraint: validatePort,
   });
 }
 
@@ -159,14 +159,9 @@ function createPortSchema(): ScalarSchema<number> {
     return Number(v);
   }
 
-  return createScalar("port number", toString, unmarshal, []);
-}
-
-function validatePort(port: number): void {
-  if (!Number.isInteger(port) || port < 0) {
-    throw new Error("must be an unsigned integer");
-  }
-  if (port < 1 || port > 65535) throw new Error("must be between 1 and 65535");
+  return createScalar("port number", toString, unmarshal, [
+    createNetworkPortNumberConstraint(),
+  ]);
 }
 
 function nameToEnv(name: string): string {

@@ -1,3 +1,4 @@
+import { createNetworkPortNumberConstraint } from "../constraint/network-port-number.js";
 import {
   Declaration,
   Options as DeclarationOptions,
@@ -28,7 +29,6 @@ export function networkPortNumber<O extends Options>(
     isSensitive,
     schema,
     examples: buildExamples(),
-    constraint: validate,
   });
 
   return {
@@ -48,14 +48,9 @@ function createSchema(): ScalarSchema<number> {
     return Number(v);
   }
 
-  return createScalar("port number", toString, unmarshal, []);
-}
-
-function validate(port: number): void {
-  if (!Number.isInteger(port) || port < 0) {
-    throw new Error("must be an unsigned integer");
-  }
-  if (port < 1 || port > 65535) throw new Error("must be between 1 and 65535");
+  return createScalar("port number", toString, unmarshal, [
+    createNetworkPortNumberConstraint(),
+  ]);
 }
 
 function buildExamples(): Examples {
