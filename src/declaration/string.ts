@@ -11,7 +11,7 @@ import {
 } from "../declaration.js";
 import { registerVariable } from "../environment.js";
 import { normalize } from "../error.js";
-import { Examples, create as createExamples } from "../example.js";
+import { type Example } from "../example.js";
 import { resolve } from "../maybe.js";
 import { createString } from "../schema.js";
 import { SpecError } from "../variable.js";
@@ -55,8 +55,8 @@ export function string<O extends Options>(
   };
 }
 
-function buildExamples(): Examples {
-  return createExamples(
+function buildExamples(): Example[] {
+  return [
     {
       value: "conquistador",
       description: "any value",
@@ -65,5 +65,5 @@ function buildExamples(): Examples {
       value: "alabaster parakeet",
       description: "some values may need escaping",
     },
-  );
+  ];
 }

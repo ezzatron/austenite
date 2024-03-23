@@ -12,7 +12,7 @@ import {
 } from "../declaration.js";
 import { registerVariable } from "../environment.js";
 import { normalize } from "../error.js";
-import { Examples, create as createExamples } from "../example.js";
+import { type Example } from "../example.js";
 import { resolve } from "../maybe.js";
 import { ScalarSchema, createScalar } from "../schema.js";
 import { SpecError } from "../variable.js";
@@ -99,9 +99,11 @@ function createUnmarshal(
 function buildExamples(
   encoding: BufferEncoding,
   schema: ScalarSchema<Buffer>,
-): Examples {
-  return createExamples({
-    value: schema.marshal(Buffer.from("conquistador", "utf-8")),
-    description: `${encoding} encoded string`,
-  });
+): Example[] {
+  return [
+    {
+      value: schema.marshal(Buffer.from("conquistador", "utf-8")),
+      description: `${encoding} encoded string`,
+    },
+  ];
 }

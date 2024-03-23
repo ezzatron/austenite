@@ -6,7 +6,7 @@ import {
   type ExactOptions,
 } from "../declaration.js";
 import { registerVariable } from "../environment.js";
-import { Examples, create as createExamples } from "../example.js";
+import { type Example } from "../example.js";
 import { resolve } from "../maybe.js";
 import { ScalarSchema, createScalar, toString } from "../schema.js";
 
@@ -49,8 +49,8 @@ function createSchema(): ScalarSchema<number> {
   return createScalar("integer", toString, unmarshal, []);
 }
 
-function buildExamples(): Examples {
-  return createExamples(
+function buildExamples(): Example[] {
+  return [
     {
       value: "123456",
       description: "positive",
@@ -75,5 +75,5 @@ function buildExamples(): Examples {
       value: "0b11110001001000000",
       description: "binary",
     },
-  );
+  ];
 }

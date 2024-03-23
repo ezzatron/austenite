@@ -9,7 +9,7 @@ import {
 } from "../declaration.js";
 import { registerVariable } from "../environment.js";
 import { normalize } from "../error.js";
-import { create as createExamples } from "../example.js";
+import { type Example } from "../example.js";
 import { Maybe, map, resolve } from "../maybe.js";
 import {
   ScalarSchema,
@@ -76,17 +76,21 @@ function registerHost(
     default: hostDef,
     isSensitive,
     schema,
-    examples: createExamples(
-      {
-        value: "service.example.org",
-        description: "a hostname",
-      },
-      {
-        value: "10.0.0.11",
-        description: "an IP address",
-      },
-    ),
+    examples: buildHostExamples(),
   });
+}
+
+function buildHostExamples(): Example[] {
+  return [
+    {
+      value: "service.example.org",
+      description: "a hostname",
+    },
+    {
+      value: "10.0.0.11",
+      description: "an IP address",
+    },
+  ];
 }
 
 function registerPort(
@@ -123,10 +127,7 @@ function registerPort(
     default: portDef,
     isSensitive,
     schema,
-    examples: createExamples({
-      value: "12345",
-      description: "a port number",
-    }),
+    examples: buildPortExamples(),
   });
 }
 
@@ -143,6 +144,15 @@ function createPortSchema(): ScalarSchema<number> {
   return createScalar("port number", toString, unmarshal, [
     createNetworkPortNumberConstraint(),
   ]);
+}
+
+function buildPortExamples(): Example[] {
+  return [
+    {
+      value: "12345",
+      description: "a port number",
+    },
+  ];
 }
 
 function nameToEnv(name: string): string {

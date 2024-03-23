@@ -25,10 +25,6 @@ that takes **URL** values with these constraints:
 
 ### Example values
 
-> [!WARNING]
-> These generated examples may not follow the constraints applied to
-> `CDN_URL`.
-
 ```sh
 export CDN_URL=https://host.example.org/path/to/resource # URL (https:)
 ```
@@ -43,10 +39,6 @@ that takes **URL** values with these constraints:
 - Protocol must be ws: or wss:
 
 ### Example values
-
-> [!WARNING]
-> These generated examples may not follow the constraints applied to
-> `SOCKET_SERVER`.
 
 ```sh
 export SOCKET_SERVER=ws://host.example.org/path/to/resource # URL (ws:)

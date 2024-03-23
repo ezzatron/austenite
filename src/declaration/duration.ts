@@ -7,7 +7,7 @@ import {
   type ExactOptions,
 } from "../declaration.js";
 import { registerVariable } from "../environment.js";
-import { Examples, create as createExamples } from "../example.js";
+import { type Example } from "../example.js";
 import { resolve } from "../maybe.js";
 import { ScalarSchema, createScalar, toString } from "../schema.js";
 
@@ -53,8 +53,8 @@ function createSchema(): ScalarSchema<Duration> {
   return createScalar("ISO 8601 duration", toString, unmarshal, []);
 }
 
-function buildExamples(): Examples {
-  return createExamples(
+function buildExamples(): Example[] {
+  return [
     {
       value: Duration.from({ minutes: 1, seconds: 30 }).toString(),
       description: "ISO 8601 duration",
@@ -63,5 +63,5 @@ function buildExamples(): Examples {
       value: Duration.from({ months: 1, days: 15, hours: 12 }).toString(),
       description: "ISO 8601 duration",
     },
-  );
+  ];
 }

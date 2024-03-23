@@ -35,10 +35,6 @@ that takes **URL** values with these constraints:
 
 ### Example values
 
-> [!WARNING]
-> These generated examples may not follow the constraints applied to
-> `CDN_URL`.
-
 ```sh
 export CDN_URL=http://host.example.org/path/to/resource # URL (http:)
 ```
@@ -178,20 +174,6 @@ The `READ_DSN` variable is a **required** variable
 that takes **string** values with these constraints:
 
 - Must have a minimum length of 30
-
-### Example values
-
-> [!WARNING]
-> These generated examples may not follow the constraints applied to
-> `READ_DSN`.
-
-```sh
-export READ_DSN=conquistador # any value
-```
-
-```sh
-export READ_DSN='alabaster parakeet' # some values may need escaping
-```
 
 ## `REDIS_PRIMARY_SERVICE_HOST`
 

@@ -7,7 +7,7 @@ import {
   type ExactOptions,
 } from "../declaration.js";
 import { registerVariable } from "../environment.js";
-import { Examples, create as createExamples } from "../example.js";
+import { type Example } from "../example.js";
 import { resolve } from "../maybe.js";
 import { ScalarSchema, createScalar, toString } from "../schema.js";
 
@@ -53,9 +53,11 @@ function createSchema(): ScalarSchema<number> {
   ]);
 }
 
-function buildExamples(): Examples {
-  return createExamples({
-    value: "12345",
-    description: "a port number",
-  });
+function buildExamples(): Example[] {
+  return [
+    {
+      value: "12345",
+      description: "a port number",
+    },
+  ];
 }

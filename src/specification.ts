@@ -71,13 +71,17 @@ function variable(variable: Variable<unknown>): string {
     spec: { name, description },
   } = variable;
 
+  const renderedSchema = variable.spec.schema.accept(
+    createSchemaRenderer(variable),
+  );
+  const renderedDefaultExample = defaultExample(variable);
+  const renderedExamples = examples(variable);
+
   return `## ${inlineCode(name)}
 
 ${italic(uppercaseFirst(description))}
 
-${variable.spec.schema.accept(createSchemaRenderer(variable))}
-
-${defaultExample(variable)}${examples(variable)}`;
+${renderedSchema}${renderedDefaultExample}${renderedExamples}`;
 }
 
 function createSchemaRenderer(variable: Variable<unknown>): Visitor<string> {
@@ -160,20 +164,16 @@ function defaultExample(variable: Variable<unknown>): string {
     );
   }
 
-  return `### Default value
+  return `
 
-${body}
+### Default value
 
-`;
+${body}`;
 }
 
-function examples({
-  spec: {
-    name,
-    examples,
-    schema: { constraints },
-  },
-}: Variable<unknown>): string {
+function examples({ spec: { name, examples } }: Variable<unknown>): string {
+  if (examples.length < 1) return "";
+
   const blocks = [];
 
   for (const { value: canonical, description } of examples) {
@@ -182,16 +182,9 @@ function examples({
     );
   }
 
-  const constraintWarning =
-    extrinsicConstraints(constraints).length > 0
-      ? `
+  return `
 
-> [!WARNING]
-> These generated examples may not follow the constraints applied to
-> ${inlineCode(name)}.`
-      : "";
-
-  return `### Example values${constraintWarning}
+### Example values
 
 ${blocks.join("\n\n")}`;
 }

@@ -22,11 +22,3 @@ that takes **string** values with these constraints:
 
 - Must start with a greeting
 - Must end with a subject
-
-### Example values
-
-> [!WARNING]
-> These generated examples may not follow the constraints applied to
-> `AUSTENITE_CUSTOM`.
-
-

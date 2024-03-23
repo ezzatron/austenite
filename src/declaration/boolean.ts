@@ -6,7 +6,7 @@ import {
   type ExactOptions,
 } from "../declaration.js";
 import { registerVariable } from "../environment.js";
-import { Examples, create as createExamples } from "../example.js";
+import { type Example } from "../example.js";
 import { resolve } from "../maybe.js";
 import { EnumSchema, InvalidEnumError, createEnum } from "../schema.js";
 import { SpecError } from "../variable.js";
@@ -82,13 +82,11 @@ function findLiteral(
   throw new MissingLiteralError(name, native);
 }
 
-function buildExamples(literals: Literals): Examples {
-  return createExamples(
-    ...Object.entries(literals).map(([literal, native]) => ({
-      value: literal,
-      description: String(native),
-    })),
-  );
+function buildExamples(literals: Literals): Example[] {
+  return Object.entries(literals).map(([literal, native]) => ({
+    value: literal,
+    description: String(native),
+  }));
 }
 
 class EmptyLiteralError extends SpecError {

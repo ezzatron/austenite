@@ -9,7 +9,7 @@ import {
 } from "../declaration.js";
 import { registerVariable } from "../environment.js";
 import { normalize } from "../error.js";
-import { Example, Examples, create as createExamples } from "../example.js";
+import { Example } from "../example.js";
 import { resolve } from "../maybe.js";
 import { createURL, toString, type URLSchema } from "../schema.js";
 import { SpecError } from "../variable.js";
@@ -113,32 +113,28 @@ function createSchema(
 function buildExamples(
   base: URL | undefined,
   protocols: string[] | undefined,
-): Examples {
-  let protocolExamples: Example[];
-  let relativeExample: Example | undefined;
-
-  if (protocols == null) {
-    protocolExamples = [
-      {
-        value: `https://host.example.org/path/to/resource`,
-        description: "URL (absolute)",
-      },
-    ];
-  } else {
-    protocolExamples = protocols.map((protocol) => ({
-      value: `${protocol}//host.example.org/path/to/resource`,
-      description: `URL (${protocol})`,
-    }));
-  }
+): Example[] {
+  const examples: Example[] =
+    protocols == null
+      ? [
+          {
+            value: `https://host.example.org/path/to/resource`,
+            description: "URL (absolute)",
+          },
+        ]
+      : protocols.map((protocol) => ({
+          value: `${protocol}//host.example.org/path/to/resource`,
+          description: `URL (${protocol})`,
+        }));
 
   if (base != null) {
-    relativeExample = {
+    examples.push({
       value: `path/to/resource`,
       description: "URL (relative)",
-    };
+    });
   }
 
-  return createExamples(...protocolExamples, relativeExample);
+  return examples;
 }
 
 class BaseUrlError extends SpecError {

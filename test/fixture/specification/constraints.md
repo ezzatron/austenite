@@ -29,16 +29,6 @@ that takes **base64** values with these constraints:
 
 - Must have a decoded length of 1
 
-### Example values
-
-> [!WARNING]
-> These generated examples may not follow the constraints applied to
-> `AUSTENITE_BINARY_LENGTH`.
-
-```sh
-export AUSTENITE_BINARY_LENGTH=Y29ucXVpc3RhZG9y # base64 encoded string
-```
-
 ## `AUSTENITE_BINARY_LENGTH_RANGE`
 
 _Example binary with length range constraint_
@@ -48,16 +38,6 @@ that takes **base64** values with these constraints:
 
 - Must have a decoded length between 4 and 5
 
-### Example values
-
-> [!WARNING]
-> These generated examples may not follow the constraints applied to
-> `AUSTENITE_BINARY_LENGTH_RANGE`.
-
-```sh
-export AUSTENITE_BINARY_LENGTH_RANGE=Y29ucXVpc3RhZG9y # base64 encoded string
-```
-
 ## `AUSTENITE_BINARY_MAX_LENGTH`
 
 _Example binary with maximum length constraint_
@@ -66,16 +46,6 @@ The `AUSTENITE_BINARY_MAX_LENGTH` variable is a **required** variable
 that takes **base64** values with these constraints:
 
 - Must have a maximum decoded length of 3
-
-### Example values
-
-> [!WARNING]
-> These generated examples may not follow the constraints applied to
-> `AUSTENITE_BINARY_MAX_LENGTH`.
-
-```sh
-export AUSTENITE_BINARY_MAX_LENGTH=Y29ucXVpc3RhZG9y # base64 encoded string
-```
 
 ## `AUSTENITE_BINARY_MIN_LENGTH`
 
@@ -87,10 +57,6 @@ that takes **base64** values with these constraints:
 - Must have a minimum decoded length of 2
 
 ### Example values
-
-> [!WARNING]
-> These generated examples may not follow the constraints applied to
-> `AUSTENITE_BINARY_MIN_LENGTH`.
 
 ```sh
 export AUSTENITE_BINARY_MIN_LENGTH=Y29ucXVpc3RhZG9y # base64 encoded string
@@ -105,20 +71,6 @@ that takes **string** values with these constraints:
 
 - Must have a length of 1
 
-### Example values
-
-> [!WARNING]
-> These generated examples may not follow the constraints applied to
-> `AUSTENITE_STRING_LENGTH`.
-
-```sh
-export AUSTENITE_STRING_LENGTH=conquistador # any value
-```
-
-```sh
-export AUSTENITE_STRING_LENGTH='alabaster parakeet' # some values may need escaping
-```
-
 ## `AUSTENITE_STRING_LENGTH_RANGE`
 
 _Example string with length range constraint_
@@ -128,20 +80,6 @@ that takes **string** values with these constraints:
 
 - Must have a length between 4 and 5
 
-### Example values
-
-> [!WARNING]
-> These generated examples may not follow the constraints applied to
-> `AUSTENITE_STRING_LENGTH_RANGE`.
-
-```sh
-export AUSTENITE_STRING_LENGTH_RANGE=conquistador # any value
-```
-
-```sh
-export AUSTENITE_STRING_LENGTH_RANGE='alabaster parakeet' # some values may need escaping
-```
-
 ## `AUSTENITE_STRING_MAX_LENGTH`
 
 _Example string with maximum length constraint_
@@ -150,20 +88,6 @@ The `AUSTENITE_STRING_MAX_LENGTH` variable is a **required** variable
 that takes **string** values with these constraints:
 
 - Must have a maximum length of 3
-
-### Example values
-
-> [!WARNING]
-> These generated examples may not follow the constraints applied to
-> `AUSTENITE_STRING_MAX_LENGTH`.
-
-```sh
-export AUSTENITE_STRING_MAX_LENGTH=conquistador # any value
-```
-
-```sh
-export AUSTENITE_STRING_MAX_LENGTH='alabaster parakeet' # some values may need escaping
-```
 
 ## `AUSTENITE_STRING_MIN_LENGTH`
 
@@ -175,10 +99,6 @@ that takes **string** values with these constraints:
 - Must have a minimum length of 2
 
 ### Example values
-
-> [!WARNING]
-> These generated examples may not follow the constraints applied to
-> `AUSTENITE_STRING_MIN_LENGTH`.
 
 ```sh
 export AUSTENITE_STRING_MIN_LENGTH=conquistador # any value

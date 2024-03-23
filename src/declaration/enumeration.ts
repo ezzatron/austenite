@@ -6,7 +6,7 @@ import {
   type ExactOptions,
 } from "../declaration.js";
 import { registerVariable } from "../environment.js";
-import { Examples, create as createExamples } from "../example.js";
+import { type Example } from "../example.js";
 import { resolve } from "../maybe.js";
 import { EnumSchema, InvalidEnumError, createEnum } from "../schema.js";
 import { SpecError } from "../variable.js";
@@ -74,13 +74,11 @@ function createSchema<T>(name: string, members: Members<T>): EnumSchema<T> {
   return createEnum(schemaMembers, marshal, unmarshal, []);
 }
 
-function buildExamples<T>(members: Members<T>): Examples {
-  return createExamples(
-    ...Object.entries(members).map(([literal, { description }]) => ({
-      value: literal,
-      description,
-    })),
-  );
+function buildExamples<T>(members: Members<T>): Example[] {
+  return Object.entries(members).map(([literal, { description }]) => ({
+    value: literal,
+    description,
+  }));
 }
 
 class EmptyMemberError extends SpecError {
