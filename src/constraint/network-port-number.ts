@@ -1,9 +1,7 @@
-import { Constraint } from "../constraint.js";
+import { type IntrinsicConstraint } from "../constraint.js";
 
-export function createNetworkPortNumberConstraint(): Constraint<number> {
+export function createNetworkPortNumberConstraint(): IntrinsicConstraint<number> {
   return {
-    isExtrinsic: false,
-    description: "must be a network port number",
     constrain: function constrainPortNumber(port) {
       if (!Number.isInteger(port) || port < 0) {
         return "must be an unsigned integer";

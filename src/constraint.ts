@@ -1,7 +1,12 @@
 import { normalize } from "./error.js";
 
-export type Constraint<T> = {
-  isExtrinsic: boolean;
+export type Constraint<T> = IntrinsicConstraint<T> | ExtrinsicConstraint<T>;
+
+export type IntrinsicConstraint<T> = {
+  constrain: Constrain<T>;
+};
+
+export type ExtrinsicConstraint<T> = {
   description: string;
   constrain: Constrain<T>;
 };
@@ -23,6 +28,14 @@ export function applyConstraints<T>(
   }
 
   if (errors.length > 0) throw new ConstraintsError(errors);
+}
+
+export function extrinsicConstraints<T>(
+  constraints: Constraint<T>[],
+): ExtrinsicConstraint<T>[] {
+  return constraints.filter(
+    (c): c is ExtrinsicConstraint<T> => "description" in c,
+  );
 }
 
 export class ConstraintsError extends Error {

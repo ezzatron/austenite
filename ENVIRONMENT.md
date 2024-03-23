@@ -29,9 +29,15 @@ The `example` app uses **declarative environment variables** powered by
 _CDN to use when serving static assets_
 
 The `CDN_URL` variable is a **required** variable
-that takes **`http:` or `https:` URL** values.
+that takes **URL** values with these constraints:
+
+- Protocol must be http: or https:
 
 ### Example values
+
+> [!WARNING]
+> These generated examples may not follow the constraints applied to
+> `CDN_URL`.
 
 ```sh
 export CDN_URL=http://host.example.org/path/to/resource # URL (http:)

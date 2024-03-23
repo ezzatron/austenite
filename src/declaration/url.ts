@@ -1,4 +1,5 @@
 import { applyConstraints, type Constraint } from "../constraint.js";
+import { createURLProtocolConstraint } from "../constraint/url-protocol.js";
 import {
   Declaration,
   Options as DeclarationOptions,
@@ -9,7 +10,6 @@ import {
 import { registerVariable } from "../environment.js";
 import { normalize } from "../error.js";
 import { Example, Examples, create as createExamples } from "../example.js";
-import { createDisjunctionFormatter } from "../list.js";
 import { resolve } from "../maybe.js";
 import { createURL, toString, type URLSchema } from "../schema.js";
 import { SpecError } from "../variable.js";
@@ -103,18 +103,8 @@ function createSchema(
   }
 
   const constraints: Constraint<URL>[] = [];
-
   if (protocols != null) {
-    const listFormatter = createDisjunctionFormatter();
-    const protocolMessage = `protocol must be ${listFormatter.format(protocols)}`;
-
-    constraints.push({
-      isExtrinsic: false,
-      description: `protocol must be ${protocols.join(", ")}`,
-      constrain({ protocol }) {
-        if (!protocols.includes(protocol)) throw new Error(protocolMessage);
-      },
-    });
+    constraints.push(createURLProtocolConstraint(protocols));
   }
 
   return createURL(base, protocols, toString, unmarshal, constraints);

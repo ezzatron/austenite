@@ -1,5 +1,5 @@
 import { basename } from "path";
-import type { Constraint } from "./constraint.js";
+import { extrinsicConstraints, type Constraint } from "./constraint.js";
 import { createDisjunctionFormatter } from "./list.js";
 import { code, inlineCode, italic, list, strong, table } from "./markdown.js";
 import { Visitor } from "./schema.js";
@@ -108,16 +108,15 @@ that takes ${listFormatter.format(acceptableValues)}.`;
 that takes ${strong(description)} values${end}`;
     },
 
-    visitURL({ base, protocols = [] }): string {
-      const listFormatter = createDisjunctionFormatter();
-      const protocolList: string =
-        protocols.length > 0
-          ? listFormatter.format(protocols.map((p) => inlineCode(p))) + " "
-          : "";
+    visitURL({ base, constraints }): string {
+      const constraintsDescription = constraintList(constraints);
+      const end = constraintsDescription
+        ? ` with these constraints:\n\n${constraintsDescription}`
+        : ".";
 
       const lines = [
         `The ${inlineCode(name)} variable is ${optionality} variable
-that takes ${strong(`${protocolList}URL`)} values.`,
+that takes ${strong("URL")} values${end}`,
       ];
 
       if (base) {
@@ -132,11 +131,11 @@ that takes ${strong(`${protocolList}URL`)} values.`,
   };
 }
 
-function constraintList(constraints: Constraint<unknown>[]): string {
+function constraintList(constraints: Constraint<never>[]): string {
   return list(
-    constraints
-      .filter((c) => c.isExtrinsic)
-      .map(({ description }) => uppercaseFirst(description)),
+    extrinsicConstraints(constraints).map(({ description }) =>
+      uppercaseFirst(description),
+    ),
   );
 }
 
@@ -183,13 +182,14 @@ function examples({
     );
   }
 
-  const constraintWarning = constraints.some((c) => c.isExtrinsic)
-    ? `
+  const constraintWarning =
+    extrinsicConstraints(constraints).length > 0
+      ? `
 
 > [!WARNING]
 > These generated examples may not follow the constraints applied to
 > ${inlineCode(name)}.`
-    : "";
+      : "";
 
   return `### Example values${constraintWarning}
 

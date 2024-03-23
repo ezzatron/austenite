@@ -1,11 +1,11 @@
-import { Constraint } from "../constraint.js";
+import { type ExtrinsicConstraint } from "../constraint.js";
 
 export type LengthConstraintSpec = number | { min?: number; max?: number };
 
 export function createLengthConstraint<T extends { length: number }>(
   lengthType: string,
   spec: LengthConstraintSpec,
-): Constraint<T> {
+): ExtrinsicConstraint<T> {
   let min: number, max: number;
 
   if (typeof spec === "number") {
@@ -35,7 +35,6 @@ export function createLengthConstraint<T extends { length: number }>(
   }
 
   return {
-    isExtrinsic: true,
     description,
     constrain: function constrainLength({ length }) {
       return length < min || length > max

@@ -1,10 +1,8 @@
 import ipaddr from "ipaddr.js";
-import { Constraint } from "../constraint.js";
+import { type IntrinsicConstraint } from "../constraint.js";
 
-export function createHostnameConstraint(): Constraint<string> {
+export function createHostnameConstraint(): IntrinsicConstraint<string> {
   return {
-    isExtrinsic: false,
-    description: "must be a hostname",
     constrain: function constrainHostname(hostname) {
       if (hostname === "") {
         return "must not be empty";
