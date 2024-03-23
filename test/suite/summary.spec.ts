@@ -2,7 +2,6 @@ import { Temporal } from "@js-temporal/polyfill";
 import { join } from "path";
 import { fileURLToPath } from "url";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { registerVariable } from "../../src/environment.js";
 import {
   bigInteger,
   binary,
@@ -17,9 +16,6 @@ import {
   string,
   url,
 } from "../../src/index.js";
-import { undefinedValue } from "../../src/maybe.js";
-import { createString } from "../../src/schema.js";
-import { VariableSpec } from "../../src/variable.js";
 import { MockConsole, createMockConsole } from "../helpers.js";
 
 const fixturesPath = fileURLToPath(
@@ -591,39 +587,6 @@ describe("Validation summary", () => {
 
     await expect(mockConsole.readStderr()).toMatchFileSnapshot(
       fixturePath("senstive-invalid"),
-    );
-    expect(exitCode).toBeGreaterThan(0);
-  });
-
-  it("summarizes misbehaving variables", async () => {
-    Object.assign(process.env, {
-      AUSTENITE_CUSTOM: "custom value",
-      AUSTENITE_STRING: "hello, world!",
-    });
-
-    const spec: VariableSpec<string> = {
-      name: "AUSTENITE_CUSTOM",
-      description: "custom variable",
-      default: undefinedValue(),
-      isSensitive: false,
-      schema: createString("string", []),
-      examples: [],
-      constraint: () => {
-        throw {
-          toString() {
-            return "not really an error";
-          },
-        };
-      },
-    };
-
-    registerVariable(spec);
-    string("AUSTENITE_STRING", "example string");
-
-    initialize();
-
-    await expect(mockConsole.readStderr()).toMatchFileSnapshot(
-      fixturePath("misbehaving"),
     );
     expect(exitCode).toBeGreaterThan(0);
   });

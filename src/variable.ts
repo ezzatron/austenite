@@ -13,10 +13,7 @@ export type VariableSpec<T> = {
   readonly isSensitive: boolean;
   readonly schema: Schema<T>;
   readonly examples: Examples;
-  readonly constraint?: Constraint<T>;
 };
-
-export type Constraint<T> = (value: T) => void;
 
 export type Variable<T> = {
   readonly spec: VariableSpec<T>;
@@ -123,7 +120,6 @@ export function create<T>(spec: VariableSpec<T>): Variable<T> {
   }
 
   function marshal(value: T): string {
-    spec.constraint?.(value);
     applyConstraints(schema.constraints, value);
 
     return schema.marshal(value);
@@ -132,8 +128,6 @@ export function create<T>(spec: VariableSpec<T>): Variable<T> {
   function unmarshal(value: string): T {
     try {
       const native = schema.unmarshal(value);
-
-      spec.constraint?.(native);
       applyConstraints(schema.constraints, native);
 
       return native;
