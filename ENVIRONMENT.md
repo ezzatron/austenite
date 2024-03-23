@@ -100,17 +100,9 @@ export EARTH_ATOM_COUNT=0b11110001001000000 # binary
 _GRPC request timeout_
 
 The `GRPC_TIMEOUT` variable is an **optional** variable
-that takes **ISO 8601 duration** values.
+that takes **ISO 8601 duration** values with these constraints:
 
-### Example values
-
-```sh
-export GRPC_TIMEOUT=PT1M30S # ISO 8601 duration
-```
-
-```sh
-export GRPC_TIMEOUT=P1M15DT12H # ISO 8601 duration
-```
+- Must be >= PT0.1S and <= PT10S
 
 ## `LOG_LEVEL`
 
@@ -260,16 +252,14 @@ export SESSION_KEY=Y29ucXVpc3RhZG9y # base64 encoded string
 _Weighting for this node_
 
 The `WEIGHT` variable is a **required** variable
-that takes **integer** values.
+that takes **integer** values with these constraints:
+
+- Must be >= 1
 
 ### Example values
 
 ```sh
 export WEIGHT=123456 # positive
-```
-
-```sh
-export WEIGHT=-123456 # negative
 ```
 
 ```sh

@@ -1,3 +1,4 @@
+import { Temporal } from "@js-temporal/polyfill";
 import {
   bigInteger,
   binary,
@@ -24,6 +25,8 @@ export const earthAtomCount = bigInteger(
 
 export const grpcTimeout = duration("GRPC_TIMEOUT", "gRPC request timeout", {
   default: undefined,
+  min: Temporal.Duration.from({ milliseconds: 100 }),
+  max: Temporal.Duration.from({ seconds: 10 }),
 });
 
 export const isDebug = boolean(
@@ -75,4 +78,4 @@ export const sessionKey = binary("SESSION_KEY", "session token signing key", {
   isSensitive: true,
 });
 
-export const weight = integer("WEIGHT", "weighting for this node");
+export const weight = integer("WEIGHT", "weighting for this node", { min: 1 });

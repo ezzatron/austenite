@@ -17,6 +17,8 @@ The format is based on [Keep a Changelog], and this project adheres to
   specifications.
 - Length constraints can now be set on `binary` and `string` variable
   declarations.
+- Range constraints can now be set on `number`, `integer`, `bigInteger`,
+  `networkPortNumber`, and `duration` variable declarations.
 
 ### Changed
 

@@ -1,5 +1,10 @@
 import { Temporal } from "@js-temporal/polyfill";
 import {
+  createDurationRangeConstraint,
+  hasDurationRangeConstraint,
+  type RangeConstraintSpec,
+} from "../constraint/range.js";
+import {
   Declaration,
   Options as DeclarationOptions,
   Value,
@@ -7,14 +12,17 @@ import {
   type ExactOptions,
 } from "../declaration.js";
 import { registerVariable } from "../environment.js";
+import { normalize } from "../error.js";
 import { type Example } from "../example.js";
 import { resolve } from "../maybe.js";
 import { ScalarSchema, createScalar, toString } from "../schema.js";
+import { SpecError } from "../variable.js";
 
 const { Duration } = Temporal;
 type Duration = Temporal.Duration;
 
-export type Options = DeclarationOptions<Duration>;
+export type Options = DeclarationOptions<Duration> &
+  Partial<RangeConstraintSpec<Duration>>;
 
 export function duration<O extends Options>(
   name: string,
@@ -23,7 +31,7 @@ export function duration<O extends Options>(
 ): Declaration<Duration, O> {
   const { isSensitive = false } = options;
   const def = defaultFromOptions(options);
-  const schema = createSchema();
+  const schema = createSchema(name, options);
 
   const v = registerVariable({
     name,
@@ -41,7 +49,7 @@ export function duration<O extends Options>(
   };
 }
 
-function createSchema(): ScalarSchema<Duration> {
+function createSchema(name: string, options: Options): ScalarSchema<Duration> {
   function unmarshal(v: string): Duration {
     try {
       return Duration.from(v);
@@ -50,7 +58,17 @@ function createSchema(): ScalarSchema<Duration> {
     }
   }
 
-  return createScalar("ISO 8601 duration", toString, unmarshal, []);
+  const constraints = [];
+
+  try {
+    if (hasDurationRangeConstraint(options)) {
+      constraints.push(createDurationRangeConstraint(options));
+    }
+  } catch (error) {
+    throw new SpecError(name, normalize(error));
+  }
+
+  return createScalar("ISO 8601 duration", toString, unmarshal, constraints);
 }
 
 function buildExamples(): Example[] {

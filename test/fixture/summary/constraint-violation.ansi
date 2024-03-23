@@ -1,6 +1,11 @@
 Environment Variables:
 
-❯ AUSTENITE_BINARY    example binary     <base64>    ✗ set to QmVlcCBib29wIQ==, must have a decoded length of 5, but has a decoded length of 10
-❯ AUSTENITE_CUSTOM    custom variable    <string>    ✗ set to 'Goodbye, loser!', must start with "Hi" or "Hello" and must end with "world!" or "universe!"
-❯ AUSTENITE_STRING    example string     <string>    ✗ set to 'hello, world!', must have a length of 5, but has a length of 13
-❯ AUSTENITE_XTRIGGER  trigger failure    <string>    ✗ not set
+❯ AUSTENITE_BINARY       example binary         <base64>               ✗ set to QmVlcCBib29wIQ==, must have a decoded length of 5, but has a decoded length of 10
+❯ AUSTENITE_CUSTOM       custom variable        <string>               ✗ set to 'Goodbye, loser!', must start with "Hi" or "Hello" and must end with "world!" or "universe!"
+❯ AUSTENITE_DURATION     example duration       <ISO 8601 duration>    ✗ set to PT2S, must be >= PT3S
+❯ AUSTENITE_INTEGER      example integer        <integer>              ✗ set to 2, must be >= 3
+❯ AUSTENITE_INTEGER_BIG  example big integer    <big integer>          ✗ set to 2, must be >= 3
+❯ AUSTENITE_NUMBER       example number         <number>               ✗ set to 3.2, must be >= 3.3
+❯ AUSTENITE_PORT_NUMBER  example port number    <port number>          ✗ set to 22222, must be >= 33333
+❯ AUSTENITE_STRING       example string         <string>               ✗ set to 'hello, world!', must have a length of 5, but has a length of 13
+❯ AUSTENITE_XTRIGGER     trigger failure        <string>               ✗ not set

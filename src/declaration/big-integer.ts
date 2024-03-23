@@ -1,4 +1,9 @@
 import {
+  createRangeConstraint,
+  hasBigintRangeConstraint,
+  type RangeConstraintSpec,
+} from "../constraint/range.js";
+import {
   Declaration,
   Options as DeclarationOptions,
   Value,
@@ -6,11 +11,14 @@ import {
   type ExactOptions,
 } from "../declaration.js";
 import { registerVariable } from "../environment.js";
+import { normalize } from "../error.js";
 import { type Example } from "../example.js";
 import { resolve } from "../maybe.js";
 import { ScalarSchema, createScalar, toString } from "../schema.js";
+import { SpecError } from "../variable.js";
 
-export type Options = DeclarationOptions<bigint>;
+export type Options = DeclarationOptions<bigint> &
+  Partial<RangeConstraintSpec<bigint>>;
 
 export function bigInteger<O extends Options>(
   name: string,
@@ -19,7 +27,7 @@ export function bigInteger<O extends Options>(
 ): Declaration<bigint, O> {
   const { isSensitive = false } = options;
   const def = defaultFromOptions(options);
-  const schema = createSchema();
+  const schema = createSchema(name, options);
 
   const v = registerVariable({
     name,
@@ -37,7 +45,7 @@ export function bigInteger<O extends Options>(
   };
 }
 
-function createSchema(): ScalarSchema<bigint> {
+function createSchema(name: string, options: Options): ScalarSchema<bigint> {
   function unmarshal(v: string): bigint {
     try {
       return BigInt(v);
@@ -46,7 +54,17 @@ function createSchema(): ScalarSchema<bigint> {
     }
   }
 
-  return createScalar("big integer", toString, unmarshal, []);
+  const constraints = [];
+
+  try {
+    if (hasBigintRangeConstraint(options)) {
+      constraints.push(createRangeConstraint(options));
+    }
+  } catch (error) {
+    throw new SpecError(name, normalize(error));
+  }
+
+  return createScalar("big integer", toString, unmarshal, constraints);
 }
 
 function buildExamples(): Example[] {

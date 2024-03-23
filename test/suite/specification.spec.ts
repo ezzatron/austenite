@@ -595,6 +595,132 @@ describe("Specification documents", () => {
           length: { min: 4, max: 5 },
         },
       );
+      number(
+        "AUSTENITE_NUMBER_MIN",
+        "example number with inclusive minimum constraint",
+        {
+          min: 1,
+          minIsExclusive: false,
+        },
+      );
+      number(
+        "AUSTENITE_NUMBER_MIN_EXCLUSIVE",
+        "example number with exclusive minimum constraint",
+        {
+          min: 2,
+          minIsExclusive: true,
+        },
+      );
+      number(
+        "AUSTENITE_NUMBER_MAX",
+        "example number with inclusive maximum constraint",
+        {
+          max: 3,
+          maxIsExclusive: false,
+        },
+      );
+      number(
+        "AUSTENITE_NUMBER_MAX_EXCLUSIVE",
+        "example number with exclusive maximum constraint",
+        {
+          max: 4,
+          maxIsExclusive: true,
+        },
+      );
+      number("AUSTENITE_NUMBER_RANGE", "example number with range constraint", {
+        min: 5,
+        minIsExclusive: false,
+        max: 6,
+        maxIsExclusive: true,
+      });
+      integer(
+        "AUSTENITE_INTEGER_MIN",
+        "example integer with minimum constraint",
+        {
+          min: 1,
+        },
+      );
+      integer(
+        "AUSTENITE_INTEGER_MAX",
+        "example integer with maximum constraint",
+        {
+          max: 2,
+        },
+      );
+      integer(
+        "AUSTENITE_INTEGER_RANGE",
+        "example integer with range constraint",
+        {
+          min: 3,
+          max: 4,
+        },
+      );
+      bigInteger(
+        "AUSTENITE_INTEGER_BIG_MIN",
+        "example big integer with minimum constraint",
+        {
+          min: 1n,
+        },
+      );
+      bigInteger(
+        "AUSTENITE_INTEGER_BIG_MAX",
+        "example big integer with maximum constraint",
+        {
+          max: 2n,
+        },
+      );
+      bigInteger(
+        "AUSTENITE_INTEGER_BIG_RANGE",
+        "example big integer with range constraint",
+        {
+          min: 3n,
+          max: 4n,
+        },
+      );
+      networkPortNumber(
+        "AUSTENITE_PORT_NUMBER_MIN",
+        "example port number with minimum constraint",
+        {
+          min: 11111,
+        },
+      );
+      networkPortNumber(
+        "AUSTENITE_PORT_NUMBER_MAX",
+        "example port number with maximum constraint",
+        {
+          max: 22222,
+        },
+      );
+      networkPortNumber(
+        "AUSTENITE_PORT_NUMBER_RANGE",
+        "example port number with range constraint",
+        {
+          min: 33333,
+          max: 44444,
+        },
+      );
+      duration(
+        "AUSTENITE_DURATION_MIN",
+        "example duration with minimum constraint",
+        {
+          min: Duration.from("PT1S"),
+        },
+      );
+      duration(
+        "AUSTENITE_DURATION_MAX",
+        "example duration with maximum constraint",
+        {
+          max: Duration.from("PT2S"),
+        },
+      );
+      duration(
+        "AUSTENITE_DURATION_RANGE",
+        "example duration with range constraint",
+        {
+          min: Duration.from("PT3S"),
+          max: Duration.from("PT4S"),
+        },
+      );
       initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(

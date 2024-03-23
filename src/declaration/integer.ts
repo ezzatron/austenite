@@ -1,4 +1,9 @@
 import {
+  createRangeConstraint,
+  hasNumberRangeConstraint,
+  type RangeConstraintSpec,
+} from "../constraint/range.js";
+import {
   Declaration,
   Options as DeclarationOptions,
   Value,
@@ -6,11 +11,14 @@ import {
   type ExactOptions,
 } from "../declaration.js";
 import { registerVariable } from "../environment.js";
+import { normalize } from "../error.js";
 import { type Example } from "../example.js";
 import { resolve } from "../maybe.js";
 import { ScalarSchema, createScalar, toString } from "../schema.js";
+import { SpecError } from "../variable.js";
 
-export type Options = DeclarationOptions<number>;
+export type Options = DeclarationOptions<number> &
+  Partial<RangeConstraintSpec<number>>;
 
 export function integer<O extends Options>(
   name: string,
@@ -19,7 +27,7 @@ export function integer<O extends Options>(
 ): Declaration<number, O> {
   const { isSensitive = false } = options;
   const def = defaultFromOptions(options);
-  const schema = createSchema();
+  const schema = createSchema(name, options);
 
   const v = registerVariable({
     name,
@@ -37,7 +45,7 @@ export function integer<O extends Options>(
   };
 }
 
-function createSchema(): ScalarSchema<number> {
+function createSchema(name: string, options: Options): ScalarSchema<number> {
   function unmarshal(v: string): number {
     const n = Number(v);
 
@@ -46,7 +54,24 @@ function createSchema(): ScalarSchema<number> {
     return n;
   }
 
-  return createScalar("integer", toString, unmarshal, []);
+  const constraints = [];
+
+  try {
+    if (hasNumberRangeConstraint(options)) {
+      if ("min" in options && !Number.isInteger(options.min)) {
+        throw new Error(`minimum (${options.min}) must be an integer`);
+      }
+      if ("max" in options && !Number.isInteger(options.max)) {
+        throw new Error(`maximum (${options.max}) must be an integer`);
+      }
+
+      constraints.push(createRangeConstraint(options));
+    }
+  } catch (error) {
+    throw new SpecError(name, normalize(error));
+  }
+
+  return createScalar("integer", toString, unmarshal, constraints);
 }
 
 function buildExamples(): Example[] {

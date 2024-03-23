@@ -256,4 +256,46 @@ describe("Network port number declarations", () => {
       });
     },
   );
+
+  describe.each`
+    description      | port       | expected
+    ${"non-integer"} | ${123.456} | ${"must be an unsigned integer"}
+    ${"negative"}    | ${-1}      | ${"must be an unsigned integer"}
+    ${"zero"}        | ${0}       | ${"must be between 1 and 65535"}
+    ${"above max"}   | ${65536}   | ${"must be between 1 and 65535"}
+  `(
+    "when using an invalid minimum ($description)",
+    ({ port, expected }: { port: number; expected: string }) => {
+      it("throws", () => {
+        expect(() => {
+          networkPortNumber("AUSTENITE_PORT", "<description>", {
+            min: port,
+          });
+        }).toThrow(
+          `specification for AUSTENITE_PORT is invalid: minimum (${port}) ${expected}`,
+        );
+      });
+    },
+  );
+
+  describe.each`
+    description      | port       | expected
+    ${"non-integer"} | ${123.456} | ${"must be an unsigned integer"}
+    ${"negative"}    | ${-1}      | ${"must be an unsigned integer"}
+    ${"zero"}        | ${0}       | ${"must be between 1 and 65535"}
+    ${"above max"}   | ${65536}   | ${"must be between 1 and 65535"}
+  `(
+    "when using an invalid maximum ($description)",
+    ({ port, expected }: { port: number; expected: string }) => {
+      it("throws", () => {
+        expect(() => {
+          networkPortNumber("AUSTENITE_PORT", "<description>", {
+            max: port,
+          });
+        }).toThrow(
+          `specification for AUSTENITE_PORT is invalid: maximum (${port}) ${expected}`,
+        );
+      });
+    },
+  );
 });

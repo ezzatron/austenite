@@ -215,4 +215,28 @@ describe("Integer declarations", () => {
       });
     });
   });
+
+  describe("when the declaration has a minimum that is not an integer", () => {
+    it("throws", () => {
+      expect(() => {
+        integer("AUSTENITE_INTEGER", "<description>", {
+          min: 3.5,
+        });
+      }).toThrow(
+        "specification for AUSTENITE_INTEGER is invalid: minimum (3.5) must be an integer",
+      );
+    });
+  });
+
+  describe("when the declaration has a maximum that is not an integer", () => {
+    it("throws", () => {
+      expect(() => {
+        integer("AUSTENITE_INTEGER", "<description>", {
+          max: 3.5,
+        });
+      }).toThrow(
+        "specification for AUSTENITE_INTEGER is invalid: maximum (3.5) must be an integer",
+      );
+    });
+  });
 });

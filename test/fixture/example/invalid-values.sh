@@ -1,7 +1,7 @@
 export CDN_URL=host.example.org
 export DEBUG=yes
 export EARTH_ATOM_COUNT=5.9722e24
-export GRPC_TIMEOUT=10S
+export GRPC_TIMEOUT=PT30S
 export LOG_LEVEL=silly
 export PORT=65536
 export READ_DSN="host=localhost"
@@ -9,4 +9,4 @@ export REDIS_PRIMARY_SERVICE_HOST=.redis.example.org
 export REDIS_PRIMARY_SERVICE_PORT=65536
 export SAMPLE_RATIO=1/100
 export SESSION_KEY=???
-export WEIGHT=123.456
+export WEIGHT=0

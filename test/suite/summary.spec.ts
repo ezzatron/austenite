@@ -318,6 +318,11 @@ describe("Validation summary", () => {
     Object.assign(process.env, {
       AUSTENITE_STRING: "hello, world!",
       AUSTENITE_BINARY: "QmVlcCBib29wIQ==",
+      AUSTENITE_NUMBER: "3.2",
+      AUSTENITE_INTEGER: "2",
+      AUSTENITE_INTEGER_BIG: "2",
+      AUSTENITE_PORT_NUMBER: "22222",
+      AUSTENITE_DURATION: "PT2S",
       AUSTENITE_CUSTOM: "Goodbye, loser!",
     });
 
@@ -327,6 +332,21 @@ describe("Validation summary", () => {
     });
     binary("AUSTENITE_BINARY", "example binary", {
       length: 5,
+    });
+    number("AUSTENITE_NUMBER", "example number", {
+      min: 3.3,
+    });
+    integer("AUSTENITE_INTEGER", "example integer", {
+      min: 3,
+    });
+    bigInteger("AUSTENITE_INTEGER_BIG", "example big integer", {
+      min: 3n,
+    });
+    networkPortNumber("AUSTENITE_PORT_NUMBER", "example port number", {
+      min: 33333,
+    });
+    duration("AUSTENITE_DURATION", "example duration", {
+      min: Duration.from("PT3S"),
     });
     registerVariable({
       name: "AUSTENITE_CUSTOM",

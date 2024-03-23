@@ -52,7 +52,7 @@ Environment Variables:
 ❯ CDN_URL                     CDN to use when serving static assets         <URL>                                         ✗ set to host.example.org, must be a URL
 ❯ DEBUG                       enable or disable debugging features        [ true | false ] = false                        ✗ set to yes, expected true or false
 ❯ EARTH_ATOM_COUNT            number of atoms on earth                    [ <big integer> ]                               ✗ set to 5.9722e24, must be a big integer
-❯ GRPC_TIMEOUT                gRPC request timeout                        [ <ISO 8601 duration> ]                         ✗ set to 10S, must be an ISO 8601 duration
+❯ GRPC_TIMEOUT                gRPC request timeout                        [ <ISO 8601 duration> ]                         ✗ set to PT30S, must be <= PT10S
 ❯ LOG_LEVEL                   the minimum log level to record             [ debug | info | warn | error | fatal ] = info  ✗ set to silly, expected debug, info, warn, error, or fatal
 ❯ PORT                        listen port for the HTTP server             [ <port number> ] = 8080                        ✗ set to 65536, must be between 1 and 65535
 ❯ READ_DSN                    database connection string for read-models    <string>                                      ✗ set to host=localhost, must have a minimum length of 30, but has a length of 14
@@ -60,7 +60,7 @@ Environment Variables:
 ❯ REDIS_PRIMARY_SERVICE_PORT  kubernetes `redis-primary` service port       <port number>                                 ✗ set to 65536, must be between 1 and 65535
 ❯ SAMPLE_RATIO                ratio of requests to sample                 [ <number> ]                                    ✗ set to 1/100, must be numeric
 ❯ SESSION_KEY                 session token signing key                     <base64>                                      ✗ set to <sensitive value>, must be base64 encoded
-❯ WEIGHT                      weighting for this node                       <integer>                                     ✗ set to 123.456, must be an integer
+❯ WEIGHT                      weighting for this node                       <integer>                                     ✗ set to 0, must be >= 1
 ```
 
 ## Generated environment specifications
@@ -96,7 +96,17 @@ export const earthAtomCount = bigInteger(
 export const earthAtomCount = bigInteger(
   "EARTH_ATOM_COUNT",
   "number of atoms on earth",
-  { default: 5972200000000000000000000n },
+  { default: 5_972_200_000_000_000_000_000_000n },
+);
+
+// min/max
+export const earthAtomCount = bigInteger(
+  "EARTH_ATOM_COUNT",
+  "number of atoms on earth",
+  {
+    min: 5_000_000_000_000_000_000_000_000n,
+    max: 6_000_000_000_000_000_000_000_000n,
+  },
 );
 ```
 
@@ -197,7 +207,13 @@ export const grpcTimeout = duration("GRPC_TIMEOUT", "gRPC request timeout", {
 
 // default
 export const grpcTimeout = duration("GRPC_TIMEOUT", "gRPC request timeout", {
-  default: Temporal.Duration.from({ milliseconds: 10 }),
+  default: Temporal.Duration.from("PT10S"),
+});
+
+// min/max
+export const grpcTimeout = duration("GRPC_TIMEOUT", "gRPC request timeout", {
+  min: Temporal.Duration.from({ milliseconds: 100 }),
+  max: Temporal.Duration.from({ seconds: 10 }),
 });
 ```
 
@@ -261,6 +277,12 @@ export const weight = integer("WEIGHT", "weighting for this node", {
 export const weight = integer("WEIGHT", "weighting for this node", {
   default: 123,
 });
+
+// min/max
+export const weight = integer("WEIGHT", "weighting for this node", {
+  min: 1,
+  max: 1000,
+});
 ```
 
 ### `kubernetesAddress`
@@ -313,6 +335,16 @@ export const port = networkPortNumber(
     default: 8080,
   },
 );
+
+// min/max
+export const port = networkPortNumber(
+  "PORT",
+  "listen port for the HTTP server",
+  {
+    min: 49152,
+    max: 65535,
+  },
+);
 ```
 
 ### `number`
@@ -338,6 +370,13 @@ export const sampleRatio = number(
   "SAMPLE_RATIO",
   "ratio of requests to sample",
   { default: 0.01 },
+);
+
+// min/max
+export const sampleRatio = number(
+  "SAMPLE_RATIO",
+  "ratio of requests to sample",
+  { min: 0.01, max: 0.25 },
 );
 ```
 
