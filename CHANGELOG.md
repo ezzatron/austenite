@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ## Unreleased
 
+## [v0.9.0] - 2024-03-24
+
+[v0.9.0]: https://github.com/ezzatron/austenite/releases/tag/v0.9.0
+
 ### Added
 
 - Example values can now be overridden in any declaration.
