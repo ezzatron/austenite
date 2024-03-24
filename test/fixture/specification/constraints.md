@@ -11,6 +11,7 @@ The `<app>` app uses **declarative environment variables** powered by
 | [`AUSTENITE_BINARY_LENGTH_RANGE`](#AUSTENITE_BINARY_LENGTH_RANGE)   | Required | Example binary with length range constraint      |
 | [`AUSTENITE_BINARY_MAX_LENGTH`](#AUSTENITE_BINARY_MAX_LENGTH)       | Required | Example binary with maximum length constraint    |
 | [`AUSTENITE_BINARY_MIN_LENGTH`](#AUSTENITE_BINARY_MIN_LENGTH)       | Required | Example binary with minimum length constraint    |
+| [`AUSTENITE_CUSTOM`](#AUSTENITE_CUSTOM)                             | Required | Custom variable                                  |
 | [`AUSTENITE_DURATION_MAX`](#AUSTENITE_DURATION_MAX)                 | Required | Example duration with maximum constraint         |
 | [`AUSTENITE_DURATION_MIN`](#AUSTENITE_DURATION_MIN)                 | Required | Example duration with minimum constraint         |
 | [`AUSTENITE_DURATION_RANGE`](#AUSTENITE_DURATION_RANGE)             | Required | Example duration with range constraint           |
@@ -78,6 +79,16 @@ that takes **base64** values with these constraints:
 ```sh
 export AUSTENITE_BINARY_MIN_LENGTH=Y29ucXVpc3RhZG9y # base64 encoded string
 ```
+
+## `AUSTENITE_CUSTOM`
+
+_Custom variable_
+
+The `AUSTENITE_CUSTOM` variable is a **required** variable
+that takes **string** values with these constraints:
+
+- Must start with a greeting
+- Must end with a subject
 
 ## `AUSTENITE_DURATION_MAX`
 
