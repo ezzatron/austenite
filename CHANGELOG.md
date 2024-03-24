@@ -10,6 +10,15 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ## Unreleased
 
+## [v0.9.1] - 2024-03-25
+
+[v0.9.1]: https://github.com/ezzatron/austenite/releases/tag/v0.9.1
+
+### Fixed
+
+- Replaced usage of `node:` imports to avoid issues when Austenite is included
+  in a Webpack server bundle.
+
 ## [v0.9.0] - 2024-03-24
 
 [v0.9.0]: https://github.com/ezzatron/austenite/releases/tag/v0.9.0
