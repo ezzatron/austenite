@@ -17,10 +17,10 @@ export type VariableSpec<T> = {
 
 export type Variable<T> = {
   readonly spec: VariableSpec<T>;
-  value(): Maybe<Value<T>>;
-  nativeValue(): Maybe<T>;
-  marshal(value: T): string;
-  unmarshal(value: string): T;
+  readonly value: () => Maybe<Value<T>>;
+  readonly nativeValue: () => Maybe<T>;
+  readonly marshal: (value: T) => string;
+  readonly unmarshal: (value: string) => T;
 };
 
 export type Value<T> = {

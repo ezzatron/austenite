@@ -10,10 +10,10 @@ const { Duration } = Temporal;
 type Duration = Temporal.Duration;
 
 export type RangeConstraintSpec<T extends bigint | number | Duration> = {
-  min?: T;
-  minIsExclusive?: boolean;
-  max?: T;
-  maxIsExclusive?: boolean;
+  readonly min?: T;
+  readonly minIsExclusive?: boolean;
+  readonly max?: T;
+  readonly maxIsExclusive?: boolean;
 };
 
 export function hasBigintRangeConstraint(options: {

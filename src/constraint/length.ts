@@ -1,6 +1,8 @@
 import { type ExtrinsicConstraint } from "../constraint.js";
 
-export type LengthConstraintSpec = number | { min?: number; max?: number };
+export type LengthConstraintSpec =
+  | number
+  | { readonly min?: number; readonly max?: number };
 
 export function createLengthConstraint<T extends { length: number }>(
   lengthType: string,

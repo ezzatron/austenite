@@ -3,10 +3,10 @@ import { createDisjunctionFormatter } from "./list.js";
 import { quote } from "./shell.js";
 
 export type Schema<T> = {
-  marshal(value: T): string;
-  unmarshal(value: string): T;
-  constraints: Constraint<T>[];
-  accept<U>(visitor: Visitor<U>): U;
+  readonly marshal: (value: T) => string;
+  readonly unmarshal: (value: string) => T;
+  readonly constraints: Constraint<T>[];
+  readonly accept: <U>(visitor: Visitor<U>) => U;
 };
 
 export type MarshalFn<T> = Schema<T>["marshal"];
@@ -90,10 +90,10 @@ export function createScalar<T>(
 
 export type Visitor<T> = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  visitEnum(e: EnumSchema<any>): T;
+  readonly visitEnum: (e: EnumSchema<any>) => T;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  visitScalar(s: ScalarSchema<any>): T;
-  visitURL(s: URLSchema): T;
+  readonly visitScalar: (s: ScalarSchema<any>) => T;
+  readonly visitURL: (s: URLSchema) => T;
 };
 
 export class InvalidEnumError<T> extends Error {
@@ -106,7 +106,7 @@ export class InvalidEnumError<T> extends Error {
 }
 
 type Stringable = {
-  toString(): string;
+  readonly toString: () => string;
 };
 
 export function toString<T extends Stringable>(v: T): string {

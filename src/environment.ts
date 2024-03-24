@@ -85,5 +85,5 @@ export type OnInvalid = (args: OnInvalidArgs) => void;
 
 type OnInvalidArgs = {
   readonly results: Results;
-  defaultHandler: () => never;
+  readonly defaultHandler: () => never;
 };

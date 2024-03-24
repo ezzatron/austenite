@@ -172,13 +172,17 @@ ${body}`;
 }
 
 function examples({
-  spec: { name, examples, schema },
+  spec: {
+    name,
+    examples,
+    schema: { marshal },
+  },
 }: Variable<unknown>): string {
   const blocks = [];
 
   for (const example of examples) {
     const { as, label } = example;
-    const value = as ?? schema.marshal(example.value);
+    const value = as ?? marshal(example.value);
 
     blocks.push(code("sh", `export ${name}=${quote(value)} # ${label}`));
   }

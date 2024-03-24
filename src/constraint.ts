@@ -4,12 +4,12 @@ import { createConjunctionFormatter } from "./list.js";
 export type Constraint<T> = IntrinsicConstraint<T> | ExtrinsicConstraint<T>;
 
 export type IntrinsicConstraint<T> = {
-  constrain: Constrain<T>;
+  readonly constrain: Constrain<T>;
 };
 
 export type ExtrinsicConstraint<T> = {
-  description: string;
-  constrain: Constrain<T>;
+  readonly description: string;
+  readonly constrain: Constrain<T>;
 };
 
 export type Constrain<T> = (v: T) => string | undefined | void;

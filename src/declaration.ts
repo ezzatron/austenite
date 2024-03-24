@@ -1,7 +1,7 @@
 import { definedValue, Maybe, undefinedValue } from "./maybe.js";
 
 export type Declaration<T, O extends Options<unknown>> = {
-  value(): Value<T, O>;
+  readonly value: () => Value<T, O>;
 };
 
 export type Value<

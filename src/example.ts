@@ -14,7 +14,7 @@ export type Example<T> = {
 
 export function resolveExamples<T>(
   name: string,
-  schema: Schema<T>,
+  { constraints, marshal, unmarshal }: Schema<T>,
   buildExamples: () => Example<T>[],
   examples?: Example<T>[],
 ): Example<T>[] {
@@ -23,7 +23,7 @@ export function resolveExamples<T>(
 
   for (const { label, value, as } of resolved) {
     try {
-      applyConstraints(schema.constraints, value);
+      applyConstraints(constraints, value);
     } catch (error) {
       if (isSpecified) {
         throw new InvalidValueError(name, label, normalize(error));
@@ -35,12 +35,10 @@ export function resolveExamples<T>(
     if (typeof as !== "string") continue;
 
     try {
-      const native = schema.unmarshal(as);
-      applyConstraints(schema.constraints, native);
+      const native = unmarshal(as);
+      applyConstraints(constraints, native);
 
-      if (schema.marshal(native) !== schema.marshal(value)) {
-        throw new Error("value mismatch");
-      }
+      if (marshal(native) !== marshal(value)) throw new Error("value mismatch");
     } catch (error) {
       throw new InvalidAsError(name, label, as, normalize(error));
     }
