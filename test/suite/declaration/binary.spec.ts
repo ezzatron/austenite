@@ -226,6 +226,135 @@ describe("Binary declarations", () => {
       });
     });
   });
+
+  describe("when the declaration has constraints", () => {
+    beforeEach(() => {
+      declaration = binary("AUSTENITE_BINARY", "<description>", {
+        constraints: [
+          {
+            description: "<constraint A>",
+            constrain: (v) =>
+              v.length % 2 === 0 || "length must be divisible by 2",
+          },
+          {
+            description: "<constraint B>",
+            constrain: (v) =>
+              v.length % 3 === 0 || "length must be divisible by 3",
+          },
+        ],
+        examples: [{ value: Buffer.from("abcdef", "utf-8"), label: "example" }],
+      });
+    });
+
+    describe("when the value satisfies the constraints", () => {
+      beforeEach(() => {
+        process.env.AUSTENITE_BINARY = "YWJjZGVm";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("returns the value", () => {
+          expect(declaration.value().toString("utf-8")).toEqual("abcdef");
+        });
+      });
+    });
+
+    describe("when the value violates the first constraint", () => {
+      beforeEach(() => {
+        process.env.AUSTENITE_BINARY = "YWJj";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("throws", () => {
+          expect(() => {
+            declaration.value();
+          }).toThrow(
+            "value of AUSTENITE_BINARY (YWJj) is invalid: length must be divisible by 2",
+          );
+        });
+      });
+    });
+
+    describe("when the value violates the second constraint", () => {
+      beforeEach(() => {
+        process.env.AUSTENITE_BINARY = "YWI=";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("throws", () => {
+          expect(() => {
+            declaration.value();
+          }).toThrow(
+            "value of AUSTENITE_BINARY (YWI=) is invalid: length must be divisible by 3",
+          );
+        });
+      });
+    });
+  });
+
+  describe("when the declaration has the constraints from the README", () => {
+    beforeEach(() => {
+      declaration = binary("SESSION_KEY", "session token signing key", {
+        constraints: [
+          {
+            description: "must be 128 or 256 bits",
+            constrain: (v) =>
+              [16, 32].includes(v.length) || "decoded length must be 16 or 32",
+          },
+        ],
+        examples: [
+          {
+            value: Buffer.from("SUPER_SECRET_256_BIT_SIGNING_KEY", "utf-8"),
+            label: "256-bit key",
+          },
+        ],
+      });
+    });
+
+    describe("when the value satisfies the constraints", () => {
+      beforeEach(() => {
+        process.env.SESSION_KEY = Buffer.from(
+          "SUPER_SECRET_256_BIT_SIGNING_KEY",
+          "utf-8",
+        ).toString("base64");
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("returns the value", () => {
+          expect(declaration.value().toString("utf-8")).toEqual(
+            "SUPER_SECRET_256_BIT_SIGNING_KEY",
+          );
+        });
+      });
+    });
+
+    describe("when the value violates the constraints", () => {
+      beforeEach(() => {
+        process.env.SESSION_KEY = Buffer.from("INVALID", "utf-8").toString(
+          "base64",
+        );
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("throws", () => {
+          expect(() => {
+            declaration.value();
+          }).toThrow(
+            "value of SESSION_KEY (SU5WQUxJRA==) is invalid: decoded length must be 16 or 32",
+          );
+        });
+      });
+    });
+  });
 });
 
 function toEncoding(encoding: BufferEncoding, value: string): string {

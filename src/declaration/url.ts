@@ -1,4 +1,8 @@
-import { applyConstraints, type Constraint } from "../constraint.js";
+import {
+  applyConstraints,
+  type Constraint,
+  type DeclarationConstraintOptions,
+} from "../constraint.js";
 import { createURLProtocolConstraint } from "../constraint/url-protocol.js";
 import {
   Declaration,
@@ -21,6 +25,7 @@ import { createURL, toString, type URLSchema } from "../schema.js";
 const VALID_PROTOCOL_PATTERN = /^[a-zA-Z][a-zA-Z0-9.+-]*:$/;
 
 export type Options = DeclarationOptions<URL> &
+  DeclarationConstraintOptions<URL> &
   DeclarationExampleOptions<URL> & {
     readonly base?: URL;
     readonly protocols?: string[];
@@ -35,7 +40,7 @@ export function url<O extends Options>(
 
   assertProtocols(name, protocols);
 
-  const schema = createSchema(base, protocols);
+  const schema = createSchema(base, options);
 
   assertBase(name, schema.constraints, base);
 
@@ -99,10 +104,7 @@ function assertBase(
   }
 }
 
-function createSchema(
-  base: URL | undefined,
-  protocols: string[] | undefined,
-): URLSchema {
+function createSchema(base: URL | undefined, options: Options): URLSchema {
   function unmarshal(v: string): URL {
     try {
       return new URL(v, base);
@@ -111,12 +113,16 @@ function createSchema(
     }
   }
 
+  const { constraints: customConstraints = [], protocols } = options;
   const constraints: Constraint<URL>[] = [];
   if (protocols != null) {
     constraints.push(createURLProtocolConstraint(protocols));
   }
 
-  return createURL(base, protocols, toString, unmarshal, constraints);
+  return createURL(base, protocols, toString, unmarshal, [
+    ...constraints,
+    ...customConstraints,
+  ]);
 }
 
 function buildExamples(

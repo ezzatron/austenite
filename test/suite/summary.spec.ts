@@ -2,7 +2,6 @@ import { Temporal } from "@js-temporal/polyfill";
 import { join } from "path";
 import { fileURLToPath } from "url";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { registerVariable } from "../../src/environment.js";
 import {
   bigInteger,
   binary,
@@ -17,8 +16,6 @@ import {
   string,
   url,
 } from "../../src/index.js";
-import { undefinedValue } from "../../src/maybe.js";
-import { createString } from "../../src/schema.js";
 import { MockConsole, createMockConsole } from "../helpers.js";
 
 const fixturesPath = fileURLToPath(
@@ -355,15 +352,11 @@ describe("Validation summary", () => {
       min: Duration.from("PT3S"),
       examples: [{ value: Duration.from("PT3S"), label: "example" }],
     });
-    registerVariable({
-      name: "AUSTENITE_CUSTOM",
-      description: "custom variable",
-      default: undefinedValue(),
-      isSensitive: false,
-      schema: createString("string", [
+    string("AUSTENITE_CUSTOM", "custom variable", {
+      constraints: [
         {
           description: "must start with a greeting",
-          constrain: function constrainGreeting(v) {
+          constrain(v) {
             if (!v.match(/^(Hi|Hello)\b/)) {
               return 'must start with "Hi" or "Hello"';
             }
@@ -371,13 +364,13 @@ describe("Validation summary", () => {
         },
         {
           description: "must end with a subject",
-          constrain: function constrainSubject(v) {
+          constrain(v) {
             if (!v.match(/\b(world|universe)!$/i)) {
               return 'must end with "world!" or "universe!"';
             }
           },
         },
-      ]),
+      ],
       examples: [{ value: "Hello, world!", label: "example" }],
     });
 

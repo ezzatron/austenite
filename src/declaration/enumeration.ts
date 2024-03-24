@@ -1,3 +1,4 @@
+import type { DeclarationConstraintOptions } from "../constraint.js";
 import {
   Declaration,
   Options as DeclarationOptions,
@@ -22,7 +23,9 @@ export type Member<T> = {
   readonly description: string;
 };
 
-export type Options<T> = DeclarationOptions<T> & DeclarationExampleOptions<T>;
+export type Options<T> = DeclarationOptions<T> &
+  DeclarationConstraintOptions<T> &
+  DeclarationExampleOptions<T>;
 
 export function enumeration<T, O extends Options<T>>(
   name: string,
@@ -33,7 +36,7 @@ export function enumeration<T, O extends Options<T>>(
   const { examples, isSensitive = false } = options;
 
   const def = defaultFromOptions(options);
-  const schema = createSchema(name, members);
+  const schema = createSchema(name, members, options);
 
   const v = registerVariable({
     name,
@@ -56,7 +59,11 @@ export function enumeration<T, O extends Options<T>>(
   };
 }
 
-function createSchema<T>(name: string, members: Members<T>): EnumSchema<T> {
+function createSchema<T>(
+  name: string,
+  members: Members<T>,
+  options: Options<T>,
+): EnumSchema<T> {
   const entries = Object.entries(members);
 
   if (entries.length < 2) throw new InsufficientMembersError(name);
@@ -81,7 +88,9 @@ function createSchema<T>(name: string, members: Members<T>): EnumSchema<T> {
     throw new InvalidEnumError(members);
   }
 
-  return createEnum(schemaMembers, marshal, unmarshal, []);
+  const { constraints: customConstraints = [] } = options;
+
+  return createEnum(schemaMembers, marshal, unmarshal, [...customConstraints]);
 }
 
 function buildExamples<T>(members: Members<T>): Example<T>[] {

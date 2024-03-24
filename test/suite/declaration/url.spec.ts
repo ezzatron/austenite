@@ -365,4 +365,130 @@ describe("URL declarations", () => {
       });
     });
   });
+
+  describe("when the declaration has constraints", () => {
+    beforeEach(() => {
+      declaration = url("AUSTENITE_URL", "<description>", {
+        constraints: [
+          {
+            description: "<constraint A>",
+            constrain: (v) =>
+              v.hostname === "example.org" || "hostname must be example.org",
+          },
+          {
+            description: "<constraint B>",
+            constrain: (v) =>
+              v.protocol === "https:" || "protocol must be https:",
+          },
+        ],
+        examples: [
+          { value: new URL("https://example.org/"), label: "example" },
+        ],
+      });
+    });
+
+    describe("when the value satisfies the constraints", () => {
+      beforeEach(() => {
+        process.env.AUSTENITE_URL = "https://example.org/";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("returns the value", () => {
+          expect(declaration.value()).toEqual(new URL("https://example.org/"));
+        });
+      });
+    });
+
+    describe("when the value violates the first constraint", () => {
+      beforeEach(() => {
+        process.env.AUSTENITE_URL = "https://example.com/";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("throws", () => {
+          expect(() => {
+            declaration.value();
+          }).toThrow(
+            "value of AUSTENITE_URL (https://example.com/) is invalid: hostname must be example.org",
+          );
+        });
+      });
+    });
+
+    describe("when the value violates the second constraint", () => {
+      beforeEach(() => {
+        process.env.AUSTENITE_URL = "http://example.org/";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("throws", () => {
+          expect(() => {
+            declaration.value();
+          }).toThrow(
+            "value of AUSTENITE_URL (http://example.org/) is invalid: protocol must be https:",
+          );
+        });
+      });
+    });
+  });
+
+  describe("when the declaration has the constraints from the README", () => {
+    beforeEach(() => {
+      declaration = url("CDN_URL", "CDN to use when serving static assets", {
+        constraints: [
+          {
+            description: "must not be a local URL",
+            constrain: (v) =>
+              !v.hostname.endsWith(".local") || "must not be a local URL",
+          },
+        ],
+        examples: [
+          {
+            value: new URL("https://host.example.org/path/to/resource"),
+            label: "absolute",
+          },
+        ],
+      });
+    });
+
+    describe("when the value satisfies the constraints", () => {
+      beforeEach(() => {
+        process.env.CDN_URL = "https://host.example.org/path/to/resource";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("returns the value", () => {
+          expect(declaration.value()).toEqual(
+            new URL("https://host.example.org/path/to/resource"),
+          );
+        });
+      });
+    });
+
+    describe("when the value violates the constraints", () => {
+      beforeEach(() => {
+        process.env.CDN_URL = "https://host.local/path/to/resource";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("throws", () => {
+          expect(() => {
+            declaration.value();
+          }).toThrow(
+            "value of CDN_URL (https://host.local/path/to/resource) is invalid: must not be a local URL",
+          );
+        });
+      });
+    });
+  });
 });

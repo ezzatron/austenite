@@ -205,4 +205,125 @@ describe("Duration declarations", () => {
       });
     });
   });
+
+  describe("when the declaration has constraints", () => {
+    beforeEach(() => {
+      declaration = duration("AUSTENITE_DURATION", "<description>", {
+        constraints: [
+          {
+            description: "<constraint A>",
+            constrain: (v) => v.days % 2 === 0 || "days must be divisible by 2",
+          },
+          {
+            description: "<constraint B>",
+            constrain: (v) => v.days % 3 === 0 || "days must be divisible by 3",
+          },
+        ],
+        examples: [{ value: Duration.from("P6D"), label: "example" }],
+      });
+    });
+
+    describe("when the value satisfies the constraints", () => {
+      beforeEach(() => {
+        process.env.AUSTENITE_DURATION = "P6D";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("returns the value", () => {
+          expect(declaration.value()).toEqual(Duration.from("P6D"));
+        });
+      });
+    });
+
+    describe("when the value violates the first constraint", () => {
+      beforeEach(() => {
+        process.env.AUSTENITE_DURATION = "P3D";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("throws", () => {
+          expect(() => {
+            declaration.value();
+          }).toThrow(
+            "value of AUSTENITE_DURATION (P3D) is invalid: days must be divisible by 2",
+          );
+        });
+      });
+    });
+
+    describe("when the value violates the second constraint", () => {
+      beforeEach(() => {
+        process.env.AUSTENITE_DURATION = "P2D";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("throws", () => {
+          expect(() => {
+            declaration.value();
+          }).toThrow(
+            "value of AUSTENITE_DURATION (P2D) is invalid: days must be divisible by 3",
+          );
+        });
+      });
+    });
+  });
+
+  describe("when the declaration has the constraints from the README", () => {
+    beforeEach(() => {
+      declaration = duration("GRPC_TIMEOUT", "gRPC request timeout", {
+        constraints: [
+          {
+            description: "must be a multiple of 100 milliseconds",
+            constrain: (v) =>
+              v.milliseconds % 100 === 0 ||
+              "must be a multiple of 100 milliseconds",
+          },
+        ],
+        examples: [
+          {
+            value: Temporal.Duration.from({ milliseconds: 100 }),
+            label: "100 milliseconds",
+          },
+        ],
+      });
+    });
+
+    describe("when the value satisfies the constraints", () => {
+      beforeEach(() => {
+        process.env.GRPC_TIMEOUT = "PT1S";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("returns the value", () => {
+          expect(declaration.value()).toEqual(Duration.from("PT1S"));
+        });
+      });
+    });
+
+    describe("when the value violates the constraints", () => {
+      beforeEach(() => {
+        process.env.GRPC_TIMEOUT = "PT0.01S";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("throws", () => {
+          expect(() => {
+            declaration.value();
+          }).toThrow(
+            "value of GRPC_TIMEOUT (PT0.01S) is invalid: must be a multiple of 100 milliseconds",
+          );
+        });
+      });
+    });
+  });
 });

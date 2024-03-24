@@ -1,6 +1,10 @@
 import { normalize } from "./error.js";
 import { createConjunctionFormatter } from "./list.js";
 
+export type DeclarationConstraintOptions<T> = {
+  readonly constraints?: ExtrinsicConstraint<T>[];
+};
+
 export type Constraint<T> = IntrinsicConstraint<T> | ExtrinsicConstraint<T>;
 
 export type IntrinsicConstraint<T> = {
@@ -12,7 +16,7 @@ export type ExtrinsicConstraint<T> = {
   readonly constrain: Constrain<T>;
 };
 
-export type Constrain<T> = (v: T) => string | undefined | void;
+export type Constrain<T> = (v: T) => string | undefined | void | true;
 
 export function applyConstraints<T>(
   constraints: Constraint<T>[],

@@ -1,4 +1,8 @@
 import { Buffer } from "buffer";
+import type {
+  Constraint,
+  DeclarationConstraintOptions,
+} from "../constraint.js";
 import {
   createLengthConstraint,
   type LengthConstraintSpec,
@@ -26,6 +30,7 @@ const PATTERNS: Partial<Record<BufferEncoding, RegExp>> = {
 } as const;
 
 export type Options = DeclarationOptions<Buffer> &
+  DeclarationConstraintOptions<Buffer> &
   DeclarationExampleOptions<Buffer> & {
     readonly encoding?: BufferEncoding;
     readonly length?: LengthConstraintSpec;
@@ -36,15 +41,10 @@ export function binary<O extends Options>(
   description: string,
   options: ExactOptions<O, Options> = {} as ExactOptions<O, Options>,
 ): Declaration<Buffer, O> {
-  const {
-    encoding = "base64",
-    examples,
-    isSensitive = false,
-    length,
-  } = options;
+  const { encoding = "base64", examples, isSensitive = false } = options;
 
   const def = defaultFromOptions(options);
-  const schema = createSchema(name, encoding, length);
+  const schema = createSchema(name, encoding, options);
 
   const v = registerVariable({
     name,
@@ -70,13 +70,14 @@ export function binary<O extends Options>(
 function createSchema(
   name: string,
   encoding: BufferEncoding,
-  length: LengthConstraintSpec | undefined,
+  options: Options,
 ): ScalarSchema<Buffer> {
   function marshal(v: Buffer): string {
     return v.toString(encoding);
   }
 
-  const constraints = [];
+  const { constraints: customConstraints = [], length } = options;
+  const constraints: Constraint<Buffer>[] = [];
 
   try {
     if (typeof length !== "undefined") {
@@ -90,7 +91,7 @@ function createSchema(
     encoding,
     marshal,
     createUnmarshal(encoding, PATTERNS[encoding]),
-    constraints,
+    [...constraints, ...customConstraints],
   );
 }
 

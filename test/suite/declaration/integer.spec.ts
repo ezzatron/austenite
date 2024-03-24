@@ -239,4 +239,118 @@ describe("Integer declarations", () => {
       );
     });
   });
+
+  describe("when the declaration has constraints", () => {
+    beforeEach(() => {
+      declaration = integer("AUSTENITE_INTEGER", "<description>", {
+        constraints: [
+          {
+            description: "<constraint A>",
+            constrain: (v) => v % 2 === 0 || "must be divisible by 2",
+          },
+          {
+            description: "<constraint B>",
+            constrain: (v) => v % 3 === 0 || "must be divisible by 3",
+          },
+        ],
+        examples: [{ value: 6, label: "example" }],
+      });
+    });
+
+    describe("when the value satisfies the constraints", () => {
+      beforeEach(() => {
+        process.env.AUSTENITE_INTEGER = "6";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("returns the value", () => {
+          expect(declaration.value()).toBe(6);
+        });
+      });
+    });
+
+    describe("when the value violates the first constraint", () => {
+      beforeEach(() => {
+        process.env.AUSTENITE_INTEGER = "3";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("throws", () => {
+          expect(() => {
+            declaration.value();
+          }).toThrow(
+            "value of AUSTENITE_INTEGER (3) is invalid: must be divisible by 2",
+          );
+        });
+      });
+    });
+
+    describe("when the value violates the second constraint", () => {
+      beforeEach(() => {
+        process.env.AUSTENITE_INTEGER = "2";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("throws", () => {
+          expect(() => {
+            declaration.value();
+          }).toThrow(
+            "value of AUSTENITE_INTEGER (2) is invalid: must be divisible by 3",
+          );
+        });
+      });
+    });
+  });
+
+  describe("when the declaration has the constraints from the README", () => {
+    beforeEach(() => {
+      declaration = integer("WEIGHT", "weighting for this node", {
+        constraints: [
+          {
+            description: "must be a multiple of 10",
+            constrain: (v) => v % 10 === 0 || "must be a multiple of 10",
+          },
+        ],
+        examples: [{ value: 100, label: "100" }],
+      });
+    });
+
+    describe("when the value satisfies the constraints", () => {
+      beforeEach(() => {
+        process.env.WEIGHT = "300";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("returns the value", () => {
+          expect(declaration.value()).toBe(300);
+        });
+      });
+    });
+
+    describe("when the value violates the constraints", () => {
+      beforeEach(() => {
+        process.env.WEIGHT = "301";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("throws", () => {
+          expect(() => {
+            declaration.value();
+          }).toThrow(
+            "value of WEIGHT (301) is invalid: must be a multiple of 10",
+          );
+        });
+      });
+    });
+  });
 });

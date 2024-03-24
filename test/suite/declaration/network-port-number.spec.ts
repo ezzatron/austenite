@@ -298,4 +298,120 @@ describe("Network port number declarations", () => {
       });
     },
   );
+
+  describe("when the declaration has constraints", () => {
+    beforeEach(() => {
+      declaration = networkPortNumber("AUSTENITE_PORT", "<description>", {
+        constraints: [
+          {
+            description: "<constraint A>",
+            constrain: (v) => v % 2 === 0 || "must be divisible by 2",
+          },
+          {
+            description: "<constraint B>",
+            constrain: (v) => v % 3 === 0 || "must be divisible by 3",
+          },
+        ],
+        examples: [{ value: 6, label: "example" }],
+      });
+    });
+
+    describe("when the value satisfies the constraints", () => {
+      beforeEach(() => {
+        process.env.AUSTENITE_PORT = "6";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("returns the value", () => {
+          expect(declaration.value()).toBe(6);
+        });
+      });
+    });
+
+    describe("when the value violates the first constraint", () => {
+      beforeEach(() => {
+        process.env.AUSTENITE_PORT = "3";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("throws", () => {
+          expect(() => {
+            declaration.value();
+          }).toThrow(
+            "value of AUSTENITE_PORT (3) is invalid: must be divisible by 2",
+          );
+        });
+      });
+    });
+
+    describe("when the value violates the second constraint", () => {
+      beforeEach(() => {
+        process.env.AUSTENITE_PORT = "2";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("throws", () => {
+          expect(() => {
+            declaration.value();
+          }).toThrow(
+            "value of AUSTENITE_PORT (2) is invalid: must be divisible by 3",
+          );
+        });
+      });
+    });
+  });
+
+  describe("when the declaration has the constraints from the README", () => {
+    beforeEach(() => {
+      declaration = networkPortNumber(
+        "PORT",
+        "listen port for the HTTP server",
+        {
+          constraints: [
+            {
+              description: "must not be disallowed",
+              constrain: (v) => ![1337, 31337].includes(v) || "not allowed",
+            },
+          ],
+          examples: [{ value: 8080, label: "standard" }],
+        },
+      );
+    });
+
+    describe("when the value satisfies the constraints", () => {
+      beforeEach(() => {
+        process.env.PORT = "8080";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("returns the value", () => {
+          expect(declaration.value()).toBe(8080);
+        });
+      });
+    });
+
+    describe("when the value violates the constraints", () => {
+      beforeEach(() => {
+        process.env.PORT = "1337";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("throws", () => {
+          expect(() => {
+            declaration.value();
+          }).toThrow("value of PORT (1337) is invalid: not allowed");
+        });
+      });
+    });
+  });
 });

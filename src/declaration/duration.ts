@@ -1,4 +1,8 @@
 import { Temporal } from "@js-temporal/polyfill";
+import type {
+  Constraint,
+  DeclarationConstraintOptions,
+} from "../constraint.js";
 import {
   createDurationRangeConstraint,
   hasDurationRangeConstraint,
@@ -25,6 +29,7 @@ const { Duration } = Temporal;
 type Duration = Temporal.Duration;
 
 export type Options = DeclarationOptions<Duration> &
+  DeclarationConstraintOptions<Duration> &
   DeclarationExampleOptions<Duration> &
   Partial<RangeConstraintSpec<Duration>>;
 
@@ -63,7 +68,8 @@ function createSchema(name: string, options: Options): ScalarSchema<Duration> {
     }
   }
 
-  const constraints = [];
+  const { constraints: customConstraints = [] } = options;
+  const constraints: Constraint<Duration>[] = [];
 
   try {
     if (hasDurationRangeConstraint(options)) {
@@ -73,7 +79,10 @@ function createSchema(name: string, options: Options): ScalarSchema<Duration> {
     throw new SpecError(name, normalize(error));
   }
 
-  return createScalar("ISO 8601 duration", toString, unmarshal, constraints);
+  return createScalar("ISO 8601 duration", toString, unmarshal, [
+    ...constraints,
+    ...customConstraints,
+  ]);
 }
 
 function buildExamples(): Example<Duration>[] {

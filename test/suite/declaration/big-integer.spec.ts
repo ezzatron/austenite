@@ -219,4 +219,123 @@ describe("Big integer declarations", () => {
       });
     });
   });
+
+  describe("when the declaration has constraints", () => {
+    beforeEach(() => {
+      declaration = bigInteger("AUSTENITE_INTEGER", "<description>", {
+        constraints: [
+          {
+            description: "<constraint A>",
+            constrain: (v) => v % 2n === 0n || "must be divisible by 2",
+          },
+          {
+            description: "<constraint B>",
+            constrain: (v) => v % 3n === 0n || "must be divisible by 3",
+          },
+        ],
+        examples: [{ value: 6n, label: "example" }],
+      });
+    });
+
+    describe("when the value satisfies the constraints", () => {
+      beforeEach(() => {
+        process.env.AUSTENITE_INTEGER = "6";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("returns the value", () => {
+          expect(declaration.value()).toBe(6n);
+        });
+      });
+    });
+
+    describe("when the value violates the first constraint", () => {
+      beforeEach(() => {
+        process.env.AUSTENITE_INTEGER = "3";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("throws", () => {
+          expect(() => {
+            declaration.value();
+          }).toThrow(
+            "value of AUSTENITE_INTEGER (3) is invalid: must be divisible by 2",
+          );
+        });
+      });
+    });
+
+    describe("when the value violates the second constraint", () => {
+      beforeEach(() => {
+        process.env.AUSTENITE_INTEGER = "2";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("throws", () => {
+          expect(() => {
+            declaration.value();
+          }).toThrow(
+            "value of AUSTENITE_INTEGER (2) is invalid: must be divisible by 3",
+          );
+        });
+      });
+    });
+  });
+
+  describe("when the declaration has the constraints from the README", () => {
+    beforeEach(() => {
+      declaration = bigInteger("EARTH_ATOM_COUNT", "number of atoms on earth", {
+        constraints: [
+          {
+            description: "must be a multiple of 1000",
+            constrain: (v) => v % 1_000n === 0n || "must be a multiple of 1000",
+          },
+        ],
+        examples: [
+          {
+            value: 5_972_200_000_000_000_000_000_000n,
+            label: "5.9722 septillion",
+          },
+        ],
+      });
+    });
+
+    describe("when the value satisfies the constraints", () => {
+      beforeEach(() => {
+        process.env.EARTH_ATOM_COUNT = "5972200000000000000000000";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("returns the value", () => {
+          expect(declaration.value()).toBe(5_972_200_000_000_000_000_000_000n);
+        });
+      });
+    });
+
+    describe("when the value violates the constraints", () => {
+      beforeEach(() => {
+        process.env.EARTH_ATOM_COUNT = "5972200000000000000000001";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("throws", () => {
+          expect(() => {
+            declaration.value();
+          }).toThrow(
+            "value of EARTH_ATOM_COUNT (5972200000000000000000001) is invalid: must be a multiple of 1000",
+          );
+        });
+      });
+    });
+  });
 });

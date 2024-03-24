@@ -73,7 +73,7 @@ function registerHost(
   def: Maybe<KubernetesAddress | undefined>,
 ): Variable<string> {
   const hostDef = map(def, (address) => address?.host);
-  const schema = createString("hostname", [createHostnameConstraint()]);
+  const schema = createHostSchema();
   let envName: string;
 
   try {
@@ -90,6 +90,10 @@ function registerHost(
     schema,
     examples: resolveExamples(name, schema, buildHostExamples, examples),
   });
+}
+
+function createHostSchema(): ScalarSchema<string> {
+  return createString("hostname", [createHostnameConstraint()]);
 }
 
 function buildHostExamples(): Example<string>[] {

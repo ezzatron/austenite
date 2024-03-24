@@ -1,3 +1,7 @@
+import type {
+  Constraint,
+  DeclarationConstraintOptions,
+} from "../constraint.js";
 import {
   createRangeConstraint,
   hasBigintRangeConstraint,
@@ -21,6 +25,7 @@ import { resolve } from "../maybe.js";
 import { ScalarSchema, createScalar, toString } from "../schema.js";
 
 export type Options = DeclarationOptions<bigint> &
+  DeclarationConstraintOptions<bigint> &
   DeclarationExampleOptions<bigint> &
   Partial<RangeConstraintSpec<bigint>>;
 
@@ -59,7 +64,8 @@ function createSchema(name: string, options: Options): ScalarSchema<bigint> {
     }
   }
 
-  const constraints = [];
+  const { constraints: customConstraints = [] } = options;
+  const constraints: Constraint<bigint>[] = [];
 
   try {
     if (hasBigintRangeConstraint(options)) {
@@ -69,7 +75,10 @@ function createSchema(name: string, options: Options): ScalarSchema<bigint> {
     throw new SpecError(name, normalize(error));
   }
 
-  return createScalar("big integer", toString, unmarshal, constraints);
+  return createScalar("big integer", toString, unmarshal, [
+    ...constraints,
+    ...customConstraints,
+  ]);
 }
 
 function buildExamples(): Example<bigint>[] {

@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { Declaration } from "../../../src/declaration.js";
 import { Options } from "../../../src/declaration/enumeration.js";
 import { enumeration, initialize } from "../../../src/index.js";
@@ -20,7 +20,7 @@ describe("Enumeration declarations", () => {
     },
   } as const;
 
-  let declaration: Declaration<number, Options<number>>;
+  let declaration: Declaration<0 | 1 | 2, Options<0 | 1 | 2>>;
 
   describe("when no options are supplied", () => {
     beforeEach(() => {
@@ -266,6 +266,184 @@ describe("Enumeration declarations", () => {
       }).toThrow(
         "specification for AUSTENITE_ENUMERATION is invalid: must have at least 2 members",
       );
+    });
+  });
+
+  describe("when the declaration has constraints", () => {
+    beforeEach(() => {
+      declaration = enumeration(
+        "AUSTENITE_ENUMERATION",
+        "<description>",
+        members,
+        {
+          constraints: [
+            {
+              description: "<constraint A>",
+              constrain: (v) => [0, 1].includes(v) || "value must be 0 or 1",
+            },
+            {
+              description: "<constraint B>",
+              constrain: (v) => [1, 2].includes(v) || "value must be 1 or 2",
+            },
+          ],
+          examples: [{ value: 1, label: "example" }],
+        },
+      );
+    });
+
+    describe("when the value satisfies the constraints", () => {
+      beforeEach(() => {
+        process.env.AUSTENITE_ENUMERATION = "<member-1>";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("returns the value", () => {
+          expect(declaration.value()).toBe(1);
+        });
+      });
+    });
+
+    describe("when the value violates the first constraint", () => {
+      beforeEach(() => {
+        process.env.AUSTENITE_ENUMERATION = "<member-2>";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("throws", () => {
+          expect(() => {
+            declaration.value();
+          }).toThrow(
+            "value of AUSTENITE_ENUMERATION ('<member-2>') is invalid: value must be 0 or 1",
+          );
+        });
+      });
+    });
+
+    describe("when the value violates the second constraint", () => {
+      beforeEach(() => {
+        process.env.AUSTENITE_ENUMERATION = "<member-0>";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("throws", () => {
+          expect(() => {
+            declaration.value();
+          }).toThrow(
+            "value of AUSTENITE_ENUMERATION ('<member-0>') is invalid: value must be 1 or 2",
+          );
+        });
+      });
+    });
+  });
+
+  describe("when the declaration has the constraints from the README", () => {
+    let declaration: Declaration<
+      "debug" | "info" | "warn" | "error" | "fatal",
+      Options<"debug" | "info" | "warn" | "error" | "fatal">
+    >;
+    let realPlatform: NodeJS.Platform;
+
+    beforeEach(() => {
+      declaration = enumeration(
+        "LOG_LEVEL",
+        "the minimum log level to record",
+        {
+          debug: {
+            value: "debug",
+            description: "show information for developers",
+          },
+          info: { value: "info", description: "standard log messages" },
+          warn: {
+            value: "warn",
+            description: "important, but don't need individual human review",
+          },
+          error: {
+            value: "error",
+            description: "a healthy application shouldn't produce any errors",
+          },
+          fatal: {
+            value: "fatal",
+            description: "the application cannot proceed",
+          },
+        },
+        {
+          constraints: [
+            {
+              description: "must not be debug on Windows",
+              constrain: (v) =>
+                v !== "debug" ||
+                process.platform !== "win32" ||
+                "must not be debug on Windows",
+            },
+          ],
+          examples: [
+            {
+              value: "error",
+              label: "if you only want to see when things go wrong",
+            },
+          ],
+        },
+      );
+
+      realPlatform = process.platform;
+    });
+
+    afterEach(() => {
+      Object.defineProperty(process, "platform", { value: realPlatform });
+    });
+
+    describe("when the value is not debug", () => {
+      beforeEach(() => {
+        process.env.LOG_LEVEL = "error";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("returns the value", () => {
+          expect(declaration.value()).toBe("error");
+        });
+      });
+    });
+
+    describe("when the value is debug and the platform is not Windows", () => {
+      beforeEach(() => {
+        process.env.LOG_LEVEL = "debug";
+        Object.defineProperty(process, "platform", { value: "darwin" });
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("returns the value", () => {
+          expect(declaration.value()).toBe("debug");
+        });
+      });
+    });
+
+    describe("when the value is debug and the platform is Windows", () => {
+      beforeEach(() => {
+        process.env.LOG_LEVEL = "debug";
+        Object.defineProperty(process, "platform", { value: "win32" });
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("throws", () => {
+          expect(() => {
+            declaration.value();
+          }).toThrow(
+            "value of LOG_LEVEL (debug) is invalid: must not be debug on Windows",
+          );
+        });
+      });
     });
   });
 });

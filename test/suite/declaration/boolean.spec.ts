@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { Declaration } from "../../../src/declaration.js";
 import { Options } from "../../../src/declaration/boolean.js";
 import { boolean, initialize } from "../../../src/index.js";
@@ -326,6 +326,125 @@ describe("Boolean declarations", () => {
         }).toThrow(
           "specification for AUSTENITE_BOOLEAN is invalid: a false literal must be defined",
         );
+      });
+    });
+  });
+
+  describe("when the declaration has constraints", () => {
+    beforeEach(() => {
+      declaration = boolean("AUSTENITE_BOOLEAN", "<description>", {
+        constraints: [
+          {
+            description: "<constraint A>",
+            constrain: (v) => v || "value must be true",
+          },
+        ],
+        examples: [{ value: true, label: "example" }],
+      });
+    });
+
+    describe("when the value satisfies the constraints", () => {
+      beforeEach(() => {
+        process.env.AUSTENITE_BOOLEAN = "true";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("returns the value", () => {
+          expect(declaration.value()).toBe(true);
+        });
+      });
+    });
+
+    describe("when the value violates a constraint", () => {
+      beforeEach(() => {
+        process.env.AUSTENITE_BOOLEAN = "false";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("throws", () => {
+          expect(() => {
+            declaration.value();
+          }).toThrow(
+            "value of AUSTENITE_BOOLEAN (false) is invalid: value must be true",
+          );
+        });
+      });
+    });
+  });
+
+  describe("when the declaration has the constraints from the README", () => {
+    let realPlatform: NodeJS.Platform;
+
+    beforeEach(() => {
+      declaration = boolean("DEBUG", "enable or disable debugging features", {
+        constraints: [
+          {
+            description: "must not be enabled on Windows",
+            constrain: (v) =>
+              !v ||
+              process.platform !== "win32" ||
+              "must not be enabled on Windows",
+          },
+        ],
+        examples: [{ value: false, label: "disabled" }],
+      });
+
+      realPlatform = process.platform;
+    });
+
+    afterEach(() => {
+      Object.defineProperty(process, "platform", { value: realPlatform });
+    });
+
+    describe("when the value is false", () => {
+      beforeEach(() => {
+        process.env.DEBUG = "false";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("returns the value", () => {
+          expect(declaration.value()).toBe(false);
+        });
+      });
+    });
+
+    describe("when the value is true and the platform is not Windows", () => {
+      beforeEach(() => {
+        process.env.DEBUG = "true";
+        Object.defineProperty(process, "platform", { value: "darwin" });
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("returns the value", () => {
+          expect(declaration.value()).toBe(true);
+        });
+      });
+    });
+
+    describe("when the value is true and the platform is Windows", () => {
+      beforeEach(() => {
+        process.env.DEBUG = "true";
+        Object.defineProperty(process, "platform", { value: "win32" });
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("throws", () => {
+          expect(() => {
+            declaration.value();
+          }).toThrow(
+            "value of DEBUG (true) is invalid: must not be enabled on Windows",
+          );
+        });
       });
     });
   });

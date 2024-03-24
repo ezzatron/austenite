@@ -210,4 +210,118 @@ describe("Number declarations", () => {
       });
     });
   });
+
+  describe("when the declaration has constraints", () => {
+    beforeEach(() => {
+      declaration = number("AUSTENITE_NUMBER", "<description>", {
+        constraints: [
+          {
+            description: "<constraint A>",
+            constrain: (v) => v % 2 === 0 || "must be divisible by 2",
+          },
+          {
+            description: "<constraint B>",
+            constrain: (v) => v % 3 === 0 || "must be divisible by 3",
+          },
+        ],
+        examples: [{ value: 6, label: "example" }],
+      });
+    });
+
+    describe("when the value satisfies the constraints", () => {
+      beforeEach(() => {
+        process.env.AUSTENITE_NUMBER = "6";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("returns the value", () => {
+          expect(declaration.value()).toBe(6);
+        });
+      });
+    });
+
+    describe("when the value violates the first constraint", () => {
+      beforeEach(() => {
+        process.env.AUSTENITE_NUMBER = "3";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("throws", () => {
+          expect(() => {
+            declaration.value();
+          }).toThrow(
+            "value of AUSTENITE_NUMBER (3) is invalid: must be divisible by 2",
+          );
+        });
+      });
+    });
+
+    describe("when the value violates the second constraint", () => {
+      beforeEach(() => {
+        process.env.AUSTENITE_NUMBER = "2";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("throws", () => {
+          expect(() => {
+            declaration.value();
+          }).toThrow(
+            "value of AUSTENITE_NUMBER (2) is invalid: must be divisible by 3",
+          );
+        });
+      });
+    });
+  });
+
+  describe("when the declaration has the constraints from the README", () => {
+    beforeEach(() => {
+      declaration = number("SAMPLE_RATIO", "ratio of requests to sample", {
+        constraints: [
+          {
+            description: "must be a multiple of 0.01",
+            constrain: (v) => v % 0.01 === 0 || "must be a multiple of 0.01",
+          },
+        ],
+        examples: [{ value: 0.01, label: "1%" }],
+      });
+    });
+
+    describe("when the value satisfies the constraints", () => {
+      beforeEach(() => {
+        process.env.SAMPLE_RATIO = "0.01";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("returns the value", () => {
+          expect(declaration.value()).toBe(0.01);
+        });
+      });
+    });
+
+    describe("when the value violates the constraints", () => {
+      beforeEach(() => {
+        process.env.SAMPLE_RATIO = "0.001";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("throws", () => {
+          expect(() => {
+            declaration.value();
+          }).toThrow(
+            "value of SAMPLE_RATIO (0.001) is invalid: must be a multiple of 0.01",
+          );
+        });
+      });
+    });
+  });
 });

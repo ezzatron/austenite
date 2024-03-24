@@ -1,3 +1,4 @@
+import type { DeclarationConstraintOptions } from "../constraint.js";
 import {
   Declaration,
   Options as DeclarationOptions,
@@ -16,6 +17,7 @@ import { resolve } from "../maybe.js";
 import { EnumSchema, InvalidEnumError, createEnum } from "../schema.js";
 
 export type Options = DeclarationOptions<boolean> &
+  DeclarationConstraintOptions<boolean> &
   DeclarationExampleOptions<boolean> & {
     readonly literals?: Literals;
   };
@@ -34,7 +36,7 @@ export function boolean<O extends Options>(
 ): Declaration<boolean, O> {
   const { examples, isSensitive = false, literals = defaultLiterals } = options;
 
-  const schema = createSchema(name, literals);
+  const schema = createSchema(name, literals, options);
   const def = defaultFromOptions(options);
 
   const v = registerVariable({
@@ -58,7 +60,11 @@ export function boolean<O extends Options>(
   };
 }
 
-function createSchema(name: string, literals: Literals): EnumSchema<boolean> {
+function createSchema(
+  name: string,
+  literals: Literals,
+  options: Options,
+): EnumSchema<boolean> {
   for (const literal of Object.keys(literals)) {
     if (literal.length < 1) throw new EmptyLiteralError(name);
   }
@@ -78,7 +84,9 @@ function createSchema(name: string, literals: Literals): EnumSchema<boolean> {
     throw new InvalidEnumError(literals);
   }
 
-  return createEnum(literals, marshal, unmarshal, []);
+  const { constraints: customConstraints = [] } = options;
+
+  return createEnum(literals, marshal, unmarshal, [...customConstraints]);
 }
 
 function findLiteral(

@@ -1,3 +1,7 @@
+import type {
+  Constraint,
+  DeclarationConstraintOptions,
+} from "../constraint.js";
 import { createIntegerConstraint } from "../constraint/integer.js";
 import {
   assertRangeSpec,
@@ -23,6 +27,7 @@ import { resolve } from "../maybe.js";
 import { ScalarSchema, createScalar, toString } from "../schema.js";
 
 export type Options = DeclarationOptions<number> &
+  DeclarationConstraintOptions<number> &
   DeclarationExampleOptions<number> &
   Partial<RangeConstraintSpec<number>>;
 
@@ -57,7 +62,8 @@ function createSchema(name: string, options: Options): ScalarSchema<number> {
     return Number(v);
   }
 
-  const constraints = [createIntegerConstraint()];
+  const { constraints: customConstraints = [] } = options;
+  const constraints: Constraint<number>[] = [createIntegerConstraint()];
 
   try {
     if (hasNumberRangeConstraint(options)) {
@@ -68,7 +74,10 @@ function createSchema(name: string, options: Options): ScalarSchema<number> {
     throw new SpecError(name, normalize(error));
   }
 
-  return createScalar("integer", toString, unmarshal, constraints);
+  return createScalar("integer", toString, unmarshal, [
+    ...constraints,
+    ...customConstraints,
+  ]);
 }
 
 function buildExamples(): Example<number>[] {

@@ -124,6 +124,23 @@ export const earthAtomCount = bigInteger(
     ],
   },
 );
+
+// constraints
+export const earthAtomCount = bigInteger(
+  "EARTH_ATOM_COUNT",
+  "number of atoms on earth",
+  {
+    constraints: [
+      {
+        description: "must be a multiple of 1000",
+        constrain: (v) => v % 1_000n === 0n || "must be a multiple of 1000",
+      },
+    ],
+    examples: [
+      { value: 5_972_200_000_000_000_000_000_000n, label: "5.9722 septillion" },
+    ],
+  },
+);
 ```
 
 ### `binary`
@@ -183,6 +200,23 @@ export const sessionKey = binary("SESSION_KEY", "session token signing key", {
     },
   ],
 });
+
+// constraints
+export const sessionKey = binary("SESSION_KEY", "session token signing key", {
+  constraints: [
+    {
+      description: "must be 128 or 256 bits",
+      constrain: (v) =>
+        [16, 32].includes(v.length) || "decoded length must be 16 or 32",
+    },
+  ],
+  examples: [
+    {
+      value: Buffer.from("SUPER_SECRET_256_BIT_SIGNING_KEY", "utf-8"),
+      label: "256-bit key",
+    },
+  ],
+});
 ```
 
 ### `boolean`
@@ -226,6 +260,24 @@ export const isDebug = boolean(
     ],
   },
 );
+
+// constraints
+export const isDebug = boolean(
+  "DEBUG",
+  "enable or disable debugging features",
+  {
+    constraints: [
+      {
+        description: "must not be enabled on Windows",
+        constrain: (v) =>
+          !v ||
+          process.platform !== "win32" ||
+          "must not be enabled on Windows",
+      },
+    ],
+    examples: [{ value: false, label: "disabled" }],
+  },
+);
 ```
 
 ### `duration`
@@ -264,6 +316,23 @@ export const grpcTimeout = duration("GRPC_TIMEOUT", "gRPC request timeout", {
       value: Temporal.Duration.from({ seconds: 5 }),
       as: "P0DT5S",
       label: "5 seconds",
+    },
+  ],
+});
+
+// constraints
+export const grpcTimeout = duration("GRPC_TIMEOUT", "gRPC request timeout", {
+  constraints: [
+    {
+      description: "must be a multiple of 100 milliseconds",
+      constrain: (v) =>
+        v.milliseconds % 100 === 0 || "must be a multiple of 100 milliseconds",
+    },
+  ],
+  examples: [
+    {
+      value: Temporal.Duration.from({ milliseconds: 100 }),
+      label: "100 milliseconds",
     },
   ],
 });
@@ -326,6 +395,27 @@ export const logLevel = enumeration(
     ],
   },
 );
+
+// constraints
+export const logLevel = enumeration(
+  "LOG_LEVEL",
+  "the minimum log level to record",
+  members,
+  {
+    constraints: [
+      {
+        description: "must not be debug on Windows",
+        constrain: (v) =>
+          v !== "debug" ||
+          process.platform !== "win32" ||
+          "must not be debug on Windows",
+      },
+    ],
+    examples: [
+      { value: "error", label: "if you only want to see when things go wrong" },
+    ],
+  },
+);
 ```
 
 ### `integer`
@@ -358,6 +448,17 @@ export const weight = integer("WEIGHT", "weighting for this node", {
     { value: 1, label: "lowest weight" },
     { value: 1000, as: "1e3", label: "highest weight" },
   ],
+});
+
+// constraints
+export const weight = integer("WEIGHT", "weighting for this node", {
+  constraints: [
+    {
+      description: "must be a multiple of 10",
+      constrain: (v) => v % 10 === 0 || "must be a multiple of 10",
+    },
+  ],
+  examples: [{ value: 100, label: "100" }],
 });
 ```
 
@@ -437,6 +538,21 @@ export const port = networkPortNumber(
     ],
   },
 );
+
+// constraints
+export const port = networkPortNumber(
+  "PORT",
+  "listen port for the HTTP server",
+  {
+    constraints: [
+      {
+        description: "must not be disallowed",
+        constrain: (v) => ![1337, 31337].includes(v) || "not allowed",
+      },
+    ],
+    examples: [{ value: 8080, label: "standard" }],
+  },
+);
 ```
 
 ### `number`
@@ -480,6 +596,21 @@ export const sampleRatio = number(
       { value: 0.01, label: "1%" },
       { value: 0.25, as: "2.5e-1", label: "25%" },
     ],
+  },
+);
+
+// constraints
+export const sampleRatio = number(
+  "SAMPLE_RATIO",
+  "ratio of requests to sample",
+  {
+    constraints: [
+      {
+        description: "must be a multiple of 0.01",
+        constrain: (v) => v % 0.01 === 0 || "must be a multiple of 0.01",
+      },
+    ],
+    examples: [{ value: 0.01, label: "1%" }],
   },
 );
 ```
@@ -547,6 +678,27 @@ export const readDsn = string(
     ],
   },
 );
+
+// constraints
+export const readDsn = string(
+  "READ_DSN",
+  "database connection string for read-models",
+  {
+    constraints: [
+      {
+        description: "must not contain a password",
+        constrain: (v) =>
+          !v.includes("password") || "must not contain a password",
+      },
+    ],
+    examples: [
+      {
+        value: "host=localhost dbname=readmodels user=projector",
+        label: "local",
+      },
+    ],
+  },
+);
 ```
 
 ### `url`
@@ -592,6 +744,105 @@ export const cdnUrl = url("CDN_URL", "CDN to use when serving static assets", {
     },
   ],
 });
+
+// constraints
+export const cdnUrl = url("CDN_URL", "CDN to use when serving static assets", {
+  constraints: [
+    {
+      description: "must not be a local URL",
+      constrain: (v) =>
+        !v.hostname.endsWith(".local") || "must not be a local URL",
+    },
+  ],
+  examples: [
+    {
+      value: new URL("https://host.example.org/path/to/resource"),
+      label: "absolute",
+    },
+  ],
+});
+```
+
+### Constraints
+
+You can specify custom constraints in a few ways.
+
+To make a constraint fail, you can either throw an error or return an error
+message string.
+
+To make a constraint pass, don't throw, and don't return anything, or return
+`undefined` if you prefer to be explicit. You can also return `true` to make
+your constraint pass, if you want to use the `||` operator for a more compact
+expression.
+
+```ts
+// exception-based constraint
+
+import { string } from "austenite";
+
+export const readDsn = string(
+  "READ_DSN",
+  "database connection string for read-models",
+  {
+    constraints: [
+      {
+        description: "must not contain a password",
+        constrain: (v) => {
+          // pass by not throwing
+          if (!v.includes("password")) return;
+
+          // fail by throwing an error
+          throw new Error("must not contain a password");
+        },
+      },
+    ],
+  },
+);
+```
+
+```ts
+// return-based constraint
+
+import { string } from "austenite";
+
+export const readDsn = string(
+  "READ_DSN",
+  "database connection string for read-models",
+  {
+    constraints: [
+      {
+        description: "must not contain a password",
+        constrain: (v) => {
+          // pass by returning undefined
+          if (!v.includes("password")) return undefined;
+
+          // fail by returning a string
+          return "must not contain a password";
+        },
+      },
+    ],
+  },
+);
+```
+
+```ts
+// compact return-based constraint
+
+import { string } from "austenite";
+
+export const readDsn = string(
+  "READ_DSN",
+  "database connection string for read-models",
+  {
+    constraints: [
+      {
+        description: "must not contain a password",
+        constrain: (v) =>
+          !v.includes("password") || "must not contain a password",
+      },
+    ],
+  },
+);
 ```
 
 ## See also

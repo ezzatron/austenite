@@ -10,6 +10,12 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ## Unreleased
 
+### Added
+
+- Custom constraints can now be defined for `bigInteger`, `binary`, `boolean`,
+  `duration`, `enumeration`, `integer`, `networkPortNumber`, `number`, `string`,
+  and `url` declarations.
+
 ## [v0.9.1] - 2024-03-25
 
 [v0.9.1]: https://github.com/ezzatron/austenite/releases/tag/v0.9.1

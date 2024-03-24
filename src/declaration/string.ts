@@ -1,3 +1,7 @@
+import type {
+  Constraint,
+  DeclarationConstraintOptions,
+} from "../constraint.js";
 import {
   createLengthConstraint,
   type LengthConstraintSpec,
@@ -17,9 +21,10 @@ import {
   type Example,
 } from "../example.js";
 import { resolve } from "../maybe.js";
-import { createString } from "../schema.js";
+import { createString, type ScalarSchema } from "../schema.js";
 
 export type Options = DeclarationOptions<string> &
+  DeclarationConstraintOptions<string> &
   DeclarationExampleOptions<string> & {
     readonly length?: LengthConstraintSpec;
   };
@@ -29,20 +34,10 @@ export function string<O extends Options>(
   description: string,
   options: ExactOptions<O, Options> = {} as ExactOptions<O, Options>,
 ): Declaration<string, O> {
-  const { examples, isSensitive = false, length } = options;
+  const { examples, isSensitive = false } = options;
 
   const def = defaultFromOptions(options);
-  const constraints = [];
-
-  try {
-    if (typeof length !== "undefined") {
-      constraints.push(createLengthConstraint("length", length));
-    }
-  } catch (error) {
-    throw new SpecError(name, normalize(error));
-  }
-
-  const schema = createString("string", constraints);
+  const schema = createSchema(name, options);
 
   const v = registerVariable({
     name,
@@ -58,6 +53,21 @@ export function string<O extends Options>(
       return resolve(v.nativeValue()) as Value<string, O>;
     },
   };
+}
+
+function createSchema(name: string, options: Options): ScalarSchema<string> {
+  const { constraints: customConstraints = [], length } = options;
+  const constraints: Constraint<string>[] = [];
+
+  try {
+    if (typeof length !== "undefined") {
+      constraints.push(createLengthConstraint("length", length));
+    }
+  } catch (error) {
+    throw new SpecError(name, normalize(error));
+  }
+
+  return createString("string", [...constraints, ...customConstraints]);
 }
 
 function buildExamples(): Example<string>[] {
