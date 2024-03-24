@@ -1,4 +1,4 @@
-import { Buffer } from "node:buffer";
+import { Buffer } from "buffer";
 import { describe, expectTypeOf, it } from "vitest";
 import { binary, initialize } from "../../../src/index.js";
 import { noop } from "../../helpers.js";

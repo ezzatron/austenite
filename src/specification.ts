@@ -1,4 +1,4 @@
-import { basename } from "node:path";
+import { basename } from "path";
 import { extrinsicConstraints, type Constraint } from "./constraint.js";
 import { createDisjunctionFormatter } from "./list.js";
 import { code, inlineCode, italic, list, strong, table } from "./markdown.js";

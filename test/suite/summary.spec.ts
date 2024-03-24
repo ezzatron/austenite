@@ -1,6 +1,6 @@
 import { Temporal } from "@js-temporal/polyfill";
-import { join } from "node:path";
-import { fileURLToPath } from "node:url";
+import { join } from "path";
+import { fileURLToPath } from "url";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { registerVariable } from "../../src/environment.js";
 import {

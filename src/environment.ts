@@ -1,4 +1,4 @@
-import { EOL } from "node:os";
+import { EOL } from "os";
 import { render as renderSpecification } from "./specification.js";
 import { render as renderSummary } from "./summary.js";
 import { Results, validate } from "./validation.js";
