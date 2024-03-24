@@ -1,26 +1,80 @@
 import { applyConstraints } from "./constraint.js";
+import { SpecError, normalize } from "./error.js";
 import type { Schema } from "./schema.js";
 
-export type Example = {
-  readonly value: string;
-  readonly description: string;
+export type DeclarationExampleOptions<T> = {
+  readonly examples?: Example<T>[];
 };
 
-export function removeInvalidExamples<T>(
-  schema: Schema<T>,
-  examples: Example[],
-): Example[] {
-  const filtered: Example[] = [];
+export type Example<T> = {
+  readonly value: T;
+  readonly as?: string;
+  readonly label: string;
+};
 
-  for (const example of examples) {
+export function resolveExamples<T>(
+  name: string,
+  schema: Schema<T>,
+  buildExamples: () => Example<T>[],
+  examples?: Example<T>[],
+): Example<T>[] {
+  const isSpecified = Boolean(examples);
+  const resolved = examples ?? buildExamples();
+
+  for (const { label, value, as } of resolved) {
     try {
-      applyConstraints(schema.constraints, schema.unmarshal(example.value));
-    } catch {
-      continue;
+      applyConstraints(schema.constraints, value);
+    } catch (error) {
+      if (isSpecified) {
+        throw new InvalidValueError(name, label, normalize(error));
+      } else {
+        throw new MustProvideExamplesError(name);
+      }
     }
 
-    filtered.push(example);
+    if (typeof as !== "string") continue;
+
+    try {
+      const native = schema.unmarshal(as);
+      applyConstraints(schema.constraints, native);
+
+      if (schema.marshal(native) !== schema.marshal(value)) {
+        throw new Error("value mismatch");
+      }
+    } catch (error) {
+      throw new InvalidAsError(name, label, as, normalize(error));
+    }
   }
 
-  return filtered;
+  if (resolved.length < 1) throw new MustProvideExamplesError(name);
+
+  return resolved;
+}
+
+class MustProvideExamplesError extends SpecError {
+  constructor(name: string) {
+    super(name, new Error("examples must be provided"));
+  }
+}
+
+class InvalidValueError extends SpecError {
+  constructor(name: string, label: string, cause: Error) {
+    const quotedLabel = JSON.stringify(label);
+
+    super(name, new Error(`example ${quotedLabel}: value ${cause.message}`));
+  }
+}
+
+class InvalidAsError extends SpecError {
+  constructor(name: string, label: string, as: string, cause: Error) {
+    const quotedLabel = JSON.stringify(label);
+
+    super(
+      name,
+      new Error(
+        `example ${quotedLabel}: ` +
+          `value can't be expressed as ${JSON.stringify(as)}: ${cause.message}`,
+      ),
+    );
+  }
 }

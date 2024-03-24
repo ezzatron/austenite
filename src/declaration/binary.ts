@@ -11,28 +11,38 @@ import {
   type ExactOptions,
 } from "../declaration.js";
 import { registerVariable } from "../environment.js";
-import { normalize } from "../error.js";
-import { type Example } from "../example.js";
+import { SpecError, normalize } from "../error.js";
+import {
+  resolveExamples,
+  type DeclarationExampleOptions,
+  type Example,
+} from "../example.js";
 import { resolve } from "../maybe.js";
 import { ScalarSchema, createScalar } from "../schema.js";
-import { SpecError } from "../variable.js";
 
 const PATTERNS: Partial<Record<BufferEncoding, RegExp>> = {
   base64: /^[A-Za-z0-9+/]*={0,2}$/,
   hex: /^[0-9a-fA-F]*$/,
 } as const;
 
-export type Options = DeclarationOptions<Buffer> & {
-  readonly encoding?: BufferEncoding;
-  readonly length?: LengthConstraintSpec;
-};
+export type Options = DeclarationOptions<Buffer> &
+  DeclarationExampleOptions<Buffer> & {
+    readonly encoding?: BufferEncoding;
+    readonly length?: LengthConstraintSpec;
+  };
 
 export function binary<O extends Options>(
   name: string,
   description: string,
   options: ExactOptions<O, Options> = {} as ExactOptions<O, Options>,
 ): Declaration<Buffer, O> {
-  const { encoding = "base64", isSensitive = false, length } = options;
+  const {
+    encoding = "base64",
+    examples,
+    isSensitive = false,
+    length,
+  } = options;
+
   const def = defaultFromOptions(options);
   const schema = createSchema(name, encoding, length);
 
@@ -42,7 +52,12 @@ export function binary<O extends Options>(
     default: def,
     isSensitive,
     schema,
-    examples: buildExamples(encoding, schema),
+    examples: resolveExamples(
+      name,
+      schema,
+      () => buildExamples(encoding),
+      examples,
+    ),
   });
 
   return {
@@ -96,14 +111,11 @@ function createUnmarshal(
   };
 }
 
-function buildExamples(
-  encoding: BufferEncoding,
-  schema: ScalarSchema<Buffer>,
-): Example[] {
+function buildExamples(encoding: BufferEncoding): Example<Buffer>[] {
   return [
     {
-      value: schema.marshal(Buffer.from("conquistador", "utf-8")),
-      description: `${encoding} encoded string`,
+      value: Buffer.from("conquistador", "utf-8"),
+      label: `${encoding} encoded string`,
     },
   ];
 }

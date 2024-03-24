@@ -10,6 +10,16 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ## Unreleased
 
+### Added
+
+- Example values can now be overridden in any declaration.
+
+### Changed
+
+- **\[BREAKING\]** Explicit examples must be provided in a declaration if
+  the declaration uses constraints that would make the auto-generated examples
+  invalid.
+
 ## [v0.8.0] - 2024-03-23
 
 [v0.8.0]: https://github.com/ezzatron/austenite/releases/tag/v0.8.0

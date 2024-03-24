@@ -9,7 +9,7 @@ import {
 } from "../declaration.js";
 import { registerVariable } from "../environment.js";
 import { normalize } from "../error.js";
-import { type Example } from "../example.js";
+import { resolveExamples, type Example } from "../example.js";
 import { Maybe, map, resolve } from "../maybe.js";
 import {
   ScalarSchema,
@@ -25,19 +25,30 @@ export type KubernetesAddress = {
 };
 
 export type Options = DeclarationOptions<KubernetesAddress> & {
+  readonly examples?: KubernetesAddressExamples;
   readonly portName?: string;
+};
+
+type KubernetesAddressExamples = {
+  readonly host?: Example<string>[];
+  readonly port?: Example<number>[];
 };
 
 export function kubernetesAddress<O extends Options>(
   name: string,
   options: ExactOptions<O, Options> = {} as ExactOptions<O, Options>,
 ): Declaration<KubernetesAddress, O> {
-  const { isSensitive = false, portName } = options;
+  const {
+    examples: { host: hostExamples, port: portExamples } = {},
+    isSensitive = false,
+    portName,
+  } = options;
+
   const def = defaultFromOptions(options);
 
-  const hostVar = registerHost(name, isSensitive, def);
+  const hostVar = registerHost(name, hostExamples, isSensitive, def);
   const hName = hostVar.spec.name;
-  const portVar = registerPort(name, isSensitive, def, portName);
+  const portVar = registerPort(name, portExamples, isSensitive, def, portName);
   const pName = portVar.spec.name;
 
   return {
@@ -57,6 +68,7 @@ export function kubernetesAddress<O extends Options>(
 
 function registerHost(
   name: string,
+  examples: Example<string>[] | undefined,
   isSensitive: boolean,
   def: Maybe<KubernetesAddress | undefined>,
 ): Variable<string> {
@@ -76,25 +88,26 @@ function registerHost(
     default: hostDef,
     isSensitive,
     schema,
-    examples: buildHostExamples(),
+    examples: resolveExamples(name, schema, buildHostExamples, examples),
   });
 }
 
-function buildHostExamples(): Example[] {
+function buildHostExamples(): Example<string>[] {
   return [
     {
       value: "service.example.org",
-      description: "a hostname",
+      label: "a hostname",
     },
     {
       value: "10.0.0.11",
-      description: "an IP address",
+      label: "an IP address",
     },
   ];
 }
 
 function registerPort(
   name: string,
+  examples: Example<number>[] | undefined,
   isSensitive: boolean,
   def: Maybe<KubernetesAddress | undefined>,
   portName?: string,
@@ -127,7 +140,7 @@ function registerPort(
     default: portDef,
     isSensitive,
     schema,
-    examples: buildPortExamples(),
+    examples: resolveExamples(name, schema, buildPortExamples, examples),
   });
 }
 
@@ -146,11 +159,11 @@ function createPortSchema(): ScalarSchema<number> {
   ]);
 }
 
-function buildPortExamples(): Example[] {
+function buildPortExamples(): Example<number>[] {
   return [
     {
-      value: "12345",
-      description: "a port number",
+      value: 12345,
+      label: "a port number",
     },
   ];
 }

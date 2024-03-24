@@ -6,10 +6,14 @@ import {
   type ExactOptions,
 } from "../declaration.js";
 import { registerVariable } from "../environment.js";
-import { type Example } from "../example.js";
+import { SpecError } from "../error.js";
+import {
+  resolveExamples,
+  type DeclarationExampleOptions,
+  type Example,
+} from "../example.js";
 import { resolve } from "../maybe.js";
 import { EnumSchema, InvalidEnumError, createEnum } from "../schema.js";
-import { SpecError } from "../variable.js";
 
 export type Members<T> = Record<string, Member<T>>;
 
@@ -18,7 +22,7 @@ export type Member<T> = {
   readonly description: string;
 };
 
-export type Options<T> = DeclarationOptions<T>;
+export type Options<T> = DeclarationOptions<T> & DeclarationExampleOptions<T>;
 
 export function enumeration<T, O extends Options<T>>(
   name: string,
@@ -26,7 +30,8 @@ export function enumeration<T, O extends Options<T>>(
   members: Members<T>,
   options: ExactOptions<O, Options<T>> = {} as ExactOptions<O, Options<T>>,
 ): Declaration<T, O> {
-  const { isSensitive = false } = options;
+  const { examples, isSensitive = false } = options;
+
   const def = defaultFromOptions(options);
   const schema = createSchema(name, members);
 
@@ -36,7 +41,12 @@ export function enumeration<T, O extends Options<T>>(
     default: def,
     isSensitive,
     schema,
-    examples: buildExamples(members),
+    examples: resolveExamples(
+      name,
+      schema,
+      () => buildExamples(members),
+      examples,
+    ),
   });
 
   return {
@@ -74,10 +84,11 @@ function createSchema<T>(name: string, members: Members<T>): EnumSchema<T> {
   return createEnum(schemaMembers, marshal, unmarshal, []);
 }
 
-function buildExamples<T>(members: Members<T>): Example[] {
-  return Object.entries(members).map(([literal, { description }]) => ({
-    value: literal,
-    description,
+function buildExamples<T>(members: Members<T>): Example<T>[] {
+  return Object.entries(members).map(([literal, { value, description }]) => ({
+    value,
+    as: literal,
+    label: description,
   }));
 }
 

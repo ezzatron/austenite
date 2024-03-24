@@ -80,6 +80,25 @@ describe("Specification documents", () => {
       );
       expect(exitCode).toBe(0);
     });
+
+    it("describes big integers with examples", async () => {
+      bigInteger("WEIGHT", "weighting for this node", {
+        examples: [
+          { value: 5_000_000_000_000_000_000_000_000n, label: "5 septillion" },
+          {
+            value: 6_000_000_000_000_000_000_000_000n,
+            as: "0x4f68ca6d8cd91c6000000",
+            label: "6 septillion",
+          },
+        ],
+      });
+      initialize();
+
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
+        fixturePath("big-integer/examples"),
+      );
+      expect(exitCode).toBe(0);
+    });
   });
 
   describe("when there are binaries", () => {
@@ -116,6 +135,28 @@ describe("Specification documents", () => {
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("binary/default"),
+      );
+      expect(exitCode).toBe(0);
+    });
+
+    it("describes binaries with examples", async () => {
+      binary("SESSION_KEY", "session token signing key", {
+        examples: [
+          {
+            value: Buffer.from("128_BIT_SIGN_KEY", "utf-8"),
+            label: "128-bit key",
+          },
+          {
+            value: Buffer.from("SUPER_SECRET_256_BIT_SIGNING_KEY", "utf-8"),
+            as: "U1VQRVJfU0VDUkVUXzI1Nl9CSVRfU0lHTklOR19LRVk",
+            label: "256-bit key",
+          },
+        ],
+      });
+      initialize();
+
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
+        fixturePath("binary/examples"),
       );
       expect(exitCode).toBe(0);
     });
@@ -176,6 +217,22 @@ describe("Specification documents", () => {
       );
       expect(exitCode).toBe(0);
     });
+
+    it("describes booleans with examples", async () => {
+      boolean("DEBUG", "enable or disable debugging features", {
+        literals: { y: true, yes: true, n: false, no: false },
+        examples: [
+          { value: true, label: "enabled" },
+          { value: false, as: "no", label: "disabled" },
+        ],
+      });
+      initialize();
+
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
+        fixturePath("boolean/examples"),
+      );
+      expect(exitCode).toBe(0);
+    });
   });
 
   describe("when there are durations", () => {
@@ -209,6 +266,28 @@ describe("Specification documents", () => {
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("duration/default"),
+      );
+      expect(exitCode).toBe(0);
+    });
+
+    it("describes durations with examples", async () => {
+      duration("GRPC_TIMEOUT", "gRPC request timeout", {
+        examples: [
+          {
+            value: Temporal.Duration.from({ milliseconds: 100 }),
+            label: "100 milliseconds",
+          },
+          {
+            value: Temporal.Duration.from({ seconds: 5 }),
+            as: "P0DT5S",
+            label: "5 seconds",
+          },
+        ],
+      });
+      initialize();
+
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
+        fixturePath("duration/examples"),
       );
       expect(exitCode).toBe(0);
     });
@@ -262,6 +341,24 @@ describe("Specification documents", () => {
       );
       expect(exitCode).toBe(0);
     });
+
+    it("describes enumerations with examples", async () => {
+      enumeration("LOG_LEVEL", "the minimum log level to record", members, {
+        examples: [
+          { value: "debug", label: "if you want lots of output" },
+          {
+            value: "error",
+            label: "if you only want to see when things go wrong",
+          },
+        ],
+      });
+      initialize();
+
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
+        fixturePath("enumeration/examples"),
+      );
+      expect(exitCode).toBe(0);
+    });
   });
 
   describe("when there are integers", () => {
@@ -295,6 +392,21 @@ describe("Specification documents", () => {
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("integer/default"),
+      );
+      expect(exitCode).toBe(0);
+    });
+
+    it("describes integers with examples", async () => {
+      integer("WEIGHT", "weighting for this node", {
+        examples: [
+          { value: 1, label: "lowest weight" },
+          { value: 1000, as: "1e3", label: "highest weight" },
+        ],
+      });
+      initialize();
+
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
+        fixturePath("integer/examples"),
       );
       expect(exitCode).toBe(0);
     });
@@ -352,6 +464,27 @@ describe("Specification documents", () => {
       );
       expect(exitCode).toBe(0);
     });
+
+    it("describes addresses with examples", async () => {
+      kubernetesAddress("redis-primary", {
+        examples: {
+          host: [
+            { value: "redis.example.org", label: "remote" },
+            { value: "redis.localhost", label: "local" },
+          ],
+          port: [
+            { value: 6379, label: "standard" },
+            { value: 6380, label: "alternate" },
+          ],
+        },
+      });
+      initialize();
+
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
+        fixturePath("kubernetes-address/examples"),
+      );
+      expect(exitCode).toBe(0);
+    });
   });
 
   describe("when there are network port numbers", () => {
@@ -388,6 +521,21 @@ describe("Specification documents", () => {
       );
       expect(exitCode).toBe(0);
     });
+
+    it("describes port numbers with examples", async () => {
+      networkPortNumber("PORT", "listen port for the HTTP server", {
+        examples: [
+          { value: 80, label: "standard web" },
+          { value: 50080, label: "ephemeral" },
+        ],
+      });
+      initialize();
+
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
+        fixturePath("network-port-number/examples"),
+      );
+      expect(exitCode).toBe(0);
+    });
   });
 
   describe("when there are numbers", () => {
@@ -421,6 +569,21 @@ describe("Specification documents", () => {
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("number/default"),
+      );
+      expect(exitCode).toBe(0);
+    });
+
+    it("describes numbers with examples", async () => {
+      number("WEIGHT", "weighting for this node", {
+        examples: [
+          { value: 0.01, label: "1%" },
+          { value: 0.25, as: "2.5e-1", label: "25%" },
+        ],
+      });
+      initialize();
+
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
+        fixturePath("number/examples"),
       );
       expect(exitCode).toBe(0);
     });
@@ -469,6 +632,27 @@ describe("Specification documents", () => {
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("string/quoting"),
+      );
+      expect(exitCode).toBe(0);
+    });
+
+    it("describes strings with examples", async () => {
+      string("READ_DSN", "database connection string for read-models", {
+        examples: [
+          {
+            value: "host=localhost dbname=readmodels user=projector",
+            label: "local",
+          },
+          {
+            value: "host=remote.example.org dbname=readmodels user=projector",
+            label: "remote",
+          },
+        ],
+      });
+      initialize();
+
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
+        fixturePath("string/examples"),
       );
       expect(exitCode).toBe(0);
     });
@@ -535,6 +719,29 @@ describe("Specification documents", () => {
       );
       expect(exitCode).toBe(0);
     });
+
+    it("describes URLs with examples", async () => {
+      url("CDN_URL", "CDN to use when serving static assets", {
+        base: new URL("https://host.example.org/path/to/"),
+        examples: [
+          {
+            value: new URL("https://host.example.org/path/to/resource"),
+            label: "absolute",
+          },
+          {
+            value: new URL("https://host.example.org/path/to/resource"),
+            as: "resource",
+            label: "relative",
+          },
+        ],
+      });
+      initialize();
+
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
+        fixturePath("url/examples"),
+      );
+      expect(exitCode).toBe(0);
+    });
   });
 
   describe("when there are constraints", () => {
@@ -544,6 +751,7 @@ describe("Specification documents", () => {
         "example string with length constraint",
         {
           length: 1,
+          examples: [{ value: "a", label: "example" }],
         },
       );
       string(
@@ -551,6 +759,7 @@ describe("Specification documents", () => {
         "example string with minimum length constraint",
         {
           length: { min: 2 },
+          examples: [{ value: "ab", label: "example" }],
         },
       );
       string(
@@ -558,6 +767,7 @@ describe("Specification documents", () => {
         "example string with maximum length constraint",
         {
           length: { max: 3 },
+          examples: [{ value: "abc", label: "example" }],
         },
       );
       string(
@@ -565,6 +775,7 @@ describe("Specification documents", () => {
         "example string with length range constraint",
         {
           length: { min: 4, max: 5 },
+          examples: [{ value: "abcd", label: "example" }],
         },
       );
       binary(
@@ -572,6 +783,7 @@ describe("Specification documents", () => {
         "example binary with length constraint",
         {
           length: 1,
+          examples: [{ value: Buffer.from("a", "utf-8"), label: "example" }],
         },
       );
       binary(
@@ -579,6 +791,7 @@ describe("Specification documents", () => {
         "example binary with minimum length constraint",
         {
           length: { min: 2 },
+          examples: [{ value: Buffer.from("ab", "utf-8"), label: "example" }],
         },
       );
       binary(
@@ -586,6 +799,7 @@ describe("Specification documents", () => {
         "example binary with maximum length constraint",
         {
           length: { max: 3 },
+          examples: [{ value: Buffer.from("abc", "utf-8"), label: "example" }],
         },
       );
       binary(
@@ -593,6 +807,7 @@ describe("Specification documents", () => {
         "example binary with length range constraint",
         {
           length: { min: 4, max: 5 },
+          examples: [{ value: Buffer.from("abcd", "utf-8"), label: "example" }],
         },
       );
       number(
@@ -601,6 +816,7 @@ describe("Specification documents", () => {
         {
           min: 1,
           minIsExclusive: false,
+          examples: [{ value: 1, label: "example" }],
         },
       );
       number(
@@ -609,6 +825,7 @@ describe("Specification documents", () => {
         {
           min: 2,
           minIsExclusive: true,
+          examples: [{ value: 2.1, label: "example" }],
         },
       );
       number(
@@ -617,6 +834,7 @@ describe("Specification documents", () => {
         {
           max: 3,
           maxIsExclusive: false,
+          examples: [{ value: 3, label: "example" }],
         },
       );
       number(
@@ -625,6 +843,7 @@ describe("Specification documents", () => {
         {
           max: 4,
           maxIsExclusive: true,
+          examples: [{ value: 3.9, label: "example" }],
         },
       );
       number("AUSTENITE_NUMBER_RANGE", "example number with range constraint", {
@@ -632,12 +851,14 @@ describe("Specification documents", () => {
         minIsExclusive: false,
         max: 6,
         maxIsExclusive: true,
+        examples: [{ value: 5.5, label: "example" }],
       });
       integer(
         "AUSTENITE_INTEGER_MIN",
         "example integer with minimum constraint",
         {
           min: 1,
+          examples: [{ value: 1, label: "example" }],
         },
       );
       integer(
@@ -645,6 +866,7 @@ describe("Specification documents", () => {
         "example integer with maximum constraint",
         {
           max: 2,
+          examples: [{ value: 2, label: "example" }],
         },
       );
       integer(
@@ -653,6 +875,7 @@ describe("Specification documents", () => {
         {
           min: 3,
           max: 4,
+          examples: [{ value: 3, label: "example" }],
         },
       );
       bigInteger(
@@ -660,6 +883,7 @@ describe("Specification documents", () => {
         "example big integer with minimum constraint",
         {
           min: 1n,
+          examples: [{ value: 1n, label: "example" }],
         },
       );
       bigInteger(
@@ -667,6 +891,7 @@ describe("Specification documents", () => {
         "example big integer with maximum constraint",
         {
           max: 2n,
+          examples: [{ value: 2n, label: "example" }],
         },
       );
       bigInteger(
@@ -675,6 +900,7 @@ describe("Specification documents", () => {
         {
           min: 3n,
           max: 4n,
+          examples: [{ value: 3n, label: "example" }],
         },
       );
       networkPortNumber(
@@ -682,6 +908,7 @@ describe("Specification documents", () => {
         "example port number with minimum constraint",
         {
           min: 11111,
+          examples: [{ value: 11111, label: "example" }],
         },
       );
       networkPortNumber(
@@ -689,6 +916,7 @@ describe("Specification documents", () => {
         "example port number with maximum constraint",
         {
           max: 22222,
+          examples: [{ value: 22222, label: "example" }],
         },
       );
       networkPortNumber(
@@ -697,6 +925,7 @@ describe("Specification documents", () => {
         {
           min: 33333,
           max: 44444,
+          examples: [{ value: 33333, label: "example" }],
         },
       );
       duration(
@@ -704,6 +933,7 @@ describe("Specification documents", () => {
         "example duration with minimum constraint",
         {
           min: Duration.from("PT1S"),
+          examples: [{ value: Duration.from("PT1S"), label: "example" }],
         },
       );
       duration(
@@ -711,6 +941,7 @@ describe("Specification documents", () => {
         "example duration with maximum constraint",
         {
           max: Duration.from("PT2S"),
+          examples: [{ value: Duration.from("PT2S"), label: "example" }],
         },
       );
       duration(
@@ -719,6 +950,7 @@ describe("Specification documents", () => {
         {
           min: Duration.from("PT3S"),
           max: Duration.from("PT4S"),
+          examples: [{ value: Duration.from("PT3S"), label: "example" }],
         },
       );
       registerVariable({
@@ -744,12 +976,187 @@ describe("Specification documents", () => {
             },
           },
         ]),
-        examples: [],
+        examples: [{ value: "Hello, world!", label: "example" }],
       });
       initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("constraints"),
+      );
+      expect(exitCode).toBe(0);
+    });
+  });
+
+  describe("when there are examples", () => {
+    it("describes the examples", async () => {
+      bigInteger("AUSTENITE_INTEGER_BIG", "example big integer", {
+        examples: [
+          {
+            value: 12345678901234567890n,
+            label: "<bigInteger example A>",
+          },
+          {
+            value: 98765432109876543210n,
+            label: "<bigInteger example B>",
+          },
+        ],
+      });
+      binary("AUSTENITE_BINARY", "example binary", {
+        examples: [
+          {
+            value: Buffer.from("Beep boop!", "utf-8"),
+            label: "<binary example A>",
+          },
+          {
+            value: Buffer.from("Boop beep!", "utf-8"),
+            label: "<binary example B>",
+          },
+        ],
+      });
+      boolean("AUSTENITE_BOOLEAN", "example boolean", {
+        examples: [
+          {
+            value: true,
+            label: "<boolean example A>",
+          },
+          {
+            value: false,
+            label: "<boolean example B>",
+          },
+        ],
+      });
+      duration("AUSTENITE_DURATION", "example duration", {
+        examples: [
+          {
+            value: Duration.from("PT10S"),
+            label: "<duration example A>",
+          },
+          {
+            value: Duration.from("PT20S"),
+            label: "<duration example B>",
+          },
+        ],
+      });
+      enumeration(
+        "AUSTENITE_ENUMERATION",
+        "example enumeration",
+        {
+          foo: {
+            value: "foo",
+            description: "foo",
+          },
+          bar: {
+            value: "bar",
+            description: "bar",
+          },
+          baz: {
+            value: "baz",
+            description: "baz",
+          },
+        },
+        {
+          examples: [
+            {
+              value: "foo",
+              label: "<enumeration example A>",
+            },
+            {
+              value: "bar",
+              label: "<enumeration example B>",
+            },
+          ],
+        },
+      );
+      integer("AUSTENITE_INTEGER", "example integer", {
+        examples: [
+          {
+            value: 123456,
+            label: "<integer example A>",
+          },
+          {
+            value: 654321,
+            label: "<integer example B>",
+          },
+        ],
+      });
+      kubernetesAddress("austenite-svc", {
+        examples: {
+          host: [
+            {
+              value: "host.example.org",
+              label: "<k8s address host example A>",
+            },
+            {
+              value: "host.example.com",
+              label: "<k8s address host example B>",
+            },
+          ],
+          port: [
+            {
+              value: 321,
+              label: "<k8s address port example A>",
+            },
+            {
+              value: 432,
+              label: "<k8s address port example B>",
+            },
+          ],
+        },
+      });
+      networkPortNumber("AUSTENITE_PORT_NUMBER", "example port number", {
+        examples: [
+          {
+            value: 123,
+            label: "<port number example A>",
+          },
+          {
+            value: 234,
+            label: "<port number example B>",
+          },
+        ],
+      });
+      number("AUSTENITE_NUMBER", "example number", {
+        examples: [
+          {
+            value: 123.456,
+            label: "<number example A>",
+          },
+          {
+            value: 654.321,
+            label: "<number example B>",
+          },
+        ],
+      });
+      string("AUSTENITE_STRING", "example string", {
+        examples: [
+          {
+            value: "<value A>",
+            label: "<string example A>",
+          },
+          {
+            value: "<value B>",
+            label: "<string example B>",
+          },
+        ],
+      });
+      url("AUSTENITE_URL", "example URL", {
+        base: new URL("https://example.com/path/to/"),
+        examples: [
+          {
+            value: new URL("https://example.org/path/to/resource"),
+            label: "<URL example A>",
+          },
+          {
+            value: new URL("https://example.com/path/to/resource"),
+            as: "resource",
+            label: "<URL example B>",
+          },
+        ],
+      });
+      initialize();
+
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
+        fixturePath("examples"),
       );
       expect(exitCode).toBe(0);
     });
@@ -805,7 +1212,7 @@ describe("Specification documents", () => {
             value: "baz",
             description: "baz",
           },
-        } as const,
+        },
         {
           default: "bar",
           isSensitive: true,

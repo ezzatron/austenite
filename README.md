@@ -108,6 +108,22 @@ export const earthAtomCount = bigInteger(
     max: 6_000_000_000_000_000_000_000_000n,
   },
 );
+
+// example values
+export const earthAtomCount = bigInteger(
+  "EARTH_ATOM_COUNT",
+  "number of atoms on earth",
+  {
+    examples: [
+      { value: 5_000_000_000_000_000_000_000_000n, label: "5 septillion" },
+      {
+        value: 6_000_000_000_000_000_000_000_000n,
+        as: "0x4f68ca6d8cd91c6000000",
+        label: "6 septillion",
+      },
+    ],
+  },
+);
 ```
 
 ### `binary`
@@ -152,6 +168,21 @@ export const sessionKey = binary("SESSION_KEY", "session token signing key", {
 export const sessionKey = binary("SESSION_KEY", "session token signing key", {
   length: { min: 32, max: 64 },
 });
+
+// example values
+export const sessionKey = binary("SESSION_KEY", "session token signing key", {
+  examples: [
+    {
+      value: Buffer.from("128_BIT_SIGN_KEY", "utf-8"),
+      label: "128-bit key",
+    },
+    {
+      value: Buffer.from("SUPER_SECRET_256_BIT_SIGNING_KEY", "utf-8"),
+      as: "U1VQRVJfU0VDUkVUXzI1Nl9CSVRfU0lHTklOR19LRVk",
+      label: "256-bit key",
+    },
+  ],
+});
 ```
 
 ### `boolean`
@@ -182,6 +213,19 @@ export const isDebug = boolean(
   "enable or disable debugging features",
   { literals: { y: true, yes: true, n: false, no: false } },
 );
+
+// example values
+export const isDebug = boolean(
+  "DEBUG",
+  "enable or disable debugging features",
+  {
+    literals: { y: true, yes: true, n: false, no: false },
+    examples: [
+      { value: true, label: "enabled" },
+      { value: false, as: "no", label: "disabled" },
+    ],
+  },
+);
 ```
 
 ### `duration`
@@ -207,6 +251,21 @@ export const grpcTimeout = duration("GRPC_TIMEOUT", "gRPC request timeout", {
 export const grpcTimeout = duration("GRPC_TIMEOUT", "gRPC request timeout", {
   min: Temporal.Duration.from({ milliseconds: 100 }),
   max: Temporal.Duration.from({ seconds: 10 }),
+});
+
+// example values
+export const grpcTimeout = duration("GRPC_TIMEOUT", "gRPC request timeout", {
+  examples: [
+    {
+      value: Temporal.Duration.from({ milliseconds: 100 }),
+      label: "100 milliseconds",
+    },
+    {
+      value: Temporal.Duration.from({ seconds: 5 }),
+      as: "P0DT5S",
+      label: "5 seconds",
+    },
+  ],
 });
 ```
 
@@ -251,6 +310,22 @@ export const logLevel = enumeration(
   members,
   { default: "error" },
 );
+
+// example values
+export const logLevel = enumeration(
+  "LOG_LEVEL",
+  "the minimum log level to record",
+  members,
+  {
+    examples: [
+      { value: "debug", label: "if you want lots of output" },
+      {
+        value: "error",
+        label: "if you only want to see when things go wrong",
+      },
+    ],
+  },
+);
 ```
 
 ### `integer`
@@ -276,6 +351,14 @@ export const weight = integer("WEIGHT", "weighting for this node", {
   min: 1,
   max: 1000,
 });
+
+// example values
+export const weight = integer("WEIGHT", "weighting for this node", {
+  examples: [
+    { value: 1, label: "lowest weight" },
+    { value: 1000, as: "1e3", label: "highest weight" },
+  ],
+});
 ```
 
 ### `kubernetesAddress`
@@ -294,6 +377,20 @@ export const redisPrimary = kubernetesAddress("redis-primary", {
 // default
 export const redisPrimary = kubernetesAddress("redis-primary", {
   default: { host: "redis.example.org", port: 6379 },
+});
+
+// example values
+export const redisPrimary = kubernetesAddress("redis-primary", {
+  examples: {
+    host: [
+      { value: "redis.example.org", label: "remote" },
+      { value: "redis.localhost", label: "local" },
+    ],
+    port: [
+      { value: 6379, label: "standard" },
+      { value: 6380, label: "alternate" },
+    ],
+  },
 });
 ```
 
@@ -328,6 +425,18 @@ export const port = networkPortNumber(
   "listen port for the HTTP server",
   { min: 49152, max: 65535 },
 );
+
+// example values
+export const port = networkPortNumber(
+  "PORT",
+  "listen port for the HTTP server",
+  {
+    examples: [
+      { value: 80, label: "standard web" },
+      { value: 50080, label: "ephemeral" },
+    ],
+  },
+);
 ```
 
 ### `number`
@@ -360,6 +469,18 @@ export const sampleRatio = number(
   "SAMPLE_RATIO",
   "ratio of requests to sample",
   { min: 0.01, max: 0.25 },
+);
+
+// example values
+export const sampleRatio = number(
+  "SAMPLE_RATIO",
+  "ratio of requests to sample",
+  {
+    examples: [
+      { value: 0.01, label: "1%" },
+      { value: 0.25, as: "2.5e-1", label: "25%" },
+    ],
+  },
 );
 ```
 
@@ -408,6 +529,24 @@ export const readDsn = string(
   "database connection string for read-models",
   { length: { min: 100, max: 1000 } },
 );
+
+// example values
+export const readDsn = string(
+  "READ_DSN",
+  "database connection string for read-models",
+  {
+    examples: [
+      {
+        value: "host=localhost dbname=readmodels user=projector",
+        label: "local",
+      },
+      {
+        value: "host=remote.example.org dbname=readmodels user=projector",
+        label: "remote",
+      },
+    ],
+  },
+);
 ```
 
 ### `url`
@@ -436,6 +575,22 @@ export const cdnUrl = url("CDN_URL", "CDN to use when serving static assets", {
 // resolve against a base URL
 export const cdnUrl = url("CDN_URL", "CDN to use when serving static assets", {
   base: new URL("https://host.example.org/path/to/base"),
+});
+
+// example values
+export const cdnUrl = url("CDN_URL", "CDN to use when serving static assets", {
+  base: new URL("https://host.example.org/path/to/"),
+  examples: [
+    {
+      value: new URL("https://host.example.org/path/to/resource"),
+      label: "absolute",
+    },
+    {
+      value: new URL("https://host.example.org/path/to/resource"),
+      as: "resource",
+      label: "relative",
+    },
+  ],
 });
 ```
 

@@ -84,7 +84,7 @@ export EARTH_ATOM_COUNT=-123456 # negative
 ```
 
 ```sh
-export EARTH_ATOM_COUNT=0x1E240 # hexadecimal
+export EARTH_ATOM_COUNT=0x1e240 # hexadecimal
 ```
 
 ```sh
@@ -103,6 +103,16 @@ The `GRPC_TIMEOUT` variable is an **optional** variable
 that takes **ISO 8601 duration** values with these constraints:
 
 - Must be >= PT0.1S and <= PT10S
+
+### Example values
+
+```sh
+export GRPC_TIMEOUT=PT0.3S # 300 milliseconds
+```
+
+```sh
+export GRPC_TIMEOUT=PT5S # 5 seconds
+```
 
 ## `LOG_LEVEL`
 
@@ -167,6 +177,12 @@ that takes **string** values with these constraints:
 
 - Must have a minimum length of 30
 
+### Example values
+
+```sh
+export READ_DSN='host=localhost dbname=readmodels user=projector' # local database
+```
+
 ## `REDIS_PRIMARY_SERVICE_HOST`
 
 _Kubernetes `redis-primary` service host_
@@ -223,7 +239,7 @@ export SAMPLE_RATIO=1.23456e+2 # exponential
 ```
 
 ```sh
-export SAMPLE_RATIO=0x1E240 # hexadecimal
+export SAMPLE_RATIO=0x1e240 # hexadecimal
 ```
 
 ```sh
@@ -259,21 +275,13 @@ that takes **integer** values with these constraints:
 ### Example values
 
 ```sh
-export WEIGHT=123456 # positive
+export WEIGHT=1 # lowest
 ```
 
 ```sh
-export WEIGHT=1.23456e+5 # exponential
+export WEIGHT=100 # high
 ```
 
 ```sh
-export WEIGHT=0x1E240 # hexadecimal
-```
-
-```sh
-export WEIGHT=0o361100 # octal
-```
-
-```sh
-export WEIGHT=0b11110001001000000 # binary
+export WEIGHT=1000 # very high
 ```

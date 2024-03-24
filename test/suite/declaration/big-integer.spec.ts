@@ -12,7 +12,7 @@ const validValueTable = [
   ["explicit positive", "+123456", 123456n],
   ["negative", "-123456", -123456n],
   ["octal", "0o361100", 123456n],
-  ["hexadecimal", "0x1E240", 123456n],
+  ["hexadecimal", "0x1e240", 123456n],
   ["binary", "0b11110001001000000", 123456n],
 ] as const;
 

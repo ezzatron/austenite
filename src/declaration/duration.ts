@@ -12,16 +12,20 @@ import {
   type ExactOptions,
 } from "../declaration.js";
 import { registerVariable } from "../environment.js";
-import { normalize } from "../error.js";
-import { type Example } from "../example.js";
+import { SpecError, normalize } from "../error.js";
+import {
+  resolveExamples,
+  type DeclarationExampleOptions,
+  type Example,
+} from "../example.js";
 import { resolve } from "../maybe.js";
 import { ScalarSchema, createScalar, toString } from "../schema.js";
-import { SpecError } from "../variable.js";
 
 const { Duration } = Temporal;
 type Duration = Temporal.Duration;
 
 export type Options = DeclarationOptions<Duration> &
+  DeclarationExampleOptions<Duration> &
   Partial<RangeConstraintSpec<Duration>>;
 
 export function duration<O extends Options>(
@@ -29,7 +33,8 @@ export function duration<O extends Options>(
   description: string,
   options: ExactOptions<O, Options> = {} as ExactOptions<O, Options>,
 ): Declaration<Duration, O> {
-  const { isSensitive = false } = options;
+  const { examples, isSensitive = false } = options;
+
   const def = defaultFromOptions(options);
   const schema = createSchema(name, options);
 
@@ -39,7 +44,7 @@ export function duration<O extends Options>(
     default: def,
     isSensitive,
     schema,
-    examples: buildExamples(),
+    examples: resolveExamples(name, schema, buildExamples, examples),
   });
 
   return {
@@ -71,15 +76,15 @@ function createSchema(name: string, options: Options): ScalarSchema<Duration> {
   return createScalar("ISO 8601 duration", toString, unmarshal, constraints);
 }
 
-function buildExamples(): Example[] {
+function buildExamples(): Example<Duration>[] {
   return [
     {
-      value: Duration.from({ minutes: 1, seconds: 30 }).toString(),
-      description: "ISO 8601 duration",
+      value: Duration.from({ minutes: 1, seconds: 30 }),
+      label: "ISO 8601 duration",
     },
     {
-      value: Duration.from({ months: 1, days: 15, hours: 12 }).toString(),
-      description: "ISO 8601 duration",
+      value: Duration.from({ months: 1, days: 15, hours: 12 }),
+      label: "ISO 8601 duration",
     },
   ];
 }

@@ -27,6 +27,16 @@ export const grpcTimeout = duration("GRPC_TIMEOUT", "gRPC request timeout", {
   default: undefined,
   min: Temporal.Duration.from({ milliseconds: 100 }),
   max: Temporal.Duration.from({ seconds: 10 }),
+  examples: [
+    {
+      value: Temporal.Duration.from({ milliseconds: 300 }),
+      label: "300 milliseconds",
+    },
+    {
+      value: Temporal.Duration.from({ seconds: 5 }),
+      label: "5 seconds",
+    },
+  ],
 });
 
 export const isDebug = boolean(
@@ -63,7 +73,15 @@ export const port = networkPortNumber(
 export const readDsn = string(
   "READ_DSN",
   "database connection string for read-models",
-  { length: { min: 30 } },
+  {
+    length: { min: 30 },
+    examples: [
+      {
+        value: "host=localhost dbname=readmodels user=projector",
+        label: "local database",
+      },
+    ],
+  },
 );
 
 export const redisPrimary = kubernetesAddress("redis-primary");
@@ -78,4 +96,11 @@ export const sessionKey = binary("SESSION_KEY", "session token signing key", {
   isSensitive: true,
 });
 
-export const weight = integer("WEIGHT", "weighting for this node", { min: 1 });
+export const weight = integer("WEIGHT", "weighting for this node", {
+  min: 1,
+  examples: [
+    { value: 1, label: "lowest" },
+    { value: 100, label: "high" },
+    { value: 1000, label: "very high" },
+  ],
+});

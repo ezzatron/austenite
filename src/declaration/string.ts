@@ -10,22 +10,27 @@ import {
   type ExactOptions,
 } from "../declaration.js";
 import { registerVariable } from "../environment.js";
-import { normalize } from "../error.js";
-import { type Example } from "../example.js";
+import { SpecError, normalize } from "../error.js";
+import {
+  resolveExamples,
+  type DeclarationExampleOptions,
+  type Example,
+} from "../example.js";
 import { resolve } from "../maybe.js";
 import { createString } from "../schema.js";
-import { SpecError } from "../variable.js";
 
-export type Options = DeclarationOptions<string> & {
-  readonly length?: LengthConstraintSpec;
-};
+export type Options = DeclarationOptions<string> &
+  DeclarationExampleOptions<string> & {
+    readonly length?: LengthConstraintSpec;
+  };
 
 export function string<O extends Options>(
   name: string,
   description: string,
   options: ExactOptions<O, Options> = {} as ExactOptions<O, Options>,
 ): Declaration<string, O> {
-  const { isSensitive = false, length } = options;
+  const { examples, isSensitive = false, length } = options;
+
   const def = defaultFromOptions(options);
   const constraints = [];
 
@@ -45,7 +50,7 @@ export function string<O extends Options>(
     default: def,
     isSensitive,
     schema,
-    examples: buildExamples(),
+    examples: resolveExamples(name, schema, buildExamples, examples),
   });
 
   return {
@@ -55,15 +60,15 @@ export function string<O extends Options>(
   };
 }
 
-function buildExamples(): Example[] {
+function buildExamples(): Example<string>[] {
   return [
     {
       value: "conquistador",
-      description: "any value",
+      label: "any value",
     },
     {
       value: "alabaster parakeet",
-      description: "some values may need escaping",
+      label: "some values may need escaping",
     },
   ];
 }

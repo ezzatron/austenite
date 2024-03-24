@@ -18,30 +18,14 @@ The `<app>` app uses **declarative environment variables** powered by
 _Weighting for this node_
 
 The `WEIGHT` variable is a **required** variable
-that takes **integer** values.
+that takes **number** values.
 
 ### Example values
 
 ```sh
-export WEIGHT=123456 # positive
+export WEIGHT=0.01 # 1%
 ```
 
 ```sh
-export WEIGHT=-123456 # negative
-```
-
-```sh
-export WEIGHT=1.23456e5 # exponential
-```
-
-```sh
-export WEIGHT=0x1e240 # hexadecimal
-```
-
-```sh
-export WEIGHT=0o361100 # octal
-```
-
-```sh
-export WEIGHT=0b11110001001000000 # binary
+export WEIGHT=2.5e-1 # 25%
 ```

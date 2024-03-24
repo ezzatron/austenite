@@ -1,6 +1,10 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import type { LengthConstraintSpec } from "../../../src/constraint/length.js";
 import type { Declaration, Options } from "../../../src/declaration.js";
+import type {
+  DeclarationExampleOptions,
+  Example,
+} from "../../../src/example.js";
 import { binary, initialize, string } from "../../../src/index.js";
 import { toString } from "../../../src/schema.js";
 import { noop } from "../../helpers.js";
@@ -14,15 +18,16 @@ type LengthDeclaration<T extends { length: number }> = Declaration<
   LengthOptions<T>
 >;
 
-type LengthOptions<T extends { length: number }> = Options<T> & {
-  length: LengthConstraintSpec;
-};
+type LengthOptions<T extends { length: number }> = Options<T> &
+  DeclarationExampleOptions<T> & {
+    length: LengthConstraintSpec;
+  };
 
 const createString = (options: LengthOptions<string>) =>
-  string("AUSTENITE_VAR", "<description>", options);
+  string("AUSTENITE_VAR", "<description>", { examples: [], ...options });
 
 const createBinary = (options: LengthOptions<Buffer>) =>
-  binary("AUSTENITE_VAR", "<description>", options);
+  binary("AUSTENITE_VAR", "<description>", { examples: [], ...options });
 
 const toUTF8 = (buffer: Buffer) => buffer.toString("utf8");
 
@@ -57,12 +62,16 @@ describe.each`
     tooShort: string;
     tooLong: string;
   }) => {
+    const examples: Example<T>[] = [
+      { value: shortestNative, label: "example" },
+    ];
     let declaration: LengthDeclaration<T>;
 
     describe("when the declaration has an exact length", () => {
       beforeEach(() => {
         declaration = create({
           length: min,
+          examples,
         });
       });
 
@@ -129,6 +138,7 @@ describe.each`
           length: {
             min,
           },
+          examples,
         });
       });
 
@@ -175,6 +185,7 @@ describe.each`
           length: {
             max,
           },
+          examples,
         });
       });
 
@@ -222,6 +233,7 @@ describe.each`
             min,
             max,
           },
+          examples,
         });
       });
 
@@ -306,6 +318,7 @@ describe.each`
               min: max,
               max,
             },
+            examples,
           });
         }).toThrow(
           `specification for AUSTENITE_VAR is invalid: ` +
@@ -322,6 +335,7 @@ describe.each`
               min: max,
               max: min,
             },
+            examples,
           });
         }).toThrow(
           `specification for AUSTENITE_VAR is invalid: ` +
@@ -338,6 +352,7 @@ describe.each`
             length: {
               min: max,
             },
+            examples: [{ value: longestNative, label: "example" }],
           });
         }).toThrow(
           `specification for AUSTENITE_VAR is invalid: default value: ` +

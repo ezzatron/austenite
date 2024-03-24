@@ -13,13 +13,17 @@ import {
   type ExactOptions,
 } from "../declaration.js";
 import { registerVariable } from "../environment.js";
-import { normalize } from "../error.js";
-import { type Example } from "../example.js";
+import { SpecError, normalize } from "../error.js";
+import {
+  resolveExamples,
+  type DeclarationExampleOptions,
+  type Example,
+} from "../example.js";
 import { resolve } from "../maybe.js";
 import { ScalarSchema, createScalar, toString } from "../schema.js";
-import { SpecError } from "../variable.js";
 
 export type Options = DeclarationOptions<number> &
+  DeclarationExampleOptions<number> &
   Partial<RangeConstraintSpec<number>>;
 
 export function integer<O extends Options>(
@@ -27,7 +31,8 @@ export function integer<O extends Options>(
   description: string,
   options: ExactOptions<O, Options> = {} as ExactOptions<O, Options>,
 ): Declaration<number, O> {
-  const { isSensitive = false } = options;
+  const { examples, isSensitive = false } = options;
+
   const def = defaultFromOptions(options);
   const schema = createSchema(name, options);
 
@@ -37,7 +42,7 @@ export function integer<O extends Options>(
     default: def,
     isSensitive,
     schema,
-    examples: buildExamples(),
+    examples: resolveExamples(name, schema, buildExamples, examples),
   });
 
   return {
@@ -66,31 +71,35 @@ function createSchema(name: string, options: Options): ScalarSchema<number> {
   return createScalar("integer", toString, unmarshal, constraints);
 }
 
-function buildExamples(): Example[] {
+function buildExamples(): Example<number>[] {
   return [
     {
-      value: "123456",
-      description: "positive",
+      value: 123456,
+      label: "positive",
     },
     {
-      value: "-123456",
-      description: "negative",
+      value: -123456,
+      label: "negative",
     },
     {
-      value: "1.23456e+5",
-      description: "exponential",
+      value: 1.23456e5,
+      as: "1.23456e5",
+      label: "exponential",
     },
     {
-      value: "0x1E240",
-      description: "hexadecimal",
+      value: 0x1e240,
+      as: "0x1e240",
+      label: "hexadecimal",
     },
     {
-      value: "0o361100",
-      description: "octal",
+      value: 0o361100,
+      as: "0o361100",
+      label: "octal",
     },
     {
-      value: "0b11110001001000000",
-      description: "binary",
+      value: 0b11110001001000000,
+      as: "0b11110001001000000",
+      label: "binary",
     },
   ];
 }

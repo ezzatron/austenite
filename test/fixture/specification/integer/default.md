@@ -37,11 +37,11 @@ export WEIGHT=-123456 # negative
 ```
 
 ```sh
-export WEIGHT=1.23456e+5 # exponential
+export WEIGHT=1.23456e5 # exponential
 ```
 
 ```sh
-export WEIGHT=0x1E240 # hexadecimal
+export WEIGHT=0x1e240 # hexadecimal
 ```
 
 ```sh

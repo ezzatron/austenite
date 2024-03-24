@@ -23,25 +23,9 @@ that takes **integer** values.
 ### Example values
 
 ```sh
-export WEIGHT=123456 # positive
+export WEIGHT=1 # lowest weight
 ```
 
 ```sh
-export WEIGHT=-123456 # negative
-```
-
-```sh
-export WEIGHT=1.23456e5 # exponential
-```
-
-```sh
-export WEIGHT=0x1e240 # hexadecimal
-```
-
-```sh
-export WEIGHT=0o361100 # octal
-```
-
-```sh
-export WEIGHT=0b11110001001000000 # binary
+export WEIGHT=1e3 # highest weight
 ```

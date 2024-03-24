@@ -19,7 +19,7 @@ _Main logo image_
 
 The `LOGO` variable is a **required** variable
 that takes **URL** values.
-You can also use a URL reference relative to `https://base.example.org/path/to/resource`
+You can also use a URL reference relative to `https://base.example.org/path/to/resource`.
 
 ### Example values
 

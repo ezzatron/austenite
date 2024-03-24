@@ -8,27 +8,31 @@ import {
   type ExactOptions,
 } from "../declaration.js";
 import { registerVariable } from "../environment.js";
-import { normalize } from "../error.js";
-import { Example } from "../example.js";
+import { SpecError, normalize } from "../error.js";
+import {
+  resolveExamples,
+  type DeclarationExampleOptions,
+  type Example,
+} from "../example.js";
 import { resolve } from "../maybe.js";
 import { createURL, toString, type URLSchema } from "../schema.js";
-import { SpecError } from "../variable.js";
 
 // as per https://www.rfc-editor.org/rfc/rfc3986#section-3.1
 const VALID_PROTOCOL_PATTERN = /^[a-zA-Z][a-zA-Z0-9.+-]*:$/;
 
-export type Options = DeclarationOptions<URL> & {
-  readonly base?: URL;
-  readonly protocols?: string[];
-};
+export type Options = DeclarationOptions<URL> &
+  DeclarationExampleOptions<URL> & {
+    readonly base?: URL;
+    readonly protocols?: string[];
+  };
 
 export function url<O extends Options>(
   name: string,
   description: string,
   options: ExactOptions<O, Options> = {} as ExactOptions<O, Options>,
 ): Declaration<URL, O> {
-  const { isSensitive = false } = options;
-  const { base, protocols } = options;
+  const { base, examples, isSensitive = false, protocols } = options;
+
   assertProtocols(name, protocols);
 
   const schema = createSchema(base, protocols);
@@ -43,7 +47,12 @@ export function url<O extends Options>(
     default: def,
     isSensitive,
     schema,
-    examples: buildExamples(base, protocols),
+    examples: resolveExamples(
+      name,
+      schema,
+      () => buildExamples(base, protocols),
+      examples,
+    ),
   });
 
   return {
@@ -113,24 +122,25 @@ function createSchema(
 function buildExamples(
   base: URL | undefined,
   protocols: string[] | undefined,
-): Example[] {
-  const examples: Example[] =
+): Example<URL>[] {
+  const examples: Example<URL>[] =
     protocols == null
       ? [
           {
-            value: `https://host.example.org/path/to/resource`,
-            description: "URL (absolute)",
+            value: new URL("https://host.example.org/path/to/resource"),
+            label: "URL (absolute)",
           },
         ]
       : protocols.map((protocol) => ({
-          value: `${protocol}//host.example.org/path/to/resource`,
-          description: `URL (${protocol})`,
+          value: new URL(`${protocol}//host.example.org/path/to/resource`),
+          label: `URL (${protocol})`,
         }));
 
   if (base != null) {
     examples.push({
-      value: `path/to/resource`,
-      description: "URL (relative)",
+      value: new URL("path/to/resource", base),
+      as: "path/to/resource",
+      label: "URL (relative)",
     });
   }
 

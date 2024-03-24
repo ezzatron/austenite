@@ -45,7 +45,7 @@ export WEIGHT=1.23456e+2 # exponential
 ```
 
 ```sh
-export WEIGHT=0x1E240 # hexadecimal
+export WEIGHT=0x1e240 # hexadecimal
 ```
 
 ```sh

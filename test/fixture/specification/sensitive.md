@@ -149,11 +149,11 @@ export AUSTENITE_INTEGER=-123456 # negative
 ```
 
 ```sh
-export AUSTENITE_INTEGER=1.23456e+5 # exponential
+export AUSTENITE_INTEGER=1.23456e5 # exponential
 ```
 
 ```sh
-export AUSTENITE_INTEGER=0x1E240 # hexadecimal
+export AUSTENITE_INTEGER=0x1e240 # hexadecimal
 ```
 
 ```sh
@@ -188,7 +188,7 @@ export AUSTENITE_INTEGER_BIG=-123456 # negative
 ```
 
 ```sh
-export AUSTENITE_INTEGER_BIG=0x1E240 # hexadecimal
+export AUSTENITE_INTEGER_BIG=0x1e240 # hexadecimal
 ```
 
 ```sh
@@ -231,7 +231,7 @@ export AUSTENITE_NUMBER=1.23456e+2 # exponential
 ```
 
 ```sh
-export AUSTENITE_NUMBER=0x1E240 # hexadecimal
+export AUSTENITE_NUMBER=0x1e240 # hexadecimal
 ```
 
 ```sh

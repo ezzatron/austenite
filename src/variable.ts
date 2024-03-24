@@ -1,7 +1,7 @@
 import { applyConstraints } from "./constraint.js";
 import { readVariable } from "./environment.js";
-import { normalize } from "./error.js";
-import { removeInvalidExamples, type Example } from "./example.js";
+import { SpecError, normalize } from "./error.js";
+import { type Example } from "./example.js";
 import { Maybe, definedValue, map, undefinedValue } from "./maybe.js";
 import { Schema } from "./schema.js";
 import { quote } from "./shell.js";
@@ -12,7 +12,7 @@ export type VariableSpec<T> = {
   readonly default: Maybe<T | undefined>;
   readonly isSensitive: boolean;
   readonly schema: Schema<T>;
-  readonly examples: Example[];
+  readonly examples: Example<T>[];
 };
 
 export type Variable<T> = {
@@ -31,7 +31,6 @@ export type Value<T> = {
 };
 
 export function create<T>(spec: VariableSpec<T>): Variable<T> {
-  spec = normalizeSpec(spec);
   const { schema } = spec;
   const def = defaultValue();
   let resolution: Resolution<T>;
@@ -143,15 +142,6 @@ export function create<T>(spec: VariableSpec<T>): Variable<T> {
   }
 }
 
-export class SpecError extends Error {
-  constructor(
-    public readonly name: string,
-    public readonly cause: Error,
-  ) {
-    super(`specification for ${name} is invalid: ${cause.message}`);
-  }
-}
-
 export class ValueError extends Error {
   constructor(
     public readonly name: string,
@@ -169,13 +159,4 @@ export class NotSetError extends Error {
   constructor(public readonly name: string) {
     super(`${name} is not set and does not have a default value`);
   }
-}
-
-function normalizeSpec<T>(spec: VariableSpec<T>): VariableSpec<T> {
-  const { examples, schema } = spec;
-
-  return {
-    ...spec,
-    examples: removeInvalidExamples(schema, examples),
-  };
 }

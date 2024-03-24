@@ -242,7 +242,7 @@ describe("Validation summary", () => {
     Object.assign(process.env, {
       AUSTENITE_BINARY: "QmVlcCBib29wIQ",
       AUSTENITE_DURATION: "PT3H10M0S",
-      AUSTENITE_INTEGER_BIG: "0x1E240",
+      AUSTENITE_INTEGER_BIG: "0x1e240",
       AUSTENITE_INTEGER: "1.23456e5",
       AUSTENITE_NUMBER: "1.23456e2",
       AUSTENITE_URL: "https://host.example.org",
@@ -329,24 +329,31 @@ describe("Validation summary", () => {
     string("AUSTENITE_XTRIGGER", "trigger failure");
     string("AUSTENITE_STRING", "example string", {
       length: 5,
+      examples: [{ value: "abcde", label: "example" }],
     });
     binary("AUSTENITE_BINARY", "example binary", {
       length: 5,
+      examples: [{ value: Buffer.from("abcde", "utf-8"), label: "example" }],
     });
     number("AUSTENITE_NUMBER", "example number", {
       min: 3.3,
+      examples: [{ value: 3.3, label: "example" }],
     });
     integer("AUSTENITE_INTEGER", "example integer", {
       min: 3,
+      examples: [{ value: 3, label: "example" }],
     });
     bigInteger("AUSTENITE_INTEGER_BIG", "example big integer", {
       min: 3n,
+      examples: [{ value: 3n, label: "example" }],
     });
     networkPortNumber("AUSTENITE_PORT_NUMBER", "example port number", {
       min: 33333,
+      examples: [{ value: 33333, label: "example" }],
     });
     duration("AUSTENITE_DURATION", "example duration", {
       min: Duration.from("PT3S"),
+      examples: [{ value: Duration.from("PT3S"), label: "example" }],
     });
     registerVariable({
       name: "AUSTENITE_CUSTOM",
@@ -371,7 +378,7 @@ describe("Validation summary", () => {
           },
         },
       ]),
-      examples: [],
+      examples: [{ value: "Hello, world!", label: "example" }],
     });
 
     initialize();

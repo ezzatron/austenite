@@ -126,7 +126,7 @@ that takes ${strong("URL")} values${end}`,
       if (base) {
         lines.push(
           `You can also use a URL reference relative to ` +
-            inlineCode(quote(base.toString())),
+            `${inlineCode(quote(base.toString()))}.`,
         );
       }
 
@@ -171,15 +171,16 @@ function defaultExample(variable: Variable<unknown>): string {
 ${body}`;
 }
 
-function examples({ spec: { name, examples } }: Variable<unknown>): string {
-  if (examples.length < 1) return "";
-
+function examples({
+  spec: { name, examples, schema },
+}: Variable<unknown>): string {
   const blocks = [];
 
-  for (const { value: canonical, description } of examples) {
-    blocks.push(
-      code("sh", `export ${name}=${quote(canonical)} # ${description}`),
-    );
+  for (const example of examples) {
+    const { as, label } = example;
+    const value = as ?? schema.marshal(example.value);
+
+    blocks.push(code("sh", `export ${name}=${quote(value)} # ${label}`));
   }
 
   return `

@@ -6,14 +6,19 @@ import {
   type ExactOptions,
 } from "../declaration.js";
 import { registerVariable } from "../environment.js";
-import { type Example } from "../example.js";
+import { SpecError } from "../error.js";
+import {
+  resolveExamples,
+  type DeclarationExampleOptions,
+  type Example,
+} from "../example.js";
 import { resolve } from "../maybe.js";
 import { EnumSchema, InvalidEnumError, createEnum } from "../schema.js";
-import { SpecError } from "../variable.js";
 
-export type Options = DeclarationOptions<boolean> & {
-  readonly literals?: Literals;
-};
+export type Options = DeclarationOptions<boolean> &
+  DeclarationExampleOptions<boolean> & {
+    readonly literals?: Literals;
+  };
 
 export type Literals = Record<string, boolean>;
 
@@ -27,7 +32,8 @@ export function boolean<O extends Options>(
   description: string,
   options: ExactOptions<O, Options> = {} as ExactOptions<O, Options>,
 ): Declaration<boolean, O> {
-  const { isSensitive = false, literals = defaultLiterals } = options;
+  const { examples, isSensitive = false, literals = defaultLiterals } = options;
+
   const schema = createSchema(name, literals);
   const def = defaultFromOptions(options);
 
@@ -37,7 +43,12 @@ export function boolean<O extends Options>(
     default: def,
     isSensitive,
     schema,
-    examples: buildExamples(literals),
+    examples: resolveExamples(
+      name,
+      schema,
+      () => buildExamples(literals),
+      examples,
+    ),
   });
 
   return {
@@ -82,10 +93,11 @@ function findLiteral(
   throw new MissingLiteralError(name, native);
 }
 
-function buildExamples(literals: Literals): Example[] {
+function buildExamples(literals: Literals): Example<boolean>[] {
   return Object.entries(literals).map(([literal, native]) => ({
-    value: literal,
-    description: String(native),
+    value: native,
+    as: literal,
+    label: String(native),
   }));
 }
 

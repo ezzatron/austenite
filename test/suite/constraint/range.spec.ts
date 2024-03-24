@@ -5,6 +5,10 @@ import {
   type RangeConstraintSpec,
 } from "../../../src/constraint/range.js";
 import { Declaration, type Options } from "../../../src/declaration.js";
+import type {
+  DeclarationExampleOptions,
+  Example,
+} from "../../../src/example.js";
 import {
   bigInteger,
   duration,
@@ -28,22 +32,26 @@ type RangeDeclaration<T extends number | bigint | Duration> = Declaration<
 >;
 
 type RangeOptions<T extends number | bigint | Duration> = Options<T> &
+  DeclarationExampleOptions<T> &
   RangeConstraintSpec<T>;
 
 const createNumber = (options: RangeOptions<number>) =>
-  number("AUSTENITE_VAR", "<description>", options);
+  number("AUSTENITE_VAR", "<description>", { examples: [], ...options });
 
 const createInteger = (options: RangeOptions<number>) =>
-  integer("AUSTENITE_VAR", "<description>", options);
+  integer("AUSTENITE_VAR", "<description>", { examples: [], ...options });
 
 const createBigInteger = (options: RangeOptions<bigint>) =>
-  bigInteger("AUSTENITE_VAR", "<description>", options);
+  bigInteger("AUSTENITE_VAR", "<description>", { examples: [], ...options });
 
 const createNetworkPortNumber = (options: RangeOptions<number>) =>
-  networkPortNumber("AUSTENITE_VAR", "<description>", options);
+  networkPortNumber("AUSTENITE_VAR", "<description>", {
+    examples: [],
+    ...options,
+  });
 
 const createDuration = (options: RangeOptions<Duration>) =>
-  duration("AUSTENITE_VAR", "<description>", options);
+  duration("AUSTENITE_VAR", "<description>", { examples: [], ...options });
 
 describe.each`
   label            | create                     | min                      | minCanonical | max                      | maxCanonical | ok        | okNative                 | low       | high
@@ -75,6 +83,7 @@ describe.each`
     low: string;
     high: string;
   }) => {
+    const examples: Example<T>[] = [{ value: okNative, label: "example" }];
     let declaration: RangeDeclaration<T>;
 
     describe("when the declaration has an inclusive minimum", () => {
@@ -82,6 +91,7 @@ describe.each`
         declaration = create({
           min,
           minIsExclusive: false,
+          examples,
         });
       });
 
@@ -137,6 +147,7 @@ describe.each`
         declaration = create({
           min,
           minIsExclusive: true,
+          examples,
         });
       });
 
@@ -195,6 +206,7 @@ describe.each`
       beforeEach(() => {
         declaration = create({
           min,
+          examples,
         });
 
         process.env.AUSTENITE_VAR = minCanonical;
@@ -212,6 +224,7 @@ describe.each`
         declaration = create({
           max,
           maxIsExclusive: false,
+          examples,
         });
       });
 
@@ -267,6 +280,7 @@ describe.each`
         declaration = create({
           max,
           maxIsExclusive: true,
+          examples,
         });
       });
 
@@ -325,6 +339,7 @@ describe.each`
       beforeEach(() => {
         declaration = create({
           max,
+          examples,
         });
 
         process.env.AUSTENITE_VAR = maxCanonical;
@@ -342,6 +357,7 @@ describe.each`
         declaration = create({
           min,
           max,
+          examples,
         });
       });
 
@@ -430,6 +446,7 @@ describe.each`
           create({
             min: max,
             max,
+            examples,
           });
         }).toThrow(
           `specification for AUSTENITE_VAR is invalid: minimum (${maxCanonical}) is >= maximum (${maxCanonical})`,
@@ -443,6 +460,7 @@ describe.each`
           create({
             min: max,
             max: min,
+            examples,
           });
         }).toThrow(
           `specification for AUSTENITE_VAR is invalid: minimum (${maxCanonical}) is >= maximum (${minCanonical})`,
@@ -456,6 +474,7 @@ describe.each`
           create({
             default: okNative,
             min: max,
+            examples: [{ value: max, label: "example" }],
           });
         }).toThrow(
           `specification for AUSTENITE_VAR is invalid: default value: must be >= ${maxCanonical}`,
