@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { Declaration, Options } from "../../src/declaration.js";
+import { NotSetError } from "../../src/error.js";
 import { OnInvalid, boolean, initialize, string } from "../../src/index.js";
 import { Results } from "../../src/validation.js";
-import { NotSetError } from "../../src/variable.js";
 import { MockConsole, Mocked, createMockConsole, mockFn } from "../helpers.js";
 
 describe("initialize()", () => {

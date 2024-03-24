@@ -1,10 +1,9 @@
 import { applyConstraints } from "./constraint.js";
 import { readVariable } from "./environment.js";
-import { SpecError, normalize } from "./error.js";
+import { NotSetError, SpecError, ValueError, normalize } from "./error.js";
 import { type Example } from "./example.js";
 import { Maybe, definedValue, map, undefinedValue } from "./maybe.js";
 import { Schema } from "./schema.js";
-import { quote } from "./shell.js";
 
 export type VariableSpec<T> = {
   readonly name: string;
@@ -139,24 +138,5 @@ export function create<T>(spec: VariableSpec<T>): Variable<T> {
         normalize(error),
       );
     }
-  }
-}
-
-export class ValueError extends Error {
-  constructor(
-    public readonly name: string,
-    public readonly isSensitive: boolean,
-    public readonly value: string,
-    public readonly cause: Error,
-  ) {
-    const renderedValue = isSensitive ? "<sensitive value>" : quote(value);
-
-    super(`value of ${name} (${renderedValue}) is invalid: ${cause.message}`);
-  }
-}
-
-export class NotSetError extends Error {
-  constructor(public readonly name: string) {
-    super(`${name} is not set and does not have a default value`);
   }
 }

@@ -1,8 +1,9 @@
+import { ValueError } from "./error.js";
 import { Visitor } from "./schema.js";
 import { quote } from "./shell.js";
 import { create as createTable } from "./table.js";
 import { Result, Results } from "./validation.js";
-import { ValueError, Variable } from "./variable.js";
+import { Variable } from "./variable.js";
 
 const ATTENTION = "❯";
 const INVALID = "✗";
