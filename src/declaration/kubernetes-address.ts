@@ -8,7 +8,7 @@ import {
   type ExactOptions,
 } from "../declaration.js";
 import { registerVariable } from "../environment.js";
-import { normalize } from "../error.js";
+import { SpecError, normalize } from "../error.js";
 import { resolveExamples, type Example } from "../example.js";
 import { Maybe, map, resolve } from "../maybe.js";
 import {
@@ -182,22 +182,24 @@ function nameToEnv(name: string): string {
   return name.replaceAll("-", "_").toUpperCase();
 }
 
-class InvalidServiceNameError extends Error {
+class InvalidServiceNameError extends SpecError {
   constructor(name: string, cause: Error) {
     const quotedName = JSON.stringify(name);
 
     super(
-      `specification for Kubernetes service address is invalid: service name (${quotedName}): ${cause.message}`,
+      "Kubernetes service address",
+      new Error(`service name (${quotedName}): ${cause.message}`),
     );
   }
 }
 
-class InvalidPortNameError extends Error {
+class InvalidPortNameError extends SpecError {
   constructor(name: string, portName: string, cause: Error) {
     const quotedName = JSON.stringify(portName);
 
     super(
-      `specification for Kubernetes ${name} service address is invalid: port name (${quotedName}): ${cause.message}`,
+      `Kubernetes ${name} service address`,
+      new Error(`port name (${quotedName}): ${cause.message}`),
     );
   }
 }
