@@ -311,7 +311,7 @@ describe("Validation summary", () => {
     expect(exitCode).toBeGreaterThan(0);
   });
 
-  it("summarizes invalid composites", async () => {
+  it("summarizes composites with partially defined variables", async () => {
     Object.assign(process.env, {
       AUSTENITE_SVC_SERVICE_HOST: "host.example.org",
     });
@@ -321,7 +321,7 @@ describe("Validation summary", () => {
     initialize();
 
     await expect(mockConsole.readStderr()).toMatchFileSnapshot(
-      fixturePath("invalid-composite"),
+      fixturePath("composite-partially-defined"),
     );
     expect(exitCode).toBeGreaterThan(0);
   });
@@ -329,6 +329,7 @@ describe("Validation summary", () => {
   it("summarizes composites with partially invalid variables", async () => {
     Object.assign(process.env, {
       AUSTENITE_SVC_SERVICE_HOST: ".host.example.org",
+      AUSTENITE_SVC_SERVICE_PORT: "443",
     });
 
     kubernetesAddress("austenite-svc", { default: undefined });
@@ -336,7 +337,7 @@ describe("Validation summary", () => {
     initialize();
 
     await expect(mockConsole.readStderr()).toMatchFileSnapshot(
-      fixturePath("partially-invalid-composite"),
+      fixturePath("composite-partially-invalid"),
     );
     expect(exitCode).toBeGreaterThan(0);
   });
