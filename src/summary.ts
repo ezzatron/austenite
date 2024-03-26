@@ -1,9 +1,10 @@
 import { ValueError } from "./error.js";
+import type { Maybe } from "./maybe.js";
 import { Visitor } from "./schema.js";
 import { quote } from "./shell.js";
 import { create as createTable } from "./table.js";
 import { Result, Results } from "./validation.js";
-import { Variable } from "./variable.js";
+import { Variable, type Value } from "./variable.js";
 
 const ATTENTION = "❯";
 const INVALID = "✗";
@@ -62,31 +63,49 @@ function createSchemaRenderer(): Visitor<string> {
 
 function renderResult(
   { spec: { isSensitive } }: Variable<unknown>,
-  { error, maybe }: Result,
+  result: Result,
 ) {
+  const { error, maybe } = result;
+
   if (error != null) return `${INVALID} ${describeError(isSensitive, error)}`;
-  if (!maybe.isDefined) return `${NEUTRAL} not set`;
-  if (maybe.value.isDefault) return `${VALID} using default value`;
 
-  const { value } = maybe;
-  const { canonical, verbatim } = value;
-  const result = `${VALID} set to ${quoteAndSuppress(isSensitive, canonical)}`;
+  const described = describeValue(isSensitive, maybe);
+  const indicator = maybe.isDefined ? VALID : NEUTRAL;
 
-  if (verbatim !== canonical) {
-    if (isSensitive) return `${result} (specified non-canonically)`;
-
-    const quotedVerbatim = quoteAndSuppress(isSensitive, verbatim);
-
-    return `${result} (specified non-canonically as ${quotedVerbatim})`;
-  }
-
-  return result;
+  return `${indicator} ${described}`;
 }
 
 function describeError(isSensitive: boolean, error: Error) {
-  if (!(error instanceof ValueError)) return "not set";
+  if (error instanceof ValueError) {
+    return (
+      `set to ${quoteAndSuppress(isSensitive, error.value)}, ` +
+      `${error.cause.message}`
+    );
+  }
 
-  return `set to ${quoteAndSuppress(isSensitive, error.value)}, ${error.cause.message}`;
+  return "not set";
+}
+
+function describeValue(
+  isSensitive: boolean,
+  maybe: Maybe<Value<unknown>>,
+): string {
+  if (!maybe.isDefined) return "not set";
+  if (maybe.value.isDefault) return "using default value";
+
+  const { value } = maybe;
+  const { canonical, verbatim } = value;
+  const prefix = `set to ${quoteAndSuppress(isSensitive, canonical)}`;
+
+  if (verbatim !== canonical) {
+    if (isSensitive) return `${prefix} (specified non-canonically)`;
+
+    const quotedVerbatim = quoteAndSuppress(isSensitive, verbatim);
+
+    return `${prefix} (specified non-canonically as ${quotedVerbatim})`;
+  }
+
+  return prefix;
 }
 
 function quoteAndSuppress(isSensitive: boolean, value: string) {

@@ -29,7 +29,10 @@ export type Value<T> = {
   readonly isDefault: boolean;
 };
 
-export function create<T>(spec: VariableSpec<T>): Variable<T> {
+export type ValueOfVariable<V extends Variable<unknown>> =
+  V extends Variable<infer T> ? T : never;
+
+export function createVariable<T>(spec: VariableSpec<T>): Variable<T> {
   const { schema } = spec;
   const def = defaultValue();
   let resolution: Resolution<T>;
@@ -70,9 +73,7 @@ export function create<T>(spec: VariableSpec<T>): Variable<T> {
     const { error, result } = resolve();
 
     if (error != null) throw error;
-    if (result.isDefined) return definedValue(result.value);
-
-    return undefinedValue();
+    return result;
   }
 
   function nativeValue(): Maybe<T> {

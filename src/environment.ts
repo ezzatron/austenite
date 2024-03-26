@@ -3,10 +3,11 @@ import { render as renderSpecification } from "./specification.js";
 import { render as renderSummary } from "./summary.js";
 import { Results, validate } from "./validation.js";
 import {
-  Variable,
-  VariableSpec,
-  create as createVariable,
-} from "./variable.js";
+  createVariableComposite,
+  type VariableComposite,
+  type VariableCompositeSpec,
+} from "./variable-composite.js";
+import { Variable, VariableSpec, createVariable } from "./variable.js";
 
 let state: State = createInitialState();
 
@@ -22,7 +23,7 @@ export function initialize(options: InitializeOptions = {}): void {
     process.exit(0);
   } else {
     const { onInvalid = defaultOnInvalid } = options;
-    const [isValid, results] = validate(variablesByName());
+    const [isValid, results] = validate(variablesByName(), state.composites);
 
     if (!isValid) {
       onInvalid({
@@ -37,9 +38,22 @@ export function initialize(options: InitializeOptions = {}): void {
 
 export function registerVariable<T>(spec: VariableSpec<T>): Variable<T> {
   const variable = createVariable(spec);
-  state.variables[variable.spec.name] = variable;
+  state.variables[variable.spec.name] = variable as Variable<unknown>;
 
   return variable;
+}
+
+export function registerVariableComposite<
+  T,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  VM extends Record<string, Variable<any>>,
+>(spec: VariableCompositeSpec<T, VM>): VariableComposite<T, VM> {
+  const composite = createVariableComposite(spec);
+  state.composites.push(
+    composite as VariableComposite<unknown, Record<string, Variable<unknown>>>,
+  );
+
+  return composite;
 }
 
 export function readVariable<T>(spec: VariableSpec<T>): string {
@@ -51,14 +65,17 @@ export function reset(): void {
 }
 
 type State = {
-  // TODO: WTF TypeScript? Why can't I use unknown here?
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  readonly variables: Record<string, Variable<any>>;
+  readonly variables: Record<string, Variable<unknown>>;
+  readonly composites: VariableComposite<
+    unknown,
+    Record<string, Variable<unknown>>
+  >[];
 };
 
 function createInitialState(): State {
   return {
     variables: {},
+    composites: [],
   };
 }
 

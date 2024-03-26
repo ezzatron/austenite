@@ -6,6 +6,7 @@ import {
   initialize,
   kubernetesAddress,
 } from "../../../src/index.js";
+import { quote } from "../../../src/shell.js";
 import { noop } from "../../helpers.js";
 
 const invalidHostValueTable = [
@@ -387,7 +388,7 @@ describe("Kubernetes address declarations", () => {
         describe(".value()", () => {
           it("throws", () => {
             expect(() => declaration.value()).toThrow(
-              "AUSTENITE_SVC_SERVICE_PORT is defined but AUSTENITE_SVC_SERVICE_HOST is not, define both or neither",
+              "AUSTENITE_SVC_SERVICE_PORT is set but AUSTENITE_SVC_SERVICE_HOST isn't, must set all or none",
             );
           });
         });
@@ -430,7 +431,7 @@ describe("Kubernetes address declarations", () => {
         describe(".value()", () => {
           it("throws", () => {
             expect(() => declaration.value()).toThrow(
-              "AUSTENITE_SVC_SERVICE_HOST is defined but AUSTENITE_SVC_SERVICE_PORT is not, define both or neither",
+              "AUSTENITE_SVC_SERVICE_HOST is set but AUSTENITE_SVC_SERVICE_PORT isn't, must set all or none",
             );
           });
         });
@@ -508,6 +509,131 @@ describe("Kubernetes address declarations", () => {
             host: "host.example.org",
             port: 12345,
           });
+        });
+      });
+    });
+  });
+
+  describe("when the declaration has constraints", () => {
+    beforeEach(() => {
+      declaration = kubernetesAddress("austenite-svc", {
+        constraints: [
+          {
+            description: "<constraint A>",
+            constrain: ({ host }) =>
+              host.endsWith(".example.org") ||
+              `host (${quote(host)}) must end with .example.org`,
+          },
+          {
+            description: "<constraint B>",
+            constrain: ({ port }) =>
+              port % 2 === 0 ||
+              `port (${quote(String(port))}) must be divisible by 2`,
+          },
+        ],
+      });
+    });
+
+    describe("when the value satisfies the constraints", () => {
+      beforeEach(() => {
+        process.env.AUSTENITE_SVC_SERVICE_HOST = "host.example.org";
+        process.env.AUSTENITE_SVC_SERVICE_PORT = "1234";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("returns the value", () => {
+          expect(declaration.value()).toEqual({
+            host: "host.example.org",
+            port: 1234,
+          });
+        });
+      });
+    });
+
+    describe("when the value violates the first constraint", () => {
+      beforeEach(() => {
+        process.env.AUSTENITE_SVC_SERVICE_HOST = "host.example.com";
+        process.env.AUSTENITE_SVC_SERVICE_PORT = "1234";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("throws", () => {
+          expect(() => {
+            declaration.value();
+          }).toThrow("host (host.example.com) must end with .example.org");
+        });
+      });
+    });
+
+    describe("when the value violates the second constraint", () => {
+      beforeEach(() => {
+        process.env.AUSTENITE_SVC_SERVICE_HOST = "host.example.org";
+        process.env.AUSTENITE_SVC_SERVICE_PORT = "1235";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("throws", () => {
+          expect(() => {
+            declaration.value();
+          }).toThrow("port (1235) must be divisible by 2");
+        });
+      });
+    });
+  });
+
+  describe("when the declaration has the constraints from the README", () => {
+    beforeEach(() => {
+      declaration = kubernetesAddress("redis-primary", {
+        constraints: [
+          {
+            description: "must be allowed",
+            constrain: ({ host, port }) =>
+              [
+                "insecure.redis.example.org:80",
+                "secure.redis.example.org:443",
+              ].includes(`${host}:${port}`) || "not allowed",
+          },
+        ],
+      });
+    });
+
+    describe("when the value satisfies the constraints", () => {
+      beforeEach(() => {
+        process.env.REDIS_PRIMARY_SERVICE_HOST = "secure.redis.example.org";
+        process.env.REDIS_PRIMARY_SERVICE_PORT = "443";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("returns the value", () => {
+          expect(declaration.value()).toEqual({
+            host: "secure.redis.example.org",
+            port: 443,
+          });
+        });
+      });
+    });
+
+    describe("when the value violates the constraints", () => {
+      beforeEach(() => {
+        process.env.REDIS_PRIMARY_SERVICE_HOST = "secure.redis.example.org";
+        process.env.REDIS_PRIMARY_SERVICE_PORT = "80";
+
+        initialize({ onInvalid: noop });
+      });
+
+      describe(".value()", () => {
+        it("throws", () => {
+          expect(() => {
+            declaration.value();
+          }).toThrow("not allowed");
         });
       });
     });

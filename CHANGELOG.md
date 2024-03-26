@@ -12,9 +12,7 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ### Added
 
-- Custom constraints can now be defined for `bigInteger`, `binary`, `boolean`,
-  `duration`, `enumeration`, `integer`, `networkPortNumber`, `number`, `string`,
-  and `url` declarations.
+- Custom constraints can now be defined for all declarations.
 
 ## [v0.9.1] - 2024-03-25
 

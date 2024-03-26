@@ -1,0 +1,4 @@
+Environment Variables:
+
+❯ AUSTENITE_SVC_SERVICE_HOST  kubernetes `austenite-svc` service host  [ <hostname> ]     ✗ set to .host.example.org, must not begin or end with a dot
+  AUSTENITE_SVC_SERVICE_PORT  kubernetes `austenite-svc` service port  [ <port number> ]  ✓ set to 443

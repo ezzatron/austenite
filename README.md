@@ -493,6 +493,20 @@ export const redisPrimary = kubernetesAddress("redis-primary", {
     ],
   },
 });
+
+// constraints
+const const redisPrimary = kubernetesAddress("redis-primary", {
+  constraints: [
+    {
+      description: "must be allowed",
+      constrain: ({ host, port }) =>
+        [
+          "insecure.redis.example.org:80",
+          "secure.redis.example.org:443",
+        ].includes(`${host}:${port}`) || "not allowed",
+    },
+  ],
+});
 ```
 
 ### `networkPortNumber`
