@@ -1,4 +1,4 @@
-import { ValueError } from "./error.js";
+import { CompositeError, ValueError } from "./error.js";
 import { Visitor } from "./schema.js";
 import { quote } from "./shell.js";
 import { create as createTable } from "./table.js";
@@ -84,9 +84,14 @@ function renderResult(
 }
 
 function describeError(isSensitive: boolean, error: Error) {
-  if (!(error instanceof ValueError)) return "not set";
+  if (error instanceof ValueError) {
+    return (
+      `set to ${quoteAndSuppress(isSensitive, error.value)}, ` +
+      `${error.cause.message}`
+    );
+  }
 
-  return `set to ${quoteAndSuppress(isSensitive, error.value)}, ${error.cause.message}`;
+  return error instanceof CompositeError ? error.message : "not set";
 }
 
 function quoteAndSuppress(isSensitive: boolean, value: string) {

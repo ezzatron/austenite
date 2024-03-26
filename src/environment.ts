@@ -6,6 +6,7 @@ import {
   Variable,
   VariableSpec,
   create as createVariable,
+  type VariableComposite,
 } from "./variable.js";
 
 let state: State = createInitialState();
@@ -22,7 +23,7 @@ export function initialize(options: InitializeOptions = {}): void {
     process.exit(0);
   } else {
     const { onInvalid = defaultOnInvalid } = options;
-    const [isValid, results] = validate(variablesByName());
+    const [isValid, results] = validate(variablesByName(), state.composites);
 
     if (!isValid) {
       onInvalid({
@@ -42,6 +43,14 @@ export function registerVariable<T>(spec: VariableSpec<T>): Variable<T> {
   return variable;
 }
 
+export function registerComposite<T>(
+  composite: VariableComposite<T>,
+): VariableComposite<T> {
+  state.composites.push(composite);
+
+  return composite;
+}
+
 export function readVariable<T>(spec: VariableSpec<T>): string {
   return process.env[spec.name] ?? "";
 }
@@ -54,11 +63,13 @@ type State = {
   // TODO: WTF TypeScript? Why can't I use unknown here?
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   readonly variables: Record<string, Variable<any>>;
+  readonly composites: VariableComposite<unknown>[];
 };
 
 function createInitialState(): State {
   return {
     variables: {},
+    composites: [],
   };
 }
 

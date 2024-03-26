@@ -311,6 +311,21 @@ describe("Validation summary", () => {
     expect(exitCode).toBeGreaterThan(0);
   });
 
+  it("summarizes invalid composites", async () => {
+    Object.assign(process.env, {
+      AUSTENITE_SVC_SERVICE_HOST: "host.example.org",
+    });
+
+    kubernetesAddress("austenite-svc", { default: undefined });
+
+    initialize();
+
+    await expect(mockConsole.readStderr()).toMatchFileSnapshot(
+      fixturePath("invalid-composite"),
+    );
+    expect(exitCode).toBeGreaterThan(0);
+  });
+
   it("summarizes variables that violate constraints", async () => {
     Object.assign(process.env, {
       AUSTENITE_STRING: "hello, world!",

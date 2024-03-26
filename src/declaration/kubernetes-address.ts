@@ -7,7 +7,7 @@ import {
   defaultFromOptions,
   type ExactOptions,
 } from "../declaration.js";
-import { registerVariable } from "../environment.js";
+import { registerComposite, registerVariable } from "../environment.js";
 import { SpecError, normalize } from "../error.js";
 import { resolveExamples, type Example } from "../example.js";
 import { Maybe, map, resolve } from "../maybe.js";
@@ -51,7 +51,8 @@ export function kubernetesAddress<O extends Options>(
   const portVar = registerPort(name, portExamples, isSensitive, def, portName);
   const pName = portVar.spec.name;
 
-  return {
+  const composite = registerComposite({
+    variables: [hostVar, portVar],
     value() {
       const host = resolve(hostVar.nativeValue());
       const port = resolve(portVar.nativeValue());
@@ -62,6 +63,12 @@ export function kubernetesAddress<O extends Options>(
       if (port != null) throw new PartiallyDefinedError(pName, hName);
 
       return undefined as Value<KubernetesAddress, O>;
+    },
+  });
+
+  return {
+    value() {
+      return composite.value();
     },
   };
 }

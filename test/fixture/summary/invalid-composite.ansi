@@ -1,0 +1,4 @@
+Environment Variables:
+
+❯ AUSTENITE_SVC_SERVICE_HOST  kubernetes `austenite-svc` service host  [ <hostname> ]     ✗ AUSTENITE_SVC_SERVICE_HOST is invalid: AUSTENITE_SVC_SERVICE_HOST is defined but AUSTENITE_SVC_SERVICE_PORT is not, define both or neither
+❯ AUSTENITE_SVC_SERVICE_PORT  kubernetes `austenite-svc` service port  [ <port number> ]  ✗ AUSTENITE_SVC_SERVICE_PORT is invalid: AUSTENITE_SVC_SERVICE_HOST is defined but AUSTENITE_SVC_SERVICE_PORT is not, define both or neither

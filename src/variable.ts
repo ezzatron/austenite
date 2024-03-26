@@ -22,6 +22,12 @@ export type Variable<T> = {
   readonly unmarshal: (value: string) => T;
 };
 
+export type VariableComposite<T> = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  readonly variables: Variable<any>[];
+  readonly value: () => T;
+};
+
 export type Value<T> = {
   readonly verbatim: string;
   readonly canonical: string;
