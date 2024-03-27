@@ -64,8 +64,6 @@ export function reset(): void {
 }
 
 type State = {
-  // TODO: WTF TypeScript? Why can't I use unknown here?
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   readonly variables: Record<string, Variable<unknown>>;
   readonly composites: VariableComposite<
     unknown,
