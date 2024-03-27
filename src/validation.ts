@@ -1,10 +1,11 @@
-import { CompositeError, normalize } from "./error.js";
+import { normalize } from "./error.js";
 import { Maybe } from "./maybe.js";
-import { Value, Variable, type VariableComposite } from "./variable.js";
+import type { VariableComposite } from "./variable-composite.js";
+import { Value, Variable } from "./variable.js";
 
 export function validate(
   variables: Variable<unknown>[],
-  composites: VariableComposite<unknown>[],
+  composites: VariableComposite<unknown, Record<string, Variable<unknown>>>[],
 ): [boolean, Results] {
   const resultMap = new Map<Variable<unknown>, Result>();
   let isValid = true;
@@ -14,26 +15,29 @@ export function validate(
       resultMap.set(variable, { maybe: variable.value() });
     } catch (error) {
       isValid = false;
+
       resultMap.set(variable, { error: normalize(error) });
     }
   }
 
   for (const composite of composites) {
-    const shouldSkip = composite.variables.some(
-      (variable) => resultMap.get(variable)?.error,
+    const hasPrerequisites = Object.values(composite.spec.variables).every(
+      (variable) => {
+        const result = resultMap.get(variable);
+
+        return result && !result.error;
+      },
     );
 
-    if (shouldSkip) continue;
+    if (!hasPrerequisites) continue;
 
     try {
       composite.value();
     } catch (error) {
       isValid = false;
 
-      for (const variable of composite.variables) {
-        resultMap.set(variable, {
-          error: new CompositeError(variable.spec.name, normalize(error)),
-        });
+      for (const variable of Object.values(composite.spec.variables)) {
+        resultMap.set(variable, { error: normalize(error) });
       }
     }
   }

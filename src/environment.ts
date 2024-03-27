@@ -3,11 +3,11 @@ import { render as renderSpecification } from "./specification.js";
 import { render as renderSummary } from "./summary.js";
 import { Results, validate } from "./validation.js";
 import {
-  Variable,
-  VariableSpec,
-  create as createVariable,
+  createVariableComposite,
   type VariableComposite,
-} from "./variable.js";
+  type VariableCompositeSpec,
+} from "./variable-composite.js";
+import { Variable, VariableSpec, createVariable } from "./variable.js";
 
 let state: State = createInitialState();
 
@@ -38,15 +38,19 @@ export function initialize(options: InitializeOptions = {}): void {
 
 export function registerVariable<T>(spec: VariableSpec<T>): Variable<T> {
   const variable = createVariable(spec);
-  state.variables[variable.spec.name] = variable;
+  state.variables[variable.spec.name] = variable as Variable<unknown>;
 
   return variable;
 }
 
-export function registerComposite<T>(
-  composite: VariableComposite<T>,
-): VariableComposite<T> {
-  state.composites.push(composite);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function registerComposite<T, VM extends Record<string, Variable<any>>>(
+  spec: VariableCompositeSpec<T, VM>,
+): VariableComposite<T, VM> {
+  const composite = createVariableComposite(spec);
+  state.composites.push(
+    composite as VariableComposite<unknown, Record<string, Variable<unknown>>>,
+  );
 
   return composite;
 }
@@ -62,8 +66,11 @@ export function reset(): void {
 type State = {
   // TODO: WTF TypeScript? Why can't I use unknown here?
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  readonly variables: Record<string, Variable<any>>;
-  readonly composites: VariableComposite<unknown>[];
+  readonly variables: Record<string, Variable<unknown>>;
+  readonly composites: VariableComposite<
+    unknown,
+    Record<string, Variable<unknown>>
+  >[];
 };
 
 function createInitialState(): State {

@@ -26,15 +26,6 @@ export class ValueError extends Error {
   }
 }
 
-export class CompositeError extends Error {
-  constructor(
-    public readonly name: string,
-    public readonly cause: Error,
-  ) {
-    super(`${name} is invalid: ${cause.message}`);
-  }
-}
-
 export class NotSetError extends Error {
   constructor(public readonly name: string) {
     super(`${name} is not set and does not have a default value`);

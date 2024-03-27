@@ -3,9 +3,9 @@ import { createNetworkPortNumberConstraint } from "../constraint/network-port-nu
 import {
   Declaration,
   Options as DeclarationOptions,
-  Value,
   defaultFromOptions,
   type ExactOptions,
+  type Value,
 } from "../declaration.js";
 import { registerComposite, registerVariable } from "../environment.js";
 import { SpecError, normalize } from "../error.js";
@@ -47,28 +47,16 @@ export function kubernetesAddress<O extends Options>(
   const def = defaultFromOptions(options);
 
   const hostVar = registerHost(name, hostExamples, isSensitive, def);
-  const hName = hostVar.spec.name;
   const portVar = registerPort(name, portExamples, isSensitive, def, portName);
-  const pName = portVar.spec.name;
 
   const composite = registerComposite({
-    variables: [hostVar, portVar],
-    value() {
-      const host = resolve(hostVar.nativeValue());
-      const port = resolve(portVar.nativeValue());
-
-      if (host != null && port != null) return { host, port };
-
-      if (host != null) throw new PartiallyDefinedError(hName, pName);
-      if (port != null) throw new PartiallyDefinedError(pName, hName);
-
-      return undefined as Value<KubernetesAddress, O>;
-    },
+    variables: { host: hostVar, port: portVar },
+    resolve: ({ host, port }) => ({ host, port }),
   });
 
   return {
     value() {
-      return composite.value();
+      return resolve(composite.value()) as Value<KubernetesAddress, O>;
     },
   };
 }
@@ -212,11 +200,5 @@ class InvalidPortNameError extends SpecError {
       `Kubernetes ${name} service address`,
       new Error(`port name (${quotedName}): ${cause.message}`),
     );
-  }
-}
-
-class PartiallyDefinedError extends Error {
-  constructor(def: string, undef: string) {
-    super(`${def} is defined but ${undef} is not, define both or neither`);
   }
 }
