@@ -1,6 +1,9 @@
 import { normalize } from "./error.js";
 import { Maybe } from "./maybe.js";
-import type { VariableComposite } from "./variable-composite.js";
+import {
+  CompositeError,
+  type VariableComposite,
+} from "./variable-composite.js";
 import { Value, Variable } from "./variable.js";
 
 export function validate(
@@ -36,8 +39,10 @@ export function validate(
     } catch (error) {
       isValid = false;
 
-      for (const variable of Object.values(composite.spec.variables)) {
-        resultMap.set(variable, { error: normalize(error) });
+      if (error instanceof CompositeError) {
+        for (const variable of error.blame) {
+          resultMap.set(variable, { error: normalize(error) });
+        }
       }
     }
   }

@@ -1,3 +1,4 @@
+import { createConjunctionFormatter } from "./list.js";
 import { Maybe, definedValue, undefinedValue } from "./maybe.js";
 import type { ValueOfVariable, Variable } from "./variable.js";
 
@@ -54,8 +55,9 @@ export function createVariableComposite<
     if (resolution != null) return resolution;
 
     const values: Record<string, unknown> = {};
+    const setVars: Variable<unknown>[] = [];
+    const notSetVars: Variable<unknown>[] = [];
     let isAllDefined = true;
-    let isAllUndefined = true;
 
     for (const name in spec.variables) {
       const variable = spec.variables[name];
@@ -63,16 +65,17 @@ export function createVariableComposite<
 
       if (value.isDefined) {
         values[name] = value.value;
-        isAllUndefined = false;
+        setVars.push(variable);
       } else {
+        notSetVars.push(variable);
         isAllDefined = false;
       }
     }
 
-    if (isAllUndefined) {
+    if (setVars.length < 1) {
       resolution = { result: undefinedValue() };
     } else if (!isAllDefined) {
-      resolution = { error: new Error("TODO") };
+      resolution = { error: new PartialCompositeError(setVars, notSetVars) };
     } else {
       resolution = {
         result: definedValue(spec.resolve(values as ValueMap<VM>)),
@@ -80,5 +83,36 @@ export function createVariableComposite<
     }
 
     return resolution;
+  }
+}
+
+export class CompositeError extends Error {
+  constructor(
+    message: string,
+    public readonly blame: Variable<unknown>[],
+  ) {
+    super(message);
+  }
+}
+
+export class PartialCompositeError extends CompositeError {
+  constructor(
+    public readonly setVars: Variable<unknown>[],
+    public readonly notSetVars: Variable<unknown>[],
+  ) {
+    const listFormatter = createConjunctionFormatter();
+
+    const setNames = setVars.map((variable) => variable.spec.name);
+    const setList = listFormatter.format(setNames);
+    const setSuffix = setNames.length === 1 ? "is" : "are";
+
+    const unsetNames = notSetVars.map((variable) => variable.spec.name);
+    const unsetList = listFormatter.format(unsetNames);
+    const unsetSuffix = unsetNames.length === 1 ? "isn't" : "aren't";
+
+    super(
+      `${setList} ${setSuffix} set but ${unsetList} ${unsetSuffix}, must set all or none`,
+      notSetVars,
+    );
   }
 }

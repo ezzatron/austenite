@@ -387,7 +387,7 @@ describe("Kubernetes address declarations", () => {
         describe(".value()", () => {
           it("throws", () => {
             expect(() => declaration.value()).toThrow(
-              "AUSTENITE_SVC_SERVICE_PORT is defined but AUSTENITE_SVC_SERVICE_HOST is not, define both or neither",
+              "AUSTENITE_SVC_SERVICE_PORT is set but AUSTENITE_SVC_SERVICE_HOST isn't, must set all or none",
             );
           });
         });
@@ -430,7 +430,7 @@ describe("Kubernetes address declarations", () => {
         describe(".value()", () => {
           it("throws", () => {
             expect(() => declaration.value()).toThrow(
-              "AUSTENITE_SVC_SERVICE_HOST is defined but AUSTENITE_SVC_SERVICE_PORT is not, define both or neither",
+              "AUSTENITE_SVC_SERVICE_HOST is set but AUSTENITE_SVC_SERVICE_PORT isn't, must set all or none",
             );
           });
         });
