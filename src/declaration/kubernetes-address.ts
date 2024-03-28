@@ -1,3 +1,4 @@
+import type { DeclarationConstraintOptions } from "../constraint.js";
 import { createHostnameConstraint } from "../constraint/hostname.js";
 import { createNetworkPortNumberConstraint } from "../constraint/network-port-number.js";
 import {
@@ -24,10 +25,11 @@ export type KubernetesAddress = {
   readonly port: number;
 };
 
-export type Options = DeclarationOptions<KubernetesAddress> & {
-  readonly examples?: KubernetesAddressExamples;
-  readonly portName?: string;
-};
+export type Options = DeclarationOptions<KubernetesAddress> &
+  DeclarationConstraintOptions<KubernetesAddress> & {
+    readonly examples?: KubernetesAddressExamples;
+    readonly portName?: string;
+  };
 
 type KubernetesAddressExamples = {
   readonly host?: Example<string>[];
@@ -39,6 +41,7 @@ export function kubernetesAddress<O extends Options>(
   options: ExactOptions<O, Options> = {} as ExactOptions<O, Options>,
 ): Declaration<KubernetesAddress, O> {
   const {
+    constraints: customConstraints = [],
     examples: { host: hostExamples, port: portExamples } = {},
     isSensitive = false,
     portName,
@@ -52,6 +55,7 @@ export function kubernetesAddress<O extends Options>(
   const composite = registerComposite({
     variables: { host: hostVar, port: portVar },
     resolve: ({ host, port }) => ({ host, port }),
+    constraints: [...customConstraints],
   });
 
   return {

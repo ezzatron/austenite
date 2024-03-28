@@ -1,3 +1,5 @@
+import { applyConstraints, type Constraint } from "./constraint.js";
+import { normalize } from "./error.js";
 import { createConjunctionFormatter } from "./list.js";
 import { Maybe, definedValue, undefinedValue } from "./maybe.js";
 import type { ValueOfVariable, Variable } from "./variable.js";
@@ -12,6 +14,7 @@ export type VariableCompositeSpec<
 > = {
   readonly variables: VM;
   readonly resolve: (values: ValueMap<VM>) => T;
+  readonly constraints: Constraint<T>[];
 };
 
 export type VariableComposite<
@@ -74,13 +77,31 @@ export function createVariableComposite<
 
     if (setVars.length < 1) {
       resolution = { result: undefinedValue() };
-    } else if (!isAllDefined) {
-      resolution = { error: new PartialCompositeError(setVars, notSetVars) };
-    } else {
-      resolution = {
-        result: definedValue(spec.resolve(values as ValueMap<VM>)),
-      };
+
+      return resolution;
     }
+
+    if (!isAllDefined) {
+      resolution = { error: new PartialCompositeError(setVars, notSetVars) };
+
+      return resolution;
+    }
+
+    const resolved = spec.resolve(values as ValueMap<VM>);
+
+    try {
+      applyConstraints(spec.constraints, resolved);
+    } catch (error) {
+      resolution = {
+        error: new CompositeError(normalize(error).message, setVars),
+      };
+
+      return resolution;
+    }
+
+    resolution = {
+      result: definedValue(resolved),
+    };
 
     return resolution;
   }
