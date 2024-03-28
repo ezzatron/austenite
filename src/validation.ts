@@ -24,16 +24,6 @@ export function validate(
   }
 
   for (const composite of composites) {
-    const hasPrerequisites = Object.values(composite.spec.variables).every(
-      (variable) => {
-        const result = resultMap.get(variable);
-
-        return result && !result.error;
-      },
-    );
-
-    if (!hasPrerequisites) continue;
-
     try {
       composite.value();
     } catch (error) {

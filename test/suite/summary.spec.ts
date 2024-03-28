@@ -316,7 +316,16 @@ describe("Validation summary", () => {
       AUSTENITE_SVC_SERVICE_HOST: "host.example.org",
     });
 
-    kubernetesAddress("austenite-svc", { default: undefined });
+    kubernetesAddress("austenite-svc", {
+      default: undefined,
+      constraints: [
+        {
+          description: "must have a port",
+          constrain: ({ port }) =>
+            typeof port === "number" || "must have a port",
+        },
+      ],
+    });
 
     initialize();
 
@@ -332,12 +341,46 @@ describe("Validation summary", () => {
       AUSTENITE_SVC_SERVICE_PORT: "443",
     });
 
-    kubernetesAddress("austenite-svc", { default: undefined });
+    kubernetesAddress("austenite-svc", {
+      default: undefined,
+      constraints: [
+        {
+          description: "must not be port 443",
+          constrain: ({ port }) => port !== 443 || "must not be port 443",
+        },
+      ],
+    });
 
     initialize();
 
     await expect(mockConsole.readStderr()).toMatchFileSnapshot(
       fixturePath("composite-partially-invalid"),
+    );
+    expect(exitCode).toBeGreaterThan(0);
+  });
+
+  it("summaries composites with invalid variables", async () => {
+    Object.assign(process.env, {
+      AUSTENITE_SVC_SERVICE_HOST: ".host.example.org",
+      AUSTENITE_SVC_SERVICE_PORT: "a",
+    });
+
+    kubernetesAddress("austenite-svc", {
+      default: undefined,
+      constraints: [
+        {
+          description: "must not be port a",
+          constrain: ({ port }) => {
+            return port !== ("a" as unknown as number) || "must not be port a";
+          },
+        },
+      ],
+    });
+
+    initialize();
+
+    await expect(mockConsole.readStderr()).toMatchFileSnapshot(
+      fixturePath("composite-invalid"),
     );
     expect(exitCode).toBeGreaterThan(0);
   });
