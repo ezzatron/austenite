@@ -125,14 +125,12 @@ export class PartialCompositeError extends CompositeError {
 
     const setNames = setVars.map((variable) => variable.spec.name);
     const setList = listFormatter.format(setNames);
-    const setSuffix = setNames.length === 1 ? "is" : "are";
 
     const unsetNames = notSetVars.map((variable) => variable.spec.name);
     const unsetList = listFormatter.format(unsetNames);
-    const unsetSuffix = unsetNames.length === 1 ? "isn't" : "aren't";
 
     super(
-      `${setList} ${setSuffix} set but ${unsetList} ${unsetSuffix}, must set all or none`,
+      `${setList} is set but ${unsetList} isn't, must set all or none`,
       notSetVars,
     );
   }
