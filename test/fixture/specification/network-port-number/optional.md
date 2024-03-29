@@ -1,24 +1,25 @@
 # Environment variables
 
-The `<app>` app uses **declarative environment variables** powered by
-**[Austenite]**.
+The `<app>` app uses **declarative environment variables** powered by **[Austenite]**.
 
 [austenite]: https://github.com/ezzatron/austenite
 
 | Name            | Usage    | Description                     |
 | :-------------- | :------- | :------------------------------ |
-| [`PORT`](#PORT) | Optional | Listen port for the HTTP server |
+| [`PORT`](#port) | Optional | Listen port for the HTTP server |
+
+<!-- prettier-ignore-start -->
 
 > [!TIP]
-> If you set an empty value for an environment variable, the app behaves as if
-> that variable isn't set.
+> If you set an empty value for an environment variable, the app behaves as if that variable isn't set.
+
+<!-- prettier-ignore-end -->
 
 ## `PORT`
 
 _Listen port for the HTTP server_
 
-The `PORT` variable is an **optional** variable
-that takes **port number** values.
+The `PORT` variable is an **optional** variable that takes **port number** values.
 
 ### Example values
 

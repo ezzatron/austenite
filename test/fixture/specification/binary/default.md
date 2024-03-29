@@ -1,24 +1,25 @@
 # Environment variables
 
-The `<app>` app uses **declarative environment variables** powered by
-**[Austenite]**.
+The `<app>` app uses **declarative environment variables** powered by **[Austenite]**.
 
 [austenite]: https://github.com/ezzatron/austenite
 
 | Name                          | Usage    | Description               |
 | :---------------------------- | :------- | :------------------------ |
-| [`SESSION_KEY`](#SESSION_KEY) | Optional | Session token signing key |
+| [`SESSION_KEY`](#session_key) | Optional | Session token signing key |
+
+<!-- prettier-ignore-start -->
 
 > [!TIP]
-> If you set an empty value for an environment variable, the app behaves as if
-> that variable isn't set.
+> If you set an empty value for an environment variable, the app behaves as if that variable isn't set.
+
+<!-- prettier-ignore-end -->
 
 ## `SESSION_KEY`
 
 _Session token signing key_
 
-The `SESSION_KEY` variable is an **optional** variable
-that takes **base64** values.
+The `SESSION_KEY` variable is an **optional** variable that takes **base64** values.
 
 ### Default value
 

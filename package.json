@@ -43,12 +43,17 @@
   },
   "dependencies": {
     "@js-temporal/polyfill": "^0.4.2",
-    "ipaddr.js": "^2.0.1"
+    "ipaddr.js": "^2.0.1",
+    "mdast": "^3.0.0",
+    "mdast-util-from-markdown": "^2.0.0",
+    "mdast-util-gfm": "^3.0.0",
+    "mdast-util-to-markdown": "^2.1.0"
   },
   "devDependencies": {
     "@stryker-mutator/core": "^8.0.0",
     "@stryker-mutator/typescript-checker": "^8.0.0",
     "@stryker-mutator/vitest-runner": "^8.2.6",
+    "@types/mdast": "^4.0.3",
     "@types/node": "^20.4.4",
     "@typescript-eslint/eslint-plugin": "^7.0.0",
     "@typescript-eslint/parser": "^7.0.0",

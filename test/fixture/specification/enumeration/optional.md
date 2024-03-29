@@ -1,24 +1,25 @@
 # Environment variables
 
-The `<app>` app uses **declarative environment variables** powered by
-**[Austenite]**.
+The `<app>` app uses **declarative environment variables** powered by **[Austenite]**.
 
 [austenite]: https://github.com/ezzatron/austenite
 
 | Name                      | Usage    | Description                     |
 | :------------------------ | :------- | :------------------------------ |
-| [`LOG_LEVEL`](#LOG_LEVEL) | Optional | The minimum log level to record |
+| [`LOG_LEVEL`](#log_level) | Optional | The minimum log level to record |
+
+<!-- prettier-ignore-start -->
 
 > [!TIP]
-> If you set an empty value for an environment variable, the app behaves as if
-> that variable isn't set.
+> If you set an empty value for an environment variable, the app behaves as if that variable isn't set.
+
+<!-- prettier-ignore-end -->
 
 ## `LOG_LEVEL`
 
 _The minimum log level to record_
 
-The `LOG_LEVEL` variable is an **optional** variable
-that takes `debug`, `info`, `warn`, `error`, or `fatal`.
+The `LOG_LEVEL` variable is an **optional** variable that takes `debug`, `info`, `warn`, `error`, or `fatal`.
 
 ### Example values
 

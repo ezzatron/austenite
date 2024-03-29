@@ -1,24 +1,25 @@
 # Environment variables
 
-The `<app>` app uses **declarative environment variables** powered by
-**[Austenite]**.
+The `<app>` app uses **declarative environment variables** powered by **[Austenite]**.
 
 [austenite]: https://github.com/ezzatron/austenite
 
 | Name                | Usage    | Description             |
 | :------------------ | :------- | :---------------------- |
-| [`WEIGHT`](#WEIGHT) | Optional | Weighting for this node |
+| [`WEIGHT`](#weight) | Optional | Weighting for this node |
+
+<!-- prettier-ignore-start -->
 
 > [!TIP]
-> If you set an empty value for an environment variable, the app behaves as if
-> that variable isn't set.
+> If you set an empty value for an environment variable, the app behaves as if that variable isn't set.
+
+<!-- prettier-ignore-end -->
 
 ## `WEIGHT`
 
 _Weighting for this node_
 
-The `WEIGHT` variable is an **optional** variable
-that takes **number** values.
+The `WEIGHT` variable is an **optional** variable that takes **number** values.
 
 ### Default value
 

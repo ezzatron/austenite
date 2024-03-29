@@ -1,24 +1,25 @@
 # Environment variables
 
-The `<app>` app uses **declarative environment variables** powered by
-**[Austenite]**.
+The `<app>` app uses **declarative environment variables** powered by **[Austenite]**.
 
 [austenite]: https://github.com/ezzatron/austenite
 
 | Name                            | Usage    | Description          |
 | :------------------------------ | :------- | :------------------- |
-| [`GRPC_TIMEOUT`](#GRPC_TIMEOUT) | Optional | GRPC request timeout |
+| [`GRPC_TIMEOUT`](#grpc_timeout) | Optional | GRPC request timeout |
+
+<!-- prettier-ignore-start -->
 
 > [!TIP]
-> If you set an empty value for an environment variable, the app behaves as if
-> that variable isn't set.
+> If you set an empty value for an environment variable, the app behaves as if that variable isn't set.
+
+<!-- prettier-ignore-end -->
 
 ## `GRPC_TIMEOUT`
 
 _GRPC request timeout_
 
-The `GRPC_TIMEOUT` variable is an **optional** variable
-that takes **ISO 8601 duration** values.
+The `GRPC_TIMEOUT` variable is an **optional** variable that takes **ISO 8601 duration** values.
 
 ### Default value
 

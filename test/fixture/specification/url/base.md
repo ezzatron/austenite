@@ -1,25 +1,25 @@
 # Environment variables
 
-The `<app>` app uses **declarative environment variables** powered by
-**[Austenite]**.
+The `<app>` app uses **declarative environment variables** powered by **[Austenite]**.
 
 [austenite]: https://github.com/ezzatron/austenite
 
 | Name            | Usage    | Description     |
 | :-------------- | :------- | :-------------- |
-| [`LOGO`](#LOGO) | Required | Main logo image |
+| [`LOGO`](#logo) | Required | Main logo image |
+
+<!-- prettier-ignore-start -->
 
 > [!TIP]
-> If you set an empty value for an environment variable, the app behaves as if
-> that variable isn't set.
+> If you set an empty value for an environment variable, the app behaves as if that variable isn't set.
+
+<!-- prettier-ignore-end -->
 
 ## `LOGO`
 
 _Main logo image_
 
-The `LOGO` variable is a **required** variable
-that takes **URL** values.
-You can also use a URL reference relative to `https://base.example.org/path/to/resource`.
+The `LOGO` variable is a **required** variable that takes **absolute URL** values, or **relative URL** values relative to `https://base.example.org/path/to/resource`.
 
 ### Example values
 

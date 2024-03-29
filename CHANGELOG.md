@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 - Custom constraints can now be defined for all declarations.
 
+### Changed
+
+- The generated specification output has been improved.
+- Markdown phrasing content is now supported in variable and constraint
+  descriptions.
+
 ## [v0.9.1] - 2024-03-25
 
 [v0.9.1]: https://github.com/ezzatron/austenite/releases/tag/v0.9.1

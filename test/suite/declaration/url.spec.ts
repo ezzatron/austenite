@@ -291,7 +291,7 @@ describe("URL declarations", () => {
           expect(() => {
             declaration.value();
           }).toThrow(
-            "value of AUSTENITE_URL (https://host.example.org/path/to/resource) is invalid: protocol must be ws: or wss:",
+            "value of AUSTENITE_URL (https://host.example.org/path/to/resource) is invalid: protocol must be ws: or wss:, but is https:",
           );
         });
       });
@@ -345,7 +345,7 @@ describe("URL declarations", () => {
             default: def,
           });
         }).toThrow(
-          "specification for AUSTENITE_URL is invalid: default value: protocol must be ws: or wss:",
+          "specification for AUSTENITE_URL is invalid: default value: protocol must be ws: or wss:, but is https:",
         );
       });
     });
@@ -360,7 +360,7 @@ describe("URL declarations", () => {
             protocols,
           });
         }).toThrow(
-          "specification for AUSTENITE_URL is invalid: base URL (https://host.example.org/path/to/resource): protocol must be ws: or wss:",
+          "specification for AUSTENITE_URL is invalid: base URL (https://host.example.org/path/to/resource): protocol must be ws: or wss:, but is https:",
         );
       });
     });

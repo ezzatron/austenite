@@ -950,6 +950,56 @@ describe("Specification documents", () => {
           examples: [{ value: Duration.from("PT3S"), label: "example" }],
         },
       );
+      enumeration(
+        "AUSTENITE_ENUMERATION_MIN",
+        "example enumeration with minimum constraint",
+        {
+          foo: {
+            value: "foo",
+            description: "foo",
+          },
+          bar: {
+            value: "bar",
+            description: "bar",
+          },
+          baz: {
+            value: "baz",
+            description: "baz",
+          },
+        },
+        {
+          constraints: [
+            {
+              description: "must be >= bar",
+              constrain: (v) => v >= "bar" || "must be >= bar",
+            },
+          ],
+          examples: [{ value: "bar", label: "example" }],
+        },
+      );
+      url("AUSTENITE_URL_ABSOLUTE", "example URL with protocols constraint", {
+        protocols: ["https:"],
+        examples: [
+          {
+            value: new URL("https://example.org/path/to/resource"),
+            label: "example",
+          },
+        ],
+      });
+      url(
+        "AUSTENITE_URL_BASE",
+        "example URL with base URL and protocols constraint",
+        {
+          base: new URL("https://example.org/path/to/"),
+          protocols: ["https:"],
+          examples: [
+            {
+              value: new URL("https://example.org/path/to/resource"),
+              label: "example",
+            },
+          ],
+        },
+      );
       string("AUSTENITE_CUSTOM", "custom variable", {
         constraints: [
           {
@@ -1260,6 +1310,22 @@ describe("Specification documents", () => {
       await expect(
         "<BEGIN>\n" + mockConsole.readStdout() + "<END>\n",
       ).toMatchFileSnapshot(fixturePath("app-env-var"));
+      expect(exitCode).toBe(0);
+    });
+  });
+
+  describe("when a variable has non-paragraph Markdown content", () => {
+    it("renders the content as text", async () => {
+      string(
+        "AUSTENITE_STRING",
+        "## [Not a heading](https://malicious.example.org)",
+      );
+
+      initialize();
+
+      await expect(mockConsole.readStdout()).toMatchFileSnapshot(
+        fixturePath("markdown-escaping"),
+      );
       expect(exitCode).toBe(0);
     });
   });

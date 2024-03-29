@@ -1,35 +1,36 @@
 # Environment variables
 
-The `<app>` app uses **declarative environment variables** powered by
-**[Austenite]**.
+The `<app>` app uses **declarative environment variables** powered by **[Austenite]**.
 
 [austenite]: https://github.com/ezzatron/austenite
 
 | Name                                                        | Usage    | Description                             |
 | :---------------------------------------------------------- | :------- | :-------------------------------------- |
-| [`AUSTENITE_BINARY`](#AUSTENITE_BINARY)                     | Required | Example binary                          |
-| [`AUSTENITE_BOOLEAN`](#AUSTENITE_BOOLEAN)                   | Required | Example boolean                         |
-| [`AUSTENITE_DURATION`](#AUSTENITE_DURATION)                 | Required | Example duration                        |
-| [`AUSTENITE_ENUMERATION`](#AUSTENITE_ENUMERATION)           | Required | Example enumeration                     |
-| [`AUSTENITE_INTEGER`](#AUSTENITE_INTEGER)                   | Required | Example integer                         |
-| [`AUSTENITE_INTEGER_BIG`](#AUSTENITE_INTEGER_BIG)           | Required | Example big integer                     |
-| [`AUSTENITE_NUMBER`](#AUSTENITE_NUMBER)                     | Required | Example number                          |
-| [`AUSTENITE_PORT_NUMBER`](#AUSTENITE_PORT_NUMBER)           | Required | Example port number                     |
-| [`AUSTENITE_STRING`](#AUSTENITE_STRING)                     | Required | Example string                          |
-| [`AUSTENITE_SVC_SERVICE_HOST`](#AUSTENITE_SVC_SERVICE_HOST) | Required | Kubernetes `austenite-svc` service host |
-| [`AUSTENITE_SVC_SERVICE_PORT`](#AUSTENITE_SVC_SERVICE_PORT) | Required | Kubernetes `austenite-svc` service port |
-| [`AUSTENITE_URL`](#AUSTENITE_URL)                           | Required | Example URL                             |
+| [`AUSTENITE_BINARY`](#austenite_binary)                     | Required | Example binary                          |
+| [`AUSTENITE_BOOLEAN`](#austenite_boolean)                   | Required | Example boolean                         |
+| [`AUSTENITE_DURATION`](#austenite_duration)                 | Required | Example duration                        |
+| [`AUSTENITE_ENUMERATION`](#austenite_enumeration)           | Required | Example enumeration                     |
+| [`AUSTENITE_INTEGER`](#austenite_integer)                   | Required | Example integer                         |
+| [`AUSTENITE_INTEGER_BIG`](#austenite_integer_big)           | Required | Example big integer                     |
+| [`AUSTENITE_NUMBER`](#austenite_number)                     | Required | Example number                          |
+| [`AUSTENITE_PORT_NUMBER`](#austenite_port_number)           | Required | Example port number                     |
+| [`AUSTENITE_STRING`](#austenite_string)                     | Required | Example string                          |
+| [`AUSTENITE_SVC_SERVICE_HOST`](#austenite_svc_service_host) | Required | Kubernetes `austenite-svc` service host |
+| [`AUSTENITE_SVC_SERVICE_PORT`](#austenite_svc_service_port) | Required | Kubernetes `austenite-svc` service port |
+| [`AUSTENITE_URL`](#austenite_url)                           | Required | Example URL                             |
+
+<!-- prettier-ignore-start -->
 
 > [!TIP]
-> If you set an empty value for an environment variable, the app behaves as if
-> that variable isn't set.
+> If you set an empty value for an environment variable, the app behaves as if that variable isn't set.
+
+<!-- prettier-ignore-end -->
 
 ## `AUSTENITE_BINARY`
 
 _Example binary_
 
-The `AUSTENITE_BINARY` variable is a **required** variable
-that takes **base64** values.
+The `AUSTENITE_BINARY` variable is a **required** variable that takes **base64** values.
 
 ### Example values
 
@@ -45,8 +46,7 @@ export AUSTENITE_BINARY=Qm9vcCBiZWVwIQ== # <binary example B>
 
 _Example boolean_
 
-The `AUSTENITE_BOOLEAN` variable is a **required** variable
-that takes `true` or `false`.
+The `AUSTENITE_BOOLEAN` variable is a **required** variable that takes `true` or `false`.
 
 ### Example values
 
@@ -62,8 +62,7 @@ export AUSTENITE_BOOLEAN=false # <boolean example B>
 
 _Example duration_
 
-The `AUSTENITE_DURATION` variable is a **required** variable
-that takes **ISO 8601 duration** values.
+The `AUSTENITE_DURATION` variable is a **required** variable that takes **ISO 8601 duration** values.
 
 ### Example values
 
@@ -79,8 +78,7 @@ export AUSTENITE_DURATION=PT20S # <duration example B>
 
 _Example enumeration_
 
-The `AUSTENITE_ENUMERATION` variable is a **required** variable
-that takes `foo`, `bar`, or `baz`.
+The `AUSTENITE_ENUMERATION` variable is a **required** variable that takes `foo`, `bar`, or `baz`.
 
 ### Example values
 
@@ -96,8 +94,7 @@ export AUSTENITE_ENUMERATION=bar # <enumeration example B>
 
 _Example integer_
 
-The `AUSTENITE_INTEGER` variable is a **required** variable
-that takes **integer** values.
+The `AUSTENITE_INTEGER` variable is a **required** variable that takes **integer** values.
 
 ### Example values
 
@@ -113,8 +110,7 @@ export AUSTENITE_INTEGER=654321 # <integer example B>
 
 _Example big integer_
 
-The `AUSTENITE_INTEGER_BIG` variable is a **required** variable
-that takes **big integer** values.
+The `AUSTENITE_INTEGER_BIG` variable is a **required** variable that takes **big integer** values.
 
 ### Example values
 
@@ -130,8 +126,7 @@ export AUSTENITE_INTEGER_BIG=98765432109876543210 # <bigInteger example B>
 
 _Example number_
 
-The `AUSTENITE_NUMBER` variable is a **required** variable
-that takes **number** values.
+The `AUSTENITE_NUMBER` variable is a **required** variable that takes **number** values.
 
 ### Example values
 
@@ -147,8 +142,7 @@ export AUSTENITE_NUMBER=654.321 # <number example B>
 
 _Example port number_
 
-The `AUSTENITE_PORT_NUMBER` variable is a **required** variable
-that takes **port number** values.
+The `AUSTENITE_PORT_NUMBER` variable is a **required** variable that takes **port number** values.
 
 ### Example values
 
@@ -164,8 +158,7 @@ export AUSTENITE_PORT_NUMBER=234 # <port number example B>
 
 _Example string_
 
-The `AUSTENITE_STRING` variable is a **required** variable
-that takes **string** values.
+The `AUSTENITE_STRING` variable is a **required** variable that takes **string** values.
 
 ### Example values
 
@@ -181,8 +174,7 @@ export AUSTENITE_STRING='<value B>' # <string example B>
 
 _Kubernetes `austenite-svc` service host_
 
-The `AUSTENITE_SVC_SERVICE_HOST` variable is a **required** variable
-that takes **hostname** values.
+The `AUSTENITE_SVC_SERVICE_HOST` variable is a **required** variable that takes **hostname** values.
 
 ### Example values
 
@@ -198,8 +190,7 @@ export AUSTENITE_SVC_SERVICE_HOST=host.example.com # <k8s address host example B
 
 _Kubernetes `austenite-svc` service port_
 
-The `AUSTENITE_SVC_SERVICE_PORT` variable is a **required** variable
-that takes **port number** values.
+The `AUSTENITE_SVC_SERVICE_PORT` variable is a **required** variable that takes **port number** values.
 
 ### Example values
 
@@ -215,9 +206,7 @@ export AUSTENITE_SVC_SERVICE_PORT=432 # <k8s address port example B>
 
 _Example URL_
 
-The `AUSTENITE_URL` variable is a **required** variable
-that takes **URL** values.
-You can also use a URL reference relative to `https://example.com/path/to/`.
+The `AUSTENITE_URL` variable is a **required** variable that takes **absolute URL** values, or **relative URL** values relative to `https://example.com/path/to/`.
 
 ### Example values
 

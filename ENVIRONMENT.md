@@ -1,37 +1,38 @@
 # Environment variables
 
-The `example` app uses **declarative environment variables** powered by
-**[Austenite]**.
+The `example` app uses **declarative environment variables** powered by **[Austenite]**.
 
 [austenite]: https://github.com/ezzatron/austenite
 
 | Name                                                        | Usage    | Description                                |
 | :---------------------------------------------------------- | :------- | :----------------------------------------- |
-| [`CDN_URL`](#CDN_URL)                                       | Required | CDN to use when serving static assets      |
-| [`DEBUG`](#DEBUG)                                           | Optional | Enable or disable debugging features       |
-| [`EARTH_ATOM_COUNT`](#EARTH_ATOM_COUNT)                     | Optional | Number of atoms on earth                   |
-| [`GRPC_TIMEOUT`](#GRPC_TIMEOUT)                             | Optional | GRPC request timeout                       |
-| [`LOG_LEVEL`](#LOG_LEVEL)                                   | Optional | The minimum log level to record            |
-| [`PORT`](#PORT)                                             | Optional | Listen port for the HTTP server            |
-| [`READ_DSN`](#READ_DSN)                                     | Required | Database connection string for read-models |
-| [`REDIS_PRIMARY_SERVICE_HOST`](#REDIS_PRIMARY_SERVICE_HOST) | Required | Kubernetes `redis-primary` service host    |
-| [`REDIS_PRIMARY_SERVICE_PORT`](#REDIS_PRIMARY_SERVICE_PORT) | Required | Kubernetes `redis-primary` service port    |
-| [`SAMPLE_RATIO`](#SAMPLE_RATIO)                             | Optional | Ratio of requests to sample                |
-| [`SESSION_KEY`](#SESSION_KEY)                               | Required | Session token signing key                  |
-| [`WEIGHT`](#WEIGHT)                                         | Required | Weighting for this node                    |
+| [`CDN_URL`](#cdn_url)                                       | Required | CDN to use when serving static assets      |
+| [`DEBUG`](#debug)                                           | Optional | Enable or disable debugging features       |
+| [`EARTH_ATOM_COUNT`](#earth_atom_count)                     | Optional | Number of atoms on earth                   |
+| [`GRPC_TIMEOUT`](#grpc_timeout)                             | Optional | GRPC request timeout                       |
+| [`LOG_LEVEL`](#log_level)                                   | Optional | The minimum log level to record            |
+| [`PORT`](#port)                                             | Optional | Listen port for the HTTP server            |
+| [`READ_DSN`](#read_dsn)                                     | Required | Database connection string for read-models |
+| [`REDIS_PRIMARY_SERVICE_HOST`](#redis_primary_service_host) | Required | Kubernetes `redis-primary` service host    |
+| [`REDIS_PRIMARY_SERVICE_PORT`](#redis_primary_service_port) | Required | Kubernetes `redis-primary` service port    |
+| [`SAMPLE_RATIO`](#sample_ratio)                             | Optional | Ratio of requests to sample                |
+| [`SESSION_KEY`](#session_key)                               | Required | Session token signing key                  |
+| [`WEIGHT`](#weight)                                         | Required | Weighting for this node                    |
+
+<!-- prettier-ignore-start -->
 
 > [!TIP]
-> If you set an empty value for an environment variable, the app behaves as if
-> that variable isn't set.
+> If you set an empty value for an environment variable, the app behaves as if that variable isn't set.
+
+<!-- prettier-ignore-end -->
 
 ## `CDN_URL`
 
 _CDN to use when serving static assets_
 
-The `CDN_URL` variable is a **required** variable
-that takes **URL** values with these constraints:
+The `CDN_URL` variable is a **required** variable that takes **absolute URL** values, with these constraints:
 
-- Protocol must be http: or https:
+- Protocol must be `http:` or `https:`
 
 ### Example values
 
@@ -47,8 +48,7 @@ export CDN_URL=https://host.example.org/path/to/resource # URL (https:)
 
 _Enable or disable debugging features_
 
-The `DEBUG` variable is an **optional** variable
-that takes `true` or `false`.
+The `DEBUG` variable is an **optional** variable that takes `true` or `false`.
 
 ### Default value
 
@@ -70,8 +70,7 @@ export DEBUG=false # false
 
 _Number of atoms on earth_
 
-The `EARTH_ATOM_COUNT` variable is an **optional** variable
-that takes **big integer** values.
+The `EARTH_ATOM_COUNT` variable is an **optional** variable that takes **big integer** values.
 
 ### Example values
 
@@ -99,8 +98,7 @@ export EARTH_ATOM_COUNT=0b11110001001000000 # binary
 
 _GRPC request timeout_
 
-The `GRPC_TIMEOUT` variable is an **optional** variable
-that takes **ISO 8601 duration** values with these constraints:
+The `GRPC_TIMEOUT` variable is an **optional** variable that takes **ISO 8601 duration** values, with these constraints:
 
 - Must be >= PT0.1S and <= PT10S
 
@@ -118,8 +116,7 @@ export GRPC_TIMEOUT=PT5S # 5 seconds
 
 _The minimum log level to record_
 
-The `LOG_LEVEL` variable is an **optional** variable
-that takes `debug`, `info`, `warn`, `error`, or `fatal`.
+The `LOG_LEVEL` variable is an **optional** variable that takes `debug`, `info`, `warn`, `error`, or `fatal`.
 
 ### Default value
 
@@ -153,8 +150,7 @@ export LOG_LEVEL=fatal # the application cannot proceed
 
 _Listen port for the HTTP server_
 
-The `PORT` variable is an **optional** variable
-that takes **port number** values.
+The `PORT` variable is an **optional** variable that takes **port number** values.
 
 ### Default value
 
@@ -172,8 +168,7 @@ export PORT=12345 # a port number
 
 _Database connection string for read-models_
 
-The `READ_DSN` variable is a **required** variable
-that takes **string** values with these constraints:
+The `READ_DSN` variable is a **required** variable that takes **string** values, with these constraints:
 
 - Must have a minimum length of 30
 
@@ -187,8 +182,7 @@ export READ_DSN='host=localhost dbname=readmodels user=projector' # local databa
 
 _Kubernetes `redis-primary` service host_
 
-The `REDIS_PRIMARY_SERVICE_HOST` variable is a **required** variable
-that takes **hostname** values.
+The `REDIS_PRIMARY_SERVICE_HOST` variable is a **required** variable that takes **hostname** values.
 
 ### Example values
 
@@ -204,8 +198,7 @@ export REDIS_PRIMARY_SERVICE_HOST=10.0.0.11 # an IP address
 
 _Kubernetes `redis-primary` service port_
 
-The `REDIS_PRIMARY_SERVICE_PORT` variable is a **required** variable
-that takes **port number** values.
+The `REDIS_PRIMARY_SERVICE_PORT` variable is a **required** variable that takes **port number** values.
 
 ### Example values
 
@@ -217,8 +210,7 @@ export REDIS_PRIMARY_SERVICE_PORT=12345 # a port number
 
 _Ratio of requests to sample_
 
-The `SAMPLE_RATIO` variable is an **optional** variable
-that takes **number** values.
+The `SAMPLE_RATIO` variable is an **optional** variable that takes **number** values.
 
 ### Example values
 
@@ -254,8 +246,7 @@ export SAMPLE_RATIO=0b11110001001000000 # binary
 
 _Session token signing key_
 
-The `SESSION_KEY` variable is a **required** variable
-that takes **base64** values.
+The `SESSION_KEY` variable is a **required** variable that takes **base64** values.
 
 ### Example values
 
@@ -267,8 +258,7 @@ export SESSION_KEY=Y29ucXVpc3RhZG9y # base64 encoded string
 
 _Weighting for this node_
 
-The `WEIGHT` variable is a **required** variable
-that takes **integer** values with these constraints:
+The `WEIGHT` variable is a **required** variable that takes **integer** values, with these constraints:
 
 - Must be >= 1
 

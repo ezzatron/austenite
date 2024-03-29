@@ -1,25 +1,26 @@
 # Environment variables
 
-The `<app>` app uses **declarative environment variables** powered by
-**[Austenite]**.
+The `<app>` app uses **declarative environment variables** powered by **[Austenite]**.
 
 [austenite]: https://github.com/ezzatron/austenite
 
 | Name                                                        | Usage    | Description                             |
 | :---------------------------------------------------------- | :------- | :-------------------------------------- |
-| [`REDIS_PRIMARY_SERVICE_HOST`](#REDIS_PRIMARY_SERVICE_HOST) | Optional | Kubernetes `redis-primary` service host |
-| [`REDIS_PRIMARY_SERVICE_PORT`](#REDIS_PRIMARY_SERVICE_PORT) | Optional | Kubernetes `redis-primary` service port |
+| [`REDIS_PRIMARY_SERVICE_HOST`](#redis_primary_service_host) | Optional | Kubernetes `redis-primary` service host |
+| [`REDIS_PRIMARY_SERVICE_PORT`](#redis_primary_service_port) | Optional | Kubernetes `redis-primary` service port |
+
+<!-- prettier-ignore-start -->
 
 > [!TIP]
-> If you set an empty value for an environment variable, the app behaves as if
-> that variable isn't set.
+> If you set an empty value for an environment variable, the app behaves as if that variable isn't set.
+
+<!-- prettier-ignore-end -->
 
 ## `REDIS_PRIMARY_SERVICE_HOST`
 
 _Kubernetes `redis-primary` service host_
 
-The `REDIS_PRIMARY_SERVICE_HOST` variable is an **optional** variable
-that takes **hostname** values.
+The `REDIS_PRIMARY_SERVICE_HOST` variable is an **optional** variable that takes **hostname** values.
 
 ### Default value
 
@@ -41,8 +42,7 @@ export REDIS_PRIMARY_SERVICE_HOST=10.0.0.11 # an IP address
 
 _Kubernetes `redis-primary` service port_
 
-The `REDIS_PRIMARY_SERVICE_PORT` variable is an **optional** variable
-that takes **port number** values.
+The `REDIS_PRIMARY_SERVICE_PORT` variable is an **optional** variable that takes **port number** values.
 
 ### Default value
 
