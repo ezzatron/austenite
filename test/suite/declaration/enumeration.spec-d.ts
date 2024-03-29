@@ -20,7 +20,7 @@ describe("Enumeration declarations", () => {
 
   describe("when the declaration is required", () => {
     describe(".value()", () => {
-      it("returns a value that has a union type of all member types", () => {
+      it("returns a value that has a union type of all member types", async () => {
         const declaration = enumeration(
           "AUSTENITE_ENUMERATION",
           "<description>",
@@ -28,7 +28,7 @@ describe("Enumeration declarations", () => {
         );
 
         process.env.AUSTENITE_ENUMERATION = "<member-1>";
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
         const actual = declaration.value();
 
         expectTypeOf(actual).toEqualTypeOf<0 | 1 | 2>();
@@ -38,7 +38,7 @@ describe("Enumeration declarations", () => {
 
   describe("when the declaration is optional", () => {
     describe(".value()", () => {
-      it("returns a value that has a union type of all member types plus undefined", () => {
+      it("returns a value that has a union type of all member types plus undefined", async () => {
         const declaration = enumeration(
           "AUSTENITE_ENUMERATION",
           "<description>",
@@ -48,7 +48,7 @@ describe("Enumeration declarations", () => {
           },
         );
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
         const actual = declaration.value();
 
         expectTypeOf(actual).toEqualTypeOf<0 | 1 | 2 | undefined>();

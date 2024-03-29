@@ -39,10 +39,10 @@ describe("Number declarations", () => {
   let declaration: Declaration<number, Options>;
 
   describe("when no options are supplied", () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       declaration = number("AUSTENITE_NUMBER", "<description>");
 
-      initialize({ onInvalid: noop });
+      await initialize({ onInvalid: noop });
     });
 
     it("defaults to a required declaration", () => {
@@ -55,10 +55,10 @@ describe("Number declarations", () => {
   });
 
   describe("when empty options are supplied", () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       declaration = number("AUSTENITE_NUMBER", "<description>", {});
 
-      initialize({ onInvalid: noop });
+      await initialize({ onInvalid: noop });
     });
 
     it("defaults to a required declaration", () => {
@@ -78,10 +78,10 @@ describe("Number declarations", () => {
     describe.each(validValueTable)(
       "when the value is valid (%s)",
       (_, number: string, expected: number) => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_NUMBER = number;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -100,10 +100,10 @@ describe("Number declarations", () => {
     describe.each(invalidValueTable)(
       "when the value is invalid (%s)",
       (_, number: string, expected: string) => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_NUMBER = number;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -117,8 +117,8 @@ describe("Number declarations", () => {
     );
 
     describe("when the value is empty", () => {
-      beforeEach(() => {
-        initialize({ onInvalid: noop });
+      beforeEach(async () => {
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -143,10 +143,10 @@ describe("Number declarations", () => {
     describe.each(validValueTable)(
       "when the value is valid (%s)",
       (_, number: string, expected: number) => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_NUMBER = number;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -160,10 +160,10 @@ describe("Number declarations", () => {
     describe.each(invalidValueTable)(
       "when the value is invalid (%s)",
       (_, number: string, expected: string) => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_NUMBER = number;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -178,12 +178,12 @@ describe("Number declarations", () => {
 
     describe("when the value is empty", () => {
       describe("when there is a default value", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           declaration = number("AUSTENITE_NUMBER", "<description>", {
             default: -123.456,
           });
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -194,12 +194,12 @@ describe("Number declarations", () => {
       });
 
       describe("when there is no default value", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           declaration = number("AUSTENITE_NUMBER", "<description>", {
             default: undefined,
           });
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -229,10 +229,10 @@ describe("Number declarations", () => {
     });
 
     describe("when the value satisfies the constraints", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.AUSTENITE_NUMBER = "6";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -243,10 +243,10 @@ describe("Number declarations", () => {
     });
 
     describe("when the value violates the first constraint", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.AUSTENITE_NUMBER = "3";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -261,10 +261,10 @@ describe("Number declarations", () => {
     });
 
     describe("when the value violates the second constraint", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.AUSTENITE_NUMBER = "2";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -293,10 +293,10 @@ describe("Number declarations", () => {
     });
 
     describe("when the value satisfies the constraints", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.SAMPLE_RATIO = "0.01";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -307,10 +307,10 @@ describe("Number declarations", () => {
     });
 
     describe("when the value violates the constraints", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.SAMPLE_RATIO = "0.001";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {

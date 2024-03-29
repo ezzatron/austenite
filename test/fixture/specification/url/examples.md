@@ -1,6 +1,7 @@
 # Environment variables
 
-The `<app>` app uses **declarative environment variables** powered by **[Austenite]**.
+The `<app>` app uses **declarative environment variables** powered by
+**[Austenite]**.
 
 [austenite]: https://github.com/ezzatron/austenite
 
@@ -19,7 +20,9 @@ The `<app>` app uses **declarative environment variables** powered by **[Austeni
 
 _CDN to use when serving static assets_
 
-The `CDN_URL` variable is a **required** variable that takes **absolute URL** values, or **relative URL** values relative to `https://host.example.org/path/to/`.
+The `CDN_URL` variable is a **required** variable that takes **absolute URL**
+values, or **relative URL** values relative to
+`https://host.example.org/path/to/`.
 
 ### Example values
 

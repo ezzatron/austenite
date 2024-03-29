@@ -1,6 +1,7 @@
 # Environment variables
 
-The `<app>` app uses **declarative environment variables** powered by **[Austenite]**.
+The `<app>` app uses **declarative environment variables** powered by
+**[Austenite]**.
 
 [austenite]: https://github.com/ezzatron/austenite
 
@@ -31,7 +32,8 @@ The `<app>` app uses **declarative environment variables** powered by **[Austeni
 
 _Example binary_
 
-The `AUSTENITE_BINARY` variable is an **optional** variable that takes **base64** values.
+The `AUSTENITE_BINARY` variable is an **optional** variable that takes
+**base64** values.
 
 ### Default value
 
@@ -52,7 +54,8 @@ export AUSTENITE_BINARY=Y29ucXVpc3RhZG9y # base64 encoded string
 
 _Example boolean_
 
-The `AUSTENITE_BOOLEAN` variable is an **optional** variable that takes `y`, `yes`, `n`, or `no`.
+The `AUSTENITE_BOOLEAN` variable is an **optional** variable that takes `y`,
+`yes`, `n`, or `no`.
 
 ### Default value
 
@@ -85,7 +88,8 @@ export AUSTENITE_BOOLEAN=no # false
 
 _Example duration_
 
-The `AUSTENITE_DURATION` variable is an **optional** variable that takes **ISO 8601 duration** values.
+The `AUSTENITE_DURATION` variable is an **optional** variable that takes **ISO
+8601 duration** values.
 
 ### Default value
 
@@ -110,7 +114,8 @@ export AUSTENITE_DURATION=P1M15DT12H # ISO 8601 duration
 
 _Example enumeration_
 
-The `AUSTENITE_ENUMERATION` variable is an **optional** variable that takes `foo`, `bar`, or `baz`.
+The `AUSTENITE_ENUMERATION` variable is an **optional** variable that takes
+`foo`, `bar`, or `baz`.
 
 ### Default value
 
@@ -139,7 +144,8 @@ export AUSTENITE_ENUMERATION=baz # baz
 
 _Example integer_
 
-The `AUSTENITE_INTEGER` variable is an **optional** variable that takes **integer** values.
+The `AUSTENITE_INTEGER` variable is an **optional** variable that takes
+**integer** values.
 
 ### Default value
 
@@ -180,7 +186,8 @@ export AUSTENITE_INTEGER=0b11110001001000000 # binary
 
 _Example big integer_
 
-The `AUSTENITE_INTEGER_BIG` variable is an **optional** variable that takes **big integer** values.
+The `AUSTENITE_INTEGER_BIG` variable is an **optional** variable that takes
+**big integer** values.
 
 ### Default value
 
@@ -217,7 +224,8 @@ export AUSTENITE_INTEGER_BIG=0b11110001001000000 # binary
 
 _Example number_
 
-The `AUSTENITE_NUMBER` variable is an **optional** variable that takes **number** values.
+The `AUSTENITE_NUMBER` variable is an **optional** variable that takes
+**number** values.
 
 ### Default value
 
@@ -262,7 +270,8 @@ export AUSTENITE_NUMBER=0b11110001001000000 # binary
 
 _Example port number_
 
-The `AUSTENITE_PORT_NUMBER` variable is an **optional** variable that takes **port number** values.
+The `AUSTENITE_PORT_NUMBER` variable is an **optional** variable that takes
+**port number** values.
 
 ### Default value
 
@@ -283,7 +292,8 @@ export AUSTENITE_PORT_NUMBER=12345 # a port number
 
 _Example string_
 
-The `AUSTENITE_STRING` variable is an **optional** variable that takes **string** values.
+The `AUSTENITE_STRING` variable is an **optional** variable that takes
+**string** values.
 
 ### Default value
 
@@ -308,7 +318,8 @@ export AUSTENITE_STRING='alabaster parakeet' # some values may need escaping
 
 _Kubernetes `austenite-svc` service host_
 
-The `AUSTENITE_SVC_SERVICE_HOST` variable is an **optional** variable that takes **hostname** values.
+The `AUSTENITE_SVC_SERVICE_HOST` variable is an **optional** variable that takes
+**hostname** values.
 
 ### Default value
 
@@ -333,7 +344,8 @@ export AUSTENITE_SVC_SERVICE_HOST=10.0.0.11 # an IP address
 
 _Kubernetes `austenite-svc` service port_
 
-The `AUSTENITE_SVC_SERVICE_PORT` variable is an **optional** variable that takes **port number** values.
+The `AUSTENITE_SVC_SERVICE_PORT` variable is an **optional** variable that takes
+**port number** values.
 
 ### Default value
 
@@ -354,7 +366,8 @@ export AUSTENITE_SVC_SERVICE_PORT=12345 # a port number
 
 _Example URL_
 
-The `AUSTENITE_URL` variable is an **optional** variable that takes **absolute URL** values.
+The `AUSTENITE_URL` variable is an **optional** variable that takes **absolute
+URL** values.
 
 ### Default value
 
@@ -375,7 +388,8 @@ export AUSTENITE_URL=https://host.example.org/path/to/resource # URL (absolute)
 
 _Trigger failure_
 
-The `AUSTENITE_XTRIGGER` variable is a **required** variable that takes **string** values.
+The `AUSTENITE_XTRIGGER` variable is a **required** variable that takes
+**string** values.
 
 ### Example values
 

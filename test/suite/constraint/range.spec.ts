@@ -96,10 +96,10 @@ describe.each`
       });
 
       describe("when the value is less than the minimum", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_VAR = low;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -114,10 +114,10 @@ describe.each`
       });
 
       describe("when the value is equal to the minimum", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_VAR = minCanonical;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -128,10 +128,10 @@ describe.each`
       });
 
       describe("when the value is greater than the minimum", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_VAR = ok;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -152,10 +152,10 @@ describe.each`
       });
 
       describe("when the value is less than the minimum", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_VAR = low;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -170,10 +170,10 @@ describe.each`
       });
 
       describe("when the value is equal to the minimum", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_VAR = minCanonical;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -188,10 +188,10 @@ describe.each`
       });
 
       describe("when the value is greater than the minimum", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_VAR = ok;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -203,7 +203,7 @@ describe.each`
     });
 
     describe("when the declaration has a minimum with no explicit exclusivity", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         declaration = create({
           min,
           examples,
@@ -211,7 +211,7 @@ describe.each`
 
         process.env.AUSTENITE_VAR = minCanonical;
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       it("defaults to an inclusive minimum", () => {
@@ -229,10 +229,10 @@ describe.each`
       });
 
       describe("when the value is greater than the maximum", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_VAR = high;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -247,10 +247,10 @@ describe.each`
       });
 
       describe("when the value is equal to the maximum", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_VAR = maxCanonical;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -261,10 +261,10 @@ describe.each`
       });
 
       describe("when the value is less than the maximum", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_VAR = ok;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -285,10 +285,10 @@ describe.each`
       });
 
       describe("when the value is greater than the maximum", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_VAR = high;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -303,10 +303,10 @@ describe.each`
       });
 
       describe("when the value is equal to the maximum", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_VAR = maxCanonical;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -321,10 +321,10 @@ describe.each`
       });
 
       describe("when the value is less than the maximum", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_VAR = ok;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -336,7 +336,7 @@ describe.each`
     });
 
     describe("when the declaration has a maximum with no explicit exclusivity", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         declaration = create({
           max,
           examples,
@@ -344,7 +344,7 @@ describe.each`
 
         process.env.AUSTENITE_VAR = maxCanonical;
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       it("defaults to an inclusive maximum", () => {
@@ -362,10 +362,10 @@ describe.each`
       });
 
       describe("when the value is less than the minimum", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_VAR = low;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -380,10 +380,10 @@ describe.each`
       });
 
       describe("when the value is equal to the minimum", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_VAR = minCanonical;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -394,10 +394,10 @@ describe.each`
       });
 
       describe("when the value is between the minimum and maximum", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_VAR = ok;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -408,10 +408,10 @@ describe.each`
       });
 
       describe("when the value is equal to the maximum", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_VAR = maxCanonical;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -422,10 +422,10 @@ describe.each`
       });
 
       describe("when the value is greater than the maximum", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_VAR = high;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {

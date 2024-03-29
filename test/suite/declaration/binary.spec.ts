@@ -47,8 +47,8 @@ describe("Binary declarations", () => {
       declaration = binary("AUSTENITE_BINARY", "<description>");
     });
 
-    it("defaults to a required declaration", () => {
-      initialize({ onInvalid: noop });
+    it("defaults to a required declaration", async () => {
+      await initialize({ onInvalid: noop });
 
       expect(() => {
         declaration.value();
@@ -57,19 +57,19 @@ describe("Binary declarations", () => {
       );
     });
 
-    it("defaults to base64 encoding", () => {
+    it("defaults to base64 encoding", async () => {
       process.env.AUSTENITE_BINARY = "bGlnaHQgd29y";
-      initialize({ onInvalid: noop });
+      await initialize({ onInvalid: noop });
 
       expect(declaration.value().toString("utf-8")).toEqual("light wor");
     });
   });
 
   describe("when empty options are supplied", () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       declaration = binary("AUSTENITE_BINARY", "<description>", {});
 
-      initialize({ onInvalid: noop });
+      await initialize({ onInvalid: noop });
     });
 
     it("defaults to a required declaration", () => {
@@ -85,13 +85,13 @@ describe("Binary declarations", () => {
     describe.each(validValueTable)(
       "when the value is valid (%s)",
       (_, encoding, encoded, expected) => {
-        beforeEach(() => {
+        beforeEach(async () => {
           declaration = binary("AUSTENITE_BINARY", "<description>", {
             encoding,
           });
           process.env.AUSTENITE_BINARY = encoded;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -110,13 +110,13 @@ describe("Binary declarations", () => {
     describe.each(invalidValueTable)(
       "when the value is invalid (%s)",
       (_, encoding, encoded, expected) => {
-        beforeEach(() => {
+        beforeEach(async () => {
           declaration = binary("AUSTENITE_BINARY", "<description>", {
             encoding,
           });
           process.env.AUSTENITE_BINARY = encoded;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -130,9 +130,9 @@ describe("Binary declarations", () => {
     );
 
     describe("when the value is empty", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         declaration = binary("AUSTENITE_BINARY", "<description>");
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -151,14 +151,14 @@ describe("Binary declarations", () => {
     describe.each(validValueTable)(
       "when the value is valid (%s)",
       (_, encoding, encoded, expected) => {
-        beforeEach(() => {
+        beforeEach(async () => {
           declaration = binary("AUSTENITE_BINARY", "<description>", {
             encoding,
             default: undefined,
           });
           process.env.AUSTENITE_BINARY = encoded;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -172,14 +172,14 @@ describe("Binary declarations", () => {
     describe.each(invalidValueTable)(
       "when the value is invalid (%s)",
       (_, encoding, encoded, expected) => {
-        beforeEach(() => {
+        beforeEach(async () => {
           declaration = binary("AUSTENITE_BINARY", "<description>", {
             encoding,
             default: undefined,
           });
           process.env.AUSTENITE_BINARY = encoded;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -194,12 +194,12 @@ describe("Binary declarations", () => {
 
     describe("when the value is empty", () => {
       describe("when there is a default value", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           declaration = binary("AUSTENITE_BINARY", "<description>", {
             default: Buffer.from("<default>", "utf-8"),
           });
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -210,12 +210,12 @@ describe("Binary declarations", () => {
       });
 
       describe("when there is no default value", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           declaration = binary("AUSTENITE_BINARY", "<description>", {
             default: undefined,
           });
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -247,10 +247,10 @@ describe("Binary declarations", () => {
     });
 
     describe("when the value satisfies the constraints", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.AUSTENITE_BINARY = "YWJjZGVm";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -261,10 +261,10 @@ describe("Binary declarations", () => {
     });
 
     describe("when the value violates the first constraint", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.AUSTENITE_BINARY = "YWJj";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -279,10 +279,10 @@ describe("Binary declarations", () => {
     });
 
     describe("when the value violates the second constraint", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.AUSTENITE_BINARY = "YWI=";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -317,13 +317,13 @@ describe("Binary declarations", () => {
     });
 
     describe("when the value satisfies the constraints", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.SESSION_KEY = Buffer.from(
           "SUPER_SECRET_256_BIT_SIGNING_KEY",
           "utf-8",
         ).toString("base64");
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -336,12 +336,12 @@ describe("Binary declarations", () => {
     });
 
     describe("when the value violates the constraints", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.SESSION_KEY = Buffer.from("INVALID", "utf-8").toString(
           "base64",
         );
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {

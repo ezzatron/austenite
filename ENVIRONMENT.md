@@ -1,6 +1,7 @@
 # Environment variables
 
-The `example` app uses **declarative environment variables** powered by **[Austenite]**.
+The `example` app uses **declarative environment variables** powered by
+**[Austenite]**.
 
 [austenite]: https://github.com/ezzatron/austenite
 
@@ -30,7 +31,8 @@ The `example` app uses **declarative environment variables** powered by **[Auste
 
 _CDN to use when serving static assets_
 
-The `CDN_URL` variable is a **required** variable that takes **absolute URL** values, with these constraints:
+The `CDN_URL` variable is a **required** variable that takes **absolute URL**
+values, with these constraints:
 
 - Protocol must be `http:` or `https:`
 
@@ -70,7 +72,8 @@ export DEBUG=false # false
 
 _Number of atoms on earth_
 
-The `EARTH_ATOM_COUNT` variable is an **optional** variable that takes **big integer** values.
+The `EARTH_ATOM_COUNT` variable is an **optional** variable that takes **big
+integer** values.
 
 ### Example values
 
@@ -98,7 +101,8 @@ export EARTH_ATOM_COUNT=0b11110001001000000 # binary
 
 _GRPC request timeout_
 
-The `GRPC_TIMEOUT` variable is an **optional** variable that takes **ISO 8601 duration** values, with these constraints:
+The `GRPC_TIMEOUT` variable is an **optional** variable that takes **ISO 8601
+duration** values, with these constraints:
 
 - Must be >= PT0.1S and <= PT10S
 
@@ -116,7 +120,8 @@ export GRPC_TIMEOUT=PT5S # 5 seconds
 
 _The minimum log level to record_
 
-The `LOG_LEVEL` variable is an **optional** variable that takes `debug`, `info`, `warn`, `error`, or `fatal`.
+The `LOG_LEVEL` variable is an **optional** variable that takes `debug`, `info`,
+`warn`, `error`, or `fatal`.
 
 ### Default value
 
@@ -150,7 +155,8 @@ export LOG_LEVEL=fatal # the application cannot proceed
 
 _Listen port for the HTTP server_
 
-The `PORT` variable is an **optional** variable that takes **port number** values.
+The `PORT` variable is an **optional** variable that takes **port number**
+values.
 
 ### Default value
 
@@ -168,7 +174,8 @@ export PORT=12345 # a port number
 
 _Database connection string for read-models_
 
-The `READ_DSN` variable is a **required** variable that takes **string** values, with these constraints:
+The `READ_DSN` variable is a **required** variable that takes **string** values,
+with these constraints:
 
 - Must have a minimum length of 30
 
@@ -182,7 +189,8 @@ export READ_DSN='host=localhost dbname=readmodels user=projector' # local databa
 
 _Kubernetes `redis-primary` service host_
 
-The `REDIS_PRIMARY_SERVICE_HOST` variable is a **required** variable that takes **hostname** values.
+The `REDIS_PRIMARY_SERVICE_HOST` variable is a **required** variable that takes
+**hostname** values.
 
 ### Example values
 
@@ -198,7 +206,8 @@ export REDIS_PRIMARY_SERVICE_HOST=10.0.0.11 # an IP address
 
 _Kubernetes `redis-primary` service port_
 
-The `REDIS_PRIMARY_SERVICE_PORT` variable is a **required** variable that takes **port number** values.
+The `REDIS_PRIMARY_SERVICE_PORT` variable is a **required** variable that takes
+**port number** values.
 
 ### Example values
 
@@ -210,7 +219,8 @@ export REDIS_PRIMARY_SERVICE_PORT=12345 # a port number
 
 _Ratio of requests to sample_
 
-The `SAMPLE_RATIO` variable is an **optional** variable that takes **number** values.
+The `SAMPLE_RATIO` variable is an **optional** variable that takes **number**
+values.
 
 ### Example values
 
@@ -246,7 +256,8 @@ export SAMPLE_RATIO=0b11110001001000000 # binary
 
 _Session token signing key_
 
-The `SESSION_KEY` variable is a **required** variable that takes **base64** values.
+The `SESSION_KEY` variable is a **required** variable that takes **base64**
+values.
 
 ### Example values
 
@@ -258,7 +269,8 @@ export SESSION_KEY=Y29ucXVpc3RhZG9y # base64 encoded string
 
 _Weighting for this node_
 
-The `WEIGHT` variable is a **required** variable that takes **integer** values, with these constraints:
+The `WEIGHT` variable is a **required** variable that takes **integer** values,
+with these constraints:
 
 - Must be >= 1
 

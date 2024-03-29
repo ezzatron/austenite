@@ -46,7 +46,7 @@ describe("Specification documents", () => {
   describe("when there are big integers", () => {
     it("describes required big integers", async () => {
       bigInteger("WEIGHT", "weighting for this node");
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("big-integer/required"),
@@ -58,7 +58,7 @@ describe("Specification documents", () => {
       bigInteger("WEIGHT", "weighting for this node", {
         default: undefined,
       });
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("big-integer/optional"),
@@ -70,7 +70,7 @@ describe("Specification documents", () => {
       bigInteger("WEIGHT", "weighting for this node", {
         default: 10000000000000001n,
       });
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("big-integer/default"),
@@ -89,7 +89,7 @@ describe("Specification documents", () => {
           },
         ],
       });
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("big-integer/examples"),
@@ -101,7 +101,7 @@ describe("Specification documents", () => {
   describe("when there are binaries", () => {
     it("describes required binaries", async () => {
       binary("SESSION_KEY", "session token signing key");
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("binary/required"),
@@ -113,7 +113,7 @@ describe("Specification documents", () => {
       binary("SESSION_KEY", "session token signing key", {
         default: undefined,
       });
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("binary/optional"),
@@ -128,7 +128,7 @@ describe("Specification documents", () => {
           "base64",
         ),
       });
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("binary/default"),
@@ -150,7 +150,7 @@ describe("Specification documents", () => {
           },
         ],
       });
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("binary/examples"),
@@ -162,7 +162,7 @@ describe("Specification documents", () => {
   describe("when there are booleans", () => {
     it("describes required booleans", async () => {
       boolean("DEBUG", "enable or disable debugging features");
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("boolean/required"),
@@ -174,7 +174,7 @@ describe("Specification documents", () => {
       boolean("DEBUG", "enable or disable debugging features", {
         default: undefined,
       });
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("boolean/optional"),
@@ -189,7 +189,7 @@ describe("Specification documents", () => {
       boolean("PRODUCTION", "enable or disable production mode", {
         default: true,
       });
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("boolean/default"),
@@ -207,7 +207,7 @@ describe("Specification documents", () => {
           no: false,
         },
       });
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("boolean/custom-literals"),
@@ -223,7 +223,7 @@ describe("Specification documents", () => {
           { value: false, as: "no", label: "disabled" },
         ],
       });
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("boolean/examples"),
@@ -235,7 +235,7 @@ describe("Specification documents", () => {
   describe("when there are durations", () => {
     it("describes required durations", async () => {
       duration("GRPC_TIMEOUT", "gRPC request timeout");
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("duration/required"),
@@ -247,7 +247,7 @@ describe("Specification documents", () => {
       duration("GRPC_TIMEOUT", "gRPC request timeout", {
         default: undefined,
       });
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("duration/optional"),
@@ -259,7 +259,7 @@ describe("Specification documents", () => {
       duration("GRPC_TIMEOUT", "gRPC request timeout", {
         default: Duration.from("PT0.01S"),
       });
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("duration/default"),
@@ -281,7 +281,7 @@ describe("Specification documents", () => {
           },
         ],
       });
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("duration/examples"),
@@ -307,7 +307,7 @@ describe("Specification documents", () => {
 
     it("describes required enumerations", async () => {
       enumeration("LOG_LEVEL", "the minimum log level to record", members);
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("enumeration/required"),
@@ -319,7 +319,7 @@ describe("Specification documents", () => {
       enumeration("LOG_LEVEL", "the minimum log level to record", members, {
         default: undefined,
       });
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("enumeration/optional"),
@@ -331,7 +331,7 @@ describe("Specification documents", () => {
       enumeration("LOG_LEVEL", "the minimum log level to record", members, {
         default: "error",
       });
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("enumeration/default"),
@@ -349,7 +349,7 @@ describe("Specification documents", () => {
           },
         ],
       });
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("enumeration/examples"),
@@ -361,7 +361,7 @@ describe("Specification documents", () => {
   describe("when there are integers", () => {
     it("describes required integers", async () => {
       integer("WEIGHT", "weighting for this node");
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("integer/required"),
@@ -373,7 +373,7 @@ describe("Specification documents", () => {
       integer("WEIGHT", "weighting for this node", {
         default: undefined,
       });
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("integer/optional"),
@@ -385,7 +385,7 @@ describe("Specification documents", () => {
       integer("WEIGHT", "weighting for this node", {
         default: 101,
       });
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("integer/default"),
@@ -400,7 +400,7 @@ describe("Specification documents", () => {
           { value: 1000, as: "1e3", label: "highest weight" },
         ],
       });
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("integer/examples"),
@@ -412,7 +412,7 @@ describe("Specification documents", () => {
   describe("when there are kubernetes addresses", () => {
     it("describes required addresses", async () => {
       kubernetesAddress("redis-primary");
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("kubernetes-address/required"),
@@ -424,7 +424,7 @@ describe("Specification documents", () => {
       kubernetesAddress("redis-primary", {
         default: undefined,
       });
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("kubernetes-address/optional"),
@@ -439,7 +439,7 @@ describe("Specification documents", () => {
           port: 6379,
         },
       });
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("kubernetes-address/default"),
@@ -454,7 +454,7 @@ describe("Specification documents", () => {
       kubernetesAddress("redis-primary", {
         portName: "observability",
       });
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("kubernetes-address/named-ports"),
@@ -475,7 +475,7 @@ describe("Specification documents", () => {
           ],
         },
       });
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("kubernetes-address/examples"),
@@ -487,7 +487,7 @@ describe("Specification documents", () => {
   describe("when there are network port numbers", () => {
     it("describes required port numbers", async () => {
       networkPortNumber("PORT", "listen port for the HTTP server");
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("network-port-number/required"),
@@ -499,7 +499,7 @@ describe("Specification documents", () => {
       networkPortNumber("PORT", "listen port for the HTTP server", {
         default: undefined,
       });
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("network-port-number/optional"),
@@ -511,7 +511,7 @@ describe("Specification documents", () => {
       networkPortNumber("PORT", "listen port for the HTTP server", {
         default: 8080,
       });
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("network-port-number/default"),
@@ -526,7 +526,7 @@ describe("Specification documents", () => {
           { value: 50080, label: "ephemeral" },
         ],
       });
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("network-port-number/examples"),
@@ -538,7 +538,7 @@ describe("Specification documents", () => {
   describe("when there are numbers", () => {
     it("describes required numbers", async () => {
       number("WEIGHT", "weighting for this node");
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("number/required"),
@@ -550,7 +550,7 @@ describe("Specification documents", () => {
       number("WEIGHT", "weighting for this node", {
         default: undefined,
       });
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("number/optional"),
@@ -562,7 +562,7 @@ describe("Specification documents", () => {
       number("WEIGHT", "weighting for this node", {
         default: 100.001,
       });
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("number/default"),
@@ -577,7 +577,7 @@ describe("Specification documents", () => {
           { value: 0.25, as: "2.5e-1", label: "25%" },
         ],
       });
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("number/examples"),
@@ -589,7 +589,7 @@ describe("Specification documents", () => {
   describe("when there are strings", () => {
     it("describes required strings", async () => {
       string("READ_DSN", "database connection string for read-models");
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("string/required"),
@@ -601,7 +601,7 @@ describe("Specification documents", () => {
       string("READ_DSN", "database connection string for read-models", {
         default: undefined,
       });
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("string/optional"),
@@ -613,7 +613,7 @@ describe("Specification documents", () => {
       string("READ_DSN", "database connection string for read-models", {
         default: "host=localhost dbname=readmodels user=projector",
       });
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("string/default"),
@@ -625,7 +625,7 @@ describe("Specification documents", () => {
       string("MESSAGE", "message to output", {
         default: "Season's greetings, world!",
       });
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("string/quoting"),
@@ -646,7 +646,7 @@ describe("Specification documents", () => {
           },
         ],
       });
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("string/examples"),
@@ -658,7 +658,7 @@ describe("Specification documents", () => {
   describe("when there are URLs", () => {
     it("describes required URLs", async () => {
       url("CDN_URL", "CDN to use when serving static assets");
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("url/required"),
@@ -670,7 +670,7 @@ describe("Specification documents", () => {
       url("CDN_URL", "CDN to use when serving static assets", {
         default: undefined,
       });
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("url/optional"),
@@ -682,7 +682,7 @@ describe("Specification documents", () => {
       url("CDN_URL", "CDN to use when serving static assets", {
         default: new URL("https://default.example.org/path/to/resource"),
       });
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("url/default"),
@@ -694,7 +694,7 @@ describe("Specification documents", () => {
       url("LOGO", "Main logo image", {
         base: new URL("https://base.example.org/path/to/resource"),
       });
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("url/base"),
@@ -709,7 +709,7 @@ describe("Specification documents", () => {
       url("SOCKET_SERVER", "WebSocket server to use", {
         protocols: ["ws:", "wss:"],
       });
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("url/protocols"),
@@ -732,7 +732,7 @@ describe("Specification documents", () => {
           },
         ],
       });
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("url/examples"),
@@ -1021,7 +1021,7 @@ describe("Specification documents", () => {
         ],
         examples: [{ value: "Hello, world!", label: "example" }],
       });
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("constraints"),
@@ -1196,7 +1196,7 @@ describe("Specification documents", () => {
           },
         ],
       });
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("examples"),
@@ -1279,7 +1279,7 @@ describe("Specification documents", () => {
         isSensitive: true,
         default: Buffer.from("Beep boop!", "utf-8"),
       });
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("sensitive"),
@@ -1290,10 +1290,10 @@ describe("Specification documents", () => {
 
   describe("when there are no declarations", () => {
     it("describes an empty environment", async () => {
-      initialize();
+      await initialize();
 
       await expect(
-        "<BEGIN>\n" + mockConsole.readStdout() + "<END>\n",
+        "<BEGIN>\n" + mockConsole.readStdout() + "\n<END>\n",
       ).toMatchFileSnapshot(fixturePath("empty"));
       expect(exitCode).toBe(0);
     });
@@ -1305,10 +1305,10 @@ describe("Specification documents", () => {
     });
 
     it("uses the value as the app name", async () => {
-      initialize();
+      await initialize();
 
       await expect(
-        "<BEGIN>\n" + mockConsole.readStdout() + "<END>\n",
+        "<BEGIN>\n" + mockConsole.readStdout() + "\n<END>\n",
       ).toMatchFileSnapshot(fixturePath("app-env-var"));
       expect(exitCode).toBe(0);
     });
@@ -1321,7 +1321,7 @@ describe("Specification documents", () => {
         "## [Not a heading](https://malicious.example.org)",
       );
 
-      initialize();
+      await initialize();
 
       await expect(mockConsole.readStdout()).toMatchFileSnapshot(
         fixturePath("markdown-escaping"),

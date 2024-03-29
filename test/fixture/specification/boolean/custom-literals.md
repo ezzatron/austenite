@@ -1,6 +1,7 @@
 # Environment variables
 
-The `<app>` app uses **declarative environment variables** powered by **[Austenite]**.
+The `<app>` app uses **declarative environment variables** powered by
+**[Austenite]**.
 
 [austenite]: https://github.com/ezzatron/austenite
 
@@ -19,7 +20,8 @@ The `<app>` app uses **declarative environment variables** powered by **[Austeni
 
 _Enable or disable debugging features_
 
-The `DEBUG` variable is an **optional** variable that takes `y`, `yes`, `n`, or `no`.
+The `DEBUG` variable is an **optional** variable that takes `y`, `yes`, `n`, or
+`no`.
 
 ### Default value
 

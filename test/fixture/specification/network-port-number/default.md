@@ -1,6 +1,7 @@
 # Environment variables
 
-The `<app>` app uses **declarative environment variables** powered by **[Austenite]**.
+The `<app>` app uses **declarative environment variables** powered by
+**[Austenite]**.
 
 [austenite]: https://github.com/ezzatron/austenite
 
@@ -19,7 +20,8 @@ The `<app>` app uses **declarative environment variables** powered by **[Austeni
 
 _Listen port for the HTTP server_
 
-The `PORT` variable is an **optional** variable that takes **port number** values.
+The `PORT` variable is an **optional** variable that takes **port number**
+values.
 
 ### Default value
 

@@ -88,7 +88,7 @@ describe("Validation summary", () => {
     });
     binary("AUSTENITE_BINARY", "example binary");
 
-    initialize();
+    await initialize();
 
     await expect(mockConsole.readStderr()).toMatchFileSnapshot(
       fixturePath("required"),
@@ -156,7 +156,7 @@ describe("Validation summary", () => {
       default: undefined,
     });
 
-    initialize();
+    await initialize();
 
     await expect(mockConsole.readStderr()).toMatchFileSnapshot(
       fixturePath("optional"),
@@ -227,7 +227,7 @@ describe("Validation summary", () => {
       default: Buffer.from("Beep boop!", "utf-8"),
     });
 
-    initialize();
+    await initialize();
 
     await expect(mockConsole.readStderr()).toMatchFileSnapshot(
       fixturePath("default"),
@@ -253,7 +253,7 @@ describe("Validation summary", () => {
     duration("AUSTENITE_DURATION", "example duration");
     binary("AUSTENITE_BINARY", "example binary");
 
-    initialize();
+    await initialize();
 
     await expect(mockConsole.readStderr()).toMatchFileSnapshot(
       fixturePath("non-canonical"),
@@ -303,7 +303,7 @@ describe("Validation summary", () => {
     boolean("AUSTENITE_BOOLEAN", "example boolean");
     binary("AUSTENITE_BINARY", "example binary");
 
-    initialize();
+    await initialize();
 
     await expect(mockConsole.readStderr()).toMatchFileSnapshot(
       fixturePath("invalid"),
@@ -327,7 +327,7 @@ describe("Validation summary", () => {
       ],
     });
 
-    initialize();
+    await initialize();
 
     await expect(mockConsole.readStderr()).toMatchFileSnapshot(
       fixturePath("composite-partially-defined"),
@@ -351,7 +351,7 @@ describe("Validation summary", () => {
       ],
     });
 
-    initialize();
+    await initialize();
 
     await expect(mockConsole.readStderr()).toMatchFileSnapshot(
       fixturePath("composite-partially-invalid"),
@@ -377,7 +377,7 @@ describe("Validation summary", () => {
       ],
     });
 
-    initialize();
+    await initialize();
 
     await expect(mockConsole.readStderr()).toMatchFileSnapshot(
       fixturePath("composite-invalid"),
@@ -462,7 +462,7 @@ describe("Validation summary", () => {
       ],
     });
 
-    initialize();
+    await initialize();
 
     await expect(mockConsole.readStderr()).toMatchFileSnapshot(
       fixturePath("constraint-violation"),
@@ -547,7 +547,7 @@ describe("Validation summary", () => {
       isSensitive: true,
     });
 
-    initialize();
+    await initialize();
 
     await expect(mockConsole.readStderr()).toMatchFileSnapshot(
       fixturePath("sensitive"),
@@ -629,7 +629,7 @@ describe("Validation summary", () => {
       default: Buffer.from("Beep boop!", "utf-8"),
     });
 
-    initialize();
+    await initialize();
 
     await expect(mockConsole.readStderr()).toMatchFileSnapshot(
       fixturePath("sensitive-default"),
@@ -645,7 +645,7 @@ describe("Validation summary", () => {
       isSensitive: true,
     });
 
-    initialize();
+    await initialize();
 
     await expect(mockConsole.readStderr()).toMatchFileSnapshot(
       fixturePath("sensitive-non-canonical"),
@@ -720,7 +720,7 @@ describe("Validation summary", () => {
       isSensitive: true,
     });
 
-    initialize();
+    await initialize();
 
     await expect(mockConsole.readStderr()).toMatchFileSnapshot(
       fixturePath("senstive-invalid"),

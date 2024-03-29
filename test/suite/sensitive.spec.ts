@@ -8,14 +8,14 @@ describe("Sensitive declarations", () => {
   describe("when the value is not valid", () => {
     let declaration: Declaration<Buffer, Options>;
 
-    beforeEach(() => {
+    beforeEach(async () => {
       declaration = binary("AUSTENITE_BINARY", "<description>", {
         isSensitive: true,
       });
 
       process.env.AUSTENITE_BINARY = "<value>";
 
-      initialize({ onInvalid: noop });
+      await initialize({ onInvalid: noop });
     });
 
     it("doesn't leak the value", () => {

@@ -76,10 +76,10 @@ describe.each`
       });
 
       describe("when the value is too short", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_VAR = tooShort;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -96,10 +96,10 @@ describe.each`
       });
 
       describe("when the value is too long", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_VAR = tooLong;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -116,10 +116,10 @@ describe.each`
       });
 
       describe("when the value is the right length", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_VAR = shortest;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -143,10 +143,10 @@ describe.each`
       });
 
       describe("when the value is too short", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_VAR = tooShort;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -163,10 +163,10 @@ describe.each`
       });
 
       describe("when the value is the long enough", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_VAR = shortest;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -190,10 +190,10 @@ describe.each`
       });
 
       describe("when the value is too long", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_VAR = tooLong;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -210,10 +210,10 @@ describe.each`
       });
 
       describe("when the value is short enough", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_VAR = longest;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -238,10 +238,10 @@ describe.each`
       });
 
       describe("when the value is too short", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_VAR = tooShort;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -258,10 +258,10 @@ describe.each`
       });
 
       describe("when the value is too long", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_VAR = tooLong;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -278,10 +278,10 @@ describe.each`
       });
 
       describe("when the value is the shortest allowed", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_VAR = shortest;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -294,10 +294,10 @@ describe.each`
       });
 
       describe("when the value is the longest allowed", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_VAR = longest;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {

@@ -8,10 +8,10 @@ describe("Boolean declarations", () => {
   let declaration: Declaration<boolean, Options>;
 
   describe("when no options are supplied", () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       declaration = boolean("AUSTENITE_BOOLEAN", "<description>");
 
-      initialize({ onInvalid: noop });
+      await initialize({ onInvalid: noop });
     });
 
     it("defaults to a required declaration", () => {
@@ -24,10 +24,10 @@ describe("Boolean declarations", () => {
   });
 
   describe("when empty options are supplied", () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       declaration = boolean("AUSTENITE_BOOLEAN", "<description>", {});
 
-      initialize({ onInvalid: noop });
+      await initialize({ onInvalid: noop });
     });
 
     it("defaults to a required declaration", () => {
@@ -51,10 +51,10 @@ describe("Boolean declarations", () => {
     `(
       "when the value is one of the accepted literals ($value)",
       ({ value, expected }: { value: string; expected: boolean }) => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_BOOLEAN = value;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -77,10 +77,10 @@ describe("Boolean declarations", () => {
     `(
       "when the value is invalid ($value)",
       ({ value, expected }: { value: string; expected: string }) => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_BOOLEAN = value;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -94,8 +94,8 @@ describe("Boolean declarations", () => {
     );
 
     describe("when the value is empty", () => {
-      beforeEach(() => {
-        initialize({ onInvalid: noop });
+      beforeEach(async () => {
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -124,10 +124,10 @@ describe("Boolean declarations", () => {
     `(
       "when the value is one of the accepted literals ($value)",
       ({ value, expected }: { value: string; expected: boolean }) => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_BOOLEAN = value;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -145,10 +145,10 @@ describe("Boolean declarations", () => {
     `(
       "when the value is invalid ($value)",
       ({ value, expected }: { value: string; expected: string }) => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_BOOLEAN = value;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -165,12 +165,12 @@ describe("Boolean declarations", () => {
       describe.each([[true], [false]])(
         "when there is a default value (%s)",
         (def: boolean) => {
-          beforeEach(() => {
+          beforeEach(async () => {
             declaration = boolean("AUSTENITE_BOOLEAN", "<description>", {
               default: def,
             });
 
-            initialize({ onInvalid: noop });
+            await initialize({ onInvalid: noop });
           });
 
           describe(".value()", () => {
@@ -182,12 +182,12 @@ describe("Boolean declarations", () => {
       );
 
       describe("when there is no default value", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           declaration = boolean("AUSTENITE_BOOLEAN", "<description>", {
             default: undefined,
           });
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -220,10 +220,10 @@ describe("Boolean declarations", () => {
     `(
       "when the value matches a custom literal ($value)",
       ({ value, expected }: { value: string; expected: boolean }) => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_BOOLEAN = value;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -241,10 +241,10 @@ describe("Boolean declarations", () => {
     `(
       "when the value does not match a custom literal ($value)",
       ({ value, expected }: { value: string; expected: string }) => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_BOOLEAN = value;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -344,10 +344,10 @@ describe("Boolean declarations", () => {
     });
 
     describe("when the value satisfies the constraints", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.AUSTENITE_BOOLEAN = "true";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -358,10 +358,10 @@ describe("Boolean declarations", () => {
     });
 
     describe("when the value violates a constraint", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.AUSTENITE_BOOLEAN = "false";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -401,10 +401,10 @@ describe("Boolean declarations", () => {
     });
 
     describe("when the value is false", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.DEBUG = "false";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -415,11 +415,11 @@ describe("Boolean declarations", () => {
     });
 
     describe("when the value is true and the platform is not Windows", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.DEBUG = "true";
         Object.defineProperty(process, "platform", { value: "darwin" });
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -430,11 +430,11 @@ describe("Boolean declarations", () => {
     });
 
     describe("when the value is true and the platform is Windows", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.DEBUG = "true";
         Object.defineProperty(process, "platform", { value: "win32" });
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {

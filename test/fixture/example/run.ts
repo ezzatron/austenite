@@ -13,7 +13,7 @@ import {
   weight,
 } from "./env.js";
 
-initialize();
+await initialize();
 
 console.log("");
 console.log("Environment is valid 🎉");

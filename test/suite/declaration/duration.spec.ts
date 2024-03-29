@@ -40,10 +40,10 @@ describe("Duration declarations", () => {
   let declaration: Declaration<Duration, Options>;
 
   describe("when no options are supplied", () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       declaration = duration("AUSTENITE_DURATION", "<description>");
 
-      initialize({ onInvalid: noop });
+      await initialize({ onInvalid: noop });
     });
 
     it("defaults to a required declaration", () => {
@@ -56,10 +56,10 @@ describe("Duration declarations", () => {
   });
 
   describe("when empty options are supplied", () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       declaration = duration("AUSTENITE_DURATION", "<description>", {});
 
-      initialize({ onInvalid: noop });
+      await initialize({ onInvalid: noop });
     });
 
     it("defaults to a required declaration", () => {
@@ -77,10 +77,10 @@ describe("Duration declarations", () => {
     });
 
     describe("when the value is a valid duration", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.AUSTENITE_DURATION = "P1Y";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -98,10 +98,10 @@ describe("Duration declarations", () => {
     describe.each(invalidValueTable)(
       "when the value is invalid (%s)",
       (_, duration: string, expected: string) => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_DURATION = duration;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -115,8 +115,8 @@ describe("Duration declarations", () => {
     );
 
     describe("when the value is empty", () => {
-      beforeEach(() => {
-        initialize({ onInvalid: noop });
+      beforeEach(async () => {
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -139,10 +139,10 @@ describe("Duration declarations", () => {
     });
 
     describe("when the value is a valid duration", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.AUSTENITE_DURATION = "P1Y";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -155,10 +155,10 @@ describe("Duration declarations", () => {
     describe.each(invalidValueTable)(
       "when the value is invalid (%s)",
       (_, duration: string, expected: string) => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_DURATION = duration;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -173,12 +173,12 @@ describe("Duration declarations", () => {
 
     describe("when the value is empty", () => {
       describe("when there is a default value", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           declaration = duration("AUSTENITE_DURATION", "<description>", {
             default: Duration.from("P2D"),
           });
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -189,12 +189,12 @@ describe("Duration declarations", () => {
       });
 
       describe("when there is no default value", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           declaration = duration("AUSTENITE_DURATION", "<description>", {
             default: undefined,
           });
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -224,10 +224,10 @@ describe("Duration declarations", () => {
     });
 
     describe("when the value satisfies the constraints", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.AUSTENITE_DURATION = "P6D";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -238,10 +238,10 @@ describe("Duration declarations", () => {
     });
 
     describe("when the value violates the first constraint", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.AUSTENITE_DURATION = "P3D";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -256,10 +256,10 @@ describe("Duration declarations", () => {
     });
 
     describe("when the value violates the second constraint", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.AUSTENITE_DURATION = "P2D";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -295,10 +295,10 @@ describe("Duration declarations", () => {
     });
 
     describe("when the value satisfies the constraints", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.GRPC_TIMEOUT = "PT1S";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -309,10 +309,10 @@ describe("Duration declarations", () => {
     });
 
     describe("when the value violates the constraints", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.GRPC_TIMEOUT = "PT0.01S";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {

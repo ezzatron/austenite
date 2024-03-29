@@ -1,6 +1,7 @@
 # Environment variables
 
-The `<app>` app uses **declarative environment variables** powered by **[Austenite]**.
+The `<app>` app uses **declarative environment variables** powered by
+**[Austenite]**.
 
 [austenite]: https://github.com/ezzatron/austenite
 
@@ -20,7 +21,8 @@ The `<app>` app uses **declarative environment variables** powered by **[Austeni
 
 _CDN to use when serving static assets_
 
-The `CDN_URL` variable is a **required** variable that takes **absolute URL** values, with these constraints:
+The `CDN_URL` variable is a **required** variable that takes **absolute URL**
+values, with these constraints:
 
 - Protocol must be `https:`
 
@@ -34,7 +36,8 @@ export CDN_URL=https://host.example.org/path/to/resource # URL (https:)
 
 _WebSocket server to use_
 
-The `SOCKET_SERVER` variable is a **required** variable that takes **absolute URL** values, with these constraints:
+The `SOCKET_SERVER` variable is a **required** variable that takes **absolute
+URL** values, with these constraints:
 
 - Protocol must be `ws:` or `wss:`
 

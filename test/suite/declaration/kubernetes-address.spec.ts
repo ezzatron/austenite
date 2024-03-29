@@ -103,10 +103,10 @@ describe("Kubernetes address declarations", () => {
   let declaration: Declaration<KubernetesAddress, Options>;
 
   describe("when no options are supplied", () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       declaration = kubernetesAddress("austenite-svc");
 
-      initialize({ onInvalid: noop });
+      await initialize({ onInvalid: noop });
     });
 
     it("defaults to a required declaration", () => {
@@ -119,10 +119,10 @@ describe("Kubernetes address declarations", () => {
   });
 
   describe("when empty options are supplied", () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       declaration = kubernetesAddress("austenite-svc", {});
 
-      initialize({ onInvalid: noop });
+      await initialize({ onInvalid: noop });
     });
 
     it("defaults to a required declaration", () => {
@@ -159,11 +159,11 @@ describe("Kubernetes address declarations", () => {
     `(
       "when the host and port are valid ($host:$port)",
       ({ host, port }: { host: string; port: string }) => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_SVC_SERVICE_HOST = host;
           process.env.AUSTENITE_SVC_SERVICE_PORT = port;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -190,11 +190,11 @@ describe("Kubernetes address declarations", () => {
     describe.each(invalidHostValueTable)(
       "when the host is invalid (%s)",
       (_, value: string, expected: string) => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_SVC_SERVICE_HOST = value;
           process.env.AUSTENITE_SVC_SERVICE_PORT = "12345";
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -210,11 +210,11 @@ describe("Kubernetes address declarations", () => {
     describe.each(invalidPortValueTable)(
       "when the port is invalid (%s)",
       (_, value: string, expected: string) => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_SVC_SERVICE_HOST = "host.example.org";
           process.env.AUSTENITE_SVC_SERVICE_PORT = value;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -228,10 +228,10 @@ describe("Kubernetes address declarations", () => {
     );
 
     describe("when the host is empty", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.AUSTENITE_SVC_SERVICE_PORT = "12345";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -246,10 +246,10 @@ describe("Kubernetes address declarations", () => {
     });
 
     describe("when the port is empty", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.AUSTENITE_SVC_SERVICE_HOST = "host.example.org";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -264,8 +264,8 @@ describe("Kubernetes address declarations", () => {
     });
 
     describe("when the host and port are empty", () => {
-      beforeEach(() => {
-        initialize({ onInvalid: noop });
+      beforeEach(async () => {
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -294,11 +294,11 @@ describe("Kubernetes address declarations", () => {
     `(
       "when the host and port are valid ($host:$port)",
       ({ host, port }: { host: string; port: string }) => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_SVC_SERVICE_HOST = host;
           process.env.AUSTENITE_SVC_SERVICE_PORT = port;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -315,11 +315,11 @@ describe("Kubernetes address declarations", () => {
     describe.each(invalidHostValueTable)(
       "when the host is invalid (%s)",
       (_, value: string, expected: string) => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_SVC_SERVICE_HOST = value;
           process.env.AUSTENITE_SVC_SERVICE_PORT = "12345";
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -335,11 +335,11 @@ describe("Kubernetes address declarations", () => {
     describe.each(invalidPortValueTable)(
       "when the port is invalid (%s)",
       (_, value: string, expected: string) => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_SVC_SERVICE_HOST = "host.example.org";
           process.env.AUSTENITE_SVC_SERVICE_PORT = value;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -358,12 +358,12 @@ describe("Kubernetes address declarations", () => {
       });
 
       describe("when there is a default value", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           declaration = kubernetesAddress("austenite-svc", {
             default: def,
           });
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -377,12 +377,12 @@ describe("Kubernetes address declarations", () => {
       });
 
       describe("when there is no default value", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           declaration = kubernetesAddress("austenite-svc", {
             default: undefined,
           });
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -401,12 +401,12 @@ describe("Kubernetes address declarations", () => {
       });
 
       describe("when there is a default value", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           declaration = kubernetesAddress("austenite-svc", {
             default: def,
           });
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -420,12 +420,12 @@ describe("Kubernetes address declarations", () => {
       });
 
       describe("when there is no default value", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           declaration = kubernetesAddress("austenite-svc", {
             default: undefined,
           });
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -440,12 +440,12 @@ describe("Kubernetes address declarations", () => {
 
     describe("when the host and port are empty", () => {
       describe("when there is a default value", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           declaration = kubernetesAddress("austenite-svc", {
             default: def,
           });
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -456,12 +456,12 @@ describe("Kubernetes address declarations", () => {
       });
 
       describe("when there is no default value", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           declaration = kubernetesAddress("austenite-svc", {
             default: undefined,
           });
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -496,11 +496,11 @@ describe("Kubernetes address declarations", () => {
     );
 
     describe("when the host and port are valid", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.AUSTENITE_SVC_SERVICE_HOST = "host.example.org";
         process.env.AUSTENITE_SVC_SERVICE_PORT_AUSTENITE_PRT = "12345";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -535,11 +535,11 @@ describe("Kubernetes address declarations", () => {
     });
 
     describe("when the value satisfies the constraints", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.AUSTENITE_SVC_SERVICE_HOST = "host.example.org";
         process.env.AUSTENITE_SVC_SERVICE_PORT = "1234";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -553,11 +553,11 @@ describe("Kubernetes address declarations", () => {
     });
 
     describe("when the value violates the first constraint", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.AUSTENITE_SVC_SERVICE_HOST = "host.example.com";
         process.env.AUSTENITE_SVC_SERVICE_PORT = "1234";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -570,11 +570,11 @@ describe("Kubernetes address declarations", () => {
     });
 
     describe("when the value violates the second constraint", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.AUSTENITE_SVC_SERVICE_HOST = "host.example.org";
         process.env.AUSTENITE_SVC_SERVICE_PORT = "1235";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -604,11 +604,11 @@ describe("Kubernetes address declarations", () => {
     });
 
     describe("when the value satisfies the constraints", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.REDIS_PRIMARY_SERVICE_HOST = "secure.redis.example.org";
         process.env.REDIS_PRIMARY_SERVICE_PORT = "443";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -622,11 +622,11 @@ describe("Kubernetes address declarations", () => {
     });
 
     describe("when the value violates the constraints", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.REDIS_PRIMARY_SERVICE_HOST = "secure.redis.example.org";
         process.env.REDIS_PRIMARY_SERVICE_PORT = "80";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {

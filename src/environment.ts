@@ -1,5 +1,8 @@
 import { EOL } from "os";
-import { render as renderSpecification } from "./specification.js";
+import {
+  render as renderSpecification,
+  type MarkdownPrettyPrintType,
+} from "./specification.js";
 import { render as renderSummary } from "./summary.js";
 import { Results, validate } from "./validation.js";
 import {
@@ -13,11 +16,17 @@ let state: State = createInitialState();
 
 export type InitializeOptions = {
   readonly onInvalid?: OnInvalid;
+  readonly markdownPrettyPrint?: MarkdownPrettyPrintType;
 };
 
-export function initialize(options: InitializeOptions = {}): void {
+export async function initialize(
+  options: InitializeOptions = {},
+): Promise<void> {
   if (process.env.AUSTENITE_SPEC === "true") {
-    console.log(renderSpecification(variablesByName()));
+    const { markdownPrettyPrint = "prettier" } = options;
+    console.log(
+      await renderSpecification(markdownPrettyPrint, variablesByName()),
+    );
 
     // eslint-disable-next-line n/no-process-exit
     process.exit(0);

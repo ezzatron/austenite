@@ -2,8 +2,8 @@
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog], and this project adheres to
-[Semantic Versioning].
+The format is based on [Keep a Changelog], and this project adheres to [Semantic
+Versioning].
 
 [keep a changelog]: https://keepachangelog.com/en/1.0.0/
 [semantic versioning]: https://semver.org/spec/v2.0.0.html
@@ -16,9 +16,14 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ### Changed
 
+- **\[BREAKING\]** The `initialize()` function is now `async`.
+- If you have [Prettier] installed in your project, Austenite will now use it to
+  format generated Markdown specification output.
 - The generated specification output has been improved.
 - Markdown phrasing content is now supported in variable and constraint
   descriptions.
+
+[prettier]: https://prettier.io/
 
 ## [v0.9.1] - 2024-03-25
 
@@ -39,8 +44,8 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ### Changed
 
-- **\[BREAKING\]** Explicit examples must be provided in a declaration if
-  the declaration uses constraints that would make the auto-generated examples
+- **\[BREAKING\]** Explicit examples must be provided in a declaration if the
+  declaration uses constraints that would make the auto-generated examples
   invalid.
 
 ## [v0.8.0] - 2024-03-23

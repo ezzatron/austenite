@@ -1,6 +1,7 @@
 # Environment variables
 
-The `<app>` app uses **declarative environment variables** powered by **[Austenite]**.
+The `<app>` app uses **declarative environment variables** powered by
+**[Austenite]**.
 
 [austenite]: https://github.com/ezzatron/austenite
 
@@ -20,7 +21,8 @@ The `<app>` app uses **declarative environment variables** powered by **[Austeni
 
 _Kubernetes `redis-primary` service host_
 
-The `REDIS_PRIMARY_SERVICE_HOST` variable is an **optional** variable that takes **hostname** values.
+The `REDIS_PRIMARY_SERVICE_HOST` variable is an **optional** variable that takes
+**hostname** values.
 
 ### Default value
 
@@ -42,7 +44,8 @@ export REDIS_PRIMARY_SERVICE_HOST=10.0.0.11 # an IP address
 
 _Kubernetes `redis-primary` service port_
 
-The `REDIS_PRIMARY_SERVICE_PORT` variable is an **optional** variable that takes **port number** values.
+The `REDIS_PRIMARY_SERVICE_PORT` variable is an **optional** variable that takes
+**port number** values.
 
 ### Default value
 

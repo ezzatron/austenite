@@ -51,10 +51,10 @@ describe("Network port number declarations", () => {
   let declaration: Declaration<number, Options>;
 
   describe("when no options are supplied", () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       declaration = networkPortNumber("AUSTENITE_PORT", "<description>");
 
-      initialize({ onInvalid: noop });
+      await initialize({ onInvalid: noop });
     });
 
     it("defaults to a required declaration", () => {
@@ -65,10 +65,10 @@ describe("Network port number declarations", () => {
   });
 
   describe("when empty options are supplied", () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       declaration = networkPortNumber("AUSTENITE_PORT", "<description>", {});
 
-      initialize({ onInvalid: noop });
+      await initialize({ onInvalid: noop });
     });
 
     it("defaults to a required declaration", () => {
@@ -86,10 +86,10 @@ describe("Network port number declarations", () => {
     describe.each(validValueTable)(
       "when the value is valid (%s)",
       (_, integer: string, expected: number) => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_PORT = integer;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -108,10 +108,10 @@ describe("Network port number declarations", () => {
     describe.each(invalidValueTable)(
       "when the value is invalid (%s)",
       (_, integer: string, expected: string) => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_PORT = integer;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -125,8 +125,8 @@ describe("Network port number declarations", () => {
     );
 
     describe("when the value is empty", () => {
-      beforeEach(() => {
-        initialize({ onInvalid: noop });
+      beforeEach(async () => {
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -151,10 +151,10 @@ describe("Network port number declarations", () => {
     describe.each(validValueTable)(
       "when the value is valid (%s)",
       (_, integer: string, expected: number) => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_PORT = integer;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -168,10 +168,10 @@ describe("Network port number declarations", () => {
     describe.each(invalidValueTable)(
       "when the value is invalid (%s)",
       (_, integer: string, expected: string) => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_PORT = integer;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -186,12 +186,12 @@ describe("Network port number declarations", () => {
 
     describe("when the value is empty", () => {
       describe("when there is a default value", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           declaration = networkPortNumber("AUSTENITE_PORT", "<description>", {
             default: 54321,
           });
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -202,12 +202,12 @@ describe("Network port number declarations", () => {
       });
 
       describe("when there is no default value", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           declaration = networkPortNumber("AUSTENITE_PORT", "<description>", {
             default: undefined,
           });
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -317,10 +317,10 @@ describe("Network port number declarations", () => {
     });
 
     describe("when the value satisfies the constraints", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.AUSTENITE_PORT = "6";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -331,10 +331,10 @@ describe("Network port number declarations", () => {
     });
 
     describe("when the value violates the first constraint", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.AUSTENITE_PORT = "3";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -349,10 +349,10 @@ describe("Network port number declarations", () => {
     });
 
     describe("when the value violates the second constraint", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.AUSTENITE_PORT = "2";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -385,10 +385,10 @@ describe("Network port number declarations", () => {
     });
 
     describe("when the value satisfies the constraints", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.PORT = "8080";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -399,10 +399,10 @@ describe("Network port number declarations", () => {
     });
 
     describe("when the value violates the constraints", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.PORT = "1337";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {

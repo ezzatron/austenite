@@ -8,10 +8,10 @@ describe("String declarations", () => {
   let declaration: Declaration<string, Options>;
 
   describe("when no options are supplied", () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       declaration = string("AUSTENITE_STRING", "<description>");
 
-      initialize({ onInvalid: noop });
+      await initialize({ onInvalid: noop });
     });
 
     it("defaults to a required declaration", () => {
@@ -24,10 +24,10 @@ describe("String declarations", () => {
   });
 
   describe("when empty options are supplied", () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       declaration = string("AUSTENITE_STRING", "<description>", {});
 
-      initialize({ onInvalid: noop });
+      await initialize({ onInvalid: noop });
     });
 
     it("defaults to a required declaration", () => {
@@ -45,10 +45,10 @@ describe("String declarations", () => {
     });
 
     describe("when the value is not empty", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.AUSTENITE_STRING = "<value>";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -64,8 +64,8 @@ describe("String declarations", () => {
     });
 
     describe("when the value is empty", () => {
-      beforeEach(() => {
-        initialize({ onInvalid: noop });
+      beforeEach(async () => {
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -88,10 +88,10 @@ describe("String declarations", () => {
     });
 
     describe("when the value is not empty", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.AUSTENITE_STRING = "<value>";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -103,12 +103,12 @@ describe("String declarations", () => {
 
     describe("when the value is empty", () => {
       describe("when there is a default value", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           declaration = string("AUSTENITE_STRING", "<description>", {
             default: "<default>",
           });
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -119,12 +119,12 @@ describe("String declarations", () => {
       });
 
       describe("when there is no default value", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           declaration = string("AUSTENITE_STRING", "<description>", {
             default: undefined,
           });
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -156,10 +156,10 @@ describe("String declarations", () => {
     });
 
     describe("when the value satisfies the constraints", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.AUSTENITE_STRING = "abcdef";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -170,10 +170,10 @@ describe("String declarations", () => {
     });
 
     describe("when the value violates the first constraint", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.AUSTENITE_STRING = "abc";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -188,10 +188,10 @@ describe("String declarations", () => {
     });
 
     describe("when the value violates the second constraint", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.AUSTENITE_STRING = "ab";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -230,11 +230,11 @@ describe("String declarations", () => {
     });
 
     describe("when the value satisfies the constraints", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.READ_DSN =
           "host=localhost dbname=readmodels user=projector";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -247,11 +247,11 @@ describe("String declarations", () => {
     });
 
     describe("when the value violates the constraint", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.READ_DSN =
           "host=localhost dbname=readmodels user=projector password=secret";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {

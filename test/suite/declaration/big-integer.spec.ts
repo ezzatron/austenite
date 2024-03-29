@@ -48,10 +48,10 @@ describe("Big integer declarations", () => {
   let declaration: Declaration<bigint, Options>;
 
   describe("when no options are supplied", () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       declaration = bigInteger("AUSTENITE_INTEGER", "<description>");
 
-      initialize({ onInvalid: noop });
+      await initialize({ onInvalid: noop });
     });
 
     it("defaults to a required declaration", () => {
@@ -64,10 +64,10 @@ describe("Big integer declarations", () => {
   });
 
   describe("when empty options are supplied", () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       declaration = bigInteger("AUSTENITE_INTEGER", "<description>", {});
 
-      initialize({ onInvalid: noop });
+      await initialize({ onInvalid: noop });
     });
 
     it("defaults to a required declaration", () => {
@@ -87,10 +87,10 @@ describe("Big integer declarations", () => {
     describe.each(validValueTable)(
       "when the value is valid (%s)",
       (_, integer: string, expected: bigint) => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_INTEGER = integer;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -109,10 +109,10 @@ describe("Big integer declarations", () => {
     describe.each(invalidValueTable)(
       "when the value is invalid (%s)",
       (_, integer: string, expected: string) => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_INTEGER = integer;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -126,8 +126,8 @@ describe("Big integer declarations", () => {
     );
 
     describe("when the value is empty", () => {
-      beforeEach(() => {
-        initialize({ onInvalid: noop });
+      beforeEach(async () => {
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -152,10 +152,10 @@ describe("Big integer declarations", () => {
     describe.each(validValueTable)(
       "when the value is valid (%s)",
       (_, integer: string, expected: bigint) => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_INTEGER = integer;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -169,10 +169,10 @@ describe("Big integer declarations", () => {
     describe.each(invalidValueTable)(
       "when the value is invalid (%s)",
       (_, integer: string, expected: string) => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_INTEGER = integer;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -187,12 +187,12 @@ describe("Big integer declarations", () => {
 
     describe("when the value is empty", () => {
       describe("when there is a default value", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           declaration = bigInteger("AUSTENITE_INTEGER", "<description>", {
             default: -123456n,
           });
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -203,12 +203,12 @@ describe("Big integer declarations", () => {
       });
 
       describe("when there is no default value", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           declaration = bigInteger("AUSTENITE_INTEGER", "<description>", {
             default: undefined,
           });
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -238,10 +238,10 @@ describe("Big integer declarations", () => {
     });
 
     describe("when the value satisfies the constraints", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.AUSTENITE_INTEGER = "6";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -252,10 +252,10 @@ describe("Big integer declarations", () => {
     });
 
     describe("when the value violates the first constraint", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.AUSTENITE_INTEGER = "3";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -270,10 +270,10 @@ describe("Big integer declarations", () => {
     });
 
     describe("when the value violates the second constraint", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.AUSTENITE_INTEGER = "2";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -307,10 +307,10 @@ describe("Big integer declarations", () => {
     });
 
     describe("when the value satisfies the constraints", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.EARTH_ATOM_COUNT = "5972200000000000000000000";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -321,10 +321,10 @@ describe("Big integer declarations", () => {
     });
 
     describe("when the value violates the constraints", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.EARTH_ATOM_COUNT = "5972200000000000000000001";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {

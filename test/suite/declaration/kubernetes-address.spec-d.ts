@@ -9,12 +9,12 @@ import { noop } from "../../helpers.js";
 describe("Kubernetes address declarations", () => {
   describe("when the declaration is required", () => {
     describe(".value()", () => {
-      it("returns a kubernetes address", () => {
+      it("returns a kubernetes address", async () => {
         const declaration = kubernetesAddress("austenite-svc");
 
         process.env.AUSTENITE_SVC_SERVICE_HOST = "host.example.org";
         process.env.AUSTENITE_SVC_SERVICE_PORT = "12345";
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
         const actual = declaration.value();
 
         expectTypeOf(actual).toEqualTypeOf<KubernetesAddress>();
@@ -24,12 +24,12 @@ describe("Kubernetes address declarations", () => {
 
   describe("when the declaration is optional", () => {
     describe(".value()", () => {
-      it("returns an optional kubernetes address", () => {
+      it("returns an optional kubernetes address", async () => {
         const declaration = kubernetesAddress("austenite-svc", {
           default: undefined,
         });
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
         const actual = declaration.value();
 
         expectTypeOf(actual).toEqualTypeOf<KubernetesAddress | undefined>();

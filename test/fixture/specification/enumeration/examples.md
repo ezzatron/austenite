@@ -1,6 +1,7 @@
 # Environment variables
 
-The `<app>` app uses **declarative environment variables** powered by **[Austenite]**.
+The `<app>` app uses **declarative environment variables** powered by
+**[Austenite]**.
 
 [austenite]: https://github.com/ezzatron/austenite
 
@@ -19,7 +20,8 @@ The `<app>` app uses **declarative environment variables** powered by **[Austeni
 
 _The minimum log level to record_
 
-The `LOG_LEVEL` variable is a **required** variable that takes `debug`, `info`, `warn`, `error`, or `fatal`.
+The `LOG_LEVEL` variable is a **required** variable that takes `debug`, `info`,
+`warn`, `error`, or `fatal`.
 
 ### Example values
 

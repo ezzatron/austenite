@@ -6,11 +6,15 @@ _Declarative environment variables for Node.js._
 [![Build status][badge-build-image]][badge-build-link]
 [![Test coverage][badge-coverage-image]][badge-coverage-link]
 
-[badge-build-image]: https://img.shields.io/github/actions/workflow/status/ezzatron/austenite/ci-node-library.yml?branch=main&style=for-the-badge
-[badge-build-link]: https://github.com/ezzatron/austenite/actions/workflows/ci-node-library.yml
-[badge-coverage-image]: https://img.shields.io/codecov/c/gh/ezzatron/austenite?style=for-the-badge
+[badge-build-image]:
+  https://img.shields.io/github/actions/workflow/status/ezzatron/austenite/ci-node-library.yml?branch=main&style=for-the-badge
+[badge-build-link]:
+  https://github.com/ezzatron/austenite/actions/workflows/ci-node-library.yml
+[badge-coverage-image]:
+  https://img.shields.io/codecov/c/gh/ezzatron/austenite?style=for-the-badge
 [badge-coverage-link]: https://codecov.io/gh/ezzatron/austenite
-[badge-version-image]: https://img.shields.io/npm/v/austenite?label=austenite&logo=npm&style=for-the-badge
+[badge-version-image]:
+  https://img.shields.io/npm/v/austenite?label=austenite&logo=npm&style=for-the-badge
 [badge-version-link]: https://npmjs.com/package/austenite
 
 ## Usage
@@ -32,7 +36,11 @@ export const isDebug = boolean(
 import { initialize } from "austenite";
 import { cdnUrl, isDebug } from "./env.ts";
 
-initialize(); // validates the environment
+// validates the environment, option defaults shown here
+initialize({
+  // set to "none" to disable Markdown pretty-printing
+  markdownPrettyPrint: "prettier",
+});
 
 // cdnUrl.value() is a URL
 console.log(`CDN URL hostname is ${cdnUrl.value().hostname}`);
@@ -70,7 +78,25 @@ If the environment variable `AUSTENITE_SPEC` is set to `true`, calling
 Markdown document containing a specification of the environment variables
 consumed by each declaration.
 
-> See [ENVIRONMENT.md](ENVIRONMENT.md) for example output
+<!-- prettier-ignore-start -->
+> [!IMPORTANT]
+> See [ENVIRONMENT.md](ENVIRONMENT.md) for example output.
+<!-- prettier-ignore-end -->
+
+<!-- prettier-ignore-start -->
+> [!TIP]
+> If you have the [`prettier` NPM package] installed, Austenite will
+> pretty-print specification output according to your Prettier config for a file
+> at `./ENVIRONMENT.md`.
+>
+> If you have Prettier installed, but don't have a config file for
+> `./ENVIRONMENT.md`, Austenite will use its own default Prettier config.
+>
+> If you don't have Prettier installed, or if you set the `markdownPrettyPrint`
+> option to `"none"`, Austenite won't pretty-print specification output.
+<!-- prettier-ignore-end -->
+
+[`prettier` npm package]: https://npmjs.com/package/prettier
 
 ## Declarations
 

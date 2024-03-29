@@ -2,7 +2,7 @@ import type { PhrasingContent, RootContent, TableRow } from "mdast";
 import { fromMarkdown } from "mdast-util-from-markdown";
 import { gfmToMarkdown } from "mdast-util-gfm";
 import { toMarkdown } from "mdast-util-to-markdown";
-import { basename } from "path";
+import { basename, join } from "path";
 import {
   extrinsicConstraints,
   type ExtrinsicConstraint,
@@ -13,20 +13,57 @@ import { Visitor } from "./schema.js";
 import { quote } from "./shell.js";
 import { Variable } from "./variable.js";
 
-export function render(variables: Variable<unknown>[]): string {
+export type MarkdownPrettyPrintType = "prettier" | "none";
+
+export async function render(
+  prettyPrintType: MarkdownPrettyPrintType,
+  variables: Variable<unknown>[],
+): Promise<string> {
   const app = appName();
 
-  return toMarkdown(
-    {
-      type: "root",
-      children: [...headerAST(app, variables), ...specificationAST(variables)],
-    },
-    {
-      bullet: "-",
-      emphasis: "_",
-      extensions: [gfmToMarkdown()],
-    },
-  ).trimEnd();
+  return prettyPrint(
+    prettyPrintType,
+    toMarkdown(
+      {
+        type: "root",
+        children: [
+          ...headerAST(app, variables),
+          ...specificationAST(variables),
+        ],
+      },
+      {
+        bullet: "-",
+        emphasis: "_",
+        extensions: [gfmToMarkdown()],
+      },
+    ),
+  );
+}
+
+async function prettyPrint(
+  prettyPrintType: MarkdownPrettyPrintType,
+  markdown: string,
+): Promise<string> {
+  if (prettyPrintType === "prettier") {
+    try {
+      const prettier = await import("prettier");
+
+      const options = (await prettier.resolveConfig(
+        join(process.cwd(), "ENVIRONMENT.md"),
+      )) ?? {
+        printWidth: 80,
+        proseWrap: "always",
+      };
+
+      return (
+        await prettier.format(markdown, { ...options, parser: "markdown" })
+      ).trimEnd();
+    } catch {
+      // fall through
+    }
+  }
+
+  return markdown.trimEnd();
 }
 
 function appName(): string {

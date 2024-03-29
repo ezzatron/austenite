@@ -1,6 +1,7 @@
 # Environment variables
 
-The `<app>` app uses **declarative environment variables** powered by **[Austenite]**.
+The `<app>` app uses **declarative environment variables** powered by
+**[Austenite]**.
 
 [austenite]: https://github.com/ezzatron/austenite
 
@@ -19,7 +20,8 @@ The `<app>` app uses **declarative environment variables** powered by **[Austeni
 
 _## \[Not a heading]\(https\://malicious.example.org)_
 
-The `AUSTENITE_STRING` variable is a **required** variable that takes **string** values.
+The `AUSTENITE_STRING` variable is a **required** variable that takes **string**
+values.
 
 ### Example values
 

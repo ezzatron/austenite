@@ -1,6 +1,7 @@
 # Environment variables
 
-The `<app>` app uses **declarative environment variables** powered by **[Austenite]**.
+The `<app>` app uses **declarative environment variables** powered by
+**[Austenite]**.
 
 [austenite]: https://github.com/ezzatron/austenite
 
@@ -19,7 +20,8 @@ The `<app>` app uses **declarative environment variables** powered by **[Austeni
 
 _GRPC request timeout_
 
-The `GRPC_TIMEOUT` variable is a **required** variable that takes **ISO 8601 duration** values.
+The `GRPC_TIMEOUT` variable is a **required** variable that takes **ISO 8601
+duration** values.
 
 ### Example values
 

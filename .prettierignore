@@ -1,5 +1,5 @@
 /.github/
 /.makefiles/
 /artifacts/
-/test/fixture/specification/
-/ENVIRONMENT.md
+/CHANGELOG.md
+/test/fixture/specification/no-prettier/

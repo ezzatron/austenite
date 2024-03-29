@@ -49,6 +49,9 @@
     "mdast-util-gfm": "^3.0.0",
     "mdast-util-to-markdown": "^2.1.0"
   },
+  "optionalDependencies": {
+    "prettier": "^3.0.0"
+  },
   "devDependencies": {
     "@stryker-mutator/core": "^8.0.0",
     "@stryker-mutator/typescript-checker": "^8.0.0",

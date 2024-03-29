@@ -5,11 +5,11 @@ import { noop } from "../../helpers.js";
 describe("Integer declarations", () => {
   describe("when the declaration is required", () => {
     describe(".value()", () => {
-      it("returns a number value", () => {
+      it("returns a number value", async () => {
         const declaration = integer("AUSTENITE_INTEGER", "<description>");
 
         process.env.AUSTENITE_INTEGER = "123456";
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
         const actual = declaration.value();
 
         expectTypeOf(actual).toEqualTypeOf<number>();
@@ -19,12 +19,12 @@ describe("Integer declarations", () => {
 
   describe("when the declaration is optional", () => {
     describe(".value()", () => {
-      it("returns an optional number value", () => {
+      it("returns an optional number value", async () => {
         const declaration = integer("AUSTENITE_INTEGER", "<description>", {
           default: undefined,
         });
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
         const actual = declaration.value();
 
         expectTypeOf(actual).toEqualTypeOf<number | undefined>();

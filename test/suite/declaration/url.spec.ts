@@ -30,10 +30,10 @@ describe("URL declarations", () => {
   let declaration: Declaration<URL, Options>;
 
   describe("when no options are supplied", () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       declaration = url("AUSTENITE_URL", "<description>");
 
-      initialize({ onInvalid: noop });
+      await initialize({ onInvalid: noop });
     });
 
     it("defaults to a required declaration", () => {
@@ -44,10 +44,10 @@ describe("URL declarations", () => {
   });
 
   describe("when empty options are supplied", () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       declaration = url("AUSTENITE_URL", "<description>", {});
 
-      initialize({ onInvalid: noop });
+      await initialize({ onInvalid: noop });
     });
 
     it("defaults to a required declaration", () => {
@@ -65,10 +65,10 @@ describe("URL declarations", () => {
     describe.each(validValueTable)(
       "when the value is valid (%s)",
       (_, url: string, expected: URL) => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_URL = url;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -87,10 +87,10 @@ describe("URL declarations", () => {
     describe.each(invalidValueTable)(
       "when the value is invalid (%s)",
       (_, url: string, expected: string) => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_URL = url;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -104,8 +104,8 @@ describe("URL declarations", () => {
     );
 
     describe("when the value is empty", () => {
-      beforeEach(() => {
-        initialize({ onInvalid: noop });
+      beforeEach(async () => {
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -130,10 +130,10 @@ describe("URL declarations", () => {
     describe.each(validValueTable)(
       "when the value is valid (%s)",
       (_, url: string, expected: URL) => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_URL = url;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -147,10 +147,10 @@ describe("URL declarations", () => {
     describe.each(invalidValueTable)(
       "when the value is invalid (%s)",
       (_, url: string, expected: string) => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_URL = url;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -165,12 +165,12 @@ describe("URL declarations", () => {
 
     describe("when the value is empty", () => {
       describe("when there is a default value", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           declaration = url("AUSTENITE_URL", "<description>", {
             default: new URL("https://default.example.org/path/to/resource"),
           });
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -183,12 +183,12 @@ describe("URL declarations", () => {
       });
 
       describe("when there is no default value", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           declaration = url("AUSTENITE_URL", "<description>", {
             default: undefined,
           });
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -218,10 +218,10 @@ describe("URL declarations", () => {
     `(
       "when the value is a relative URL ($description)",
       ({ relative, expected }: { relative: string; expected: string }) => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_URL = relative;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -233,10 +233,10 @@ describe("URL declarations", () => {
     );
 
     describe("when the value is an absolute URL", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.AUSTENITE_URL = "wss://other.example.org/path/to/resource";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -265,10 +265,10 @@ describe("URL declarations", () => {
     `(
       "when the value matches one of the protocols ($protocol)",
       ({ url }: { url: string }) => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_URL = url;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -280,10 +280,10 @@ describe("URL declarations", () => {
     );
 
     describe("when the value does not match any of the protocols", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.AUSTENITE_URL = "https://host.example.org/path/to/resource";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -388,10 +388,10 @@ describe("URL declarations", () => {
     });
 
     describe("when the value satisfies the constraints", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.AUSTENITE_URL = "https://example.org/";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -402,10 +402,10 @@ describe("URL declarations", () => {
     });
 
     describe("when the value violates the first constraint", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.AUSTENITE_URL = "https://example.com/";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -420,10 +420,10 @@ describe("URL declarations", () => {
     });
 
     describe("when the value violates the second constraint", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.AUSTENITE_URL = "http://example.org/";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -458,10 +458,10 @@ describe("URL declarations", () => {
     });
 
     describe("when the value satisfies the constraints", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.CDN_URL = "https://host.example.org/path/to/resource";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -474,10 +474,10 @@ describe("URL declarations", () => {
     });
 
     describe("when the value violates the constraints", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.CDN_URL = "https://host.local/path/to/resource";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {

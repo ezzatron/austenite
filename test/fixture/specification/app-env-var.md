@@ -1,7 +1,8 @@
 <BEGIN>
 # Environment variables
 
-The `<custom app name>` app uses **declarative environment variables** powered by **[Austenite]**.
+The `<custom app name>` app uses **declarative environment variables** powered
+by **[Austenite]**.
 
 [austenite]: https://github.com/ezzatron/austenite
 
@@ -13,4 +14,5 @@ The `<custom app name>` app uses **declarative environment variables** powered b
 <!-- prettier-ignore-end -->
 
 [declaring]: https://github.com/ezzatron/austenite#declarations
+
 <END>

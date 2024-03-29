@@ -23,14 +23,14 @@ describe("Enumeration declarations", () => {
   let declaration: Declaration<0 | 1 | 2, Options<0 | 1 | 2>>;
 
   describe("when no options are supplied", () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       declaration = enumeration(
         "AUSTENITE_ENUMERATION",
         "<description>",
         members,
       );
 
-      initialize({ onInvalid: noop });
+      await initialize({ onInvalid: noop });
     });
 
     it("defaults to a required declaration", () => {
@@ -43,7 +43,7 @@ describe("Enumeration declarations", () => {
   });
 
   describe("when empty options are supplied", () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       declaration = enumeration(
         "AUSTENITE_ENUMERATION",
         "<description>",
@@ -51,7 +51,7 @@ describe("Enumeration declarations", () => {
         {},
       );
 
-      initialize({ onInvalid: noop });
+      await initialize({ onInvalid: noop });
     });
 
     it("defaults to a required declaration", () => {
@@ -80,10 +80,10 @@ describe("Enumeration declarations", () => {
     `(
       "when the value is one of the members ($value)",
       ({ value, expected }: { value: string; expected: number }) => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_ENUMERATION = value;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -100,10 +100,10 @@ describe("Enumeration declarations", () => {
     );
 
     describe("when the value is invalid", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.AUSTENITE_ENUMERATION = "<non-member>";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -118,8 +118,8 @@ describe("Enumeration declarations", () => {
     });
 
     describe("when the value is empty", () => {
-      beforeEach(() => {
-        initialize({ onInvalid: noop });
+      beforeEach(async () => {
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -154,10 +154,10 @@ describe("Enumeration declarations", () => {
     `(
       "when the value is one of the members ($value)",
       ({ value, expected }: { value: string; expected: number }) => {
-        beforeEach(() => {
+        beforeEach(async () => {
           process.env.AUSTENITE_ENUMERATION = value;
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -169,10 +169,10 @@ describe("Enumeration declarations", () => {
     );
 
     describe("when the value is invalid", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.AUSTENITE_ENUMERATION = "<non-member>";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -188,7 +188,7 @@ describe("Enumeration declarations", () => {
 
     describe("when the value is empty", () => {
       describe("when there is a default value", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           declaration = enumeration(
             "AUSTENITE_ENUMERATION",
             "<description>",
@@ -198,7 +198,7 @@ describe("Enumeration declarations", () => {
             },
           );
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -209,7 +209,7 @@ describe("Enumeration declarations", () => {
       });
 
       describe("when there is no default value", () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           declaration = enumeration(
             "AUSTENITE_ENUMERATION",
             "<description>",
@@ -219,7 +219,7 @@ describe("Enumeration declarations", () => {
             },
           );
 
-          initialize({ onInvalid: noop });
+          await initialize({ onInvalid: noop });
         });
 
         describe(".value()", () => {
@@ -292,10 +292,10 @@ describe("Enumeration declarations", () => {
     });
 
     describe("when the value satisfies the constraints", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.AUSTENITE_ENUMERATION = "<member-1>";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -306,10 +306,10 @@ describe("Enumeration declarations", () => {
     });
 
     describe("when the value violates the first constraint", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.AUSTENITE_ENUMERATION = "<member-2>";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -324,10 +324,10 @@ describe("Enumeration declarations", () => {
     });
 
     describe("when the value violates the second constraint", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.AUSTENITE_ENUMERATION = "<member-0>";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -399,10 +399,10 @@ describe("Enumeration declarations", () => {
     });
 
     describe("when the value is not debug", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.LOG_LEVEL = "error";
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -413,11 +413,11 @@ describe("Enumeration declarations", () => {
     });
 
     describe("when the value is debug and the platform is not Windows", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.LOG_LEVEL = "debug";
         Object.defineProperty(process, "platform", { value: "darwin" });
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {
@@ -428,11 +428,11 @@ describe("Enumeration declarations", () => {
     });
 
     describe("when the value is debug and the platform is Windows", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.LOG_LEVEL = "debug";
         Object.defineProperty(process, "platform", { value: "win32" });
 
-        initialize({ onInvalid: noop });
+        await initialize({ onInvalid: noop });
       });
 
       describe(".value()", () => {

@@ -24,12 +24,12 @@ describe("initialize()", () => {
     describe("after being called", () => {
       let declaration: Declaration<string, Options<string>>;
 
-      beforeEach(() => {
+      beforeEach(async () => {
         declaration = string("AUSTENITE_VAR", "<description>", {
           default: undefined,
         });
 
-        initialize();
+        await initialize();
       });
 
       it("allows access to values", () => {
@@ -39,10 +39,8 @@ describe("initialize()", () => {
       });
 
       describe("when called again", () => {
-        it("does nothing", () => {
-          expect(() => {
-            initialize();
-          }).not.toThrow();
+        it("does nothing", async () => {
+          await expect(initialize()).resolves.not.toThrow();
         });
       });
     });
@@ -54,8 +52,8 @@ describe("initialize()", () => {
         onInvalid = mockFn();
       });
 
-      it("does not call the handler", () => {
-        initialize({ onInvalid });
+      it("does not call the handler", async () => {
+        await initialize({ onInvalid });
 
         expect(onInvalid).not.toHaveBeenCalled();
       });
@@ -64,11 +62,11 @@ describe("initialize()", () => {
 
   describe("when the environment is invalid", () => {
     describe("when called", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         string("AUSTENITE_STRING", "example string");
         boolean("AUSTENITE_BOOLEAN", "example boolean");
 
-        initialize();
+        await initialize();
       });
 
       it("outputs a summary table", () => {
@@ -88,7 +86,7 @@ describe("initialize()", () => {
       let results: Results | undefined;
       let defaultHandler: () => unknown;
 
-      beforeEach(() => {
+      beforeEach(async () => {
         process.env.AUSTENITE_BOOLEAN = "true";
 
         string("AUSTENITE_STRING", "example string");
@@ -96,7 +94,7 @@ describe("initialize()", () => {
 
         results = undefined;
 
-        initialize({
+        await initialize({
           onInvalid(args) {
             results = args.results;
             defaultHandler = args.defaultHandler;

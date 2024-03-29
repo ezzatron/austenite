@@ -1,6 +1,7 @@
 # Environment variables
 
-The `<app>` app uses **declarative environment variables** powered by **[Austenite]**.
+The `<app>` app uses **declarative environment variables** powered by
+**[Austenite]**.
 
 [austenite]: https://github.com/ezzatron/austenite
 
@@ -47,7 +48,8 @@ The `<app>` app uses **declarative environment variables** powered by **[Austeni
 
 _Example binary with length constraint_
 
-The `AUSTENITE_BINARY_LENGTH` variable is a **required** variable that takes **base64** values, with these constraints:
+The `AUSTENITE_BINARY_LENGTH` variable is a **required** variable that takes
+**base64** values, with these constraints:
 
 - Must have a decoded length of 1
 
@@ -61,7 +63,8 @@ export AUSTENITE_BINARY_LENGTH=YQ== # example
 
 _Example binary with length range constraint_
 
-The `AUSTENITE_BINARY_LENGTH_RANGE` variable is a **required** variable that takes **base64** values, with these constraints:
+The `AUSTENITE_BINARY_LENGTH_RANGE` variable is a **required** variable that
+takes **base64** values, with these constraints:
 
 - Must have a decoded length between 4 and 5
 
@@ -75,7 +78,8 @@ export AUSTENITE_BINARY_LENGTH_RANGE=YWJjZA== # example
 
 _Example binary with maximum length constraint_
 
-The `AUSTENITE_BINARY_MAX_LENGTH` variable is a **required** variable that takes **base64** values, with these constraints:
+The `AUSTENITE_BINARY_MAX_LENGTH` variable is a **required** variable that takes
+**base64** values, with these constraints:
 
 - Must have a maximum decoded length of 3
 
@@ -89,7 +93,8 @@ export AUSTENITE_BINARY_MAX_LENGTH=YWJj # example
 
 _Example binary with minimum length constraint_
 
-The `AUSTENITE_BINARY_MIN_LENGTH` variable is a **required** variable that takes **base64** values, with these constraints:
+The `AUSTENITE_BINARY_MIN_LENGTH` variable is a **required** variable that takes
+**base64** values, with these constraints:
 
 - Must have a minimum decoded length of 2
 
@@ -103,7 +108,8 @@ export AUSTENITE_BINARY_MIN_LENGTH=YWI= # example
 
 _Custom variable_
 
-The `AUSTENITE_CUSTOM` variable is a **required** variable that takes **string** values, with these constraints:
+The `AUSTENITE_CUSTOM` variable is a **required** variable that takes **string**
+values, with these constraints:
 
 - Must start with a greeting
 - Must end with a subject
@@ -118,7 +124,8 @@ export AUSTENITE_CUSTOM='Hello, world!' # example
 
 _Example duration with maximum constraint_
 
-The `AUSTENITE_DURATION_MAX` variable is a **required** variable that takes **ISO 8601 duration** values, with these constraints:
+The `AUSTENITE_DURATION_MAX` variable is a **required** variable that takes
+**ISO 8601 duration** values, with these constraints:
 
 - Must be <= PT2S
 
@@ -132,7 +139,8 @@ export AUSTENITE_DURATION_MAX=PT2S # example
 
 _Example duration with minimum constraint_
 
-The `AUSTENITE_DURATION_MIN` variable is a **required** variable that takes **ISO 8601 duration** values, with these constraints:
+The `AUSTENITE_DURATION_MIN` variable is a **required** variable that takes
+**ISO 8601 duration** values, with these constraints:
 
 - Must be >= PT1S
 
@@ -146,7 +154,8 @@ export AUSTENITE_DURATION_MIN=PT1S # example
 
 _Example duration with range constraint_
 
-The `AUSTENITE_DURATION_RANGE` variable is a **required** variable that takes **ISO 8601 duration** values, with these constraints:
+The `AUSTENITE_DURATION_RANGE` variable is a **required** variable that takes
+**ISO 8601 duration** values, with these constraints:
 
 - Must be >= PT3S and <= PT4S
 
@@ -160,7 +169,8 @@ export AUSTENITE_DURATION_RANGE=PT3S # example
 
 _Example enumeration with minimum constraint_
 
-The `AUSTENITE_ENUMERATION_MIN` variable is a **required** variable that takes `foo`, `bar`, or `baz`, with these constraints:
+The `AUSTENITE_ENUMERATION_MIN` variable is a **required** variable that takes
+`foo`, `bar`, or `baz`, with these constraints:
 
 - Must be >= bar
 
@@ -174,7 +184,8 @@ export AUSTENITE_ENUMERATION_MIN=bar # example
 
 _Example big integer with maximum constraint_
 
-The `AUSTENITE_INTEGER_BIG_MAX` variable is a **required** variable that takes **big integer** values, with these constraints:
+The `AUSTENITE_INTEGER_BIG_MAX` variable is a **required** variable that takes
+**big integer** values, with these constraints:
 
 - Must be <= 2
 
@@ -188,7 +199,8 @@ export AUSTENITE_INTEGER_BIG_MAX=2 # example
 
 _Example big integer with minimum constraint_
 
-The `AUSTENITE_INTEGER_BIG_MIN` variable is a **required** variable that takes **big integer** values, with these constraints:
+The `AUSTENITE_INTEGER_BIG_MIN` variable is a **required** variable that takes
+**big integer** values, with these constraints:
 
 - Must be >= 1
 
@@ -202,7 +214,8 @@ export AUSTENITE_INTEGER_BIG_MIN=1 # example
 
 _Example big integer with range constraint_
 
-The `AUSTENITE_INTEGER_BIG_RANGE` variable is a **required** variable that takes **big integer** values, with these constraints:
+The `AUSTENITE_INTEGER_BIG_RANGE` variable is a **required** variable that takes
+**big integer** values, with these constraints:
 
 - Must be >= 3 and <= 4
 
@@ -216,7 +229,8 @@ export AUSTENITE_INTEGER_BIG_RANGE=3 # example
 
 _Example integer with maximum constraint_
 
-The `AUSTENITE_INTEGER_MAX` variable is a **required** variable that takes **integer** values, with these constraints:
+The `AUSTENITE_INTEGER_MAX` variable is a **required** variable that takes
+**integer** values, with these constraints:
 
 - Must be <= 2
 
@@ -230,7 +244,8 @@ export AUSTENITE_INTEGER_MAX=2 # example
 
 _Example integer with minimum constraint_
 
-The `AUSTENITE_INTEGER_MIN` variable is a **required** variable that takes **integer** values, with these constraints:
+The `AUSTENITE_INTEGER_MIN` variable is a **required** variable that takes
+**integer** values, with these constraints:
 
 - Must be >= 1
 
@@ -244,7 +259,8 @@ export AUSTENITE_INTEGER_MIN=1 # example
 
 _Example integer with range constraint_
 
-The `AUSTENITE_INTEGER_RANGE` variable is a **required** variable that takes **integer** values, with these constraints:
+The `AUSTENITE_INTEGER_RANGE` variable is a **required** variable that takes
+**integer** values, with these constraints:
 
 - Must be >= 3 and <= 4
 
@@ -258,7 +274,8 @@ export AUSTENITE_INTEGER_RANGE=3 # example
 
 _Example number with inclusive maximum constraint_
 
-The `AUSTENITE_NUMBER_MAX` variable is a **required** variable that takes **number** values, with these constraints:
+The `AUSTENITE_NUMBER_MAX` variable is a **required** variable that takes
+**number** values, with these constraints:
 
 - Must be <= 3
 
@@ -272,7 +289,8 @@ export AUSTENITE_NUMBER_MAX=3 # example
 
 _Example number with exclusive maximum constraint_
 
-The `AUSTENITE_NUMBER_MAX_EXCLUSIVE` variable is a **required** variable that takes **number** values, with these constraints:
+The `AUSTENITE_NUMBER_MAX_EXCLUSIVE` variable is a **required** variable that
+takes **number** values, with these constraints:
 
 - Must be < 4
 
@@ -286,7 +304,8 @@ export AUSTENITE_NUMBER_MAX_EXCLUSIVE=3.9 # example
 
 _Example number with inclusive minimum constraint_
 
-The `AUSTENITE_NUMBER_MIN` variable is a **required** variable that takes **number** values, with these constraints:
+The `AUSTENITE_NUMBER_MIN` variable is a **required** variable that takes
+**number** values, with these constraints:
 
 - Must be >= 1
 
@@ -300,7 +319,8 @@ export AUSTENITE_NUMBER_MIN=1 # example
 
 _Example number with exclusive minimum constraint_
 
-The `AUSTENITE_NUMBER_MIN_EXCLUSIVE` variable is a **required** variable that takes **number** values, with these constraints:
+The `AUSTENITE_NUMBER_MIN_EXCLUSIVE` variable is a **required** variable that
+takes **number** values, with these constraints:
 
 - Must be > 2
 
@@ -314,7 +334,8 @@ export AUSTENITE_NUMBER_MIN_EXCLUSIVE=2.1 # example
 
 _Example number with range constraint_
 
-The `AUSTENITE_NUMBER_RANGE` variable is a **required** variable that takes **number** values, with these constraints:
+The `AUSTENITE_NUMBER_RANGE` variable is a **required** variable that takes
+**number** values, with these constraints:
 
 - Must be >= 5 and < 6
 
@@ -328,7 +349,8 @@ export AUSTENITE_NUMBER_RANGE=5.5 # example
 
 _Example port number with maximum constraint_
 
-The `AUSTENITE_PORT_NUMBER_MAX` variable is a **required** variable that takes **port number** values, with these constraints:
+The `AUSTENITE_PORT_NUMBER_MAX` variable is a **required** variable that takes
+**port number** values, with these constraints:
 
 - Must be <= 22222
 
@@ -342,7 +364,8 @@ export AUSTENITE_PORT_NUMBER_MAX=22222 # example
 
 _Example port number with minimum constraint_
 
-The `AUSTENITE_PORT_NUMBER_MIN` variable is a **required** variable that takes **port number** values, with these constraints:
+The `AUSTENITE_PORT_NUMBER_MIN` variable is a **required** variable that takes
+**port number** values, with these constraints:
 
 - Must be >= 11111
 
@@ -356,7 +379,8 @@ export AUSTENITE_PORT_NUMBER_MIN=11111 # example
 
 _Example port number with range constraint_
 
-The `AUSTENITE_PORT_NUMBER_RANGE` variable is a **required** variable that takes **port number** values, with these constraints:
+The `AUSTENITE_PORT_NUMBER_RANGE` variable is a **required** variable that takes
+**port number** values, with these constraints:
 
 - Must be >= 33333 and <= 44444
 
@@ -370,7 +394,8 @@ export AUSTENITE_PORT_NUMBER_RANGE=33333 # example
 
 _Example string with length constraint_
 
-The `AUSTENITE_STRING_LENGTH` variable is a **required** variable that takes **string** values, with these constraints:
+The `AUSTENITE_STRING_LENGTH` variable is a **required** variable that takes
+**string** values, with these constraints:
 
 - Must have a length of 1
 
@@ -384,7 +409,8 @@ export AUSTENITE_STRING_LENGTH=a # example
 
 _Example string with length range constraint_
 
-The `AUSTENITE_STRING_LENGTH_RANGE` variable is a **required** variable that takes **string** values, with these constraints:
+The `AUSTENITE_STRING_LENGTH_RANGE` variable is a **required** variable that
+takes **string** values, with these constraints:
 
 - Must have a length between 4 and 5
 
@@ -398,7 +424,8 @@ export AUSTENITE_STRING_LENGTH_RANGE=abcd # example
 
 _Example string with maximum length constraint_
 
-The `AUSTENITE_STRING_MAX_LENGTH` variable is a **required** variable that takes **string** values, with these constraints:
+The `AUSTENITE_STRING_MAX_LENGTH` variable is a **required** variable that takes
+**string** values, with these constraints:
 
 - Must have a maximum length of 3
 
@@ -412,7 +439,8 @@ export AUSTENITE_STRING_MAX_LENGTH=abc # example
 
 _Example string with minimum length constraint_
 
-The `AUSTENITE_STRING_MIN_LENGTH` variable is a **required** variable that takes **string** values, with these constraints:
+The `AUSTENITE_STRING_MIN_LENGTH` variable is a **required** variable that takes
+**string** values, with these constraints:
 
 - Must have a minimum length of 2
 
@@ -426,7 +454,8 @@ export AUSTENITE_STRING_MIN_LENGTH=ab # example
 
 _Example URL with protocols constraint_
 
-The `AUSTENITE_URL_ABSOLUTE` variable is a **required** variable that takes **absolute URL** values, with these constraints:
+The `AUSTENITE_URL_ABSOLUTE` variable is a **required** variable that takes
+**absolute URL** values, with these constraints:
 
 - Protocol must be `https:`
 
@@ -440,7 +469,9 @@ export AUSTENITE_URL_ABSOLUTE=https://example.org/path/to/resource # example
 
 _Example URL with base URL and protocols constraint_
 
-The `AUSTENITE_URL_BASE` variable is a **required** variable that takes **absolute URL** values, or **relative URL** values relative to `https://example.org/path/to/`, with these constraints:
+The `AUSTENITE_URL_BASE` variable is a **required** variable that takes
+**absolute URL** values, or **relative URL** values relative to
+`https://example.org/path/to/`, with these constraints:
 
 - Protocol must be `https:`
 
