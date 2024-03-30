@@ -10,6 +10,10 @@ Versioning].
 
 ## Unreleased
 
+### Fixed
+
+- Removed unused `mdast` dependency.
+
 ## [v0.10.0] - 2024-03-30
 
 [v0.10.0]: https://github.com/ezzatron/austenite/releases/tag/v0.10.0
