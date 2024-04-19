@@ -37,7 +37,7 @@ import { initialize } from "austenite";
 import { cdnUrl, isDebug } from "./env.ts";
 
 // validates the environment, option defaults shown here
-initialize({
+await initialize({
   // set to "none" to disable Markdown pretty-printing
   markdownPrettyPrint: "prettier",
 });
