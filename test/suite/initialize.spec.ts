@@ -12,7 +12,7 @@ describe("initialize()", () => {
   beforeEach(() => {
     exitCode = undefined;
     vi.spyOn(process, "exit").mockImplementation((code) => {
-      exitCode = code ?? 0;
+      exitCode = (code ?? 0) as number;
 
       return undefined as never;
     });
