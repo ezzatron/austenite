@@ -1,6 +1,6 @@
 import { Console } from "console";
 import { Transform } from "stream";
-import { Mock, vi } from "vitest";
+import { vi } from "vitest";
 
 export function noop() {
   return;
@@ -14,14 +14,26 @@ export function createMockConsole() {
       cb(null, chunk);
     },
   });
-  const readStdout = () => String(stdout.read() ?? "");
+  const readStdout = () => {
+    const buffer = stdout.read() as Buffer | null;
+
+    if (buffer == null) return "";
+
+    return stripANSI(String(buffer));
+  };
 
   const stderr = new Transform({
     transform(chunk, _, cb) {
       cb(null, chunk);
     },
   });
-  const readStderr = () => String(stderr.read() ?? "");
+  const readStderr = () => {
+    const buffer = stderr.read() as Buffer | null;
+
+    if (buffer == null) return "";
+
+    return stripANSI(String(buffer));
+  };
 
   const mockConsole = new Console({ stdout, stderr });
 
@@ -35,18 +47,7 @@ export function createMockConsole() {
   return { readStdout, readStderr };
 }
 
-type Procedure = (...args: never[]) => void;
-export type Mocked<T extends Procedure = Procedure> = Mock<
-  Parameters<T>,
-  ReturnType<T>
->;
-
-export function mockFn<T extends Procedure = Procedure>(): Mocked<T>;
-export function mockFn<T extends Procedure = Procedure>(
-  implementation: T,
-): Mocked<T>;
-export function mockFn<T extends Procedure = Procedure>(
-  implementation?: T,
-): Mocked<T> {
-  return vi.fn(implementation as T) as unknown as Mocked<T>;
+function stripANSI(output: string): string {
+  // eslint-disable-next-line no-control-regex
+  return output.replace(/\u001b\[\d+m/g, "");
 }

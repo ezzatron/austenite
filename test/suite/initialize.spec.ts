@@ -1,9 +1,9 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi, type Mock } from "vitest";
 import { Declaration, Options } from "../../src/declaration.js";
 import { NotSetError } from "../../src/error.js";
 import { OnInvalid, boolean, initialize, string } from "../../src/index.js";
 import { Results } from "../../src/validation.js";
-import { MockConsole, Mocked, createMockConsole, mockFn } from "../helpers.js";
+import { MockConsole, createMockConsole } from "../helpers.js";
 
 describe("initialize()", () => {
   let exitCode: number | undefined;
@@ -46,10 +46,10 @@ describe("initialize()", () => {
     });
 
     describe("when a custom invalid environment handler is specified", () => {
-      let onInvalid: Mocked<OnInvalid>;
+      let onInvalid: Mock<OnInvalid>;
 
       beforeEach(() => {
-        onInvalid = mockFn();
+        onInvalid = vi.fn();
       });
 
       it("does not call the handler", async () => {
