@@ -11,3 +11,5 @@ jobs:
     name: Ezzatron
     uses: ezzatron/repos/.github/workflows/shared-publish-package-npm.yml@main
     secrets: inherit
+    permissions:
+      id-token: write
