@@ -20,8 +20,8 @@ JS_SKYPACK_PACKAGE_CHECK_REQ += artifacts/dist
 ################################################################################
 
 .PHONY: run-example
-run-example: artifacts/link-dependencies.touch
-	source test/fixture/example/invalid-values.sh; node --loader ts-node/esm test/fixture/example/run.ts
+run-example: artifacts/link-dependencies.touch artifacts/dist
+	source test/fixture/example/invalid-values.sh; node test/fixture/example/run.js
 
 .PHONY: copy-example
 copy-example: artifacts/link-dependencies.touch
@@ -53,5 +53,5 @@ artifacts/dist/esm: tsconfig.build.esm.json tsconfig.json artifacts/link-depende
 	echo '{"type":"module"}' > "$@/package.json"
 	@touch "$@"
 
-ENVIRONMENT.md: artifacts/link-dependencies.touch $(JS_SOURCE_FILES) $(JS_TEST_FILES)
+ENVIRONMENT.md: artifacts/link-dependencies.touch artifacts/dist $(JS_SOURCE_FILES) $(JS_TEST_FILES)
 	AUSTENITE_SPEC=true AUSTENITE_APP=example node test/fixture/example/run.js > "$@"
