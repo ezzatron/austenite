@@ -18,6 +18,19 @@ module.exports = {
     node: true,
   },
   rules: {
+    "import/no-nodejs-modules": [
+      "error",
+      {
+        allow: [
+          "node:buffer",
+          "node:console",
+          "node:os",
+          "node:path",
+          "node:stream",
+          "node:url",
+        ],
+      },
+    ],
     "no-unused-vars": [
       "error",
       {

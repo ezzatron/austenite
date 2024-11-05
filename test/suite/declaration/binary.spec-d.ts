@@ -1,4 +1,4 @@
-import { Buffer } from "buffer";
+import { Buffer } from "node:buffer";
 import { describe, expectTypeOf, it } from "vitest";
 import { binary } from "../../../src/index.js";
 import { initialize } from "../../../src/node.js";

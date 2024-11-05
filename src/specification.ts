@@ -2,7 +2,7 @@ import type { PhrasingContent, RootContent, TableRow } from "mdast";
 import { fromMarkdown } from "mdast-util-from-markdown";
 import { gfmToMarkdown } from "mdast-util-gfm";
 import { toMarkdown } from "mdast-util-to-markdown";
-import { basename, join } from "path";
+import { basename, join } from "node:path";
 import {
   extrinsicConstraints,
   type ExtrinsicConstraint,

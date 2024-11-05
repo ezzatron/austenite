@@ -1,4 +1,4 @@
-import { EOL } from "os";
+import { EOL } from "node:os";
 import { state, variablesByName } from "./environment.js";
 import {
   render as renderSpecification,

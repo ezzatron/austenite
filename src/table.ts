@@ -1,4 +1,4 @@
-import { EOL } from "os";
+import { EOL } from "node:os";
 
 const segmenter = new Intl.Segmenter();
 

@@ -1,5 +1,5 @@
-import { Console } from "console";
-import { Transform } from "stream";
+import { Console } from "node:console";
+import { Transform } from "node:stream";
 import { vi } from "vitest";
 
 export function noop() {
