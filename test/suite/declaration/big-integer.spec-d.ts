@@ -1,6 +1,6 @@
+import { bigInteger } from "austenite";
+import { initialize } from "austenite/node";
 import { describe, expectTypeOf, it } from "vitest";
-import { bigInteger } from "../../../src/index.js";
-import { initialize } from "../../../src/node.js";
 import { noop } from "../../helpers.js";
 
 describe("Big integer declarations", () => {

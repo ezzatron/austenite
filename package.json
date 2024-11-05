@@ -96,6 +96,7 @@
     "publint": "^0.2.12",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4",
+    "vite-tsconfig-paths": "^5.1.0",
     "vitest": "^2.0.0"
   }
 }

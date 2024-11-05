@@ -1,6 +1,6 @@
+import { networkPortNumber } from "austenite";
+import { initialize } from "austenite/node";
 import { describe, expectTypeOf, it } from "vitest";
-import { networkPortNumber } from "../../../src/index.js";
-import { initialize } from "../../../src/node.js";
 import { noop } from "../../helpers.js";
 
 describe("Network port number declarations", () => {

@@ -1,3 +1,5 @@
+import { binary, string } from "austenite";
+import { initialize } from "austenite/node";
 import { beforeEach, describe, expect, it } from "vitest";
 import type { LengthConstraintSpec } from "../../../src/constraint/length.js";
 import type { Declaration, Options } from "../../../src/declaration.js";
@@ -5,8 +7,6 @@ import type {
   DeclarationExampleOptions,
   Example,
 } from "../../../src/example.js";
-import { binary, string } from "../../../src/index.js";
-import { initialize } from "../../../src/node.js";
 import { toString } from "../../../src/schema.js";
 import { noop } from "../../helpers.js";
 

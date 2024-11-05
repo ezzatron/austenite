@@ -1,4 +1,12 @@
 import { Temporal } from "@js-temporal/polyfill";
+import {
+  bigInteger,
+  duration,
+  integer,
+  networkPortNumber,
+  number,
+} from "austenite";
+import { initialize } from "austenite/node";
 import { beforeEach, describe, expect, it } from "vitest";
 import {
   createDurationRangeConstraint,
@@ -9,14 +17,6 @@ import type {
   DeclarationExampleOptions,
   Example,
 } from "../../../src/example.js";
-import {
-  bigInteger,
-  duration,
-  integer,
-  networkPortNumber,
-  number,
-} from "../../../src/index.js";
-import { initialize } from "../../../src/node.js";
 import { noop } from "../../helpers.js";
 
 const { Duration } = Temporal;

@@ -1,7 +1,7 @@
+import { binary } from "austenite";
+import { initialize } from "austenite/node";
 import { Buffer } from "node:buffer";
 import { describe, expectTypeOf, it } from "vitest";
-import { binary } from "../../../src/index.js";
-import { initialize } from "../../../src/node.js";
 import { noop } from "../../helpers.js";
 
 describe("Binary declarations", () => {

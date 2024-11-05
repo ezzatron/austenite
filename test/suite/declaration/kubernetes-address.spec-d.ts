@@ -1,6 +1,6 @@
+import { KubernetesAddress, kubernetesAddress } from "austenite";
+import { initialize } from "austenite/node";
 import { describe, expectTypeOf, it } from "vitest";
-import { KubernetesAddress, kubernetesAddress } from "../../../src/index.js";
-import { initialize } from "../../../src/node.js";
 import { noop } from "../../helpers.js";
 
 describe("Kubernetes address declarations", () => {

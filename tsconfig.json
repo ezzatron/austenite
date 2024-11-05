@@ -5,6 +5,10 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "noEmitOnError": true,
+    "paths": {
+      "austenite": ["./src/index.ts"],
+      "austenite/node": ["./src/node.ts"]
+    },
     "sourceMap": true,
     "strict": true,
     "target": "ESNext"

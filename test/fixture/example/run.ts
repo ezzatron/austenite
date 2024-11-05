@@ -1,4 +1,4 @@
-import { initialize } from "../../../src/node.js";
+import { initialize } from "austenite/node";
 import {
   cdnUrl,
   earthAtomCount,

@@ -1,5 +1,5 @@
+import { integer } from "austenite";
 import { describe, expect, it } from "vitest";
-import { integer } from "../../src/index.js";
 
 describe("Examples", () => {
   describe("when a declaration example violates an intrinsic constraint", () => {

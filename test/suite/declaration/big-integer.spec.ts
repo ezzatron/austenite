@@ -1,8 +1,8 @@
+import { bigInteger } from "austenite";
+import { initialize } from "austenite/node";
 import { beforeEach, describe, expect, it } from "vitest";
 import { Declaration } from "../../../src/declaration.js";
 import { Options } from "../../../src/declaration/big-integer.js";
-import { bigInteger } from "../../../src/index.js";
-import { initialize } from "../../../src/node.js";
 import { noop } from "../../helpers.js";
 
 const validValueTable = [

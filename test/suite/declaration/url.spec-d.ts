@@ -1,6 +1,6 @@
+import { url } from "austenite";
+import { initialize } from "austenite/node";
 import { describe, expectTypeOf, it } from "vitest";
-import { url } from "../../../src/index.js";
-import { initialize } from "../../../src/node.js";
 import { noop } from "../../helpers.js";
 
 describe("URL declarations", () => {

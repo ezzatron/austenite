@@ -1,3 +1,5 @@
+import { url } from "austenite";
+import { initialize } from "austenite/node";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
@@ -9,8 +11,6 @@ import {
   it,
   vi,
 } from "vitest";
-import { url } from "../../src/index.js";
-import { initialize } from "../../src/node.js";
 import { MockConsole, createMockConsole } from "../helpers.js";
 
 const fixturesPath = fileURLToPath(

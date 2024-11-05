@@ -1,6 +1,6 @@
+import { enumeration } from "austenite";
+import { initialize } from "austenite/node";
 import { describe, expectTypeOf, it } from "vitest";
-import { enumeration } from "../../../src/index.js";
-import { initialize } from "../../../src/node.js";
 import { noop } from "../../helpers.js";
 
 describe("Enumeration declarations", () => {
