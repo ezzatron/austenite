@@ -38,7 +38,6 @@ describe("Specification documents (Prettier unavailable)", () => {
 
   describe("when Prettier is not installed", () => {
     beforeAll(() => {
-      // eslint-disable-next-line @typescript-eslint/require-await
       vi.doMock("prettier", async () => {
         throw new Error('Cannot find module "prettier"');
       });
@@ -63,14 +62,12 @@ describe("Specification documents (Prettier unavailable)", () => {
 
   describe("when Prettier is installed but not configured", () => {
     beforeAll(() => {
-      // eslint-disable-next-line @typescript-eslint/require-await
       vi.doMock("prettier", async () => {
         const prettier = await vi.importActual("prettier");
 
         return {
           ...prettier,
 
-          // eslint-disable-next-line @typescript-eslint/require-await
           async resolveConfig() {
             return null;
           },
