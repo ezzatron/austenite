@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "declarationDir": "artifacts/dist/types",
     "esModuleInterop": true,
     "module": "NodeNext",
     "moduleResolution": "NodeNext",

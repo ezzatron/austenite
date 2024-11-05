@@ -1,6 +1,7 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
+    "declarationDir": "artifacts/dist/cjs",
     "module": "CommonJS",
     "moduleResolution": "node",
     "outDir": "artifacts/dist/cjs"

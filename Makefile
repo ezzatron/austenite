@@ -1,9 +1,16 @@
 CHANGELOG_TAG_URL_PREFIX := https://github.com/ezzatron/austenite/releases/tag/
 GENERATED_FILES += ENVIRONMENT.md
 
+JS_ARETHETYPESWRONG_REQ += artifacts/dist
+JS_PUBLINT_REQ += artifacts/dist
+JS_SKYPACK_PACKAGE_CHECK_REQ += artifacts/dist
+
 -include .makefiles/Makefile
 -include .makefiles/pkg/js/v1/Makefile
 -include .makefiles/pkg/js/v1/with-npm.mk
+-include .makefiles/pkg/js/v1/with-arethetypeswrong.mk
+-include .makefiles/pkg/js/v1/with-publint.mk
+-include .makefiles/pkg/js/v1/with-skypack-package-check.mk
 -include .makefiles/pkg/js/v1/with-tsc.mk
 -include .makefiles/pkg/changelog/v1/Makefile
 
