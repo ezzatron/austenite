@@ -37,6 +37,20 @@
         "types": "./artifacts/dist/esm/index.d.ts",
         "default": "./artifacts/dist/esm/index.js"
       }
+    },
+    "./node": {
+      "import": {
+        "types": "./artifacts/dist/esm/node.d.ts",
+        "default": "./artifacts/dist/esm/node.js"
+      },
+      "require": {
+        "types": "./artifacts/dist/cjs/node.d.ts",
+        "default": "./artifacts/dist/cjs/node.js"
+      },
+      "default": {
+        "types": "./artifacts/dist/esm/node.d.ts",
+        "default": "./artifacts/dist/esm/node.js"
+      }
     }
   },
   "sideEffects": false,

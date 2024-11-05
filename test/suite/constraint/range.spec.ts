@@ -12,11 +12,11 @@ import type {
 import {
   bigInteger,
   duration,
-  initialize,
   integer,
   networkPortNumber,
   number,
 } from "../../../src/index.js";
+import { initialize } from "../../../src/node.js";
 import { noop } from "../../helpers.js";
 
 const { Duration } = Temporal;

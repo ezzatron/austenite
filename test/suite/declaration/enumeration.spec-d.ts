@@ -1,5 +1,6 @@
 import { describe, expectTypeOf, it } from "vitest";
-import { enumeration, initialize } from "../../../src/index.js";
+import { enumeration } from "../../../src/index.js";
+import { initialize } from "../../../src/node.js";
 import { noop } from "../../helpers.js";
 
 describe("Enumeration declarations", () => {

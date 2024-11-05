@@ -1,7 +1,8 @@
 import { beforeEach, describe, expect, it, vi, type Mock } from "vitest";
 import { Declaration, Options } from "../../src/declaration.js";
 import { NotSetError } from "../../src/error.js";
-import { OnInvalid, boolean, initialize, string } from "../../src/index.js";
+import { boolean, string } from "../../src/index.js";
+import { OnInvalid, initialize } from "../../src/node.js";
 import { Results } from "../../src/validation.js";
 import { MockConsole, createMockConsole } from "../helpers.js";
 

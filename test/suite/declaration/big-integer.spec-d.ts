@@ -1,5 +1,6 @@
 import { describe, expectTypeOf, it } from "vitest";
-import { bigInteger, initialize } from "../../../src/index.js";
+import { bigInteger } from "../../../src/index.js";
+import { initialize } from "../../../src/node.js";
 import { noop } from "../../helpers.js";
 
 describe("Big integer declarations", () => {

@@ -1,11 +1,8 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { Declaration } from "../../../src/declaration.js";
 import { Options } from "../../../src/declaration/kubernetes-address.js";
-import {
-  KubernetesAddress,
-  initialize,
-  kubernetesAddress,
-} from "../../../src/index.js";
+import { KubernetesAddress, kubernetesAddress } from "../../../src/index.js";
+import { initialize } from "../../../src/node.js";
 import { quote } from "../../../src/shell.js";
 import { noop } from "../../helpers.js";
 

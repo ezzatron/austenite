@@ -1,5 +1,6 @@
 import { describe, expectTypeOf, it } from "vitest";
-import { initialize, number } from "../../../src/index.js";
+import { number } from "../../../src/index.js";
+import { initialize } from "../../../src/node.js";
 import { noop } from "../../helpers.js";
 
 describe("Number declarations", () => {

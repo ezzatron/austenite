@@ -1,5 +1,6 @@
 import { describe, expectTypeOf, it } from "vitest";
-import { boolean, initialize } from "../../../src/index.js";
+import { boolean } from "../../../src/index.js";
+import { initialize } from "../../../src/node.js";
 import { noop } from "../../helpers.js";
 
 describe("Boolean declarations", () => {

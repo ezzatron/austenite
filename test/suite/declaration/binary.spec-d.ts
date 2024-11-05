@@ -1,6 +1,7 @@
 import { Buffer } from "buffer";
 import { describe, expectTypeOf, it } from "vitest";
-import { binary, initialize } from "../../../src/index.js";
+import { binary } from "../../../src/index.js";
+import { initialize } from "../../../src/node.js";
 import { noop } from "../../helpers.js";
 
 describe("Binary declarations", () => {

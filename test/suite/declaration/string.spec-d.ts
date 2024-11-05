@@ -1,5 +1,6 @@
 import { describe, expectTypeOf, it } from "vitest";
-import { initialize, string } from "../../../src/index.js";
+import { string } from "../../../src/index.js";
+import { initialize } from "../../../src/node.js";
 import { noop } from "../../helpers.js";
 
 describe("String declarations", () => {

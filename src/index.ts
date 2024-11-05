@@ -10,5 +10,3 @@ export { networkPortNumber } from "./declaration/network-port-number.js";
 export { number } from "./declaration/number.js";
 export { string } from "./declaration/string.js";
 export { url } from "./declaration/url.js";
-export { initialize } from "./environment.js";
-export type { OnInvalid } from "./environment.js";

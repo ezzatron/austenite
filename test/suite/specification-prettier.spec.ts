@@ -9,7 +9,8 @@ import {
   it,
   vi,
 } from "vitest";
-import { initialize, url } from "../../src/index.js";
+import { url } from "../../src/index.js";
+import { initialize } from "../../src/node.js";
 import { MockConsole, createMockConsole } from "../helpers.js";
 
 const fixturesPath = fileURLToPath(

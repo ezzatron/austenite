@@ -1,5 +1,6 @@
 import { describe, expectTypeOf, it } from "vitest";
-import { initialize, url } from "../../../src/index.js";
+import { url } from "../../../src/index.js";
+import { initialize } from "../../../src/node.js";
 import { noop } from "../../helpers.js";
 
 describe("URL declarations", () => {

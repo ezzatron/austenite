@@ -1,4 +1,4 @@
-import { initialize } from "../../../src/index.js";
+import { initialize } from "../../../src/node.js";
 import {
   cdnUrl,
   earthAtomCount,

@@ -8,7 +8,6 @@ import {
   boolean,
   duration,
   enumeration,
-  initialize,
   integer,
   kubernetesAddress,
   networkPortNumber,
@@ -16,6 +15,7 @@ import {
   string,
   url,
 } from "../../src/index.js";
+import { initialize } from "../../src/node.js";
 import { MockConsole, createMockConsole } from "../helpers.js";
 
 const fixturesPath = fileURLToPath(

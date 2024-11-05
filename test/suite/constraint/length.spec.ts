@@ -5,7 +5,8 @@ import type {
   DeclarationExampleOptions,
   Example,
 } from "../../../src/example.js";
-import { binary, initialize, string } from "../../../src/index.js";
+import { binary, string } from "../../../src/index.js";
+import { initialize } from "../../../src/node.js";
 import { toString } from "../../../src/schema.js";
 import { noop } from "../../helpers.js";
 

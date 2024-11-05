@@ -1,6 +1,7 @@
 import { Temporal } from "@js-temporal/polyfill";
 import { describe, expectTypeOf, it } from "vitest";
-import { duration, initialize } from "../../../src/index.js";
+import { duration } from "../../../src/index.js";
+import { initialize } from "../../../src/node.js";
 import { noop } from "../../helpers.js";
 
 const { Duration } = Temporal;
