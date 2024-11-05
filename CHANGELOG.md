@@ -10,6 +10,32 @@ Versioning].
 
 ## Unreleased
 
+## [v0.11.0] - 2024-11-05
+
+[v0.11.0]: https://github.com/ezzatron/austenite/releases/tag/v0.11.0
+
+### Changed
+
+- **\[BREAKING\]** The `initialize()` function has moved to the `austenite/node`
+  sub-path export. You can now import it from `austenite/node` instead of
+  `austenite`.
+
+### Fixed
+
+- This library now works better with Next.js. Previously Next.js would complain
+  about various imports that were incompatible with the Edge Runtime. This has
+  been improved in two ways:
+  - The `initialize()` function, which uses some Node.js APIs, has been moved to
+    the `austenite/node` sub-path export. Importing declaration functions from
+    the main `austenite` module will no longer cause these Node.js APIs to be
+    included in the Next.js server bundle.
+  - Any remaining Node.js API imports have been updated to use the `node:`
+    protocol, which allows Next.js to provide Edge Runtime polyfills. An example
+    of this is the use of the `buffer` module, which is essential for `binary()`
+    declarations, and can only be polyfilled by Next.js when imported as
+    `node:buffer`.
+- Fixed incorrect CommonJS type definitions.
+
 ## [v0.10.1] - 2024-03-30
 
 [v0.10.1]: https://github.com/ezzatron/austenite/releases/tag/v0.10.1
