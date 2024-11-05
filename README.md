@@ -33,7 +33,7 @@ export const isDebug = boolean(
 
 ```ts
 // run.ts - starts the service/app, uses declarations from above
-import { initialize } from "austenite";
+import { initialize } from "austenite/node";
 import { cdnUrl, isDebug } from "./env.ts";
 
 // validates the environment, option defaults shown here
