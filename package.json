@@ -1,7 +1,7 @@
 {
   "name": "austenite",
   "version": "0.0.0",
-  "description": "Declarative environment variables for Node.js.",
+  "description": "Declarative environment variables for TypeScript.",
   "keywords": [
     "environment",
     "env",

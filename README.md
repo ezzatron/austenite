@@ -1,6 +1,6 @@
 # Austenite
 
-_Declarative environment variables for Node.js._
+_Declarative environment variables for TypeScript._
 
 [![Current version][badge-version-image]][badge-version-link]
 [![Build status][badge-build-image]][badge-build-link]
