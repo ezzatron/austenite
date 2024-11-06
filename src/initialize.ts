@@ -1,9 +1,6 @@
 import { EOL } from "node:os";
 import { state, variablesByName } from "./environment.js";
-import {
-  render as renderSpecification,
-  type MarkdownPrettyPrintType,
-} from "./specification.js";
+import type { MarkdownPrettyPrintType } from "./specification.js";
 import { render as renderSummary } from "./summary.js";
 import { validate, type Results } from "./validation.js";
 
@@ -12,6 +9,8 @@ export async function initialize(
 ): Promise<void> {
   if (process.env.AUSTENITE_SPEC === "true") {
     const { markdownPrettyPrint = "prettier" } = options;
+    const { render: renderSpecification } = await import("./specification.js");
+
     console.log(
       await renderSpecification(markdownPrettyPrint, variablesByName()),
     );
