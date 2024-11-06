@@ -10,6 +10,16 @@ Versioning].
 
 ## Unreleased
 
+## [v0.11.1] - 2024-11-06
+
+[v0.11.1]: https://github.com/ezzatron/austenite/releases/tag/v0.11.1
+
+### Fixed
+
+- Markdown spec generation code is now imported conditionally, so that build
+  tools can potentially exclude spec generation support from the final bundle
+  when it's not needed.
+
 ## [v0.11.0] - 2024-11-05
 
 [v0.11.0]: https://github.com/ezzatron/austenite/releases/tag/v0.11.0
