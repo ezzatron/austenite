@@ -71,11 +71,11 @@ Environment Variables:
 ❯ WEIGHT                      weighting for this node                       <integer>                                     ✗ set to 0, must be >= 1
 ```
 
-## Generated environment specifications
+## Generated usage documentation
 
-If the environment variable `AUSTENITE_SPEC` is set to `true`, calling
+If the environment variable `AUSTENITE_MODE` is set to `usage/markdown`, calling
 `initialize()` will terminate the process with a zero exit code, and output a
-Markdown document containing a specification of the environment variables
+Markdown document containing usage documentation for the environment variables
 consumed by each declaration.
 
 <!-- prettier-ignore-start -->
@@ -86,14 +86,14 @@ consumed by each declaration.
 <!-- prettier-ignore-start -->
 > [!TIP]
 > If you have the [`prettier` NPM package] installed, Austenite will
-> pretty-print specification output according to your Prettier config for a file
-> at `./ENVIRONMENT.md`.
+> pretty-print Markdown output according to your Prettier config for a file at
+> `./ENVIRONMENT.md`.
 >
 > If you have Prettier installed, but don't have a config file for
 > `./ENVIRONMENT.md`, Austenite will use its own default Prettier config.
 >
 > If you don't have Prettier installed, or if you set the `markdownPrettyPrint`
-> option to `"none"`, Austenite won't pretty-print specification output.
+> option to `"none"`, Austenite won't pretty-print Markdown output.
 <!-- prettier-ignore-end -->
 
 [`prettier` npm package]: https://npmjs.com/package/prettier

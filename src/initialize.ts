@@ -1,19 +1,17 @@
 import { EOL } from "node:os";
 import { state, variablesByName } from "./environment.js";
-import type { MarkdownPrettyPrintType } from "./specification.js";
 import { render as renderSummary } from "./summary.js";
+import type { MarkdownPrettyPrintType } from "./usage.js";
 import { validate, type Results } from "./validation.js";
 
 export async function initialize(
   options: InitializeOptions = {},
 ): Promise<void> {
-  if (process.env.AUSTENITE_SPEC === "true") {
+  if (process.env.AUSTENITE_MODE === "usage/markdown") {
     const { markdownPrettyPrint = "prettier" } = options;
-    const { render: renderSpecification } = await import("./specification.js");
+    const { render: renderUsage } = await import("./usage.js");
 
-    console.log(
-      await renderSpecification(markdownPrettyPrint, variablesByName()),
-    );
+    console.log(await renderUsage(markdownPrettyPrint, variablesByName()));
 
     // eslint-disable-next-line n/no-process-exit
     process.exit(0);

@@ -54,4 +54,4 @@ artifacts/dist/esm: tsconfig.build.esm.json tsconfig.json artifacts/link-depende
 	@touch "$@"
 
 ENVIRONMENT.md: artifacts/link-dependencies.touch artifacts/dist $(JS_SOURCE_FILES) $(JS_TEST_FILES)
-	AUSTENITE_SPEC=true AUSTENITE_APP=example node test/fixture/example/run.js > "$@"
+	AUSTENITE_MODE=usage/markdown AUSTENITE_APP=example node test/fixture/example/run.js > "$@"

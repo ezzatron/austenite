@@ -19,12 +19,12 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { MockConsole, createMockConsole } from "../helpers.js";
 
 const fixturesPath = fileURLToPath(
-  new URL("../fixture/specification", import.meta.url),
+  new URL("../fixture/usage", import.meta.url),
 );
 
 const { Duration } = Temporal;
 
-describe("Specification documents", () => {
+describe("Usage documentation", () => {
   let exitCode: number | undefined;
   let mockConsole: MockConsole;
 
@@ -37,7 +37,7 @@ describe("Specification documents", () => {
     });
 
     process.env = {
-      AUSTENITE_SPEC: "true",
+      AUSTENITE_MODE: "usage/markdown",
     };
 
     mockConsole = createMockConsole();

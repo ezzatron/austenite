@@ -14,10 +14,10 @@ import {
 import { MockConsole, createMockConsole } from "../helpers.js";
 
 const fixturesPath = fileURLToPath(
-  new URL("../fixture/specification", import.meta.url),
+  new URL("../fixture/usage", import.meta.url),
 );
 
-describe("Specification documents (Prettier unavailable)", () => {
+describe("Usage documentation (Prettier unavailable)", () => {
   let exitCode: number | undefined;
   let mockConsole: MockConsole;
 
@@ -30,7 +30,7 @@ describe("Specification documents (Prettier unavailable)", () => {
     });
 
     process.env = {
-      AUSTENITE_SPEC: "true",
+      AUSTENITE_MODE: "usage/markdown",
     };
 
     mockConsole = createMockConsole();

@@ -2,4 +2,4 @@
 /.makefiles/
 /artifacts/
 /CHANGELOG.md
-/test/fixture/specification/no-prettier/
+/test/fixture/usage/no-prettier/
