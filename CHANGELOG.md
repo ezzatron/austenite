@@ -10,6 +10,17 @@ Versioning].
 
 ## Unreleased
 
+## [v0.12.0] - 2024-11-08
+
+[v0.12.0]: https://github.com/ezzatron/austenite/releases/tag/v0.12.0
+
+### Changed
+
+- **\[BREAKING\]** In order to trigger Markdown usage generation, you must now
+  use `AUSTENITE_MODE=usage/markdown` instead of `AUSTENITE_SPEC=true`. This
+  allows for new modes to be added in the future without breaking existing
+  behavior, and more closely matches the behavior of Ferrite.
+
 ## [v0.11.1] - 2024-11-06
 
 [v0.11.1]: https://github.com/ezzatron/austenite/releases/tag/v0.11.1
