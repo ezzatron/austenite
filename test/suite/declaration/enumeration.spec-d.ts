@@ -82,6 +82,41 @@ describe("Enumeration declarations", () => {
     });
   });
 
+  describe('when declared with inline members that are not defined with "as const"', () => {
+    it("infers the declaration type from the members", () => {
+      const required = enumeration("AUSTENITE_ENUMERATION", "<description>", {
+        "<member-0>": {
+          value: 0,
+          description: "member 0",
+        },
+        "<member-1>": {
+          value: 1,
+          description: "member 1",
+        },
+      });
+      const optional = enumeration(
+        "AUSTENITE_ENUMERATION",
+        "<description>",
+        {
+          "<member-0>": {
+            value: 0,
+            description: "member 0",
+          },
+          "<member-1>": {
+            value: 1,
+            description: "member 1",
+          },
+        },
+        {
+          default: undefined,
+        },
+      );
+
+      expectTypeOf(required).toEqualTypeOf<Declaration<0 | 1>>();
+      expectTypeOf(optional).toEqualTypeOf<Declaration<0 | 1 | undefined>>();
+    });
+  });
+
   describe("when valid options are specified", () => {
     it("does not allow unknown options", () => {
       const declaration = enumeration(

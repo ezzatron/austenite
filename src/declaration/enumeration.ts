@@ -27,7 +27,7 @@ export type Options<T> = DeclarationOptions<T> &
   DeclarationConstraintOptions<T> &
   DeclarationExampleOptions<T>;
 
-export function enumeration<T, O extends Options<T>>(
+export function enumeration<const T, O extends Options<T>>(
   name: string,
   description: string,
   members: Members<T>,

@@ -15,6 +15,11 @@ Versioning].
 - Added a `Declaration<T>` type that can be used to explicitly type
   declarations.
 
+### Fixed
+
+- Enumeration declarations can now infer the value type when the `members`
+  argument is passed as an object without needing to use `as const`.
+
 ## [v0.12.0] - 2024-11-08
 
 [v0.12.0]: https://github.com/ezzatron/austenite/releases/tag/v0.12.0
