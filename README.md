@@ -885,6 +885,58 @@ export const readDsn = string(
 );
 ```
 
+### Explicit typing
+
+If you want to explicitly type your declarations, you can use the
+`Declaration<T>` type:
+
+```ts
+import { type Declaration } from "austenite";
+
+export const nodeEnv: Declaration<"development" | "production"> = enumeration(
+  "NODE_ENV",
+  "Node.js environment",
+  {
+    development: {
+      value: "development",
+      description: "the app is under active development",
+    },
+    production: {
+      value: "production",
+      description: "the app is running normally",
+    },
+  },
+  {
+    default: "development",
+  },
+);
+```
+
+If your declaration is optional, you must include `undefined` in the union type:
+
+```ts
+import { type Declaration } from "austenite";
+
+export const nodeEnv: Declaration<"development" | "production" | undefined> =
+  enumeration(
+    "NODE_ENV",
+    "Node.js environment",
+    {
+      development: {
+        value: "development",
+        description: "the app is under active development",
+      },
+      production: {
+        value: "production",
+        description: "the app is running normally",
+      },
+    },
+    {
+      default: undefined,
+    },
+  );
+```
+
 ## See also
 
 This package is heavily inspired by [Ferrite], which provides similar features

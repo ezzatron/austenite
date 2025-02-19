@@ -1,12 +1,12 @@
 import { string } from "austenite";
 import { initialize } from "austenite/node";
 import { beforeEach, describe, expect, it } from "vitest";
-import { Declaration } from "../../../src/declaration.js";
+import { DeclarationFromOptions } from "../../../src/declaration.js";
 import { Options } from "../../../src/declaration/string.js";
 import { noop } from "../../helpers.js";
 
 describe("String declarations", () => {
-  let declaration: Declaration<string, Options>;
+  let declaration: DeclarationFromOptions<string, Options>;
 
   describe("when no options are supplied", () => {
     beforeEach(async () => {

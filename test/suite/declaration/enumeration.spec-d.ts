@@ -1,4 +1,4 @@
-import { enumeration } from "austenite";
+import { enumeration, type Declaration } from "austenite";
 import { initialize } from "austenite/node";
 import { describe, expectTypeOf, it } from "vitest";
 import { noop } from "../../helpers.js";
@@ -20,6 +20,16 @@ describe("Enumeration declarations", () => {
   } as const;
 
   describe("when the declaration is required", () => {
+    it("returns a required declaration that has a union type of all member types", () => {
+      const declaration = enumeration(
+        "AUSTENITE_ENUMERATION",
+        "<description>",
+        members,
+      );
+
+      expectTypeOf(declaration).toEqualTypeOf<Declaration<0 | 1 | 2>>();
+    });
+
     describe(".value()", () => {
       it("returns a value that has a union type of all member types", async () => {
         const declaration = enumeration(
@@ -38,6 +48,21 @@ describe("Enumeration declarations", () => {
   });
 
   describe("when the declaration is optional", () => {
+    it("returns a optional declaration that has a union type of all member types", () => {
+      const declaration = enumeration(
+        "AUSTENITE_ENUMERATION",
+        "<description>",
+        members,
+        {
+          default: undefined,
+        },
+      );
+
+      expectTypeOf(declaration).toEqualTypeOf<
+        Declaration<0 | 1 | 2 | undefined>
+      >();
+    });
+
     describe(".value()", () => {
       it("returns a value that has a union type of all member types plus undefined", async () => {
         const declaration = enumeration(

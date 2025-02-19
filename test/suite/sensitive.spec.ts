@@ -1,13 +1,13 @@
 import { binary } from "austenite";
 import { initialize } from "austenite/node";
 import { beforeEach, describe, expect, it } from "vitest";
-import { Declaration } from "../../src/declaration.js";
+import { DeclarationFromOptions } from "../../src/declaration.js";
 import { Options } from "../../src/declaration/binary.js";
 import { noop } from "../helpers.js";
 
 describe("Sensitive declarations", () => {
   describe("when the value is not valid", () => {
-    let declaration: Declaration<Buffer, Options>;
+    let declaration: DeclarationFromOptions<Buffer, Options>;
 
     beforeEach(async () => {
       declaration = binary("AUSTENITE_BINARY", "<description>", {

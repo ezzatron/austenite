@@ -5,7 +5,7 @@ import {
 } from "../constraint.js";
 import { createURLProtocolConstraint } from "../constraint/url-protocol.js";
 import {
-  Declaration,
+  DeclarationFromOptions,
   Options as DeclarationOptions,
   Value,
   defaultFromOptions,
@@ -35,7 +35,7 @@ export function url<O extends Options>(
   name: string,
   description: string,
   options: ExactOptions<O, Options> = {} as ExactOptions<O, Options>,
-): Declaration<URL, O> {
+): DeclarationFromOptions<URL, O> {
   const { base, examples, isSensitive = false, protocols } = options;
 
   assertProtocols(name, protocols);

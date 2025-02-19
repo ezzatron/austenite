@@ -2,7 +2,7 @@ import type { DeclarationConstraintOptions } from "../constraint.js";
 import { createHostnameConstraint } from "../constraint/hostname.js";
 import { createNetworkPortNumberConstraint } from "../constraint/network-port-number.js";
 import {
-  Declaration,
+  DeclarationFromOptions,
   Options as DeclarationOptions,
   defaultFromOptions,
   type ExactOptions,
@@ -39,7 +39,7 @@ type KubernetesAddressExamples = {
 export function kubernetesAddress<O extends Options>(
   name: string,
   options: ExactOptions<O, Options> = {} as ExactOptions<O, Options>,
-): Declaration<KubernetesAddress, O> {
+): DeclarationFromOptions<KubernetesAddress, O> {
   const {
     constraints: customConstraints = [],
     examples: { host: hostExamples, port: portExamples } = {},

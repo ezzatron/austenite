@@ -1,7 +1,7 @@
 import { integer } from "austenite";
 import { initialize } from "austenite/node";
 import { beforeEach, describe, expect, it } from "vitest";
-import { Declaration } from "../../../src/declaration.js";
+import { DeclarationFromOptions } from "../../../src/declaration.js";
 import { Options } from "../../../src/declaration/integer.js";
 import { noop } from "../../helpers.js";
 
@@ -42,7 +42,7 @@ const invalidValueTable = [
 ];
 
 describe("Integer declarations", () => {
-  let declaration: Declaration<number, Options>;
+  let declaration: DeclarationFromOptions<number, Options>;
 
   describe("when no options are supplied", () => {
     beforeEach(async () => {

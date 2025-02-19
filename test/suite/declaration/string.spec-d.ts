@@ -1,10 +1,16 @@
-import { string } from "austenite";
+import { string, type Declaration } from "austenite";
 import { initialize } from "austenite/node";
 import { describe, expectTypeOf, it } from "vitest";
 import { noop } from "../../helpers.js";
 
 describe("String declarations", () => {
   describe("when the declaration is required", () => {
+    it("returns a required string declaration", () => {
+      const declaration = string("AUSTENITE_STRING", "<description>");
+
+      expectTypeOf(declaration).toEqualTypeOf<Declaration<string>>();
+    });
+
     describe(".value()", () => {
       it("returns a string value", async () => {
         const declaration = string("AUSTENITE_STRING", "<description>");
@@ -19,6 +25,16 @@ describe("String declarations", () => {
   });
 
   describe("when the declaration is optional", () => {
+    it("returns an optional string declaration", () => {
+      const declaration = string("AUSTENITE_STRING", "<description>", {
+        default: undefined,
+      });
+
+      expectTypeOf(declaration).toEqualTypeOf<
+        Declaration<string | undefined>
+      >();
+    });
+
     describe(".value()", () => {
       it("returns an optional string value", async () => {
         const declaration = string("AUSTENITE_STRING", "<description>", {

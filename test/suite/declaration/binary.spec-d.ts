@@ -1,4 +1,4 @@
-import { binary } from "austenite";
+import { binary, type Declaration } from "austenite";
 import { initialize } from "austenite/node";
 import { Buffer } from "node:buffer";
 import { describe, expectTypeOf, it } from "vitest";
@@ -6,6 +6,12 @@ import { noop } from "../../helpers.js";
 
 describe("Binary declarations", () => {
   describe("when the declaration is required", () => {
+    it("returns a required Buffer declaration", () => {
+      const declaration = binary("AUSTENITE_BINARY", "<description>");
+
+      expectTypeOf(declaration).toEqualTypeOf<Declaration<Buffer>>();
+    });
+
     describe(".value()", () => {
       it("returns a Buffer value", async () => {
         const declaration = binary("AUSTENITE_BINARY", "<description>");
@@ -20,8 +26,18 @@ describe("Binary declarations", () => {
   });
 
   describe("when the declaration is optional", () => {
+    it("returns an optional Buffer declaration", () => {
+      const declaration = binary("AUSTENITE_BINARY", "<description>", {
+        default: undefined,
+      });
+
+      expectTypeOf(declaration).toEqualTypeOf<
+        Declaration<Buffer | undefined>
+      >();
+    });
+
     describe(".value()", () => {
-      it("returns an optional Binary value", async () => {
+      it("returns an optional Buffer value", async () => {
         const declaration = binary("AUSTENITE_BINARY", "<description>", {
           default: undefined,
         });

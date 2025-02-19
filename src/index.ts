@@ -1,3 +1,4 @@
+export type { Declaration } from "./declaration.js";
 export { bigInteger } from "./declaration/big-integer.js";
 export { binary } from "./declaration/binary.js";
 export { boolean } from "./declaration/boolean.js";

@@ -1,6 +1,6 @@
 import type { DeclarationConstraintOptions } from "../constraint.js";
 import {
-  Declaration,
+  DeclarationFromOptions,
   Options as DeclarationOptions,
   Value,
   defaultFromOptions,
@@ -33,7 +33,7 @@ export function boolean<O extends Options>(
   name: string,
   description: string,
   options: ExactOptions<O, Options> = {} as ExactOptions<O, Options>,
-): Declaration<boolean, O> {
+): DeclarationFromOptions<boolean, O> {
   const { examples, isSensitive = false, literals = defaultLiterals } = options;
 
   const schema = createSchema(name, literals, options);

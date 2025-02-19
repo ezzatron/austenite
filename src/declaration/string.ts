@@ -7,7 +7,7 @@ import {
   type LengthConstraintSpec,
 } from "../constraint/length.js";
 import {
-  Declaration,
+  DeclarationFromOptions,
   Options as DeclarationOptions,
   Value,
   defaultFromOptions,
@@ -33,7 +33,7 @@ export function string<O extends Options>(
   name: string,
   description: string,
   options: ExactOptions<O, Options> = {} as ExactOptions<O, Options>,
-): Declaration<string, O> {
+): DeclarationFromOptions<string, O> {
   const { examples, isSensitive = false } = options;
 
   const def = defaultFromOptions(options);

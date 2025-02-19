@@ -2,7 +2,10 @@ import { binary, string } from "austenite";
 import { initialize } from "austenite/node";
 import { beforeEach, describe, expect, it } from "vitest";
 import type { LengthConstraintSpec } from "../../../src/constraint/length.js";
-import type { Declaration, Options } from "../../../src/declaration.js";
+import type {
+  DeclarationFromOptions,
+  Options,
+} from "../../../src/declaration.js";
 import type {
   DeclarationExampleOptions,
   Example,
@@ -14,7 +17,7 @@ type CreateDeclaration<T extends { length: number }> = (
   options: LengthOptions<T>,
 ) => LengthDeclaration<T>;
 
-type LengthDeclaration<T extends { length: number }> = Declaration<
+type LengthDeclaration<T extends { length: number }> = DeclarationFromOptions<
   T,
   LengthOptions<T>
 >;

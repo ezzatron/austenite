@@ -1,7 +1,7 @@
 import { boolean, string } from "austenite";
 import { OnInvalid, initialize } from "austenite/node";
 import { beforeEach, describe, expect, it, vi, type Mock } from "vitest";
-import { Declaration, Options } from "../../src/declaration.js";
+import { DeclarationFromOptions, Options } from "../../src/declaration.js";
 import { NotSetError } from "../../src/error.js";
 import { Results } from "../../src/validation.js";
 import { MockConsole, createMockConsole } from "../helpers.js";
@@ -23,7 +23,7 @@ describe("initialize()", () => {
 
   describe("when the environment is valid", () => {
     describe("after being called", () => {
-      let declaration: Declaration<string, Options<string>>;
+      let declaration: DeclarationFromOptions<string, Options<string>>;
 
       beforeEach(async () => {
         declaration = string("AUSTENITE_VAR", "<description>", {

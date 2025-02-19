@@ -1,5 +1,5 @@
 import { Temporal } from "@js-temporal/polyfill";
-import { duration } from "austenite";
+import { duration, type Declaration } from "austenite";
 import { initialize } from "austenite/node";
 import { describe, expectTypeOf, it } from "vitest";
 import { noop } from "../../helpers.js";
@@ -9,6 +9,12 @@ type Duration = Temporal.Duration;
 
 describe("Duration declarations", () => {
   describe("when the declaration is required", () => {
+    it("returns a required Duration declaration", () => {
+      const declaration = duration("AUSTENITE_DURATION", "<description>");
+
+      expectTypeOf(declaration).toEqualTypeOf<Declaration<Duration>>();
+    });
+
     describe(".value()", () => {
       it("returns a Duration value", async () => {
         const declaration = duration("AUSTENITE_DURATION", "<description>");
@@ -23,6 +29,16 @@ describe("Duration declarations", () => {
   });
 
   describe("when the declaration is optional", () => {
+    it("returns an optional Duration declaration", () => {
+      const declaration = duration("AUSTENITE_DURATION", "<description>", {
+        default: undefined,
+      });
+
+      expectTypeOf(declaration).toEqualTypeOf<
+        Declaration<Duration | undefined>
+      >();
+    });
+
     describe(".value()", () => {
       it("returns an optional Duration value", async () => {
         const declaration = duration("AUSTENITE_DURATION", "<description>", {

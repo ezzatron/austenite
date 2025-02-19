@@ -1,10 +1,16 @@
-import { url } from "austenite";
+import { url, type Declaration } from "austenite";
 import { initialize } from "austenite/node";
 import { describe, expectTypeOf, it } from "vitest";
 import { noop } from "../../helpers.js";
 
 describe("URL declarations", () => {
   describe("when the declaration is required", () => {
+    it("returns a required URL declaration", () => {
+      const declaration = url("AUSTENITE_URL", "<description>");
+
+      expectTypeOf(declaration).toEqualTypeOf<Declaration<URL>>();
+    });
+
     describe(".value()", () => {
       it("returns a URL value", async () => {
         const declaration = url("AUSTENITE_URL", "<description>");
@@ -19,6 +25,14 @@ describe("URL declarations", () => {
   });
 
   describe("when the declaration is optional", () => {
+    it("returns an optional URL declaration", () => {
+      const declaration = url("AUSTENITE_URL", "<description>", {
+        default: undefined,
+      });
+
+      expectTypeOf(declaration).toEqualTypeOf<Declaration<URL | undefined>>();
+    });
+
     describe(".value()", () => {
       it("returns an optional URL value", async () => {
         const declaration = url("AUSTENITE_URL", "<description>", {

@@ -8,7 +8,7 @@ import {
   type LengthConstraintSpec,
 } from "../constraint/length.js";
 import {
-  Declaration,
+  DeclarationFromOptions,
   Options as DeclarationOptions,
   Value,
   defaultFromOptions,
@@ -40,7 +40,7 @@ export function binary<O extends Options>(
   name: string,
   description: string,
   options: ExactOptions<O, Options> = {} as ExactOptions<O, Options>,
-): Declaration<Buffer, O> {
+): DeclarationFromOptions<Buffer, O> {
   const { encoding = "base64", examples, isSensitive = false } = options;
 
   const def = defaultFromOptions(options);

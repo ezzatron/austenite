@@ -9,7 +9,7 @@ import {
   type RangeConstraintSpec,
 } from "../constraint/range.js";
 import {
-  Declaration,
+  DeclarationFromOptions,
   Options as DeclarationOptions,
   Value,
   defaultFromOptions,
@@ -37,7 +37,7 @@ export function duration<O extends Options>(
   name: string,
   description: string,
   options: ExactOptions<O, Options> = {} as ExactOptions<O, Options>,
-): Declaration<Duration, O> {
+): DeclarationFromOptions<Duration, O> {
   const { examples, isSensitive = false } = options;
 
   const def = defaultFromOptions(options);

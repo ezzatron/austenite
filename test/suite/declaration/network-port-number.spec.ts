@@ -1,7 +1,7 @@
 import { networkPortNumber } from "austenite";
 import { initialize } from "austenite/node";
 import { beforeEach, describe, expect, it } from "vitest";
-import { Declaration } from "../../../src/declaration.js";
+import { DeclarationFromOptions } from "../../../src/declaration.js";
 import { Options } from "../../../src/declaration/network-port-number.js";
 import { noop } from "../../helpers.js";
 
@@ -49,7 +49,7 @@ const invalidValueTable = [
 ];
 
 describe("Network port number declarations", () => {
-  let declaration: Declaration<number, Options>;
+  let declaration: DeclarationFromOptions<number, Options>;
 
   describe("when no options are supplied", () => {
     beforeEach(async () => {

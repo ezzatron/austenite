@@ -1,10 +1,20 @@
-import { KubernetesAddress, kubernetesAddress } from "austenite";
+import {
+  KubernetesAddress,
+  kubernetesAddress,
+  type Declaration,
+} from "austenite";
 import { initialize } from "austenite/node";
 import { describe, expectTypeOf, it } from "vitest";
 import { noop } from "../../helpers.js";
 
 describe("Kubernetes address declarations", () => {
   describe("when the declaration is required", () => {
+    it("returns a required kubernetes address declaration", () => {
+      const declaration = kubernetesAddress("austenite-svc");
+
+      expectTypeOf(declaration).toEqualTypeOf<Declaration<KubernetesAddress>>();
+    });
+
     describe(".value()", () => {
       it("returns a kubernetes address", async () => {
         const declaration = kubernetesAddress("austenite-svc");
@@ -20,6 +30,16 @@ describe("Kubernetes address declarations", () => {
   });
 
   describe("when the declaration is optional", () => {
+    it("returns an optional kubernetes address declaration", () => {
+      const declaration = kubernetesAddress("austenite-svc", {
+        default: undefined,
+      });
+
+      expectTypeOf(declaration).toEqualTypeOf<
+        Declaration<KubernetesAddress | undefined>
+      >();
+    });
+
     describe(".value()", () => {
       it("returns an optional kubernetes address", async () => {
         const declaration = kubernetesAddress("austenite-svc", {

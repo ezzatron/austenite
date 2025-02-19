@@ -2,7 +2,7 @@ import { Temporal } from "@js-temporal/polyfill";
 import { duration } from "austenite";
 import { initialize } from "austenite/node";
 import { beforeEach, describe, expect, it } from "vitest";
-import { Declaration } from "../../../src/declaration.js";
+import { DeclarationFromOptions } from "../../../src/declaration.js";
 import { Options } from "../../../src/declaration/duration.js";
 import { noop } from "../../helpers.js";
 
@@ -38,7 +38,7 @@ const invalidValueTable = [
 ];
 
 describe("Duration declarations", () => {
-  let declaration: Declaration<Duration, Options>;
+  let declaration: DeclarationFromOptions<Duration, Options>;
 
   describe("when no options are supplied", () => {
     beforeEach(async () => {

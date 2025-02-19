@@ -1,7 +1,7 @@
 import { enumeration } from "austenite";
 import { initialize } from "austenite/node";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { Declaration } from "../../../src/declaration.js";
+import { DeclarationFromOptions } from "../../../src/declaration.js";
 import { Options } from "../../../src/declaration/enumeration.js";
 import { noop } from "../../helpers.js";
 
@@ -21,7 +21,7 @@ describe("Enumeration declarations", () => {
     },
   } as const;
 
-  let declaration: Declaration<0 | 1 | 2, Options<0 | 1 | 2>>;
+  let declaration: DeclarationFromOptions<0 | 1 | 2, Options<0 | 1 | 2>>;
 
   describe("when no options are supplied", () => {
     beforeEach(async () => {
@@ -344,7 +344,7 @@ describe("Enumeration declarations", () => {
   });
 
   describe("when the declaration has the constraints from the README", () => {
-    let declaration: Declaration<
+    let declaration: DeclarationFromOptions<
       "debug" | "info" | "warn" | "error" | "fatal",
       Options<"debug" | "info" | "warn" | "error" | "fatal">
     >;

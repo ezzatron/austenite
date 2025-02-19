@@ -10,7 +10,7 @@ import {
   type RangeConstraintSpec,
 } from "../constraint/range.js";
 import {
-  Declaration,
+  DeclarationFromOptions,
   Options as DeclarationOptions,
   Value,
   defaultFromOptions,
@@ -35,7 +35,7 @@ export function networkPortNumber<O extends Options>(
   name: string,
   description: string,
   options: ExactOptions<O, Options> = {} as ExactOptions<O, Options>,
-): Declaration<number, O> {
+): DeclarationFromOptions<number, O> {
   const { examples, isSensitive = false } = options;
 
   const def = defaultFromOptions(options);

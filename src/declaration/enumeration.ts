@@ -1,6 +1,6 @@
 import type { DeclarationConstraintOptions } from "../constraint.js";
 import {
-  Declaration,
+  DeclarationFromOptions,
   Options as DeclarationOptions,
   Value,
   defaultFromOptions,
@@ -32,7 +32,7 @@ export function enumeration<T, O extends Options<T>>(
   description: string,
   members: Members<T>,
   options: ExactOptions<O, Options<T>> = {} as ExactOptions<O, Options<T>>,
-): Declaration<T, O> {
+): DeclarationFromOptions<T, O> {
   const { examples, isSensitive = false } = options;
 
   const def = defaultFromOptions(options);

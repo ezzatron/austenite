@@ -1,10 +1,16 @@
-import { bigInteger } from "austenite";
+import { bigInteger, type Declaration } from "austenite";
 import { initialize } from "austenite/node";
 import { describe, expectTypeOf, it } from "vitest";
 import { noop } from "../../helpers.js";
 
 describe("Big integer declarations", () => {
   describe("when the declaration is required", () => {
+    it("returns a required bigint declaration", () => {
+      const declaration = bigInteger("AUSTENITE_INTEGER", "<description>");
+
+      expectTypeOf(declaration).toEqualTypeOf<Declaration<bigint>>();
+    });
+
     describe(".value()", () => {
       it("returns a bigint value", async () => {
         const declaration = bigInteger("AUSTENITE_INTEGER", "<description>");
@@ -19,6 +25,16 @@ describe("Big integer declarations", () => {
   });
 
   describe("when the declaration is optional", () => {
+    it("returns an optional bigint declaration", () => {
+      const declaration = bigInteger("AUSTENITE_INTEGER", "<description>", {
+        default: undefined,
+      });
+
+      expectTypeOf(declaration).toEqualTypeOf<
+        Declaration<bigint | undefined>
+      >();
+    });
+
     describe(".value()", () => {
       it("returns an optional bigint value", async () => {
         const declaration = bigInteger("AUSTENITE_INTEGER", "<description>", {

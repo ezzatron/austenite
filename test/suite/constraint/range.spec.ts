@@ -12,7 +12,10 @@ import {
   createDurationRangeConstraint,
   type RangeConstraintSpec,
 } from "../../../src/constraint/range.js";
-import { Declaration, type Options } from "../../../src/declaration.js";
+import {
+  DeclarationFromOptions,
+  type Options,
+} from "../../../src/declaration.js";
 import type {
   DeclarationExampleOptions,
   Example,
@@ -26,10 +29,8 @@ type CreateDeclaration<T extends number | bigint | Duration> = (
   options: RangeOptions<T>,
 ) => RangeDeclaration<T>;
 
-type RangeDeclaration<T extends number | bigint | Duration> = Declaration<
-  T,
-  RangeOptions<T>
->;
+type RangeDeclaration<T extends number | bigint | Duration> =
+  DeclarationFromOptions<T, RangeOptions<T>>;
 
 type RangeOptions<T extends number | bigint | Duration> = Options<T> &
   DeclarationExampleOptions<T> &

@@ -2,7 +2,7 @@ import { binary } from "austenite";
 import { initialize } from "austenite/node";
 import { Buffer } from "node:buffer";
 import { beforeEach, describe, expect, it } from "vitest";
-import { Declaration } from "../../../src/declaration.js";
+import { DeclarationFromOptions } from "../../../src/declaration.js";
 import { Options } from "../../../src/declaration/binary.js";
 import { noop } from "../../helpers.js";
 
@@ -41,7 +41,7 @@ const invalidValueTable = [
 ] as const;
 
 describe("Binary declarations", () => {
-  let declaration: Declaration<Buffer, Options>;
+  let declaration: DeclarationFromOptions<Buffer, Options>;
 
   describe("when no options are supplied", () => {
     beforeEach(() => {
