@@ -10,6 +10,10 @@ Versioning].
 
 ## Unreleased
 
+## [v0.13.0] - 2025-02-19
+
+[v0.13.0]: https://github.com/ezzatron/austenite/releases/tag/v0.13.0
+
 ### Added
 
 - Added a `Declaration<T>` type that can be used to explicitly type
