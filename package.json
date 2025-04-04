@@ -64,7 +64,7 @@
     "prepublishOnly": "make artifacts/dist"
   },
   "dependencies": {
-    "@js-temporal/polyfill": "^0.4.4",
+    "@js-temporal/polyfill": "^0.5.0",
     "ipaddr.js": "^2.2.0",
     "mdast-util-from-markdown": "^2.0.2",
     "mdast-util-gfm": "^3.0.0",
