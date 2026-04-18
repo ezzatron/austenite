@@ -1,4 +1,3 @@
-import { Temporal } from "@js-temporal/polyfill";
 import type {
   Constraint,
   DeclarationConstraintOptions,
@@ -24,6 +23,7 @@ import {
 } from "../example.js";
 import { resolve } from "../maybe.js";
 import { ScalarSchema, createScalar, toString } from "../schema.js";
+import { Temporal } from "../temporal.js";
 
 const { Duration } = Temporal;
 type Duration = Temporal.Duration;

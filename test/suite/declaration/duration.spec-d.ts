@@ -1,7 +1,7 @@
-import { Temporal } from "@js-temporal/polyfill";
 import { duration, type Declaration } from "austenite";
 import { initialize } from "austenite/node";
 import { describe, expectTypeOf, it } from "vitest";
+import { Temporal } from "../../../src/temporal.js";
 import { noop } from "../../helpers.js";
 
 const { Duration } = Temporal;

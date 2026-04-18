@@ -1,4 +1,3 @@
-import { Temporal } from "@js-temporal/polyfill";
 import {
   bigInteger,
   duration,
@@ -20,6 +19,7 @@ import type {
   DeclarationExampleOptions,
   Example,
 } from "../../../src/example.js";
+import { Temporal } from "../../../src/temporal.js";
 import { noop } from "../../helpers.js";
 
 const { Duration } = Temporal;

@@ -10,6 +10,14 @@ Versioning].
 
 ## Unreleased
 
+### Changed
+
+- **[BREAKING]** Dropped CommonJS support. This package is now ESM-only.
+- **[BREAKING]** The minimum supported Node.js version is now 22.
+- The `@js-temporal/polyfill` package is now an optional dependency. When using
+  Node.js with `--harmony-temporal`, the native Temporal API is used
+  automatically and the polyfill is not required.
+
 ## [v0.13.1] - 2026-04-18
 
 [v0.13.1]: https://github.com/ezzatron/austenite/releases/tag/v0.13.1

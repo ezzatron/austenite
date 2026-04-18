@@ -1,10 +1,10 @@
-import { Temporal } from "@js-temporal/polyfill";
 import {
   applyConstraints,
   type Constraint,
   type ExtrinsicConstraint,
 } from "../constraint.js";
 import { normalize } from "../error.js";
+import { Temporal } from "../temporal.js";
 
 const { Duration } = Temporal;
 type Duration = Temporal.Duration;

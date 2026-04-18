@@ -21,35 +21,27 @@
     "access": "public"
   },
   "type": "module",
-  "types": "artifacts/dist/esm/index.d.ts",
-  "main": "artifacts/dist/esm/index.js",
+  "main": "artifacts/dist/index.js",
+  "types": "artifacts/dist/index.d.ts",
   "exports": {
     ".": {
       "import": {
-        "types": "./artifacts/dist/esm/index.d.ts",
-        "default": "./artifacts/dist/esm/index.js"
-      },
-      "require": {
-        "types": "./artifacts/dist/cjs/index.d.ts",
-        "default": "./artifacts/dist/cjs/index.js"
+        "types": "./artifacts/dist/index.d.ts",
+        "default": "./artifacts/dist/index.js"
       },
       "default": {
-        "types": "./artifacts/dist/esm/index.d.ts",
-        "default": "./artifacts/dist/esm/index.js"
+        "types": "./artifacts/dist/index.d.ts",
+        "default": "./artifacts/dist/index.js"
       }
     },
     "./node": {
       "import": {
-        "types": "./artifacts/dist/esm/node.d.ts",
-        "default": "./artifacts/dist/esm/node.js"
-      },
-      "require": {
-        "types": "./artifacts/dist/cjs/node.d.ts",
-        "default": "./artifacts/dist/cjs/node.js"
+        "types": "./artifacts/dist/node.d.ts",
+        "default": "./artifacts/dist/node.js"
       },
       "default": {
-        "types": "./artifacts/dist/esm/node.d.ts",
-        "default": "./artifacts/dist/esm/node.js"
+        "types": "./artifacts/dist/node.d.ts",
+        "default": "./artifacts/dist/node.js"
       }
     }
   },
@@ -58,19 +50,19 @@
     "/artifacts/dist/"
   ],
   "engines": {
-    "node": ">=18"
+    "node": ">=22"
   },
   "scripts": {
     "prepublishOnly": "make artifacts/dist"
   },
   "dependencies": {
-    "@js-temporal/polyfill": "^0.5.1",
     "ipaddr.js": "^2.2.0",
     "mdast-util-from-markdown": "^2.0.2",
     "mdast-util-gfm": "^3.1.0",
     "mdast-util-to-markdown": "^2.1.2"
   },
   "optionalDependencies": {
+    "@js-temporal/polyfill": "*",
     "prettier": "^3.5.3"
   },
   "devDependencies": {
@@ -84,6 +76,7 @@
     "@types/node": "^24.0.0",
     "@vitest/coverage-v8": "^3.1.4 <4.2.0",
     "@vitest/eslint-plugin": "^1.2.1",
+    "@js-temporal/polyfill": "^0.5.1",
     "eslint": "^9.28.0",
     "eslint-config-prettier": "^10.1.5",
     "eslint-import-resolver-typescript": "^4.4.3",

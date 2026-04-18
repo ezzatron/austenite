@@ -1,4 +1,4 @@
-import { initialize } from "../../../artifacts/dist/esm/node.js";
+import { initialize } from "../../../artifacts/dist/node.js";
 import {
   cdnUrl,
   earthAtomCount,

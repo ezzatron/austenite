@@ -1,9 +1,9 @@
-import { Temporal } from "@js-temporal/polyfill";
 import { duration } from "austenite";
 import { initialize } from "austenite/node";
 import { beforeEach, describe, expect, it } from "vitest";
 import { DeclarationFromOptions } from "../../../src/declaration.js";
 import { Options } from "../../../src/declaration/duration.js";
+import { Temporal } from "../../../src/temporal.js";
 import { noop } from "../../helpers.js";
 
 const { Duration } = Temporal;

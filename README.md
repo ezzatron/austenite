@@ -309,7 +309,6 @@ export const isDebug = boolean(
 ### `duration`
 
 ```ts
-import { Temporal } from "@js-temporal/polyfill";
 import { duration } from "austenite";
 
 // required

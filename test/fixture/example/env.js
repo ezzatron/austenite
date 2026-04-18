@@ -11,7 +11,7 @@ import {
   number,
   string,
   url,
-} from "../../../artifacts/dist/esm/index.js";
+} from "../../../artifacts/dist/index.js";
 
 export const cdnUrl = url("CDN_URL", "CDN to use when serving static assets", {
   protocols: ["http:", "https:"],

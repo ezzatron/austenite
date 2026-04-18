@@ -1,4 +1,3 @@
-import { Temporal } from "@js-temporal/polyfill";
 import {
   bigInteger,
   binary,
@@ -16,6 +15,7 @@ import { initialize } from "austenite/node";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { Temporal } from "../../src/temporal.js";
 import { MockConsole, createMockConsole } from "../helpers.js";
 
 const fixturesPath = fileURLToPath(
