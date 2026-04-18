@@ -3,7 +3,8 @@
   "compilerOptions": {
     "declarationDir": "artifacts/dist/cjs",
     "module": "CommonJS",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
+    "rootDir": "./src",
     "outDir": "artifacts/dist/cjs"
   },
   "include": ["src/**/*"]
