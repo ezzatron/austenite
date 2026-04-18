@@ -10,6 +10,14 @@ Versioning].
 
 ## Unreleased
 
+## [v0.13.1] - 2026-04-18
+
+[v0.13.1]: https://github.com/ezzatron/austenite/releases/tag/v0.13.1
+
+### Fixed
+
+- Updated `@js-temporal/polyfill` to `0.5.x`.
+
 ## [v0.13.0] - 2025-02-19
 
 [v0.13.0]: https://github.com/ezzatron/austenite/releases/tag/v0.13.0
