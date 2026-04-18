@@ -2,6 +2,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "declarationDir": "artifacts/dist/esm",
+    "rootDir": "./src",
     "outDir": "artifacts/dist/esm"
   },
   "include": ["src/**/*"]
