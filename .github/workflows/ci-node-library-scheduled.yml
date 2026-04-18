@@ -11,3 +11,25 @@ jobs:
     secrets: inherit
     with:
       isScheduled: true
+
+  native-temporal:
+    name: Native Temporal API
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+
+      - name: Install dependencies
+        run: make link-dependencies
+
+      - name: Verify native Temporal
+        run: node --harmony-temporal -e 'if (!globalThis.Temporal?.Now?.instant) { throw new Error("Temporal API is not available with --harmony-temporal"); }'
+
+      - name: Make
+        run: node --harmony-temporal node_modules/.bin/vitest
