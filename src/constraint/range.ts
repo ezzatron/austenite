@@ -128,9 +128,10 @@ export function assertRangeSpec<T extends number | bigint | Duration>(
   if (typeof min !== "undefined") {
     try {
       applyConstraints(constraints, min);
-    } catch (error) {
+    } catch (cause) {
       throw new Error(
-        `minimum (${min.toString()}) ${normalize(error).message}`,
+        `minimum (${min.toString()}) ${normalize(cause).message}`,
+        { cause },
       );
     }
   }
@@ -138,9 +139,10 @@ export function assertRangeSpec<T extends number | bigint | Duration>(
   if (typeof max !== "undefined") {
     try {
       applyConstraints(constraints, max);
-    } catch (error) {
+    } catch (cause) {
       throw new Error(
-        `maximum (${max.toString()}) ${normalize(error).message}`,
+        `maximum (${max.toString()}) ${normalize(cause).message}`,
+        { cause },
       );
     }
   }
