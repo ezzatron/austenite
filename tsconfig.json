@@ -10,6 +10,7 @@
       "austenite": ["./src/index.ts"],
       "austenite/node": ["./src/node.ts"]
     },
+    "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
     "target": "ESNext",
