@@ -4,7 +4,6 @@ import { describe, expectTypeOf, it } from "vitest";
 import { Temporal } from "../../../src/temporal.js";
 import { noop } from "../../helpers.js";
 
-const { Duration } = Temporal;
 type Duration = Temporal.Duration;
 
 describe("Duration declarations", () => {
