@@ -1,9 +1,5 @@
 CHANGELOG_TAG_URL_PREFIX := https://github.com/ezzatron/austenite/releases/tag/
-GENERATED_FILES += ENVIRONMENT.md
-
-JS_ARETHETYPESWRONG_REQ += artifacts/dist
-JS_PUBLINT_REQ += artifacts/dist
-JS_SKYPACK_PACKAGE_CHECK_REQ += artifacts/dist
+GENERATED_BYPRODUCT_FILES += ENVIRONMENT.md
 
 -include .makefiles/Makefile
 -include .makefiles/pkg/js/v1/Makefile
@@ -37,12 +33,6 @@ stryker-open: artifacts/link-dependencies.touch
 	$(MF_BROWSER) "artifacts/stryker/report.html"
 
 ################################################################################
-
-artifacts/dist: tsconfig.build.json tsconfig.json artifacts/link-dependencies.touch $(JS_SOURCE_FILES)
-	@rm -rf "$@"
-	$(JS_EXEC) tsc -p "$<"
-	echo '{"type":"module"}' > "$@/package.json"
-	@touch "$@"
 
 ENVIRONMENT.md: artifacts/link-dependencies.touch artifacts/dist $(JS_SOURCE_FILES) $(JS_TEST_FILES)
 	AUSTENITE_MODE=usage/markdown AUSTENITE_APP=example node test/fixture/example/run.js > "$@"
